@@ -1,17 +1,17 @@
 {
-  "name": "@coreui/coreui-free-react-admin-template",
-  "version": "5.0.0",
-  "description": "CoreUI Free React Admin Template",
+  "name": "brainstorm",
+  "version": "0.0.1",
+  "description": "Brainstorm",
   "homepage": ".",
   "bugs": {
-    "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
+    "url": "https://github.com/wds4/brainstorm/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:coreui/coreui-free-react-admin-template.git"
+    "url": "git@github.com:wds4/brainstorm.git"
   },
   "license": "MIT",
-  "author": "The CoreUI Team (https://github.com/orgs/coreui/people)",
+  "author": "wds4",
   "engines": {
     "node": "20.x"
   },

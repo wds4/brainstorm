@@ -15,7 +15,7 @@ Use these options:
 - Framework Preset is Vite. (automatically)
 - Did NOT select src as the root directory, just left it as it is.
 - Under Build and Output Settings, next to Output Directory, click Override and replace `dist` with `build`.
-- Under Install Command, click Override and enter npm install (not sure if this is necessary)
+- Under Install Command, click Override and enter `npm install` (not sure if this is necessary) -- may need to do: `npm install --legacy-peer-deps`
 - No Environmental Variables.
 - Click Deploy.
 

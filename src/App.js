@@ -15,7 +15,7 @@ const Login = React.lazy(() => import('./views/pages/login/Login'))
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
-  const storedTheme = useSelector((state) => state.theme)
+  const storedTheme = useSelector((state) => state.ui.theme)
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.href.split('?')[1])

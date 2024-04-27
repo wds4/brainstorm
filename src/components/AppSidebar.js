@@ -9,21 +9,46 @@ import {
   CSidebarHeader,
   CSidebarToggler,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 
-import { AppSidebarNav } from './AppSidebarNav'
-
-import { logo } from 'src/assets/brand/logo'
-import { sygnet } from 'src/assets/brand/sygnet'
+import { AppSidebarNav } from 'src/components/AppSidebarNav'
 
 // sidebar nav config
-import navigation from '../_nav'
-import { updateSidebarShow, updateSidebarUnfoldable } from '../redux/features/ui/slice'
+import navigationHome from 'src/nav/_navHome'
+import navigationConceptGraph from 'src/nav/_navConceptGraph'
+import navigationGrapevine from 'src/nav/_navGrapevine'
+import { updateSidebarShow, updateSidebarUnfoldable } from 'src/redux/features/ui/slice'
+import { updateApp } from 'src/redux/features/siteNavigation/slice'
+
+function getNavigation(activeApp) {
+  switch (activeApp) {
+    case 'home':
+      return navigationHome
+    case 'conceptGraph':
+      return navigationConceptGraph
+    case 'grapevine':
+      return navigationGrapevine
+    case 'curatedLists':
+      return navigationHome
+    case 'wikifreedia':
+      return navigationHome
+    case 'twittr':
+      return navigationHome
+    default:
+      return navigationHome
+  }
+}
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.ui.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.ui.sidebarShow)
+  const activeApp = useSelector((state) => state.siteNavigation.app)
+
+  const updateActiveApp = (newApp) => {
+    dispatch(updateApp(newApp))
+  }
+
+  const navigation = getNavigation(activeApp)
 
   return (
     <CSidebar
@@ -37,9 +62,12 @@ const AppSidebar = () => {
       }}
     >
       <CSidebarHeader className="border-bottom">
-        <CSidebarBrand href="#">
-          <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} />
-          <CIcon customClassName="sidebar-brand-narrow" icon={sygnet} height={32} />
+        <CSidebarBrand
+          href="#/dashboard"
+          onClick={() => updateActiveApp('home')}
+          style={{ textDecoration: 'none', fontSize: '22px', fontFamily: 'capitals' }}
+        >
+          Pretty Good Apps
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"

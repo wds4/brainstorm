@@ -22,11 +22,18 @@ import {
   cilArrowThickFromRight,
   cilArrowThickFromLeft,
   cilMemory,
+  cibTwitter,
+  cibWikipedia,
+  cilList,
+  cilApple,
+  cilGraph,
+  cilHome,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { wipeActiveProfile } from '../../redux/features/profile/slice'
+import { updateApp } from '../../redux/features/siteNavigation/slice'
 
 const AppHeaderDropdown = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
@@ -41,12 +48,43 @@ const AppHeaderDropdown = () => {
     loggedOut = 'hide'
     loggedIn = 'show'
   }
+  const updateActiveApp = (newApp) => {
+    dispatch(updateApp(newApp))
+  }
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0 pe-0" caret={false}>
         <CAvatar src={myPictureUrl} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
+        <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">
+          Pretty Good Apps
+        </CDropdownHeader>
+        <CDropdownItem href="#" onClick={() => updateActiveApp('home')}>
+          <CIcon icon={cilHome} className="me-2" />
+          Home
+        </CDropdownItem>
+        <CDropdownItem href="#/conceptGraph" onClick={() => updateActiveApp('conceptGraph')}>
+          <CIcon icon={cilGraph} className="me-2" />
+          Concept Graph
+        </CDropdownItem>
+        <CDropdownItem href="#/grapevine" onClick={() => updateActiveApp('grapevine')}>
+          <CIcon icon={cilApple} className="me-2" />
+          Grapevine
+        </CDropdownItem>
+        <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Apps</CDropdownHeader>
+        <CDropdownItem href="#/curatedLists" onClick={() => updateActiveApp('curatedLists')}>
+          <CIcon icon={cilList} className="me-2" />
+          Curated Lists
+        </CDropdownItem>
+        <CDropdownItem href="#/wikifreedia" onClick={() => updateActiveApp('wikifreedia')}>
+          <CIcon icon={cibWikipedia} className="me-2" />
+          Wikifreedia
+        </CDropdownItem>
+        <CDropdownItem href="#/twittr" onClick={() => updateActiveApp('twittr')}>
+          <CIcon icon={cibTwitter} className="me-2" />
+          Twittr
+        </CDropdownItem>
         <div className={loggedIn}>
           <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Account</CDropdownHeader>
           <CDropdownItem href="#/myProfile/myProfile">
