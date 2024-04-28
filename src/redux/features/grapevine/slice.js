@@ -10,45 +10,24 @@ export const grapevineSlice = createSlice({
   reducers: {
     addAction: (state, action) => {
       const event = action.payload
-      let aTags_name = event.tags.filter(([k, v]) => k === 'name' && v && v !== '')
-      let aTags_description = event.tags.filter(([k, v]) => k === 'description' && v && v !== '')
-      let name = ''
-      if (aTags_name.length > 0) {
-        name = aTags_name[0][1]
-      }
-      let description = ''
-      if (aTags_description.length > 0) {
-        description = aTags_description[0][1]
-      }
-      state.actions[event.id] = {
-        name: name,
-        description: description,
-      }
+      state.actions[event.id] = event
     },
     addCategory: (state, action) => {
       const event = action.payload
-      let aTags_name = event.tags.filter(([k, v]) => k === 'name' && v && v !== '')
-      let aTags_description = event.tags.filter(([k, v]) => k === 'description' && v && v !== '')
-      let name = ''
-      if (aTags_name.length > 0) {
-        name = aTags_name[0][1]
-      }
-      let description = ''
-      if (aTags_description.length > 0) {
-        description = aTags_description[0][1]
-      }
-      state.categories[event.id] = {
-        name: name,
-        description: description,
-      }
+      state.categories[event.id] = event
     },
     addContext: (state, action) => {
       const event = action.payload
-      // unfinished
+      state.contexts[event.id] = event
+    },
+    wipeGrapevine: (state, action) => {
+      state.actions = {}
+      state.categories = {}
+      state.contexts = {}
     },
   },
 })
 
-export const { addAction, addCategory, addContext } = grapevineSlice.actions
+export const { addAction, addCategory, addContext, wipeGrapevine } = grapevineSlice.actions
 
 export default grapevineSlice.reducer

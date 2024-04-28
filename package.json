@@ -38,7 +38,7 @@
     "classnames": "^2.5.1",
     "core-js": "^3.36.1",
     "nostr-react": "^0.7.0",
-    "nostr-tools": "^2.5.0",
+    "nostr-tools": "^2.5.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

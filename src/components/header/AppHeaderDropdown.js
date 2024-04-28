@@ -34,6 +34,7 @@ import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { wipeActiveProfile } from '../../redux/features/profile/slice'
 import { updateApp } from '../../redux/features/siteNavigation/slice'
+import { wipeGrapevine } from '../../redux/features/grapevine/slice'
 
 const AppHeaderDropdown = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
@@ -41,6 +42,7 @@ const AppHeaderDropdown = () => {
   const dispatch = useDispatch()
   const runLogout = () => {
     dispatch(wipeActiveProfile())
+    dispatch(wipeGrapevine())
   }
   let loggedOut = 'show'
   let loggedIn = 'hide'

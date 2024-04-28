@@ -9,26 +9,38 @@ const GrapevineDashboard = () => {
   const oCategories = useSelector((state) => state.grapevine.categories)
   const oContexts = useSelector((state) => state.grapevine.contexts)
 
-  const { fetchEvents, NDKEvent } = useNDK()
-
   const dispatch = useDispatch()
 
   const filter = {
     since: [0],
-    kinds: [9902],
+    kinds: [9902, 39902],
     '#P': ['tapestry'],
   }
+
+  // use nostr-react
   const { events } = useNostrEvents({
     filter: filter,
   })
   events.sort((a, b) => parseFloat(b.created_at) - parseFloat(a.created_at))
   events.forEach(async (event, item) => {
-    console.log('event.id: ' + event.id)
-    console.log('event: ' + JSON.stringify(event, null, 4))
-    console.log('event.word: ' + event.word)
+    let aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
+    if (aTags_w.length > 0) {
+      const wordType = aTags_w[0][1]
+      if (wordType == 'action') {
+        dispatch(addAction(event))
+      }
+      if (wordType == 'category') {
+        dispatch(addCategory(event))
+      }
+      if (wordType == 'context') {
+        dispatch(addContext(event))
+      }
+    }
   })
 
   /*
+  // use ndk-react
+  const { fetchEvents, NDKEvent } = useNDK()
   useEffect(() => {
     async function updateContextData() {
       const events = await fetchEvents(filter)
@@ -69,6 +81,7 @@ const GrapevineDashboard = () => {
       <center>
         <h3>Grapevine Dashboard</h3>
       </center>
+      <div>stored in redux:</div>
       <div>number of actions: {Object.keys(oActions).length}</div>
       <div>number of categories: {Object.keys(oCategories).length}</div>
       <div>number of contexts: {Object.keys(oContexts).length}</div>
