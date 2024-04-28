@@ -1,4 +1,4 @@
-import MakeNewTrustAttestation from './MakeNew'
-import ViewAllTrustAttestations from './ViewAll'
+import MakeNewTrustAttestation from './makeNew/MakeNew'
+import ViewAllTrustAttestations from './viewAll/ViewAll'
 
 export { MakeNewTrustAttestation, ViewAllTrustAttestations }

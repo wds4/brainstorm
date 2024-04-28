@@ -1,4 +1,4 @@
-import RecalculateInfluenceScores from './Recalculate'
-import ViewAllInfluenceScores from './ViewAll'
+import RecalculateInfluenceScores from './recalculate/Recalculate'
+import ViewAllInfluenceScores from './viewAll/ViewAll'
 
 export { RecalculateInfluenceScores, ViewAllInfluenceScores }

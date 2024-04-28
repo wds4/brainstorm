@@ -9,13 +9,42 @@ export const grapevineSlice = createSlice({
   },
   reducers: {
     addAction: (state, action) => {
-      // state.actions = action.payload
+      const event = action.payload
+      let aTags_name = event.tags.filter(([k, v]) => k === 'name' && v && v !== '')
+      let aTags_description = event.tags.filter(([k, v]) => k === 'description' && v && v !== '')
+      let name = ''
+      if (aTags_name.length > 0) {
+        name = aTags_name[0][1]
+      }
+      let description = ''
+      if (aTags_description.length > 0) {
+        description = aTags_description[0][1]
+      }
+      state.actions[event.id] = {
+        name: name,
+        description: description,
+      }
     },
     addCategory: (state, action) => {
-      // state.categories = action.payload
+      const event = action.payload
+      let aTags_name = event.tags.filter(([k, v]) => k === 'name' && v && v !== '')
+      let aTags_description = event.tags.filter(([k, v]) => k === 'description' && v && v !== '')
+      let name = ''
+      if (aTags_name.length > 0) {
+        name = aTags_name[0][1]
+      }
+      let description = ''
+      if (aTags_description.length > 0) {
+        description = aTags_description[0][1]
+      }
+      state.categories[event.id] = {
+        name: name,
+        description: description,
+      }
     },
     addContext: (state, action) => {
-      // state.contexts = action.payload
+      const event = action.payload
+      // unfinished
     },
   },
 })

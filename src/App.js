@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { NDKProvider } from '@nostr-dev-kit/ndk-react'
+import { NostrProvider } from 'nostr-react'
 
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
@@ -51,22 +52,24 @@ const App = () => {
   }, [myCurrentProfileKind3Relays])
 
   return (
-    <NDKProvider relayUrls={ndkProviderRelays}>
-      <HashRouter>
-        <Suspense
-          fallback={
-            <div className="pt-3 text-center">
-              <CSpinner color="primary" variant="grow" />
-            </div>
-          }
-        >
-          <Routes>
-            <Route exact path="/login" name="Login Page" element={<Login />} />
-            <Route path="*" name="Home" element={<DefaultLayout />} />
-          </Routes>
-        </Suspense>
-      </HashRouter>
-    </NDKProvider>
+    <NostrProvider relayUrls={ndkProviderRelays} debug={false}>
+      <NDKProvider relayUrls={ndkProviderRelays}>
+        <HashRouter>
+          <Suspense
+            fallback={
+              <div className="pt-3 text-center">
+                <CSpinner color="primary" variant="grow" />
+              </div>
+            }
+          >
+            <Routes>
+              <Route exact path="/login" name="Login Page" element={<Login />} />
+              <Route path="*" name="Home" element={<DefaultLayout />} />
+            </Routes>
+          </Suspense>
+        </HashRouter>
+      </NDKProvider>
+    </NostrProvider>
   )
 }
 

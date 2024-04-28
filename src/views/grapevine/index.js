@@ -1,35 +1,68 @@
 import { useNDK } from '@nostr-dev-kit/ndk-react'
+import { useNostrEvents } from 'nostr-react'
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addAction, addCategory, addContext } from '../../redux/features/grapevine/slice'
 
 const GrapevineDashboard = () => {
   const oActions = useSelector((state) => state.grapevine.actions)
   const oCategories = useSelector((state) => state.grapevine.categories)
   const oContexts = useSelector((state) => state.grapevine.contexts)
 
-  const { fetchEvents } = useNDK()
+  const { fetchEvents, NDKEvent } = useNDK()
+
+  const dispatch = useDispatch()
 
   const filter = {
     since: [0],
     kinds: [9902],
     '#P': ['tapestry'],
   }
+  const { events } = useNostrEvents({
+    filter: filter,
+  })
+  events.sort((a, b) => parseFloat(b.created_at) - parseFloat(a.created_at))
+  events.forEach(async (event, item) => {
+    console.log('event.id: ' + event.id)
+    console.log('event: ' + JSON.stringify(event, null, 4))
+    console.log('event.word: ' + event.word)
+  })
 
+  /*
   useEffect(() => {
     async function updateContextData() {
       const events = await fetchEvents(filter)
+      console.log('events.length: ' + events.length + '; typeof events: ' + typeof events)
       events.forEach((event, item) => {
         let aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
-        const createdAt = event.created_at
-        console.log(event)
-        console.log('updateContextData; event.id: ' + event.id)
-        console.log('updateContextData; event.content: ' + event.content)
-        console.log('updateContextData; event.word: ' + event.word)
-        console.log('updateContextData; event.tags: ' + JSON.stringify(event.tags, null, 4))
+        if (aTags_w.length > 0) {
+          const createdAt = event.created_at
+          console.log('typeof event: ' + typeof event)
+          console.log('number of keys: ' + Object.keys(event).length)
+          Object.keys(event).forEach((key, k) => {
+            console.log('key: ' + key)
+          })
+          console.log('updateContextData; event.id: ' + event.id)
+          console.log('updateContextData; event.content: ' + event.content)
+          console.log('updateContextData; event.word: ' + event.word)
+          console.log('updateContextData; event.tags: ' + JSON.stringify(event.tags, null, 4))
+          const wordType = aTags_w[0][1]
+          console.log('wordType: ' + wordType)
+          if (wordType == 'action') {
+            dispatch(addAction(event))
+          }
+          if (wordType == 'category') {
+            dispatch(addCategory(event))
+          }
+          if (wordType == 'context') {
+            dispatch(addContext(event))
+          }
+        }
       })
     }
     updateContextData()
-  }, [fetchEvents(filter)])
+  }, [])
+  */
 
   return (
     <>

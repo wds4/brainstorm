@@ -15,7 +15,6 @@ import {
 import { generateSecretKey, getPublicKey, nip19 } from 'nostr-tools'
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
 
-import { COMMON_CONTACT_RELAY } from '../../../helpers/relays'
 import { isHex, safeDecode } from '../../../helpers/nip19'
 import {
   updateSignedIn,
