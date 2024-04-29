@@ -15,6 +15,7 @@ import {
 import { dateToUnix, useNostr } from 'nostr-react'
 import { fetchFirstByTag } from '../../../../helpers'
 import { signEventPGA } from '../../../../helpers/signers'
+import { useSelector } from 'react-redux'
 
 // eslint-disable-next-line react/prop-types
 const RawData = ({ showRawDataButton, oEvent }) => {
@@ -46,7 +47,7 @@ const RawData = ({ showRawDataButton, oEvent }) => {
 }
 
 const oEventDefault = {
-  content: '{}',
+  content: '',
   kind: 39902,
   tags: [
     ['P', 'tapestry'],
@@ -60,7 +61,7 @@ const oEventDefault = {
   created_at: null,
 }
 
-async function makeWord(name, description, makeEditable) {
+async function makeWord(oProfile, name, description, makeEditable) {
   const oWord = {
     actionData: {
       name: name,
@@ -85,11 +86,12 @@ async function makeWord(name, description, makeEditable) {
   oEvent.tags = tags
   oEvent.created_at = dateToUnix()
   // const oEvent_signed = await window.nostr.signEvent(oEvent)
-  const oEvent_signed = await signEventPGA(oEvent)
+  const oEvent_signed = await signEventPGA(oProfile, oEvent)
   return oEvent_signed
 }
 
 const MakeNewAction = () => {
+  const oProfile = useSelector((state) => state.profile)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [makeEditable, setMakeEditable] = useState(true)
@@ -113,7 +115,7 @@ const MakeNewAction = () => {
     async (e) => {
       const newName = e.target.value
       setName(newName)
-      const oEvent = await makeWord(newName, description, makeEditable)
+      const oEvent = await makeWord(oProfile, newName, description, makeEditable)
       setOEvent(oEvent)
     },
     [name],
@@ -122,7 +124,7 @@ const MakeNewAction = () => {
     async (e) => {
       const newDescription = e.target.value
       setDescription(newDescription)
-      const oEvent = await makeWord(name, newDescription, makeEditable)
+      const oEvent = await makeWord(oProfile, name, newDescription, makeEditable)
       setOEvent(oEvent)
     },
     [description],
@@ -136,7 +138,7 @@ const MakeNewAction = () => {
       } else {
         setMakeEditable(true)
       }
-      const oEvent = await makeWord(name, description, !makeEditable)
+      const oEvent = await makeWord(oProfile, name, description, !makeEditable)
       setOEvent(oEvent)
     },
     [makeEditable],
@@ -156,7 +158,7 @@ const MakeNewAction = () => {
     setName('')
     setDescription('')
     setMakeEditable(true)
-    const oEvent = await makeWord('', '', true)
+    const oEvent = await makeWord(oProfile, '', '', true)
     setOEvent(oEvent)
   }, [])
   let makeEditableState = 'NO'

@@ -39,9 +39,9 @@ const Follows = () => {
                   {aFollows.map((pubkey, item) => {
                     const npub = nip19.npubEncode(pubkey)
                     const name = getProfile(npub)?.name
-                    let foo = npub
+                    let displayName = npub
                     if (name) {
-                      foo = name
+                      displayName = name
                     }
                     return (
                       <CListGroupItem
@@ -50,7 +50,7 @@ const Follows = () => {
                         href="#/profile"
                         onClick={() => setCurrentNpub(npub)}
                       >
-                        {foo}
+                        {displayName}
                       </CListGroupItem>
                     )
                   })}

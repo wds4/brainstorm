@@ -5,19 +5,13 @@ import {
   CCardHeader,
   CCol,
   CRow,
-  CButton,
-  CForm,
-  CFormInput,
   CFormSwitch,
-  CFormTextarea,
-  CCardText,
-  CCardTitle,
   CListGroupItem,
   CListGroup,
-  CBadge,
 } from '@coreui/react'
 import { useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
+import { SubmittedBy } from '../../components/submittedBy'
 
 // eslint-disable-next-line react/prop-types
 const ShowSingleItem = ({ event }) => {
@@ -44,6 +38,13 @@ const ShowSingleItem = ({ event }) => {
   }
   const name = fetchFirstByTag('name', event)
   const description = fetchFirstByTag('description', event)
+  let oWord = {}
+  try {
+    const sWord = fetchFirstByTag('word', event)
+    oWord = JSON.parse(sWord)
+  } catch (e) {
+    console.log(e)
+  }
   let isEditable = 'not editable'
   if (event.kind == 39902) {
     isEditable = 'editable'
@@ -62,6 +63,7 @@ const ShowSingleItem = ({ event }) => {
         <CCardBody>
           <small>{description}</small>
         </CCardBody>
+        <SubmittedBy event={event} />
         <CCardBody className="d-flex justify-content-between align-items-right">
           <span>
             <small>editable:</small> <strong>{isEditable}</strong>
@@ -76,6 +78,7 @@ const ShowSingleItem = ({ event }) => {
           />
         </CCardBody>
         <CCardBody className={showRawElementClassName}>
+          <pre>{JSON.stringify(oWord, null, 4)}</pre>
           <pre>{JSON.stringify(event, null, 4)}</pre>
         </CCardBody>
       </CCardBody>
