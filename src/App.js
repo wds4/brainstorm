@@ -2,11 +2,11 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { NDKProvider } from '@nostr-dev-kit/ndk-react'
-import { NostrProvider } from 'nostr-react'
 
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
 import { aDefaultRelays } from './const'
+import { NostrProvider } from 'nostr-react'
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))

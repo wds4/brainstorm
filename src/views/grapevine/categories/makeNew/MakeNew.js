@@ -12,10 +12,10 @@ import {
   CFormTextarea,
   CCardTitle,
 } from '@coreui/react'
-import { dateToUnix, useNostr } from 'nostr-react'
 import { fetchFirstByTag } from '../../../../helpers'
 import { signEventPGA } from '../../../../helpers/signers'
 import { useSelector } from 'react-redux'
+import { useNostr } from 'nostr-react'
 
 // eslint-disable-next-line react/prop-types
 const RawData = ({ showRawDataButton, oEvent }) => {
@@ -84,7 +84,7 @@ async function makeWord(oProfile, name, description, makeEditable) {
     ['d', 'category:' + name],
   ]
   oEvent.tags = tags
-  oEvent.created_at = dateToUnix()
+  oEvent.created_at = Math.floor(Date.now() / 1000)
   // const oEvent_signed = await window.nostr.signEvent(oEvent)
   const oEvent_signed = await signEventPGA(oProfile, oEvent)
   return oEvent_signed
@@ -101,6 +101,7 @@ const MakeNewCategory = () => {
   const [createAnotherElementClassName, setCreateAnotherElementClassName] = useState('hide')
 
   const { publish } = useNostr()
+
   const publishNewEvent = useCallback(async () => {
     publish(oEvent)
     setSubmitEventButtonClassName('hide')
@@ -118,7 +119,7 @@ const MakeNewCategory = () => {
       const oEvent = await makeWord(oProfile, newName, description, makeEditable)
       setOEvent(oEvent)
     },
-    [name],
+    [name, description, makeEditable],
   )
   const handleDescriptionChange = useCallback(
     async (e) => {
@@ -127,12 +128,10 @@ const MakeNewCategory = () => {
       const oEvent = await makeWord(oProfile, name, newDescription, makeEditable)
       setOEvent(oEvent)
     },
-    [description],
+    [name, description, makeEditable],
   )
   const toggleMakeEditable = useCallback(
     async (e) => {
-      const foo = e.target.value
-      console.log('toggleMakeEditable: ' + foo)
       if (makeEditable) {
         setMakeEditable(false)
       } else {
@@ -141,7 +140,7 @@ const MakeNewCategory = () => {
       const oEvent = await makeWord(oProfile, name, description, !makeEditable)
       setOEvent(oEvent)
     },
-    [makeEditable],
+    [name, description, makeEditable],
   )
   const toggleShowRawData = useCallback(
     (e) => {
@@ -199,7 +198,6 @@ const MakeNewCategory = () => {
                   <CFormSwitch
                     onChange={(e) => toggleMakeEditable(e)}
                     label="make editable?"
-                    active
                     checked={makeEditable}
                   />
                 </div>{' '}
@@ -210,7 +208,6 @@ const MakeNewCategory = () => {
               color="primary"
               className={submitEventButtonClassName}
               id="submitEventButton"
-              active
               tabIndex={-1}
               onClick={publishNewEvent}
             >

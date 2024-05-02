@@ -43,6 +43,7 @@ const AppHeaderDropdown = () => {
   const runLogout = () => {
     dispatch(wipeActiveProfile())
     dispatch(wipeGrapevine())
+    updateActiveApp('home')
   }
   let loggedOut = 'show'
   let loggedIn = 'hide'
@@ -89,21 +90,21 @@ const AppHeaderDropdown = () => {
         </CDropdownItem>
         <div className={loggedIn}>
           <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Account</CDropdownHeader>
-          <CDropdownItem href="#/myProfile/myProfile">
+          <CDropdownItem href="#/myProfile/myProfile" onClick={() => updateActiveApp('home')}>
             <CIcon icon={cilUser} className="me-2" />
             My Profile
           </CDropdownItem>
-          <CDropdownItem href="#/notifications">
+          <CDropdownItem href="#/notifications" onClick={() => updateActiveApp('home')}>
             <CIcon icon={cilBell} className="me-2" />
             Notifications
           </CDropdownItem>
-          <CDropdownItem href="#/directMessages">
+          <CDropdownItem href="#/directMessages" onClick={() => updateActiveApp('home')}>
             <CIcon icon={cilEnvelopeOpen} className="me-2" />
             Messages
           </CDropdownItem>
         </div>
         <CDropdownHeader className="bg-body-secondary fw-semibold my-2">Settings</CDropdownHeader>
-        <CDropdownItem href="#/settings/generalSettings">
+        <CDropdownItem href="#/settings/generalSettings" onClick={() => updateActiveApp('home')}>
           <CIcon icon={cilSettings} className="me-2" />
           Settings
         </CDropdownItem>
@@ -116,7 +117,7 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilArrowThickFromRight} className="me-2" />
           Logout
         </CDropdownItem>
-        <CDropdownItem href="#/login" className={loggedOut}>
+        <CDropdownItem href="#/login" className={loggedOut} onClick={() => updateActiveApp('home')}>
           <CIcon icon={cilArrowThickFromLeft} className="me-2" />
           Login
         </CDropdownItem>

@@ -13,15 +13,50 @@ import {
   CCardTitle,
   CFormLabel,
   CFormRange,
-  CNavLink,
+  CContainer,
+  CCardText,
 } from '@coreui/react'
-import { fetchFirstByTag } from '../../../../helpers'
-import { signEventPGA } from '../../../../helpers/signers'
+import { fetchFirstByTag } from 'src/helpers'
+import { signEventPGA } from 'src/helpers/signers'
 import { useSelector } from 'react-redux'
-import RateeProfile from './rateeProfile'
 import { nip19 } from 'nostr-tools'
 import { useNostr } from 'nostr-react'
-import ContextSelector from '../../components/contextSelector'
+import ContextSelector from './contextSelector'
+import { cilThumbDown, cilThumbUp } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
+
+const ShowExistingAttestation = ({
+  existingAttestationScore,
+  existingAttestationConfidence,
+  existingAttestationComments,
+}) => {
+  let showExistingAttestationClassName = 'show'
+  let existingScoreText = 'no attestation'
+  let existingConfidenceText = ''
+  const existingCommentsText = existingAttestationComments
+  if (existingAttestationScore == '') {
+    showExistingAttestationClassName = 'hide'
+  }
+
+  const processRevokeButtonClick = useCallback(async () => {
+    console.log('processRevokeButtonClick')
+  }, [])
+  return (
+    <div className={showExistingAttestationClassName}>
+      <br />
+      <div style={{ color: 'grey' }}>your current rating of this user in this context:</div>
+      <CCardText style={{ textAlign: 'center' }}>
+        <div className="d-flex w-100 justify-content-between">
+          <span style={{ fontSize: '28px' }}>{existingScoreText}</span>{' '}
+          <span style={{ fontSize: '20px' }}>{existingConfidenceText} % confidence</span>
+        </div>
+      </CCardText>
+      <CButton type="button" color="secondary" onClick={processRevokeButtonClick}>
+        Revoke this rating
+      </CButton>
+    </div>
+  )
+}
 
 // eslint-disable-next-line react/prop-types
 const RawData = ({ showRawDataButton, oEvent }) => {
@@ -86,7 +121,10 @@ async function makeWord(
   }
   const contextEvent = oContexts[selectedContext]
   let contextName = fetchFirstByTag('name', contextEvent)
-  if (!contextEvent) {
+  if (selectedContext == 'unselected') {
+    contextName = ''
+  }
+  if (selectedContext == 'inAllContexts') {
     contextName = 'for all contexts'
   }
   const oWord = {
@@ -131,12 +169,11 @@ async function makeWord(
   return oEvent_signed
 }
 
-const MakeNewTrustAttestation = () => {
-  const defaultRateeNpub = useSelector((state) => state.siteNavigation.npub)
+// eslint-disable-next-line react/prop-types
+const LeaveTrustAttestation = ({ rateeNpub }) => {
   const oContexts = useSelector((state) => state.grapevine.contexts)
   const oProfile = useSelector((state) => state.profile)
-  const [rateeNpub, setRateeNpub] = useState(defaultRateeNpub)
-  const [score, setScore] = useState('100')
+  const [score, setScore] = useState('')
   const [confidence, setConfidence] = useState('80')
   const [comments, setComments] = useState('')
   const [selectedContext, setSelectedContext] = useState('')
@@ -145,10 +182,17 @@ const MakeNewTrustAttestation = () => {
   const [submitEventButtonClassName, setSubmitEventButtonClassName] = useState('mt-3')
   const [createAnotherElementClassName, setCreateAnotherElementClassName] = useState('hide')
 
+  const [existingAttestationScore, setExistingAttestationScore] = useState('')
+  const [existingAttestationConfidence, setExistingAttestationConfidence] = useState('')
+  const [existingAttestationComments, setExistingAttestationComments] = useState('')
+
+  const [endorseButtonColor, setEndorseButtonColor] = useState('secondary')
+  const [blockButtonColor, setBlockButtonColor] = useState('secondary')
+
   const { publish } = useNostr()
 
   const publishNewEvent = useCallback(async () => {
-    publish(oEvent)
+    // publish(oEvent)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
   }, [selectedContext, oEvent])
@@ -168,23 +212,6 @@ const MakeNewTrustAttestation = () => {
     },
     [showRawDataButton],
   )
-  const handleRateeNpubChange = useCallback(
-    async (e) => {
-      const newRateeNpub = e.target.value
-      setRateeNpub(newRateeNpub)
-      const oEvent = await makeWord(
-        oProfile,
-        oContexts,
-        newRateeNpub,
-        score,
-        confidence,
-        selectedContext,
-        comments,
-      )
-      setOEvent(oEvent)
-    },
-    [score, rateeNpub, confidence, selectedContext, comments],
-  )
   const handleCommentsChange = useCallback(
     async (e) => {
       const newComments = e.target.value
@@ -200,10 +227,9 @@ const MakeNewTrustAttestation = () => {
       )
       setOEvent(oEvent)
     },
-    [score, rateeNpub, confidence, selectedContext, comments],
+    [score, confidence, selectedContext, comments],
   )
   const clearFields = useCallback(async (e) => {
-    setRateeNpub('')
     setScore('100'), setConfidence('80')
     setComments('')
     setSelectedContext('')
@@ -224,7 +250,7 @@ const MakeNewTrustAttestation = () => {
       )
       setOEvent(oEvent)
     },
-    [score, rateeNpub, confidence, selectedContext, comments],
+    [score, confidence, selectedContext, comments],
   )
   const updateScore = useCallback(
     async (newScore) => {
@@ -241,7 +267,7 @@ const MakeNewTrustAttestation = () => {
       )
       setOEvent(oEvent)
     },
-    [score, rateeNpub, confidence, selectedContext, comments],
+    [score, confidence, selectedContext, comments],
   )
   const updateConfidence = useCallback(
     async (newConfidence) => {
@@ -258,8 +284,24 @@ const MakeNewTrustAttestation = () => {
       )
       setOEvent(oEvent)
     },
-    [score, rateeNpub, confidence, selectedContext, comments],
+    [score, confidence, selectedContext, comments],
   )
+  const processEndorseButtonClick = useCallback(async () => {
+    console.log('processEndorseButtonClick: ')
+    updateScore('100')
+    setEndorseButtonColor('success')
+    setBlockButtonColor('secondary')
+  }, [])
+  const processBlockButtonClick = useCallback(async () => {
+    console.log('processBlockButtonClick: ')
+    updateScore('0')
+    setEndorseButtonColor('secondary')
+    setBlockButtonColor('danger')
+  }, [])
+  let isSubmitAttestationButtonDisabled = true
+  if (selectedContext && (score == '0' || score == '100')) {
+    isSubmitAttestationButtonDisabled = false
+  }
   return (
     <CRow>
       <CCol xs={12}>
@@ -269,79 +311,55 @@ const MakeNewTrustAttestation = () => {
           </CCardHeader>
           <CCardBody>
             <CForm>
-              <RateeProfile npub={rateeNpub} />
-              <br />
-              <CFormInput
-                type="text"
-                id="rateeNpub"
-                label="npub"
-                placeholder="npub ..."
-                required
-                value={rateeNpub}
-                onChange={handleRateeNpubChange}
-              />
-              <br />
-              <CFormLabel htmlFor="scoreScrollbar">
-                <strong>Select score</strong>{' '}
-                <small>range: from 0 (do not trust) to 100 (trust fully)</small>
-              </CFormLabel>
-              <CCardTitle>{score}</CCardTitle>
-              <CFormRange
-                onChange={(e) => updateScore(e.target.value)}
-                min={0}
-                max={100}
-                step={1}
-                defaultValue="100"
-                id="scoreScrollbar"
-              />
-              <br />
-              <CFormLabel htmlFor="confidenceScrollbar">
-                <strong>Select confidence (%)</strong>{' '}
-                <small>range: from 0 (no confidence) to 100 (full confidence)</small>
-              </CFormLabel>
-              <CCardTitle>{confidence} %</CCardTitle>
-              <CFormRange
-                onChange={(e) => updateConfidence(e.target.value)}
-                min={0}
-                max={100}
-                step={1}
-                defaultValue="80"
-                id="confidenceScrollbar"
-              />
-              <ContextSelector updateSelectedContext={updateSelectedContext} />
-              <br />
-              <CFormTextarea
-                type="text"
-                id="comments"
-                rows={3}
-                label="comments"
-                placeholder="lorem ipsum"
-                value={comments}
-                onChange={handleCommentsChange}
-              />
+              <div className="d-grid gap-2 mx-auto">
+                <div className="d-grid gap-2 col-8 mx-auto">
+                  <ContextSelector updateSelectedContext={updateSelectedContext} />
+                  <CButton
+                    type="button"
+                    color={endorseButtonColor}
+                    onClick={processEndorseButtonClick}
+                  >
+                    <CIcon icon={cilThumbUp} /> Endorse
+                  </CButton>
+                  <CButton type="button" color={blockButtonColor} onClick={processBlockButtonClick}>
+                    <CIcon icon={cilThumbDown} /> Block
+                  </CButton>
+                  <CFormTextarea
+                    type="text"
+                    id="comments"
+                    rows={3}
+                    placeholder="leave comments (optional)"
+                    value={comments}
+                    onChange={handleCommentsChange}
+                  />
+                  <CButton
+                    color="primary"
+                    className={submitEventButtonClassName}
+                    id="submitEventButton"
+                    onClick={publishNewEvent}
+                    disabled={isSubmitAttestationButtonDisabled}
+                  >
+                    Submit Trust Attestation (currently disabled)
+                  </CButton>
+                  <div className={createAnotherElementClassName}>
+                    <br />
+                    <CCardTitle>Your trust attestation has been published!</CCardTitle>
+                    <CButton
+                      color="primary"
+                      id="createAnotherEventButton"
+                      onClick={createAnotherContextButton}
+                    >
+                      Create another trust attestation
+                    </CButton>
+                  </div>
+                  <ShowExistingAttestation
+                    existingAttestationScore={existingAttestationScore}
+                    existingAttestationConfidence={existingAttestationConfidence}
+                    existingAttestationComments={existingAttestationComments}
+                  />
+                </div>
+              </div>
             </CForm>
-            <br />
-            <CButton
-              color="primary"
-              className={submitEventButtonClassName}
-              id="submitEventButton"
-              active
-              tabIndex={-1}
-              onClick={publishNewEvent}
-            >
-              Submit
-            </CButton>
-            <div className={createAnotherElementClassName}>
-              <br />
-              <CCardTitle>Your trust attestation has been published!</CCardTitle>
-              <CButton
-                color="primary"
-                id="createAnotherEventButton"
-                onClick={createAnotherContextButton}
-              >
-                Create another trust attestation
-              </CButton>
-            </div>
           </CCardBody>
         </CCard>
         <div style={{ textAlign: 'right' }}>
@@ -359,4 +377,4 @@ const MakeNewTrustAttestation = () => {
   )
 }
 
-export default MakeNewTrustAttestation
+export default LeaveTrustAttestation

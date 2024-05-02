@@ -6,7 +6,6 @@ export async function signEventPGA(oProfile, oEvent) {
   }
   if (signInMethod == 'extension') {
     const oEvent_signed = await window.nostr.signEvent(oEvent)
-    console.log('signEventPGA; oEvent_signed: ' + JSON.stringify(oEvent_signed, null, 4))
     return oEvent_signed
   }
   if (signInMethod == 'secret') {

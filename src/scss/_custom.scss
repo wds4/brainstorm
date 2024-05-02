@@ -1,5 +1,24 @@
 // Here you can add other styles
 .show {}
 .hide {
-  display: none,
+  display: none;
+}
+.profileAvatarContainer {
+  display:inline-block;
+  position:relative;
+  width:200px;
+  height:200px;
+}
+.profileAvatarLarge {
+  display:inline-block;
+  background-color:blue;
+  border:5px solid black;
+  border-radius:250px;
+  width:95%;
+  height:95%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

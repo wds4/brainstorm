@@ -9,16 +9,19 @@ export const grapevineSlice = createSlice({
   },
   reducers: {
     addAction: (state, action) => {
-      const event = action.payload
-      state.actions[event.id] = event
+      const event = action.payload.event
+      const cid = action.payload.cid
+      state.actions[cid] = event
     },
     addCategory: (state, action) => {
-      const event = action.payload
-      state.categories[event.id] = event
+      const event = action.payload.event
+      const cid = action.payload.cid
+      state.categories[cid] = event
     },
     addContext: (state, action) => {
-      const event = action.payload
-      state.contexts[event.id] = event
+      const event = action.payload.event
+      const cid = action.payload.cid
+      state.contexts[cid] = event
     },
     wipeGrapevine: (state, action) => {
       state.actions = {}

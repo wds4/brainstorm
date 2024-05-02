@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
+import { CAvatar, CCol, CContainer, CRow } from '@coreui/react'
 
 const MyProfile = () => {
   const myNpub = useSelector((state) => state.profile.npub)
@@ -8,10 +9,7 @@ const MyProfile = () => {
   const myName = useSelector((state) => state.profile.name)
   const myDisplayName = useSelector((state) => state.profile.display_name)
   const myPicture = useSelector((state) => state.profile.picture)
-
-  const myCurrentProfileKind3CreatedAt = useSelector((state) => state.profile.kind3.created_at)
-  const myCurrentProfileKind3Relays = useSelector((state) => state.profile.kind3.relays)
-  const myCurrentProfileKind3Follows = useSelector((state) => state.profile.kind3.follows)
+  const myBackground = useSelector((state) => state.profile.banner)
 
   const { fetchEvents } = useNDK()
 
@@ -34,20 +32,27 @@ const MyProfile = () => {
   }, [fetchEvents(filter)])
 
   return (
-    <>
-      <div>myNpub: {myNpub}</div>
-      <div>myPubkey: {myPubkey}</div>
-      <div>myName: {myName}</div>
-      <div>myDisplayName: {myDisplayName}</div>
-      <div>myPicture: {myPicture}</div>
-      <div>kind1Events.length: {kind1Events.length}</div>
-      <div>myCurrentProfileKind3CreatedAt: {myCurrentProfileKind3CreatedAt}</div>
-      <div>
-        Object.keys(myCurrentProfileKind3Relays).length:{' '}
-        {Object.keys(myCurrentProfileKind3Relays).length}
-      </div>
-      <div>myCurrentProfileKind3Follows.length: {myCurrentProfileKind3Follows.length}</div>
-    </>
+    <CContainer fluid>
+      <CRow>
+        <CCol sm="auto">
+          <CAvatar src={myPicture} size="xl" />
+        </CCol>
+        <CCol sm="auto">
+          <strong>{myDisplayName}</strong>
+          <br />
+          <small>{myNpub}</small>
+        </CCol>
+      </CRow>
+      <CRow>
+        <div style={{ color: 'grey' }}>@{myName}</div>
+      </CRow>
+      <CRow>
+        <img src={myBackground} style={{ width: '100%' }} alt="" />
+      </CRow>
+      <CRow>
+        <div>kind1Events.length: {kind1Events.length}</div>
+      </CRow>
+    </CContainer>
   )
 }
 
