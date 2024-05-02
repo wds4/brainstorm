@@ -34,20 +34,41 @@ const MyProfile = () => {
   return (
     <CContainer fluid>
       <CRow>
+        <div style={{ position: 'relative' }}>
+          <div
+            style={{
+              width: '100%',
+              maxHeight: '200px',
+              position: 'absolute',
+              top: '0px',
+              overflow: 'scroll',
+            }}
+          >
+            <img
+              src={myBackground}
+              style={{
+                borderRadius: '20px 20px 0px 0px',
+                width: '100%',
+                opacity: '0.3',
+              }}
+              alt=""
+            />
+          </div>
+        </div>
+      </CRow>
+      <CRow>
         <CCol sm="auto">
-          <CAvatar src={myPicture} size="xl" />
+          <div className="profileAvatarContainer">
+            <img src={myPicture} className="profileAvatarLarge" />
+          </div>
         </CCol>
         <CCol sm="auto">
-          <strong>{myDisplayName}</strong>
-          <br />
+          <div>
+            <span style={{ fontSize: '34px', marginRight: '20px' }}>{myDisplayName}</span>
+            <span style={{ color: 'grey' }}>@{myName}</span>
+          </div>
           <small>{myNpub}</small>
         </CCol>
-      </CRow>
-      <CRow>
-        <div style={{ color: 'grey' }}>@{myName}</div>
-      </CRow>
-      <CRow>
-        <img src={myBackground} style={{ width: '100%' }} alt="" />
       </CRow>
       <CRow>
         <div>kind1Events.length: {kind1Events.length}</div>

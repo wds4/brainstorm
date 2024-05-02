@@ -1,6 +1,13 @@
+import { finalizeEvent, getEventHash, getPublicKey } from 'nostr-tools'
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
+
 export async function signEventPGA(oProfile, oEvent) {
   const signedIn = oProfile.signedIn
   const signInMethod = oProfile.signInMethod
+  const nsec = oProfile.nsec
+  const hexKey = oProfile.hexKey
+  console.log('signEventPGA; signInMethod: ' + signInMethod)
+
   if (!signedIn) {
     return false
   }
@@ -9,8 +16,8 @@ export async function signEventPGA(oProfile, oEvent) {
     return oEvent_signed
   }
   if (signInMethod == 'secret') {
-    // not yet complete
-    return false
+    const oEvent_signed = finalizeEvent(oEvent, hexKey)
+    return oEvent_signed
   }
   return false
 }

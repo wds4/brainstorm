@@ -5,6 +5,7 @@ const initState = {
   signedIn: false,
   signInMethod: 'none', // options: 'none' (equivalent to signedIn false), 'extension', 'secret'
   nsec: '',
+  hexKey: '',
   encryptedNsec: '', // not yet in use
   salt: '', // will be used to salt nsec when login by secret key is implemented
   npub: '',
@@ -35,6 +36,9 @@ export const profileSlice = createSlice({
     },
     updateNsec: (state, action) => {
       state.nsec = action.payload
+    },
+    updateHexKey: (state, action) => {
+      state.hexKey = action.payload
     },
     updateEncryptedNsec: (state, action) => {
       state.encryptedNsec = action.payload
@@ -82,6 +86,7 @@ export const profileSlice = createSlice({
       state.signedIn = false
       state.signInMethod = 'none'
       state.nsec = ''
+      state.hexKey = ''
       state.encryptedNsec = ''
       state.salt = ''
       state.npub = ''
@@ -104,6 +109,7 @@ export const {
   updateSignedIn,
   updateSignInMethod,
   updateNsec,
+  updateHexKey,
   updateEncryptedNsec,
   updateSalt,
   updateNpub,

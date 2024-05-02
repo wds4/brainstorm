@@ -129,6 +129,10 @@ async function makeWord(
   }
   const oWord = {
     trustAttestationData: {
+      rater: {
+        pubkey: oProfile.pubkey,
+        npub: oProfile.npub,
+      },
       ratee: {
         pubkey: pubkey,
         npub: rateeNpub,

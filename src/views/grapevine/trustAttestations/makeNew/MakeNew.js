@@ -91,6 +91,10 @@ async function makeWord(
   }
   const oWord = {
     trustAttestationData: {
+      rater: {
+        pubkey: oProfile.pubkey,
+        npub: oProfile.npub,
+      },
       ratee: {
         pubkey: pubkey,
         npub: rateeNpub,
@@ -148,7 +152,7 @@ const MakeNewTrustAttestation = () => {
   const { publish } = useNostr()
 
   const publishNewEvent = useCallback(async () => {
-    publish(oEvent)
+    // publish(oEvent)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
   }, [selectedContext, oEvent])
@@ -329,7 +333,7 @@ const MakeNewTrustAttestation = () => {
               tabIndex={-1}
               onClick={publishNewEvent}
             >
-              Submit
+              Submit (currently disabled)
             </CButton>
             <div className={createAnotherElementClassName}>
               <br />

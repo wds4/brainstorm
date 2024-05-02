@@ -20,6 +20,7 @@ import {
   updateSignedIn,
   updateSignInMethod,
   updateNsec,
+  updateHexKey,
   updateNpub,
   updatePubkey,
 } from '../../../redux/features/profile/slice'
@@ -146,6 +147,7 @@ const Login = () => {
     const pubkey = getPublicKey(hexToBytes(hexKey))
 
     dispatch(updateNsec(nsec))
+    dispatch(updateHexKey(hexKey))
     dispatch(updatePubkey(pubkey))
     dispatch(updateNpub(npub))
     dispatch(updateSignInMethod('secret'))
@@ -178,7 +180,7 @@ const Login = () => {
                   <CFormInput
                     type="text"
                     id="nsecInput"
-                    placeholder="nsec or hex"
+                    placeholder="nsec (to do: allow nsec or hex)"
                     required
                     value={nsec}
                     onChange={handleInputChange}
