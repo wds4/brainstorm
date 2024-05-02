@@ -30,7 +30,7 @@ const RawData = ({ showRawDataButton, oEvent }) => {
     <>
       <CCard className="mb-4">
         <CCardHeader>
-          <strong>raw tapestry word</strong>
+          <strong>raw JSON, word type: context, tapestry protocol (experimental)</strong>
         </CCardHeader>
         <CCardBody>
           <pre>{JSON.stringify(oWord, null, 4)}</pre>

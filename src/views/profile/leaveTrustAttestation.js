@@ -15,6 +15,7 @@ import {
   CFormRange,
   CContainer,
   CCardText,
+  CPopover,
 } from '@coreui/react'
 import { fetchFirstByTag } from 'src/helpers'
 import { signEventPGA } from 'src/helpers/signers'
@@ -69,7 +70,7 @@ const RawData = ({ showRawDataButton, oEvent }) => {
     <>
       <CCard className="mb-4">
         <CCardHeader>
-          <strong>raw tapestry word</strong>
+          <strong>raw JSON, word type: trust attestation, tapestry protocol (experimental)</strong>
         </CCardHeader>
         <CCardBody>
           <pre>{JSON.stringify(oWord, null, 4)}</pre>
@@ -113,6 +114,7 @@ async function makeWord(
   confidence,
   selectedContext,
   comments,
+  transitivity,
 ) {
   const result = nip19.decode(rateeNpub)
   let pubkey = ''
@@ -124,8 +126,16 @@ async function makeWord(
   if (selectedContext == 'unselected') {
     contextName = ''
   }
-  if (selectedContext == 'inAllContexts') {
+  if (selectedContext == '*') {
     contextName = 'for all contexts'
+  }
+  let contextNaddr = ''
+  if (selectedContext && selectedContext.substr(0, 5) == 'naddr') {
+    contextNaddr = selectedContext
+  }
+  let transitive = 'true'
+  if (transitivity == 'off') {
+    transitive = 'false'
   }
   const oWord = {
     trustAttestationData: {
@@ -142,9 +152,9 @@ async function makeWord(
       comments: comments,
       context: {
         eventId: contextEvent?.id,
-        naddr: '',
+        naddr: contextNaddr,
         name: contextName,
-        transitive: true,
+        transitive: transitive,
       },
     },
   }
@@ -163,7 +173,7 @@ async function makeWord(
     ['d', pubkey + '/' + selectedContext],
     ['p', pubkey],
     ['c', selectedContext],
-    ['transitive', 'true'],
+    ['transitive', transitive],
     ['score', score],
     ['confidence', confidence],
   ]
@@ -180,6 +190,7 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
   const [score, setScore] = useState('')
   const [confidence, setConfidence] = useState('80')
   const [comments, setComments] = useState('')
+  const [transitivity, setTransitivity] = useState('on')
   const [selectedContext, setSelectedContext] = useState('')
   const [oEvent, setOEvent] = useState(oEventDefault)
   const [showRawDataButton, setShowRawDataButton] = useState('hide')
@@ -192,6 +203,7 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
 
   const [endorseButtonColor, setEndorseButtonColor] = useState('secondary')
   const [blockButtonColor, setBlockButtonColor] = useState('secondary')
+  const [isTransitive, setIsTransitive] = useState(true)
 
   const { publish } = useNostr()
 
@@ -216,6 +228,33 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
     },
     [showRawDataButton],
   )
+  const toggleTransitivity = useCallback(
+    async (e) => {
+      let newTransitivity = ''
+      if (transitivity == 'on') {
+        setTransitivity('off')
+        setIsTransitive(false)
+        newTransitivity = 'off'
+      }
+      if (transitivity == 'off') {
+        setTransitivity('on')
+        setIsTransitive(true)
+        newTransitivity = 'on'
+      }
+      const oEvent = await makeWord(
+        oProfile,
+        oContexts,
+        rateeNpub,
+        score,
+        confidence,
+        selectedContext,
+        comments,
+        newTransitivity,
+      )
+      setOEvent(oEvent)
+    },
+    [score, confidence, selectedContext, comments, transitivity],
+  )
   const handleCommentsChange = useCallback(
     async (e) => {
       const newComments = e.target.value
@@ -228,16 +267,19 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
         confidence,
         selectedContext,
         newComments,
+        transitivity,
       )
       setOEvent(oEvent)
     },
-    [score, confidence, selectedContext, comments],
+    [score, confidence, selectedContext, comments, transitivity],
   )
   const clearFields = useCallback(async (e) => {
-    setScore('100'), setConfidence('80')
+    setScore('')
+    setConfidence('80')
     setComments('')
+    setTransitivity('on')
     setSelectedContext('')
-    const oEvent = await makeWord(oProfile, oContexts, '', '', '', '', '')
+    const oEvent = await makeWord(oProfile, oContexts, '', '', '', '', '', 'on')
     setOEvent(oEvent)
   }, [])
   const updateSelectedContext = useCallback(
@@ -251,14 +293,14 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
         confidence,
         newSelectedContext,
         comments,
+        transitivity,
       )
       setOEvent(oEvent)
     },
-    [score, confidence, selectedContext, comments],
+    [score, confidence, selectedContext, comments, transitivity],
   )
   const updateScore = useCallback(
     async (newScore) => {
-      console.log('newScore: ' + newScore)
       setScore(newScore)
       const oEvent = await makeWord(
         oProfile,
@@ -268,40 +310,22 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
         confidence,
         selectedContext,
         comments,
+        transitivity,
       )
       setOEvent(oEvent)
     },
-    [score, confidence, selectedContext, comments],
-  )
-  const updateConfidence = useCallback(
-    async (newConfidence) => {
-      console.log('newConfidence: ' + newConfidence)
-      setConfidence(newConfidence)
-      const oEvent = await makeWord(
-        oProfile,
-        oContexts,
-        rateeNpub,
-        score,
-        newConfidence,
-        selectedContext,
-        comments,
-      )
-      setOEvent(oEvent)
-    },
-    [score, confidence, selectedContext, comments],
+    [score, confidence, selectedContext, comments, transitivity],
   )
   const processEndorseButtonClick = useCallback(async () => {
-    console.log('processEndorseButtonClick: ')
     updateScore('100')
     setEndorseButtonColor('success')
     setBlockButtonColor('secondary')
-  }, [])
+  }, [score, confidence, selectedContext, comments])
   const processBlockButtonClick = useCallback(async () => {
-    console.log('processBlockButtonClick: ')
     updateScore('0')
     setEndorseButtonColor('secondary')
     setBlockButtonColor('danger')
-  }, [])
+  }, [score, confidence, selectedContext, comments])
   let isSubmitAttestationButtonDisabled = true
   if (selectedContext && (score == '0' || score == '100')) {
     isSubmitAttestationButtonDisabled = false
@@ -315,53 +339,65 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
           </CCardHeader>
           <CCardBody>
             <CForm>
-              <div className="d-grid gap-2 mx-auto">
-                <div className="d-grid gap-2 col-8 mx-auto">
-                  <ContextSelector updateSelectedContext={updateSelectedContext} />
-                  <CButton
-                    type="button"
-                    color={endorseButtonColor}
-                    onClick={processEndorseButtonClick}
-                  >
-                    <CIcon icon={cilThumbUp} /> Endorse
-                  </CButton>
-                  <CButton type="button" color={blockButtonColor} onClick={processBlockButtonClick}>
-                    <CIcon icon={cilThumbDown} /> Block
-                  </CButton>
-                  <CFormTextarea
-                    type="text"
-                    id="comments"
-                    rows={3}
-                    placeholder="leave comments (optional)"
-                    value={comments}
-                    onChange={handleCommentsChange}
-                  />
+              <div className="d-grid gap-2 col-12  mx-auto">
+                <ContextSelector updateSelectedContext={updateSelectedContext} />
+                <CButton
+                  type="button"
+                  color={endorseButtonColor}
+                  onClick={processEndorseButtonClick}
+                >
+                  <CIcon icon={cilThumbUp} /> Endorse
+                </CButton>
+                <CButton type="button" color={blockButtonColor} onClick={processBlockButtonClick}>
+                  <CIcon icon={cilThumbDown} /> Block
+                </CButton>
+                <CPopover
+                  content="Transitivity indicates whether your trust attestation includes trust in this user to leave trust attestations to other users in this same context."
+                  placement="right"
+                  trigger={['hover', 'focus']}
+                >
+                  <span className="d-inline-block" tabIndex={0}>
+                    <CFormSwitch
+                      size="xl"
+                      onChange={(e) => toggleTransitivity(e)}
+                      label="Transitive"
+                      checked={isTransitive}
+                    />
+                  </span>
+                </CPopover>
+                <CFormTextarea
+                  type="text"
+                  id="comments"
+                  rows={3}
+                  placeholder="leave comments (optional)"
+                  value={comments}
+                  onChange={handleCommentsChange}
+                />
+                <CButton
+                  color="primary"
+                  className={submitEventButtonClassName}
+                  id="submitEventButton"
+                  onClick={publishNewEvent}
+                  disabled={isSubmitAttestationButtonDisabled}
+                >
+                  Submit Trust Attestation (currently disabled)
+                </CButton>
+                <div className={createAnotherElementClassName}>
+                  <br />
+                  <CCardTitle>Your trust attestation has been published!</CCardTitle>
                   <CButton
                     color="primary"
-                    className={submitEventButtonClassName}
-                    id="submitEventButton"
-                    onClick={publishNewEvent}
-                    disabled={isSubmitAttestationButtonDisabled}
+                    id="createAnotherEventButton"
+                    onClick={createAnotherContextButton}
                   >
-                    Submit Trust Attestation (currently disabled)
+                    Create another trust attestation
                   </CButton>
-                  <div className={createAnotherElementClassName}>
-                    <br />
-                    <CCardTitle>Your trust attestation has been published!</CCardTitle>
-                    <CButton
-                      color="primary"
-                      id="createAnotherEventButton"
-                      onClick={createAnotherContextButton}
-                    >
-                      Create another trust attestation
-                    </CButton>
-                  </div>
-                  <ShowExistingAttestation
-                    existingAttestationScore={existingAttestationScore}
-                    existingAttestationConfidence={existingAttestationConfidence}
-                    existingAttestationComments={existingAttestationComments}
-                  />
                 </div>
+                <ShowExistingAttestation
+                  existingAttestationScore={existingAttestationScore}
+                  existingAttestationConfidence={existingAttestationConfidence}
+                  existingAttestationComments={existingAttestationComments}
+                />
               </div>
             </CForm>
           </CCardBody>

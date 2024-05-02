@@ -34,7 +34,7 @@ const RawData = ({ showRawDataButton, oEvent }) => {
     <>
       <CCard className="mb-4">
         <CCardHeader>
-          <strong>raw tapestry word</strong>
+          <strong>raw JSON, word type: trust attestation, tapestry protocol (experimental)</strong>
         </CCardHeader>
         <CCardBody>
           <pre>{JSON.stringify(oWord, null, 4)}</pre>
@@ -232,7 +232,6 @@ const MakeNewTrustAttestation = () => {
   )
   const updateScore = useCallback(
     async (newScore) => {
-      console.log('newScore: ' + newScore)
       setScore(newScore)
       const oEvent = await makeWord(
         oProfile,
@@ -249,7 +248,6 @@ const MakeNewTrustAttestation = () => {
   )
   const updateConfidence = useCallback(
     async (newConfidence) => {
-      console.log('newConfidence: ' + newConfidence)
       setConfidence(newConfidence)
       const oEvent = await makeWord(
         oProfile,

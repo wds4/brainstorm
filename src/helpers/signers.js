@@ -6,7 +6,6 @@ export async function signEventPGA(oProfile, oEvent) {
   const signInMethod = oProfile.signInMethod
   const nsec = oProfile.nsec
   const hexKey = oProfile.hexKey
-  console.log('signEventPGA; signInMethod: ' + signInMethod)
 
   if (!signedIn) {
     return false

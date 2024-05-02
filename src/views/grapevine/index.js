@@ -27,11 +27,8 @@ const GrapevineDashboard = () => {
   useEffect(() => {
     async function updateContextData() {
       const events = await fetchEvents(filter)
-      // console.log('events.length: ' + events.length + '; typeof events: ' + typeof events)
       events.forEach((eventNS, item) => {
         /*
-        const foo = eventNS.rawEvent()
-        console.log('foo: ' + JSON.stringify(foo, null, 4))
         const event = {}
         event.id = eventNS.id
         event.kind = eventNS.kind
