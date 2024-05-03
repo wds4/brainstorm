@@ -47,9 +47,11 @@ const AppHeaderDropdown = () => {
   }
   let loggedOut = 'show'
   let loggedIn = 'hide'
+  let headerAvatar = ''
   if (signedIn) {
     loggedOut = 'hide'
     loggedIn = 'show'
+    headerAvatar = myPictureUrl
   }
   const updateActiveApp = (newApp) => {
     dispatch(updateApp(newApp))
@@ -57,7 +59,7 @@ const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0 pe-0" caret={false}>
-        <CAvatar src={myPictureUrl} size="md" />
+        <CAvatar style={{ backgroundColor: 'white' }} src={headerAvatar} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">

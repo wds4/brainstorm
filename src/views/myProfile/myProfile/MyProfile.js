@@ -30,32 +30,8 @@ const MyProfile = () => {
     }
     updateMyFollowsAndRelays()
   }, [fetchEvents(filter)])
-
   return (
     <CContainer fluid>
-      <CRow>
-        <div style={{ position: 'relative' }}>
-          <div
-            style={{
-              width: '100%',
-              maxHeight: '200px',
-              position: 'absolute',
-              top: '0px',
-              overflow: 'scroll',
-            }}
-          >
-            <img
-              src={myBackground}
-              style={{
-                borderRadius: '20px 20px 0px 0px',
-                width: '100%',
-                opacity: '0.3',
-              }}
-              alt=""
-            />
-          </div>
-        </div>
-      </CRow>
       <CRow>
         <CCol sm="auto">
           <div className="profileAvatarContainer">
@@ -78,3 +54,32 @@ const MyProfile = () => {
 }
 
 export default MyProfile
+
+/*
+.grad1 img {
+  -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+}
+<CRow>
+  <div style={{ position: 'relative' }}>
+    <div
+      className="grad1"
+      style={{
+        width: '100%',
+        maxHeight: '200px',
+        position: 'absolute',
+        top: '0px',
+        overflow: 'scroll',
+      }}
+    >
+      <img
+        src={myBackground}
+        style={{
+          borderRadius: '20px 20px 0px 0px',
+          width: '100%',
+        }}
+        alt=""
+      />
+    </div>
+  </div>
+</CRow>
+*/
