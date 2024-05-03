@@ -28,7 +28,7 @@ const CategorySelector = ({ updateSelectedCategory }) => {
           const description = fetchFirstByTag('description', event)
           return (
             <option key={key} value={key} data-description={description}>
-              {name} - {key}
+              {name}
             </option>
           )
         })}

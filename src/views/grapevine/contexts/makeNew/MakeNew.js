@@ -272,7 +272,7 @@ const MakeNewContext = () => {
   const updateSelectedAction = useCallback(
     async (newSelectedAction) => {
       setSelectedAction(newSelectedAction)
-      newName = await autoCompleteName(newSelectedAction, selectedCategory)
+      const newName = await autoCompleteName(newSelectedAction, selectedCategory)
       const oEvent = await makeWord(
         oProfile,
         oActions,
@@ -290,7 +290,7 @@ const MakeNewContext = () => {
   const updateSelectedCategory = useCallback(
     async (newSelectedCategory) => {
       setSelectedCategory(newSelectedCategory)
-      newName = await autoCompleteName(selectedAction, newSelectedCategory)
+      const newName = await autoCompleteName(selectedAction, newSelectedCategory)
       const oEvent = await makeWord(
         oProfile,
         oActions,
@@ -332,7 +332,7 @@ const MakeNewContext = () => {
                   id="description"
                   rows={3}
                   label="description"
-                  placeholder="lorem ipsum"
+                  placeholder="description (optional)"
                   value={description}
                   onChange={handleDescriptionChange}
                 />
