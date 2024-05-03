@@ -306,83 +306,85 @@ const MakeNewContext = () => {
     [name, description, selectedAction, selectedCategory, makeEditable],
   )
   return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <strong>Make New Context</strong>
-          </CCardHeader>
-          <CCardBody>
-            <CForm>
-              <ActionSelector updateSelectedAction={updateSelectedAction} />
-              <CategorySelector updateSelectedCategory={updateSelectedCategory} />
-              <CFormInput
-                type="text"
-                id="name"
-                label="name"
-                placeholder="to curate nostr content"
-                required
-                value={name}
-                onChange={handleNameChange}
-              />
-              <br />
-              <CFormTextarea
-                type="text"
-                id="description"
-                rows={3}
-                label="description"
-                placeholder="lorem ipsum"
-                value={description}
-                onChange={handleDescriptionChange}
-              />
-              <br />
-              <div>
-                <div style={{ display: 'inline-block' }}>
-                  <CFormSwitch
-                    onChange={(e) => toggleMakeEditable(e)}
-                    label="make editable?"
-                    active
-                    checked={makeEditable}
-                  />
-                </div>{' '}
-                <strong>{makeEditableState}</strong>
-              </div>
-            </CForm>
-            <CButton
-              color="primary"
-              className={submitEventButtonClassName}
-              id="submitEventButton"
-              active
-              tabIndex={-1}
-              onClick={publishNewEvent}
-            >
-              Submit
-            </CButton>
-            <div className={createAnotherElementClassName}>
-              <br />
-              <CCardTitle>Your context has been published!</CCardTitle>
+    <>
+      <CRow>
+        <CCol xs={12}>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>Make New Context</strong>
+            </CCardHeader>
+            <CCardBody>
+              <CForm>
+                <ActionSelector updateSelectedAction={updateSelectedAction} />
+                <CategorySelector updateSelectedCategory={updateSelectedCategory} />
+                <CFormInput
+                  type="text"
+                  id="name"
+                  label="name"
+                  placeholder="to curate nostr content"
+                  required
+                  value={name}
+                  onChange={handleNameChange}
+                />
+                <br /><br />
+                <CFormTextarea
+                  type="text"
+                  id="description"
+                  rows={3}
+                  label="description"
+                  placeholder="lorem ipsum"
+                  value={description}
+                  onChange={handleDescriptionChange}
+                />
+                <br />
+                <div>
+                  <div style={{ display: 'inline-block' }}>
+                    <CFormSwitch
+                      onChange={(e) => toggleMakeEditable(e)}
+                      label="make editable?"
+                      active
+                      checked={makeEditable}
+                    />
+                  </div>{' '}
+                  <strong>{makeEditableState}</strong>
+                </div>
+              </CForm>
               <CButton
                 color="primary"
-                id="createAnotherEventButton"
-                onClick={createAnotherContextButton}
+                className={submitEventButtonClassName}
+                id="submitEventButton"
+                active
+                tabIndex={-1}
+                onClick={publishNewEvent}
               >
-                Create another context
+                Submit
               </CButton>
+              <div className={createAnotherElementClassName}>
+                <br />
+                <CCardTitle>Your context has been published!</CCardTitle>
+                <CButton
+                  color="primary"
+                  id="createAnotherEventButton"
+                  onClick={createAnotherContextButton}
+                >
+                  Create another context
+                </CButton>
+              </div>
+            </CCardBody>
+          </CCard>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ display: 'inline-block' }}>
+              <CFormSwitch
+                onChange={(e) => toggleShowRawData(e)}
+                label="raw JSON"
+                id="formSwitchCheckDefault"
+              />
             </div>
-          </CCardBody>
-        </CCard>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ display: 'inline-block' }}>
-            <CFormSwitch
-              onChange={(e) => toggleShowRawData(e)}
-              label="raw JSON"
-              id="formSwitchCheckDefault"
-            />
           </div>
-        </div>
-        <RawData showRawDataButton={showRawDataButton} oEvent={oEvent} />
-      </CCol>
-    </CRow>
+          <RawData showRawDataButton={showRawDataButton} oEvent={oEvent} />
+        </CCol>
+      </CRow>
+    </>
   )
 }
 

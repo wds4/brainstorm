@@ -13,16 +13,20 @@ import {
 import { AppSidebarNav } from 'src/components/AppSidebarNav'
 
 // sidebar nav config
-import navigationHome from 'src/nav/_navHome'
+import navigationHomeSignedIn from 'src/nav/_navHomeSignedIn'
+import navigationHomeSignedOut from 'src/nav/_navHomeSignedOut'
 import navigationConceptGraph from 'src/nav/_navConceptGraph'
 import navigationGrapevine from 'src/nav/_navGrapevine'
 import { updateSidebarShow, updateSidebarUnfoldable } from 'src/redux/features/ui/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
-function getNavigation(activeApp) {
+function getNavigation(activeApp, signedIn) {
   switch (activeApp) {
     case 'home':
-      return navigationHome
+      if (!signedIn) {
+        return navigationHomeSignedOut
+      }
+      return navigationHomeSignedIn
     case 'conceptGraph':
       return navigationConceptGraph
     case 'grapevine':
@@ -43,12 +47,13 @@ const AppSidebar = () => {
   const unfoldable = useSelector((state) => state.ui.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.ui.sidebarShow)
   const activeApp = useSelector((state) => state.siteNavigation.app)
+  const signedIn = useSelector((state) => state.profile.signedIn)
 
   const updateActiveApp = (newApp) => {
     dispatch(updateApp(newApp))
   }
 
-  const navigation = getNavigation(activeApp)
+  const navigation = getNavigation(activeApp, signedIn)
 
   return (
     <CSidebar
