@@ -1,72 +1,19 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { addAction, addCategory, addContext } from 'src/redux/features/grapevine/slice'
-import { nip19 } from 'nostr-tools'
-import { fetchFirstByTag } from 'src/helpers'
-import { useNDK } from '@nostr-dev-kit/ndk-react'
-import { CCardTitle, CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
-import { cilBolt, cilBoltCircle, cilCircle, cilSettings, cilThumbUp, cilUser } from '@coreui/icons'
-import { addTrustAttestation } from '../../redux/features/grapevine/slice'
-import { cutoffTime } from '../../const'
+import { cilBolt, cilBoltCircle, cilCircle, cilThumbUp } from '@coreui/icons'
+import GrapevineListener from './components/GrapevineListener'
 
 const GrapevineDashboard = () => {
   const oActions = useSelector((state) => state.grapevine.actions)
   const oCategories = useSelector((state) => state.grapevine.categories)
   const oContexts = useSelector((state) => state.grapevine.contexts)
   const oTrustAttestations = useSelector((state) => state.grapevine.trustAttestations)
-
-  const dispatch = useDispatch()
-
-  const filter = {
-    since: 0,
-    kinds: [9902, 39902],
-    since: cutoffTime,
-    '#P': ['tapestry'],
-  }
-
-  // use ndk-react
-  const { fetchEvents } = useNDK()
-  useEffect(() => {
-    async function updateContextData() {
-      const events = await fetchEvents(filter)
-      events.forEach((eventNS, item) => {
-        const event = eventNS.rawEvent()
-        let aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
-        if (aTags_w.length > 0) {
-          let cid = event.id
-          const wordType = aTags_w[0][1]
-          if (event.kind >= 30000 && event.kind < 40000) {
-            const tag_d = fetchFirstByTag('d', event)
-            const naddr = nip19.naddrEncode({
-              pubkey: event.pubkey,
-              kind: event.kind,
-              identifier: tag_d,
-              relays: [],
-            })
-            cid = naddr
-          }
-          if (wordType == 'action') {
-            dispatch(addAction({ event, cid }))
-          }
-          if (wordType == 'category') {
-            dispatch(addCategory({ event, cid }))
-          }
-          if (wordType == 'context') {
-            dispatch(addContext({ event, cid }))
-          }
-          if (wordType == 'trustAttestation') {
-            dispatch(addTrustAttestation({ event, cid }))
-          }
-        }
-      })
-    }
-    updateContextData()
-  }, [fetchEvents(filter)])
-
   return (
     <>
+      <GrapevineListener />
       <center>
         <h3>Grapevine Dashboard</h3>
         <div>This app is under construction!</div>

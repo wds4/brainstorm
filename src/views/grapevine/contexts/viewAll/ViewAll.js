@@ -12,6 +12,7 @@ import {
 import { useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
+import GrapevineListener from '../../components/GrapevineListener'
 
 // eslint-disable-next-line react/prop-types
 const ShowSingleItem = ({ event }) => {
@@ -51,6 +52,7 @@ const ShowSingleItem = ({ event }) => {
   }
   return (
     <>
+      <GrapevineListener />
       <CListGroupItem
         key={event.id}
         as="a"
