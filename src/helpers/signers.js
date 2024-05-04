@@ -1,10 +1,9 @@
-import { finalizeEvent, getEventHash, getPublicKey } from 'nostr-tools'
-import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
+import { finalizeEvent } from 'nostr-tools' // for up to date nostr tools
+// import { getEventHash, getSignature } from 'nostr-tools' // for nostr-tools 1.14.0
 
 export async function signEventPGA(oProfile, oEvent) {
   const signedIn = oProfile.signedIn
   const signInMethod = oProfile.signInMethod
-  const nsec = oProfile.nsec
   const hexKey = oProfile.hexKey
 
   if (!signedIn) {
@@ -17,6 +16,10 @@ export async function signEventPGA(oProfile, oEvent) {
   if (signInMethod == 'secret') {
     const oEvent_signed = finalizeEvent(oEvent, hexKey)
     return oEvent_signed
+    // oEvent.pubkey = oProfile.pubkey
+    // oEvent.id = getEventHash(oEvent)
+    // oEvent.sig = getSignature(oEvent)
+    // return oEvent
   }
   return false
 }

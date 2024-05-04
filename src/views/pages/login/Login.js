@@ -12,7 +12,8 @@ import {
   CFormInput,
   CRow,
 } from '@coreui/react'
-import { generateSecretKey, getPublicKey, nip19 } from 'nostr-tools'
+import { generateSecretKey, getPublicKey, nip19 } from 'nostr-tools' // for up to date nostr-tools
+// import { nip19, generatePrivateKey, getPublicKey } from 'nostr-tools' // for nostr-tools 1.14.0
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
 
 import { isHex, safeDecode } from '../../../helpers/nip19'
@@ -103,8 +104,11 @@ const Login = () => {
 
   const dispatch = useDispatch()
 
+  const { loginWithSecret } = useNDK()
+
   const generateNewKey = useCallback(() => {
-    const hex = generateSecretKey()
+    const hex = generateSecretKey() // for up to date nostr-tools
+    // const hex = generatePrivateKey() // for nostr-tools 1.14.0
     const pubkey_ = getPublicKey(hex)
     const hexKey_ = bytesToHex(hex)
     const nsec_ = nip19.nsecEncode(hex)
@@ -142,8 +146,9 @@ const Login = () => {
     [setNsec, setHexKey, setNpub, setError],
   )
 
-  const loginWithNsec = useCallback(() => {
+  const loginWithNsec = useCallback(async () => {
     if (!hexKey) return
+
     const pubkey = getPublicKey(hexToBytes(hexKey))
 
     dispatch(updateNsec(nsec))

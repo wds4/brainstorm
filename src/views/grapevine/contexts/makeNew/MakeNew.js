@@ -125,7 +125,6 @@ async function makeWord(
   ]
   oEvent.tags = tags
   oEvent.created_at = Math.floor(Date.now() / 1000)
-  // const oEvent_signed = await window.nostr.signEvent(oEvent)
   const oEvent_signed = await signEventPGA(oProfile, oEvent)
   return oEvent_signed
 }
@@ -150,12 +149,12 @@ const MakeNewContext = () => {
     publish(oEvent)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
-  }, [name, description, oEvent])
+  }, [oEvent])
   const createAnotherContextButton = useCallback(() => {
     setSubmitEventButtonClassName('mt-3')
     setCreateAnotherElementClassName('hide')
     clearFields()
-  }, [name, description, oEvent])
+  }, [])
   const handleNameChange = useCallback(
     async (e) => {
       const newName = e.target.value

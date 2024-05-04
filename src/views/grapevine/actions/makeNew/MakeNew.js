@@ -17,6 +17,10 @@ import { signEventPGA } from '../../../../helpers/signers'
 import { useSelector } from 'react-redux'
 import { useNostr } from 'nostr-react'
 
+import { NDKEvent } from '@nostr-dev-kit/ndk'
+import { useNDK } from '@nostr-dev-kit/ndk-react'
+// const { signPublishEvent } = useNDK()
+
 // eslint-disable-next-line react/prop-types
 const RawData = ({ showRawDataButton, oEvent }) => {
   if (showRawDataButton == 'hide') {
@@ -69,10 +73,14 @@ async function makeWord(oProfile, name, description, makeEditable) {
     },
   }
   const sWord = JSON.stringify(oWord)
-  let oEvent = oEventDefault
+  // oEventNDK.kind = 39902
+  // oEventNDK.content = ''
+  const oEvent = oEventDefault
+  oEvent.content = ''
   oEvent.kind = 39902
   if (!makeEditable) {
     oEvent.kind = 9902
+    // oEventNDK.kind = 9902
   }
   const tags = [
     ['P', 'tapestry'],
@@ -83,13 +91,16 @@ async function makeWord(oProfile, name, description, makeEditable) {
     ['description', description],
     ['d', 'action:' + name],
   ]
+  // oEventNDK.tags = tags
   oEvent.tags = tags
   oEvent.created_at = Math.floor(Date.now() / 1000)
+  // oEventNDK.created_at = Math.floor(Date.now() / 1000)
   const oEvent_signed = await signEventPGA(oProfile, oEvent)
   return oEvent_signed
 }
 
 const MakeNewAction = () => {
+  // const oEventNDK = new NDKEvent()
   const oProfile = useSelector((state) => state.profile)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -105,12 +116,12 @@ const MakeNewAction = () => {
     publish(oEvent)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
-  }, [name, description, oEvent])
+  }, [oEvent])
   const createAnotherActionButton = useCallback(() => {
     setSubmitEventButtonClassName('mt-3')
     setCreateAnotherElementClassName('hide')
     clearFields()
-  }, [name, description, oEvent])
+  }, [])
   const handleNameChange = useCallback(
     async (e) => {
       const newName = e.target.value

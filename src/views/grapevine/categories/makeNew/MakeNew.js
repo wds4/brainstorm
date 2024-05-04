@@ -16,6 +16,8 @@ import { fetchFirstByTag } from '../../../../helpers'
 import { signEventPGA } from '../../../../helpers/signers'
 import { useSelector } from 'react-redux'
 import { useNostr } from 'nostr-react'
+import { useNDK } from '@nostr-dev-kit/ndk-react'
+import { NDKEvent } from '@nostr-dev-kit/ndk'
 
 // eslint-disable-next-line react/prop-types
 const RawData = ({ showRawDataButton, oEvent }) => {
@@ -85,7 +87,6 @@ async function makeWord(oProfile, name, description, makeEditable) {
   ]
   oEvent.tags = tags
   oEvent.created_at = Math.floor(Date.now() / 1000)
-  // const oEvent_signed = await window.nostr.signEvent(oEvent)
   const oEvent_signed = await signEventPGA(oProfile, oEvent)
   return oEvent_signed
 }
@@ -106,12 +107,12 @@ const MakeNewCategory = () => {
     publish(oEvent)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
-  }, [name, description, oEvent])
+  }, [oEvent])
   const createAnotherCategoryButton = useCallback(() => {
     setSubmitEventButtonClassName('mt-3')
     setCreateAnotherElementClassName('hide')
     clearFields()
-  }, [name, description, oEvent])
+  }, [])
   const handleNameChange = useCallback(
     async (e) => {
       const newName = e.target.value

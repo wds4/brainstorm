@@ -37,8 +37,8 @@
     "chart.js": "^4.4.2",
     "classnames": "^2.5.1",
     "core-js": "^3.36.1",
-    "nostr-react": "^0.7.0",
-    "nostr-tools": "^2.5.1",
+    "nostr-react": "github:aussedatlo/nostr-react#dev/reconnect",
+    "nostr-tools": "^2.5.2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -59,6 +59,7 @@
     "postcss": "^8.4.38",
     "prettier": "3.2.5",
     "sass": "^1.72.0",
+    "typescript": "^5.4.5",
     "vite": "^5.2.6"
   }
 }

@@ -52,8 +52,8 @@ const App = () => {
   }, [myCurrentProfileKind3Relays])
 
   return (
-    <NostrProvider relayUrls={ndkProviderRelays} debug={false}>
-      <NDKProvider relayUrls={ndkProviderRelays}>
+    <NDKProvider relayUrls={ndkProviderRelays}>
+      <NostrProvider relayUrls={ndkProviderRelays} debug={false}>
         <HashRouter>
           <Suspense
             fallback={
@@ -68,9 +68,13 @@ const App = () => {
             </Routes>
           </Suspense>
         </HashRouter>
-      </NDKProvider>
-    </NostrProvider>
+      </NostrProvider>
+    </NDKProvider>
   )
 }
 
 export default App
+
+/*
+    <NostrProvider relayUrls={ndkProviderRelays} debug={false}>    </NostrProvider>
+    */

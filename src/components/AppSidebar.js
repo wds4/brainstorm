@@ -32,13 +32,25 @@ function getNavigation(activeApp, signedIn) {
     case 'grapevine':
       return navigationGrapevine
     case 'curatedLists':
-      return navigationHome
+      if (!signedIn) {
+        return navigationHomeSignedOut
+      }
+      return navigationHomeSignedIn
     case 'wikifreedia':
-      return navigationHome
+      if (!signedIn) {
+        return navigationHomeSignedOut
+      }
+      return navigationHomeSignedIn
     case 'twittr':
-      return navigationHome
+      if (!signedIn) {
+        return navigationHomeSignedOut
+      }
+      return navigationHomeSignedIn
     default:
-      return navigationHome
+      if (!signedIn) {
+        return navigationHomeSignedOut
+      }
+      return navigationHomeSignedIn
   }
 }
 

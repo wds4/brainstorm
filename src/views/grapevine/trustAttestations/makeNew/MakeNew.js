@@ -152,15 +152,15 @@ const MakeNewTrustAttestation = () => {
   const { publish } = useNostr()
 
   const publishNewEvent = useCallback(async () => {
-    // publish(oEvent)
+    publish(oEvent)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
-  }, [selectedContext, oEvent])
+  }, [oEvent])
   const createAnotherContextButton = useCallback(() => {
     setSubmitEventButtonClassName('mt-3')
     setCreateAnotherElementClassName('hide')
     clearFields()
-  }, [selectedContext, oEvent])
+  }, [])
   const toggleShowRawData = useCallback(
     (e) => {
       if (showRawDataButton == 'hide') {
