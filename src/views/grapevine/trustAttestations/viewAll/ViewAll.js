@@ -8,11 +8,13 @@ import {
   CFormSwitch,
   CListGroupItem,
   CListGroup,
+  CButton,
 } from '@coreui/react'
 import { useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
 import GrapevineListener from '../../components/GrapevineListener'
+import { Link } from 'react-router-dom'
 
 // eslint-disable-next-line react/prop-types
 const ShowSingleItem = ({ event }) => {
@@ -105,6 +107,9 @@ const ViewAllTrustAttestations = () => {
           </CCardBody>
         </CCard>
       </CCol>
+      <Link to="/grapevine/trustAttestations/makeNew">
+        <CButton color="primary">create a new Trust Attestation</CButton>
+      </Link>
     </CRow>
   )
 }
