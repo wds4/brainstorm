@@ -6,6 +6,7 @@ export const grapevineSlice = createSlice({
     actions: {},
     categories: {},
     contexts: {},
+    trustAttestations: {},
   },
   reducers: {
     addAction: (state, action) => {
@@ -23,14 +24,22 @@ export const grapevineSlice = createSlice({
       const cid = action.payload.cid
       state.contexts[cid] = event
     },
+    addTrustAttestation: (state, action) => {
+      const event = action.payload.event
+      const cid = action.payload.cid
+      console.log('addTrustAttestation; cid: ' + cid)
+      state.trustAttestations[cid] = event
+    },
     wipeGrapevine: (state, action) => {
       state.actions = {}
       state.categories = {}
       state.contexts = {}
+      state.trustAttestations = {}
     },
   },
 })
 
-export const { addAction, addCategory, addContext, wipeGrapevine } = grapevineSlice.actions
+export const { addAction, addCategory, addContext, addTrustAttestation, wipeGrapevine } =
+  grapevineSlice.actions
 
 export default grapevineSlice.reducer

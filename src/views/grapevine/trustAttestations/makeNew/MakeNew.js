@@ -331,7 +331,7 @@ const MakeNewTrustAttestation = () => {
               tabIndex={-1}
               onClick={publishNewEvent}
             >
-              Submit (currently disabled)
+              Submit
             </CButton>
             <div className={createAnotherElementClassName}>
               <br />

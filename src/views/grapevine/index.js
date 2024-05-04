@@ -8,17 +8,21 @@ import { CCardTitle, CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
 import { cilBolt, cilBoltCircle, cilCircle, cilSettings, cilThumbUp, cilUser } from '@coreui/icons'
+import { addTrustAttestation } from '../../redux/features/grapevine/slice'
+import { cutoffTime } from '../../const'
 
 const GrapevineDashboard = () => {
   const oActions = useSelector((state) => state.grapevine.actions)
   const oCategories = useSelector((state) => state.grapevine.categories)
   const oContexts = useSelector((state) => state.grapevine.contexts)
+  const oTrustAttestations = useSelector((state) => state.grapevine.trustAttestations)
 
   const dispatch = useDispatch()
 
   const filter = {
     since: 0,
     kinds: [9902, 39902],
+    since: cutoffTime,
     '#P': ['tapestry'],
   }
 
@@ -28,31 +32,21 @@ const GrapevineDashboard = () => {
     async function updateContextData() {
       const events = await fetchEvents(filter)
       events.forEach((eventNS, item) => {
-        /*
-        const event = {}
-        event.id = eventNS.id
-        event.kind = eventNS.kind
-        event.tags = eventNS.tags
-        event.content = eventNS.content
-        event.pubkey = eventNS.pubkey
-        event.sig = eventNS.sig
-        event.created_at = eventNS.created_at
-        */
         const event = eventNS.rawEvent()
         let aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
         if (aTags_w.length > 0) {
           let cid = event.id
+          const wordType = aTags_w[0][1]
           if (event.kind >= 30000 && event.kind < 40000) {
-            const name = fetchFirstByTag('name', event)
+            const tag_d = fetchFirstByTag('d', event)
             const naddr = nip19.naddrEncode({
               pubkey: event.pubkey,
               kind: event.kind,
-              identifier: name,
+              identifier: tag_d,
               relays: [],
             })
             cid = naddr
           }
-          const wordType = aTags_w[0][1]
           if (wordType == 'action') {
             dispatch(addAction({ event, cid }))
           }
@@ -61,6 +55,9 @@ const GrapevineDashboard = () => {
           }
           if (wordType == 'context') {
             dispatch(addContext({ event, cid }))
+          }
+          if (wordType == 'trustAttestation') {
+            dispatch(addTrustAttestation({ event, cid }))
           }
         }
       })
@@ -75,17 +72,13 @@ const GrapevineDashboard = () => {
         <div>This app is under construction!</div>
       </center>
       <br />
-      <div className="d-grid gap-2 col-8 mx-auto">
-        The Grapevine enables you and your community to identify who is the most trustworthy, and in
-        what context, to curate content, facts, and information.
-      </div>
       <DocsExample href="components/widgets/#cwidgetstatsf">
         <CRow xs={{ gutter: 4 }}>
           <CCol xs={12} sm={6} xl={4} xxl={3}>
             <CNavLink href="#/grapevine/trustAttestations/viewAll">
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilThumbUp} size="xl" />}
-                title="0"
+                title={Object.keys(oTrustAttestations).length}
                 value="trust attestations"
                 color="primary"
               />

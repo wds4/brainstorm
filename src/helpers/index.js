@@ -2,6 +2,7 @@ export function fetchFirstByTag(tag, event) {
   let result = ''
   try {
     result = event.tags.filter(([k, v]) => k === tag && v && v !== '')[0][1]
+    return result
   } catch (e) {
     console.log(e)
   }

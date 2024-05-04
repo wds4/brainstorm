@@ -82,9 +82,9 @@ const AppSidebar = () => {
         <CSidebarBrand
           href="#/dashboard"
           onClick={() => updateActiveApp('home')}
-          style={{ textDecoration: 'none', fontSize: '22px', fontFamily: 'capitals' }}
+          style={{ textDecoration: 'none', fontSize: '22px', fontFamily: 'arial' }}
         >
-          Pretty Good Apps
+          Brainstorm
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"

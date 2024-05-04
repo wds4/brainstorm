@@ -12,7 +12,7 @@ const Dashboard = () => {
   return (
     <>
       <center>
-        <h3>Pretty Good Apps</h3>
+        <h3>Pretty Good Apps: Brainstorm</h3>
         <div>This site is under construction!</div>
       </center>
       <CCol lg={4} key="0">

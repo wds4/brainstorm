@@ -208,7 +208,7 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
   const { publish } = useNostr()
 
   const publishNewEvent = useCallback(async () => {
-    // publish(oEvent)
+    publish(oEvent)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
   }, [selectedContext, oEvent])
@@ -380,7 +380,7 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
                   onClick={publishNewEvent}
                   disabled={isSubmitAttestationButtonDisabled}
                 >
-                  Submit Trust Attestation (currently disabled)
+                  Submit Trust Attestation
                 </CButton>
                 <div className={createAnotherElementClassName}>
                   <br />
