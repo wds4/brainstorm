@@ -54,7 +54,6 @@ const ShowSingleItem = ({ event }) => {
   }
   return (
     <>
-      <GrapevineListener />
       <CListGroupItem
         key={event.id}
         as="a"
@@ -92,25 +91,28 @@ const ShowSingleItem = ({ event }) => {
 const ViewAllActions = () => {
   const oActions = useSelector((state) => state.grapevine.actions)
   return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <strong>View all Actions ({Object.keys(oActions).length})</strong>
-          </CCardHeader>
-          <CCardBody>
-            <CListGroup>
-              {Object.keys(oActions).map((key, event) => {
-                return <ShowSingleItem key={key} event={oActions[key]} />
-              })}
-            </CListGroup>
-          </CCardBody>
-        </CCard>
-      </CCol>
-      <Link to="/grapevine/actions/makeNew">
-        <CButton color="primary">create a new Action</CButton>
-      </Link>
-    </CRow>
+    <>
+      <GrapevineListener />
+      <CRow>
+        <CCol xs={12}>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>View all Actions ({Object.keys(oActions).length})</strong>
+            </CCardHeader>
+            <CCardBody>
+              <CListGroup>
+                {Object.keys(oActions).map((key, event) => {
+                  return <ShowSingleItem key={key} event={oActions[key]} />
+                })}
+              </CListGroup>
+            </CCardBody>
+          </CCard>
+        </CCol>
+        <Link to="/grapevine/actions/makeNew">
+          <CButton color="primary">create a new Action</CButton>
+        </Link>
+      </CRow>
+    </>
   )
 }
 

@@ -10,14 +10,16 @@ import {
   CListGroup,
   CButton,
 } from '@coreui/react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
 import GrapevineListener from '../../components/GrapevineListener'
 import { Link } from 'react-router-dom'
+import { updateViewContextId } from '../../../../redux/features/siteNavigation/slice'
 
 // eslint-disable-next-line react/prop-types
-const ShowSingleItem = ({ event }) => {
+const ShowSingleItem = ({ contextId, event }) => {
+  const dispatch = useDispatch()
   const [showDetailsElementClassName, setShowDetailsElementClassName] = useState('hide')
   const toggleShowDetails = useCallback(async () => {
     if (showDetailsElementClassName == 'hide') {
@@ -52,9 +54,11 @@ const ShowSingleItem = ({ event }) => {
   if (event.kind == 39902) {
     isEditable = 'editable'
   }
+  const updateViewContext = (newContextId) => {
+    dispatch(updateViewContextId(newContextId))
+  }
   return (
     <>
-      <GrapevineListener />
       <CListGroupItem
         key={event.id}
         as="a"
@@ -64,6 +68,13 @@ const ShowSingleItem = ({ event }) => {
         <strong>{name}</strong>
       </CListGroupItem>
       <CCardBody className={showDetailsElementClassName}>
+        <Link
+          onClick={() => updateViewContext(contextId)}
+          to="/grapevine/contexts/viewSingle"
+          style={{ float: 'right' }}
+        >
+          more info
+        </Link>
         <CCardBody>
           <small>{description}</small>
         </CCardBody>
@@ -82,6 +93,7 @@ const ShowSingleItem = ({ event }) => {
           />
         </CCardBody>
         <CCardBody className={showRawElementClassName}>
+          <div>contextId: {contextId}</div>
           <pre>{JSON.stringify(oWord, null, 4)}</pre>
           <pre>{JSON.stringify(event, null, 4)}</pre>
         </CCardBody>
@@ -92,25 +104,32 @@ const ShowSingleItem = ({ event }) => {
 const ViewAllContexts = () => {
   const oContexts = useSelector((state) => state.grapevine.contexts)
   return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <strong>View all Contexts ({Object.keys(oContexts).length})</strong>
-          </CCardHeader>
-          <CCardBody>
-            <CListGroup>
-              {Object.keys(oContexts).map((key, event) => {
-                return <ShowSingleItem key={key} event={oContexts[key]} />
-              })}
-            </CListGroup>
-          </CCardBody>
-        </CCard>
-      </CCol>
-      <Link to="/grapevine/contexts/makeNew">
-        <CButton color="primary">create a new Context</CButton>
-      </Link>
-    </CRow>
+    <>
+      <GrapevineListener />
+      <CRow>
+        <CCol xs={12}>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>View all Contexts ({Object.keys(oContexts).length})</strong>
+            </CCardHeader>
+            <CCardBody>
+              <CListGroup>
+                {Object.keys(oContexts).map((key, event) => {
+                  return (
+                    <>
+                      <ShowSingleItem key={key} contextId={key} event={oContexts[key]} />
+                    </>
+                  )
+                })}
+              </CListGroup>
+            </CCardBody>
+          </CCard>
+        </CCol>
+        <Link to="/grapevine/contexts/makeNew">
+          <CButton color="primary">create a new Context</CButton>
+        </Link>
+      </CRow>
+    </>
   )
 }
 

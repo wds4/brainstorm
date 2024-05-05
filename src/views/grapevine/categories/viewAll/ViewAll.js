@@ -54,7 +54,6 @@ const ShowSingleItem = ({ event }) => {
   }
   return (
     <>
-      <GrapevineListener />
       <CListGroupItem
         key={event.id}
         as="a"
@@ -92,25 +91,28 @@ const ShowSingleItem = ({ event }) => {
 const ViewAllCategories = () => {
   const oCategories = useSelector((state) => state.grapevine.categories)
   return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <strong>View all Categories ({Object.keys(oCategories).length})</strong>
-          </CCardHeader>
-          <CCardBody>
-            <CListGroup>
-              {Object.keys(oCategories).map((key, event) => {
-                return <ShowSingleItem key={key} event={oCategories[key]} />
-              })}
-            </CListGroup>
-          </CCardBody>
-        </CCard>
-      </CCol>
-      <Link to="/grapevine/categories/makeNew">
-        <CButton color="primary">create a new Category</CButton>
-      </Link>
-    </CRow>
+    <>
+      <GrapevineListener />
+      <CRow>
+        <CCol xs={12}>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>View all Categories ({Object.keys(oCategories).length})</strong>
+            </CCardHeader>
+            <CCardBody>
+              <CListGroup>
+                {Object.keys(oCategories).map((key, event) => {
+                  return <ShowSingleItem key={key} event={oCategories[key]} />
+                })}
+              </CListGroup>
+            </CCardBody>
+          </CCard>
+        </CCol>
+        <Link to="/grapevine/categories/makeNew">
+          <CButton color="primary">create a new Category</CButton>
+        </Link>
+      </CRow>
+    </>
   )
 }
 

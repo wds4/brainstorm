@@ -17,6 +17,7 @@ import navigationHomeSignedIn from 'src/nav/_navHomeSignedIn'
 import navigationHomeSignedOut from 'src/nav/_navHomeSignedOut'
 import navigationConceptGraph from 'src/nav/_navConceptGraph'
 import navigationGrapevine from 'src/nav/_navGrapevine'
+import navigationNestedLists from 'src/nav/_navNestedLists'
 import { updateSidebarShow, updateSidebarUnfoldable } from 'src/redux/features/ui/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
@@ -31,6 +32,8 @@ function getNavigation(activeApp, signedIn) {
       return navigationConceptGraph
     case 'grapevine':
       return navigationGrapevine
+    case 'nestedLists':
+      return navigationNestedLists
     case 'curatedLists':
       if (!signedIn) {
         return navigationHomeSignedOut

@@ -32,6 +32,9 @@ const MakeNewCategoryRelationship = React.lazy(() =>
 const Contexts = React.lazy(() => import('src/views/grapevine/contexts'))
 const ViewAllContexts = React.lazy(() => import('src/views/grapevine/contexts/viewAll/ViewAll'))
 const MakeNewContext = React.lazy(() => import('src/views/grapevine/contexts/makeNew/MakeNew'))
+const ViewSingleContext = React.lazy(() =>
+  import('src/views/grapevine/contexts/viewSingle/ViewSingle'),
+)
 
 // Trust Attestations
 const TrustAttestations = React.lazy(() => import('src/views/grapevine/trustAttestations'))
@@ -96,6 +99,11 @@ const routes = [
     path: '/grapevine/contexts/viewAll',
     name: 'View All Contexts',
     element: ViewAllContexts,
+  },
+  {
+    path: '/grapevine/contexts/viewSingle',
+    name: 'View Single Context',
+    element: ViewSingleContext,
   },
 
   // Trust Attestations

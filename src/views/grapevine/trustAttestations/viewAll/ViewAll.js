@@ -16,22 +16,22 @@ import { SubmittedBy } from '../../components/submittedBy'
 import GrapevineListener from '../../components/GrapevineListener'
 import { Link } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
-import { cilThumbDown } from '@coreui/icons'
+import { cilThumbDown, cilThumbUp } from '@coreui/icons'
 import { Ratee } from '../../components/Ratee'
 import { ShowContext } from './ShowContext'
 
 const DisplayScore = ({ score }) => {
-  if (score == "0") {
+  if (score == '0') {
     return <CIcon style={{ color: 'red' }} icon={cilThumbDown} />
   }
-  if (score == "100") {
+  if (score == '100') {
     return <CIcon style={{ color: 'green' }} icon={cilThumbUp} />
   }
   return <>{score}</>
 }
 
 // eslint-disable-next-line react/prop-types
-const ShowSingleItem = ({ event }) => {
+const ShowSingleItem = ({ trustAttestationId, event }) => {
   const [showDetailsElementClassName, setShowDetailsElementClassName] = useState('hide')
   const toggleShowDetails = useCallback(async () => {
     if (showDetailsElementClassName == 'hide') {
@@ -53,6 +53,7 @@ const ShowSingleItem = ({ event }) => {
       setShowRawElementClassName('hide')
     }
   }
+  const contextId = fetchFirstByTag('c', event)
   const score = fetchFirstByTag('score', event)
   const comments = event.content
   let oWord = {}
@@ -68,7 +69,6 @@ const ShowSingleItem = ({ event }) => {
   }
   return (
     <>
-      <GrapevineListener />
       <CListGroupItem
         key={event.id}
         as="a"
@@ -79,7 +79,7 @@ const ShowSingleItem = ({ event }) => {
         <Ratee event={event} />
       </CListGroupItem>
       <CCardBody className={showDetailsElementClassName}>
-        <ShowContext event={event} />
+        <ShowContext contextId={contextId} event={event} />
         <CCardBody>
           <small style={{ textDecoration: 'underline' }}>Comments:</small>
           <br />
@@ -88,7 +88,8 @@ const ShowSingleItem = ({ event }) => {
         <SubmittedBy event={event} />
         <CCardBody className="d-flex justify-content-between align-items-right">
           <span>
-            <small style={{ textDecoration: 'underline' }}>editable:</small> <strong>{isEditable}</strong>
+            <small style={{ textDecoration: 'underline' }}>editable:</small>{' '}
+            <strong>{isEditable}</strong>
           </span>
           <CFormSwitch
             style={{ textAlign: 'right' }}
@@ -110,25 +111,36 @@ const ShowSingleItem = ({ event }) => {
 const ViewAllTrustAttestations = () => {
   const oTrustAttestations = useSelector((state) => state.grapevine.trustAttestations)
   return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <strong>View all Trust Attestations ({Object.keys(oTrustAttestations).length})</strong>
-          </CCardHeader>
-          <CCardBody>
-            <CListGroup>
-              {Object.keys(oTrustAttestations).map((key, event) => {
-                return <ShowSingleItem key={key} event={oTrustAttestations[key]} />
-              })}
-            </CListGroup>
-          </CCardBody>
-        </CCard>
-      </CCol>
-      <Link to="/grapevine/trustAttestations/makeNew">
-        <CButton color="primary">create a new Trust Attestation</CButton>
-      </Link>
-    </CRow>
+    <>
+      <GrapevineListener />
+      <CRow>
+        <CCol xs={12}>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>
+                View all Trust Attestations ({Object.keys(oTrustAttestations).length})
+              </strong>
+            </CCardHeader>
+            <CCardBody>
+              <CListGroup>
+                {Object.keys(oTrustAttestations).map((key, event) => {
+                  return (
+                    <ShowSingleItem
+                      key={key}
+                      trustAttestationId={key}
+                      event={oTrustAttestations[key]}
+                    />
+                  )
+                })}
+              </CListGroup>
+            </CCardBody>
+          </CCard>
+        </CCol>
+        <Link to="/grapevine/trustAttestations/makeNew">
+          <CButton color="primary">create a new Trust Attestation</CButton>
+        </Link>
+      </CRow>
+    </>
   )
 }
 

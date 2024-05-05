@@ -11,7 +11,7 @@ const GrapevineListener = () => {
   const dispatch = useDispatch()
 
   const filter = {
-    kinds: [9902, 39902],
+    kinds: [9902, 37069, 39902],
     since: cutoffTime,
     '#P': ['tapestry'],
   }
@@ -48,6 +48,9 @@ const GrapevineListener = () => {
           }
           if (wordType == 'trustAttestation') {
             dispatch(addTrustAttestation({ event, cid }))
+          }
+          if (wordType == 'nestedList') {
+            console.log('fetchEvents_nestedList')
           }
         }
       })

@@ -78,6 +78,10 @@ const AppHeaderDropdown = () => {
           Grapevine
         </CDropdownItem>
         <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Apps</CDropdownHeader>
+        <CDropdownItem href="#/nestedLists" onClick={() => updateActiveApp('nestedLists')}>
+          <CIcon icon={cilList} className="me-2" />
+          Nested Lists
+        </CDropdownItem>
         <CDropdownItem href="#/curatedLists" onClick={() => updateActiveApp('curatedLists')}>
           <CIcon icon={cilList} className="me-2" />
           Curated Lists
