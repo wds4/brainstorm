@@ -19,8 +19,8 @@ const CategorySelector = ({ updateSelectedCategory }) => {
           updateCategory(e)
         }}
       >
-        <option value="" data-description="">
-          in all categories
+        <option value="unselected" selected disabled data-description="">
+          select category
         </option>
         {Object.keys(oCategories).map((key) => {
           const event = oCategories[key]

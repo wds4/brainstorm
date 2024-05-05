@@ -21,9 +21,6 @@ const ContextSelector = ({ updateSelectedContext }) => {
         <option value="unselected" selected disabled data-description="">
           select context
         </option>
-        <option value="*" data-description="">
-          in all contexts
-        </option>
         {Object.keys(oContexts).map((key) => {
           const event = oContexts[key]
           const name = fetchFirstByTag('name', event)

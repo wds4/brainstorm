@@ -19,8 +19,8 @@ const ActionSelector = ({ updateSelectedAction }) => {
           updateAction(e)
         }}
       >
-        <option value="" data-description="">
-          in all actions
+        <option value="unselected" selected disabled data-description="">
+          select action
         </option>
         {Object.keys(oActions).map((key) => {
           const event = oActions[key]

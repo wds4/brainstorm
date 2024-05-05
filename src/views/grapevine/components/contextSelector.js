@@ -20,8 +20,8 @@ const ContextSelector = ({ updateSelectedContext }) => {
           updateContext(e)
         }}
       >
-        <option value="" data-description="">
-          in all contexts
+        <option value="unselected" selected disabled data-description="">
+          select context
         </option>
         {Object.keys(oContexts).map((key) => {
           const event = oContexts[key]
