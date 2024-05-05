@@ -60,7 +60,7 @@ const oEventDefault = {
     ['description', ''],
     ['action', ''],
     ['category', ''],
-    ['d', 'context:' + ''],
+    ['d', 'context_' + ''],
   ],
   created_at: null,
 }
@@ -121,7 +121,7 @@ async function makeWord(
     ['description', description],
     ['action', selectedAction, actionName],
     ['category', selectedCategory, categoryName],
-    ['d', 'context:' + selectedAction + ':' + selectedCategory],
+    ['d', 'context_' + selectedAction + '_' + selectedCategory],
   ]
   oEvent.tags = tags
   oEvent.created_at = Math.floor(Date.now() / 1000)
