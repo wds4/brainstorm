@@ -15,6 +15,7 @@ import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
 import GrapevineListener from '../../components/GrapevineListener'
 import { Link } from 'react-router-dom'
+import { useNostr } from 'nostr-react'
 
 const ViewSingleContext = () => {
   const oContexts = useSelector((state) => state.grapevine.contexts)
@@ -22,6 +23,12 @@ const ViewSingleContext = () => {
   const oContextEvent = oContexts[viewContextId]
   const contextName = fetchFirstByTag('name', oContextEvent)
   const contextDescription = fetchFirstByTag('description', oContextEvent)
+
+  const { publish } = useNostr()
+  const rebroadcastEvent = useCallback(async () => {
+    console.log('rebroadcastEvent: ' + JSON.stringify(oContextEvent, null, 4))
+    publish(oContextEvent)
+  }, [])
   return (
     <CRow>
       <CCol xs={12}>
@@ -31,6 +38,13 @@ const ViewSingleContext = () => {
           </CCardHeader>
           <CCardBody>
             <div>viewContextId: {viewContextId}</div>
+            <CButton
+              onClick={() => {
+                rebroadcastEvent()
+              }}
+            >
+              republish event
+            </CButton>
             <large>{contextDescription}</large>
             <CListGroup>
               <pre>{JSON.stringify(oContextEvent, null, 4)}</pre>

@@ -44,7 +44,7 @@ const App = () => {
           aRelaysUpdated.push(relay)
         }
       })
-      setNdkProviderRelays(aRelaysUpdated)
+      // setNdkProviderRelays(aRelaysUpdated)
     } else {
       // if user has no active relays, then use the default relays
       setNdkProviderRelays(aDefaultRelays)

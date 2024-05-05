@@ -19,49 +19,51 @@ const GrapevineListener = () => {
   // use ndk-react
   const { fetchEvents } = useNDK()
   useEffect(() => {
-    async function updateContextData() {
+    async function updateGrapevineDatabase() {
       const events = await fetchEvents(filter)
       events.forEach((eventNS, item) => {
-        const event = eventNS.rawEvent()
-        let aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
-        if (aTags_w.length > 0) {
-          let cid = event.id
-          const wordType = aTags_w[0][1]
-          if (event.kind >= 30000 && event.kind < 40000) {
-            const tag_d = fetchFirstByTag('d', event)
-            const naddr = nip19.naddrEncode({
-              pubkey: event.pubkey,
-              kind: event.kind,
-              identifier: tag_d,
-              relays: [],
-            })
-            cid = naddr
+        try {
+          const event = eventNS.rawEvent()
+          let aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
+          if (aTags_w.length > 0) {
+            let cid = event.id
+            const wordType = aTags_w[0][1]
+            if (event.kind >= 30000 && event.kind < 40000) {
+              const tag_d = fetchFirstByTag('d', event)
+              const naddr = nip19.naddrEncode({
+                pubkey: event.pubkey,
+                kind: event.kind,
+                identifier: tag_d,
+                relays: [],
+              })
+              cid = naddr
+            }
+            if (wordType == 'action') {
+              dispatch(addAction({ event, cid }))
+            }
+            if (wordType == 'category') {
+              dispatch(addCategory({ event, cid }))
+            }
+            if (wordType == 'context') {
+              // console.log('updateGrapevineDatabase; context; cid: ' + cid)
+              dispatch(addContext({ event, cid }))
+            }
+            if (wordType == 'trustAttestation') {
+              dispatch(addTrustAttestation({ event, cid }))
+            }
+            if (wordType == 'nestedList') {
+              console.log('fetchEvents_nestedList')
+            }
           }
-          if (wordType == 'action') {
-            dispatch(addAction({ event, cid }))
-          }
-          if (wordType == 'category') {
-            dispatch(addCategory({ event, cid }))
-          }
-          if (wordType == 'context') {
-            dispatch(addContext({ event, cid }))
-          }
-          if (wordType == 'trustAttestation') {
-            dispatch(addTrustAttestation({ event, cid }))
-          }
-          if (wordType == 'nestedList') {
-            console.log('fetchEvents_nestedList')
-          }
+        } catch (e) {
+          console.log('updateGrapevineDatabase error: ' + e)
         }
       })
     }
-    updateContextData()
+    updateGrapevineDatabase()
   }, [fetchEvents(filter)])
 
-  return (
-    <>
-    </>
-  )
+  return <></>
 }
 
 export default GrapevineListener

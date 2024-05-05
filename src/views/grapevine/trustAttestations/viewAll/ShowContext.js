@@ -31,7 +31,9 @@ export const ShowContext = ({ contextId, event }) => {
   }
   return (
     <CCardBody>
-      <small style={{ textDecoration: 'underline' }}>Context:</small>
+      <Link onClick={() => updateViewContext(contextId)} to="/grapevine/contexts/viewSingle">
+        <small style={{ textDecoration: 'underline' }}>Context:</small>
+      </Link>
       <Link
         onClick={() => updateViewContext(contextId)}
         to="/grapevine/contexts/viewSingle"
