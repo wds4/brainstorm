@@ -15,7 +15,7 @@ import {
   useColorModes,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilContrast, cilEnvelopeOpen, cilMenu, cilMoon, cilSun } from '@coreui/icons'
+import { cilBell, cilContrast, cilEnvelopeOpen, cilMagnifyingGlass, cilMenu, cilMoon, cilSettings, cilSun } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
@@ -50,22 +50,16 @@ const AppHeader = () => {
               Dashboard
             </CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink href="#/profiles">Find User</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#/settings/generalSettings">Settings</CNavLink>
-          </CNavItem>
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
           <CNavItem>
-            <CNavLink href="#/notifications">
-              <CIcon icon={cilBell} size="lg" />
+            <CNavLink href="#/profiles">
+              <CIcon icon={cilMagnifyingGlass} size="lg" />
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#/directMessages">
-              <CIcon icon={cilEnvelopeOpen} size="lg" />
+            <CNavLink href="#/settings/generalSettings">
+              <CIcon icon={cilSettings} size="lg" />
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
