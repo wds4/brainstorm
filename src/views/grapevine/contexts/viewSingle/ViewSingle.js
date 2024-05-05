@@ -25,10 +25,6 @@ const ViewSingleContext = () => {
   const contextDescription = fetchFirstByTag('description', oContextEvent)
 
   const { publish } = useNostr()
-  const rebroadcastEvent = useCallback(async () => {
-    console.log('rebroadcastEvent: ' + JSON.stringify(oContextEvent, null, 4))
-    publish(oContextEvent)
-  }, [])
   return (
     <CRow>
       <CCol xs={12}>
@@ -38,13 +34,6 @@ const ViewSingleContext = () => {
           </CCardHeader>
           <CCardBody>
             <div>viewContextId: {viewContextId}</div>
-            <CButton
-              onClick={() => {
-                rebroadcastEvent()
-              }}
-            >
-              republish event
-            </CButton>
             <large>{contextDescription}</large>
             <CListGroup>
               <pre>{JSON.stringify(oContextEvent, null, 4)}</pre>
