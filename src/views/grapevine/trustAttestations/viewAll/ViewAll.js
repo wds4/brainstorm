@@ -15,6 +15,20 @@ import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
 import GrapevineListener from '../../components/GrapevineListener'
 import { Link } from 'react-router-dom'
+import CIcon from '@coreui/icons-react'
+import { cilThumbDown } from '@coreui/icons'
+import { Ratee } from '../../components/Ratee'
+import { ShowContext } from './ShowContext'
+
+const DisplayScore = ({ score }) => {
+  if (score == "0") {
+    return <CIcon style={{ color: 'red' }} icon={cilThumbDown} />
+  }
+  if (score == "100") {
+    return <CIcon style={{ color: 'green' }} icon={cilThumbUp} />
+  }
+  return <>{score}</>
+}
 
 // eslint-disable-next-line react/prop-types
 const ShowSingleItem = ({ event }) => {
@@ -39,8 +53,8 @@ const ShowSingleItem = ({ event }) => {
       setShowRawElementClassName('hide')
     }
   }
-  const name = fetchFirstByTag('name', event)
-  const description = fetchFirstByTag('description', event)
+  const score = fetchFirstByTag('score', event)
+  const comments = event.content
   let oWord = {}
   try {
     const sWord = fetchFirstByTag('word', event)
@@ -61,16 +75,20 @@ const ShowSingleItem = ({ event }) => {
         onClick={(e) => toggleShowDetails(e)}
         className="d-flex justify-content-between align-items-center"
       >
-        <strong>{name}</strong>
+        <DisplayScore score={score} />
+        <Ratee event={event} />
       </CListGroupItem>
       <CCardBody className={showDetailsElementClassName}>
+        <ShowContext event={event} />
         <CCardBody>
-          <small>{description}</small>
+          <small style={{ textDecoration: 'underline' }}>Comments:</small>
+          <br />
+          <large>{comments}</large>
         </CCardBody>
         <SubmittedBy event={event} />
         <CCardBody className="d-flex justify-content-between align-items-right">
           <span>
-            <small>editable:</small> <strong>{isEditable}</strong>
+            <small style={{ textDecoration: 'underline' }}>editable:</small> <strong>{isEditable}</strong>
           </span>
           <CFormSwitch
             style={{ textAlign: 'right' }}

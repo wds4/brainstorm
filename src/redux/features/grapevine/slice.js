@@ -27,7 +27,6 @@ export const grapevineSlice = createSlice({
     addTrustAttestation: (state, action) => {
       const event = action.payload.event
       const cid = action.payload.cid
-      console.log('addTrustAttestation; cid: ' + cid)
       state.trustAttestations[cid] = event
     },
     wipeGrapevine: (state, action) => {

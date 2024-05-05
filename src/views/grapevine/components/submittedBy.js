@@ -5,7 +5,6 @@ import { nip19 } from 'nostr-tools'
 import { secsToTimeAgo } from '../../../helpers'
 import { useDispatch } from 'react-redux'
 import { updateNpub } from '../../../redux/features/siteNavigation/slice'
-import { Link } from 'react-router-dom'
 
 // eslint-disable-next-line react/prop-types
 export const SubmittedBy = ({ event }) => {
@@ -28,7 +27,7 @@ export const SubmittedBy = ({ event }) => {
   return (
     <CCardBody className="d-flex justify-content-between align-items-center">
       <span>
-        <small>author:</small>{' '}
+        <small style={{ textDecoration: 'underline' }}>author:</small>{' '}
         <div style={{ display: 'inline-block' }}>
           <CNavLink href="#/profile" onClick={() => setCurrentNpub(npub)}>
             <strong>{author}</strong>

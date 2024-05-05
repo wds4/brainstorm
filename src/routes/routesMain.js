@@ -19,7 +19,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/directMessages', name: 'Direct Messages', element: DiredtMessages },
   { path: '/notifications', name: 'Notifications', element: Notifications },
-  { path: '/profiles', name: 'Profiles', element: Profiles },
+  { path: '/profiles', name: 'Find User', element: Profiles },
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/settings', name: 'Settings', element: Settings, exact: true },
   { path: '/settings/relays', name: 'Relays', element: Relays },
