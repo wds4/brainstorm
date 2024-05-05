@@ -1,21 +1,7 @@
-import React, { useCallback, useState } from 'react'
-import {
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CCol,
-  CRow,
-  CFormSwitch,
-  CListGroupItem,
-  CListGroup,
-  CButton,
-} from '@coreui/react'
+import React from 'react'
+import { CCard, CCardBody, CCardHeader, CCol, CRow, CListGroup } from '@coreui/react'
 import { useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
-import { SubmittedBy } from '../../components/submittedBy'
-import GrapevineListener from '../../components/GrapevineListener'
-import { Link } from 'react-router-dom'
-import { useNostr } from 'nostr-react'
 
 const ViewSingleContext = () => {
   const oContexts = useSelector((state) => state.grapevine.contexts)
@@ -23,8 +9,6 @@ const ViewSingleContext = () => {
   const oContextEvent = oContexts[viewContextId]
   const contextName = fetchFirstByTag('name', oContextEvent)
   const contextDescription = fetchFirstByTag('description', oContextEvent)
-
-  const { publish } = useNostr()
   return (
     <CRow>
       <CCol xs={12}>
