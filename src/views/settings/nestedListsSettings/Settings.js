@@ -3,7 +3,9 @@ import React from 'react'
 const NestedListsSettings = () => {
   return (
     <>
-      <h1>Nested Lists Settings</h1>
+      <center>
+        <h4>Nested Lists Settings</h4>
+      </center>
     </>
   )
 }

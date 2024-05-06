@@ -6,6 +6,7 @@ import { fetchFirstByTag } from 'src/helpers'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { addTrustAttestation } from '../../../redux/features/grapevine/slice'
 import { cutoffTime } from '../../../const'
+import { updateConceptGraphSettingsEvent } from '../../../redux/features/settings/slice'
 
 const GrapevineListener = () => {
   const dispatch = useDispatch()
@@ -28,6 +29,7 @@ const GrapevineListener = () => {
           if (aTags_w.length > 0) {
             let cid = event.id
             const wordType = aTags_w[0][1]
+            console.log('fetchEvents; wordType: ' + wordType)
             if (event.kind >= 30000 && event.kind < 40000) {
               const tag_d = fetchFirstByTag('d', event)
               const naddr = nip19.naddrEncode({
@@ -53,6 +55,10 @@ const GrapevineListener = () => {
             }
             if (wordType == 'nestedList') {
               console.log('fetchEvents_nestedList')
+            }
+            if (wordType == 'conceptGraphSettings') {
+              console.log('fetchEvents_conceptGraphSettings')
+              dispatch(updateConceptGraphSettingsEvent({ event }))
             }
           }
         } catch (e) {

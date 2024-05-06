@@ -4,11 +4,17 @@ import GrapevineSettings from '../grapevineSettings/Settings'
 import ConceptGraphSettings from '../conceptGraphSettings/Settings'
 import TwittrSettings from '../twittrSettings/Settings'
 
-
 // eslint-disable-next-line react/prop-types
 const SettingsContent = ({ whichSettings }) => {
+  const currentTime = Math.floor(Date.now() / 1000)
   if (whichSettings == 'general') {
-    return <>general settings</>
+    return (
+      <>
+        general settings
+        <div>currentTime: {currentTime}</div>
+        <br />
+      </>
+    )
   }
   if (whichSettings == 'grapevine') {
     return <GrapevineSettings />
@@ -75,7 +81,6 @@ const SettingsNavigation = ({ updateWhichSettings }) => {
 }
 
 const GeneralSettings = () => {
-  const currentTime = Math.floor(Date.now() / 1000)
   const [whichSettings, setWhichSettings] = useState('general') // use names of apps: general, grapevine, conceptGraph, twittr
   return (
     <>
@@ -83,8 +88,6 @@ const GeneralSettings = () => {
         <center>
           <h3>Settings</h3>
         </center>
-        <div>currentTime: {currentTime}</div>
-        <br />
         <SettingsNavigation updateWhichSettings={setWhichSettings} />
         <br />
         <SettingsContent whichSettings={whichSettings} />

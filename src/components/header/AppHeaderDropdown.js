@@ -35,6 +35,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { wipeActiveProfile } from '../../redux/features/profile/slice'
 import { updateApp } from '../../redux/features/siteNavigation/slice'
 import { wipeGrapevine } from '../../redux/features/grapevine/slice'
+import { wipeSettings } from '../../redux/features/settings/slice'
 
 const AppHeaderDropdown = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
@@ -43,6 +44,7 @@ const AppHeaderDropdown = () => {
   const runLogout = () => {
     dispatch(wipeActiveProfile())
     dispatch(wipeGrapevine())
+    dispatch(wipeSettings())
     updateActiveApp('home')
   }
   let loggedOut = 'show'

@@ -3,7 +3,9 @@ import React from 'react'
 const TwittrSettings = () => {
   return (
     <>
-      <h1>Twittr Settings</h1>
+      <center>
+        <h4>Twittr Settings</h4>
+      </center>
     </>
   )
 }

@@ -80,6 +80,7 @@ async function makeWord(oProfile, personalRelay) {
 
 const ConceptGraphSettings = () => {
   const oProfile = useSelector((state) => state.profile)
+  const currentPersonalRelay = useSelector((state) => state.settings.conceptGraph.personalRelay)
   const [showRawDataButton, setShowRawDataButton] = useState('hide')
   const [personalRelay, setPersonalRelay] = useState('')
   const [oEvent, setOEvent] = useState(oEventDefault)
@@ -122,26 +123,40 @@ const ConceptGraphSettings = () => {
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>Personal Relay</strong>
+              <strong>Personal Relay</strong>{' '}
+              <small>
+                (use of personal relay is not yet implemented -- need to check if replaceable events
+                is supported?)
+              </small>
             </CCardHeader>
             <CCardBody>
               <CContainer>
-                During the initial development phase of the concept graph, during which time the
-                data formats of words will likely change quite often, your Concept Graph will be
-                stored on a personal relay. This will prevent spamming public relays with large
-                quantities of improperly formatted data. Once data formats are sufficiently
-                established, you will have the option to store some or all of your Concept Graph on
-                public relays. The only data that will be stored on public relays will be your
-                Concept Graph Settings (should this file be encrypted?). This will prevent you from
-                having to retype your personal relay every time you wish to access your Concept
-                Graph.
+                current personal relay: <strong>{currentPersonalRelay}</strong>
+              </CContainer>
+              <br />
+              <CContainer>
+                <p>
+                  During the initial development phase of the concept graph, the protocols and data
+                  formats of words and events will likely change quite often. To prevent spamming
+                  public relays with large quantities of improperly formatted data during this
+                  development phase, your Concept Graph will be stored on a personal relay. The only
+                  data that will be stored on public relays will be your Concept Graph Settings
+                  (should this file be encrypted?). This will prevent you from having to retype your
+                  personal relay every time you wish to access your Concept Graph.
+                </p>
+                <p>
+                  Once data formats are sufficiently established, you will have the option to store
+                  some or all of your Concept Graph on public relays. We anticipate the eventual
+                  development of dedicated relays for storage of concept graph data, possibly
+                  available as a subscription service.
+                </p>
               </CContainer>
               <br />
               <CContainer>
                 <CForm>
                   <CFormInput
                     type="text"
-                    label="input your personal relay"
+                    label="Input your personal relay:"
                     placeholder="wss://..."
                     required
                     value={personalRelay}
@@ -168,7 +183,7 @@ const ConceptGraphSettings = () => {
             <div style={{ display: 'inline-block' }}>
               <CFormSwitch
                 onChange={(e) => toggleShowRawData(e)}
-                label="raw JSON to store settings"
+                label="raw JSON with concept graph settings data"
               />
             </div>
           </div>

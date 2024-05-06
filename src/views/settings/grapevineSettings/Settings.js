@@ -3,7 +3,9 @@ import React from 'react'
 const GrapevineSettings = () => {
   return (
     <>
-      <h1>Grapevine Settings</h1>
+      <center>
+        <h4>Grapevine Settings</h4>
+      </center>
     </>
   )
 }
