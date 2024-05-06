@@ -3,6 +3,8 @@ import { CNavLink } from '@coreui/react'
 import { CCard, CCardBody, CCardHeader, CCardText, CCardTitle, CCol } from '@coreui/react'
 import { useDispatch } from 'react-redux'
 import { updateApp } from '../../redux/features/siteNavigation/slice'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBrain, faBoltLightning, faBolt } from '@fortawesome/free-solid-svg-icons'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -13,7 +15,12 @@ const Dashboard = () => {
     <>
       <center>
         <h3>Pretty Good Apps: Brainstorm</h3>
+        <strong>
+          playground for application of the tapestry protocol to nostr and Web of Trust
+        </strong>
+        <br /><br />
         <div>This site is under construction!</div>
+        <br />
       </center>
       <CCol lg={4} key="0">
         <CNavLink href="#/grapevine" onClick={() => updateActiveApp('grapevine')}>

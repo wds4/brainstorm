@@ -16,10 +16,21 @@ const GrapevineDashboard = () => {
       <GrapevineListener />
       <center>
         <h3>Grapevine Dashboard</h3>
+        <br />
         <div>This app is under construction!</div>
       </center>
       <br />
       <DocsExample href="components/widgets/#cwidgetstatsf">
+        <CRow xs={{ gutter: 1 }}>
+          <div>
+            Create <span style={{ fontStyle: 'italic' }}>context-specific</span> trust attestations.
+          </div>
+          <div>
+            Each context is defined by an <span style={{ fontStyle: 'italic' }}>action</span> and a{' '}
+            <span style={{ fontStyle: 'italic' }}>category</span>.
+          </div>
+        </CRow>
+        <br />
         <CRow xs={{ gutter: 4 }}>
           <CCol xs={12} sm={6} xl={4} xxl={3}>
             <CNavLink href="#/grapevine/trustAttestations/viewAll">
