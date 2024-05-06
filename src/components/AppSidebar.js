@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-
 import {
   CCloseButton,
   CSidebar,
@@ -9,7 +8,6 @@ import {
   CSidebarHeader,
   CSidebarToggler,
 } from '@coreui/react'
-
 import { AppSidebarNav } from 'src/components/AppSidebarNav'
 
 // sidebar nav config
@@ -20,6 +18,9 @@ import navigationGrapevine from 'src/nav/_navGrapevine'
 import navigationNestedLists from 'src/nav/_navNestedLists'
 import { updateSidebarShow, updateSidebarUnfoldable } from 'src/redux/features/ui/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBrain, faBoltLightning, faBolt } from '@fortawesome/free-solid-svg-icons'
 
 function getNavigation(activeApp, signedIn) {
   switch (activeApp) {
@@ -87,7 +88,7 @@ const AppSidebar = () => {
           onClick={() => updateActiveApp('home')}
           style={{ textDecoration: 'none', fontSize: '22px', fontFamily: 'arial' }}
         >
-          brainSToRm
+          <FontAwesomeIcon icon={faBrain} /> brainSToRm <FontAwesomeIcon icon={faBoltLightning} />
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"
