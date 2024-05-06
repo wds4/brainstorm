@@ -86,9 +86,13 @@ const AppSidebar = () => {
         <CSidebarBrand
           href="#/dashboard"
           onClick={() => updateActiveApp('home')}
-          style={{ textDecoration: 'none', fontSize: '22px', fontFamily: 'arial' }}
+          style={{ textDecoration: 'none' }}
         >
-          <FontAwesomeIcon icon={faBrain} /> brainSToRm <FontAwesomeIcon icon={faBoltLightning} />
+          <img
+            src="./brainstorm010_white.svg"
+            style={{ height: '25px', marginLeft: '8px', marginRight: '10px' }}
+          />
+          brainSToRm
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"
@@ -105,3 +109,7 @@ const AppSidebar = () => {
 }
 
 export default React.memo(AppSidebar)
+
+/*
+<FontAwesomeIcon icon={faBrain} /> brainSToRm <FontAwesomeIcon icon={faBoltLightning} />
+*/
