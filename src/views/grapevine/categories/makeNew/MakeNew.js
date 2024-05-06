@@ -58,7 +58,7 @@ const oEventDefault = {
     ['w', 'category'],
     ['name', ''],
     ['description', ''],
-    ['d', 'category:' + ''],
+    ['d', 'category_' + ''],
   ],
   created_at: null,
 }
@@ -83,7 +83,7 @@ async function makeWord(oProfile, name, description, makeEditable) {
     ['w', 'category'],
     ['name', name],
     ['description', description],
-    ['d', 'category:' + name],
+    ['d', 'category_' + name],
   ]
   oEvent.tags = tags
   oEvent.created_at = Math.floor(Date.now() / 1000)

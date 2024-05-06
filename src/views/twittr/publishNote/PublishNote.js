@@ -7,16 +7,11 @@ import {
   CRow,
   CButton,
   CForm,
-  CFormInput,
-  CFormSwitch,
   CFormTextarea,
   CCardTitle,
 } from '@coreui/react'
-import { useNDK } from '@nostr-dev-kit/ndk-react'
-import NDK, { NDKEvent, NDKNip07Signer } from '@nostr-dev-kit/ndk'
 import { signEventPGA } from '../../../helpers/signers'
 import { useSelector } from 'react-redux'
-import { aDefaultRelays } from '../../../const'
 import { useNostr } from 'nostr-react'
 
 const PublishNote = () => {
@@ -24,10 +19,6 @@ const PublishNote = () => {
   const [content, setContent] = useState('')
   const [submitEventButtonClassName, setSubmitEventButtonClassName] = useState('mt-3')
   const [createAnotherElementClassName, setCreateAnotherElementClassName] = useState('hide')
-
-  const { signPublishEvent } = useNDK()
-  const nip07signer = new NDKNip07Signer()
-  const ndk = new NDK({ signer: nip07signer, explicitRelayUrls: aDefaultRelays })
 
   const handleContentChange = useCallback(
     async (e) => {

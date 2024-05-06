@@ -17,10 +17,6 @@ import { signEventPGA } from '../../../../helpers/signers'
 import { useSelector } from 'react-redux'
 import { useNostr } from 'nostr-react'
 
-import { NDKEvent } from '@nostr-dev-kit/ndk'
-import { useNDK } from '@nostr-dev-kit/ndk-react'
-// const { signPublishEvent } = useNDK()
-
 // eslint-disable-next-line react/prop-types
 const RawData = ({ showRawDataButton, oEvent }) => {
   if (showRawDataButton == 'hide') {
@@ -60,7 +56,7 @@ const oEventDefault = {
     ['w', 'action'],
     ['name', ''],
     ['description', ''],
-    ['d', 'action:' + ''],
+    ['d', 'action_' + ''],
   ],
   created_at: null,
 }
@@ -89,7 +85,7 @@ async function makeWord(oProfile, name, description, makeEditable) {
     ['w', 'action'],
     ['name', name],
     ['description', description],
-    ['d', 'action:' + name],
+    ['d', 'action_' + name],
   ]
   // oEventNDK.tags = tags
   oEvent.tags = tags

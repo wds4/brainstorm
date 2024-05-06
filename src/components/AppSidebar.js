@@ -87,7 +87,7 @@ const AppSidebar = () => {
           onClick={() => updateActiveApp('home')}
           style={{ textDecoration: 'none', fontSize: '22px', fontFamily: 'arial' }}
         >
-          Brainstorm
+          brainSToRm
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"

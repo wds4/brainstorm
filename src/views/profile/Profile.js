@@ -1,9 +1,25 @@
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { CAvatar, CCol, CContainer, CRow } from '@coreui/react'
+import { CAvatar, CCol, CContainer, CNav, CNavLink, CRow } from '@coreui/react'
 import LeaveTrustAttestation from './leaveTrustAttestation'
 
+const ProfileNavigation = () => {
+  return (
+    <CNav as="nav" variant="tabs" layout="fill" className="flex-column flex-sm-row">
+      <CNavLink href="#" disabled>
+        About
+      </CNavLink>
+      <CNavLink>Notes</CNavLink>
+      <CNavLink href="#" active>
+        Leave Rating
+      </CNavLink>
+      <CNavLink>Ratings of</CNavLink>
+      <CNavLink>Ratings by</CNavLink>
+      <CNavLink>WoT Scores</CNavLink>
+    </CNav>
+  )
+}
 const Profile = () => {
   const { getProfile } = useNDK()
   const npub = useSelector((state) => state.siteNavigation.npub)
@@ -47,6 +63,8 @@ const Profile = () => {
           <small>{npub}</small>
         </CCol>
       </CRow>
+      <ProfileNavigation />
+      <br />
       <CRow>
         <LeaveTrustAttestation rateeNpub={npub} />
       </CRow>
