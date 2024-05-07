@@ -35,12 +35,10 @@ const App = () => {
   // keep nostr relays updated based on user profile
   const aActiveRelays = useSelector((state) => state.settings.general.aActiveRelays)
   const loginRelayUrl = useSelector((state) => state.settings.general.loginRelayUrl)
-  console.log('QWERTY loginRelayUrl: ' + loginRelayUrl)
   let aStarterRelays = aDefaultRelays
   if (loginRelayUrl) {
     aStarterRelays = [loginRelayUrl]
   }
-  console.log('QWERTY aStarterRelays: ' + JSON.stringify(aStarterRelays))
   const [ndkProviderRelays, setNdkProviderRelays] = useState(aStarterRelays)
 
   /*
