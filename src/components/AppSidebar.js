@@ -16,6 +16,8 @@ import navigationHomeSignedOut from 'src/nav/_navHomeSignedOut'
 import navigationConceptGraph from 'src/nav/_navConceptGraph'
 import navigationGrapevine from 'src/nav/_navGrapevine'
 import navigationNestedLists from 'src/nav/_navNestedLists'
+import navigationWikifreedia from 'src/nav/_navWikifreedia'
+import navigationTwittr from 'src/nav/_navTwittr'
 import { updateSidebarShow, updateSidebarUnfoldable } from 'src/redux/features/ui/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
@@ -41,15 +43,9 @@ function getNavigation(activeApp, signedIn) {
       }
       return navigationHomeSignedIn
     case 'wikifreedia':
-      if (!signedIn) {
-        return navigationHomeSignedOut
-      }
-      return navigationHomeSignedIn
+      return navigationWikifreedia
     case 'twittr':
-      if (!signedIn) {
-        return navigationHomeSignedOut
-      }
-      return navigationHomeSignedIn
+      return navigationTwittr
     default:
       if (!signedIn) {
         return navigationHomeSignedOut

@@ -8,7 +8,6 @@ const TwittrDashboard = () => {
         <h3>Twittr Dashboard</h3>
         <div>This app is under construction!</div>
       </center>
-      <PublishNote />
     </>
   )
 }

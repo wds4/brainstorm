@@ -7,13 +7,9 @@ import {
   CRow,
   CButton,
   CForm,
-  CFormInput,
   CFormSwitch,
   CFormTextarea,
   CCardTitle,
-  CFormLabel,
-  CFormRange,
-  CContainer,
   CCardText,
   CPopover,
 } from '@coreui/react'
@@ -335,7 +331,7 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>Make New Trust Attestation</strong>
+            <strong>Leave a Trust Attestation for this user.</strong>
           </CCardHeader>
           <CCardBody>
             <CForm>

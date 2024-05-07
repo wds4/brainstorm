@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CCardBody, CFormSelect } from '@coreui/react'
+import { CFormSelect } from '@coreui/react'
 import { useSelector } from 'react-redux'
 import { fetchFirstByTag } from 'src/helpers'
 
