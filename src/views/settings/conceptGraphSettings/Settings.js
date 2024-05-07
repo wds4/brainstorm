@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   CCard,
   CCardBody,
@@ -9,8 +9,6 @@ import {
   CForm,
   CFormInput,
   CFormSwitch,
-  CFormTextarea,
-  CCardTitle,
   CContainer,
 } from '@coreui/react'
 import { useSelector } from 'react-redux'
@@ -55,10 +53,11 @@ const oEventDefault = {
   created_at: null,
 }
 
-async function makeWord(oProfile, personalRelay) {
+async function makeWord(oProfile, personalRelay, aActiveRelaysGroups) {
   const oWord = {
     conceptGraphSettingsData: {
       personalRelay: personalRelay,
+      activeRelayGroups: aActiveRelaysGroups,
     },
   }
   const sWord = JSON.stringify(oWord)
@@ -81,8 +80,9 @@ async function makeWord(oProfile, personalRelay) {
 const ConceptGraphSettings = () => {
   const oProfile = useSelector((state) => state.profile)
   const currentPersonalRelay = useSelector((state) => state.settings.conceptGraph.personalRelay)
+  const aActiveRelaysGroups = useSelector((state) => state.settings.general.aActiveRelaysGroups)
   const [showRawDataButton, setShowRawDataButton] = useState('hide')
-  const [personalRelay, setPersonalRelay] = useState('')
+  const [personalRelay, setPersonalRelay] = useState(currentPersonalRelay)
   const [oEvent, setOEvent] = useState(oEventDefault)
   const [updateRelaySuccessClassName, setUpdateRelaySuccessClassName] = useState('hide')
 
@@ -101,12 +101,25 @@ const ConceptGraphSettings = () => {
     async (e) => {
       const newPersonalRelay = e.target.value
       setPersonalRelay(newPersonalRelay)
-      const oEvent = await makeWord(oProfile, newPersonalRelay)
+      const oEvent = await makeWord(oProfile, newPersonalRelay, aActiveRelaysGroups)
       setOEvent(oEvent)
       setUpdateRelaySuccessClassName('hide')
     },
     [oEvent, personalRelay],
   )
+
+  const initializeWordAndEvent = useCallback(async () => {
+    const oEvent = await makeWord(oProfile, currentPersonalRelay, aActiveRelaysGroups)
+    setOEvent(oEvent)
+    setUpdateRelaySuccessClassName('hide')
+  }, [])
+
+  // create word upon initial page render
+  // for some reason if I make useEffect async, I get an error when I exit from this page
+  useEffect(() => {
+    initializeWordAndEvent()
+  }, [])
+
   const { publish } = useNostr()
 
   const publishUpdatedConceptGraphSettings = useCallback(async () => {
@@ -160,7 +173,7 @@ const ConceptGraphSettings = () => {
                     placeholder="wss://..."
                     required
                     value={personalRelay}
-                    onChange={handlePersonalRelayChange}
+                    onChange={(e) => handlePersonalRelayChange(e)}
                   />
                 </CForm>
               </CContainer>

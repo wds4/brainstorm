@@ -8,7 +8,7 @@ const Profiles = React.lazy(() => import('src/views/profiles/Profiles'))
 const Profile = React.lazy(() => import('src/views/profile/Profile'))
 
 // Settings
-const Settings = React.lazy(() => import('src/views/settings/generalSettings/GeneralSettings'))
+const Settings = React.lazy(() => import('src/views/settings/settings/Settings'))
 const Relays = React.lazy(() => import('src/views/settings/relays/Relays'))
 
 // My Profile
@@ -23,7 +23,7 @@ const routes = [
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/settings', name: 'Settings', element: Settings, exact: true },
   { path: '/settings/relays', name: 'Relays', element: Relays },
-  { path: '/settings/generalSettings', name: 'Settings', element: Settings },
+  { path: '/settings/settings', name: 'Settings', element: Settings },
   { path: '/myProfile', name: 'My Profile', element: Settings, exact: true },
   { path: '/myProfile/myProfile', name: 'My Profile', element: MyProfile },
   { path: '/myProfile/follows', name: 'Follows', element: Follows },

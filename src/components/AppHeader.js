@@ -58,7 +58,7 @@ const AppHeader = () => {
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#/settings/generalSettings">
+            <CNavLink href="#/settings/settings">
               <CIcon icon={cilSettings} size="lg" />
             </CNavLink>
           </CNavItem>

@@ -1,7 +1,10 @@
 import React from 'react'
-import PublishNote from './publishNote/PublishNote'
+import { useDispatch } from 'react-redux'
+import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
 const TwittrDashboard = () => {
+  const dispatch = useDispatch()
+  dispatch(updateApp('twittr'))
   return (
     <>
       <center>

@@ -1,12 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
 import { cilBolt, cilBoltCircle, cilCircle, cilThumbUp } from '@coreui/icons'
-import GrapevineListener from './components/GrapevineListener'
+import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
+import { updateApp } from '../../redux/features/siteNavigation/slice'
 
 const GrapevineDashboard = () => {
+  const dispatch = useDispatch()
+  dispatch(updateApp('grapevine'))
   const oActions = useSelector((state) => state.grapevine.actions)
   const oCategories = useSelector((state) => state.grapevine.categories)
   const oContexts = useSelector((state) => state.grapevine.contexts)

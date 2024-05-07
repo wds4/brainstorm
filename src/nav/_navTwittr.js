@@ -1,14 +1,14 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { cibTwitter, cilGraph, cilNoteAdd, cilSpeedometer } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { cibTwitter, cilPencil, cilSpeedometer } from '@coreui/icons'
+import { CNavItem } from '@coreui/react'
 
 const _nav = [
   {
     component: CNavItem,
-    name: 'Twittr',
+    name: 'Twittr Dashboard',
     to: '/twittr',
-    icon: <CIcon icon={cibTwitter} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
@@ -20,7 +20,7 @@ const _nav = [
     component: CNavItem,
     name: 'Twittr Post Note',
     to: '/twittr/postNote',
-    icon: <CIcon icon={cilNoteAdd} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
 ]
 

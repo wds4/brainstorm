@@ -23,7 +23,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Settings',
-        to: '/settings/generalSettings',
+        to: '/settings/settings',
       },
       {
         component: CNavItem,

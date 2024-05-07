@@ -37,6 +37,8 @@ import { updateApp } from '../../redux/features/siteNavigation/slice'
 import { wipeGrapevine } from '../../redux/features/grapevine/slice'
 import { wipeSettings } from '../../redux/features/settings/slice'
 import { wipeTwittr } from '../../redux/features/twittr/slice'
+import sessionStorage from 'redux-persist/es/storage/session'
+import localStorage from 'redux-persist/es/storage'
 
 const AppHeaderDropdown = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
@@ -47,6 +49,8 @@ const AppHeaderDropdown = () => {
     dispatch(wipeGrapevine())
     dispatch(wipeSettings())
     dispatch(wipeTwittr())
+    sessionStorage.clear()
+    localStorage.clear()
     updateActiveApp('home')
   }
   let loggedOut = 'show'
@@ -114,7 +118,7 @@ const AppHeaderDropdown = () => {
           </CDropdownItem>
         </div>
         <CDropdownHeader className="bg-body-secondary fw-semibold my-2">Settings</CDropdownHeader>
-        <CDropdownItem href="#/settings/generalSettings" onClick={() => updateActiveApp('home')}>
+        <CDropdownItem href="#/settings/settings" onClick={() => updateActiveApp('home')}>
           <CIcon icon={cilSettings} className="me-2" />
           Settings
         </CDropdownItem>

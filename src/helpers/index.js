@@ -93,3 +93,50 @@ export const secsToTimeAgo = (secs) => {
 
   return displayTime
 }
+
+export const removeDuplicatesFromArrayOfStrings = (aIn) => {
+  const aOut = []
+  aIn.forEach((element) => {
+    if (!aOut.includes(element)) {
+      aOut.push(element)
+    }
+  })
+  return aOut
+}
+
+export const convertNameToSlug = (name) => {
+  var slug = name
+  if (name) {
+    var slug = ''
+    var aChunks = name.split(' ')
+    for (var c = 0; c < aChunks.length; c++) {
+      var nextChunk = aChunks[c]
+      if (nextChunk) {
+        if (c > 0) {
+          nextChunk = nextChunk[0].toUpperCase() + nextChunk.substring(1)
+        }
+        slug += nextChunk
+      }
+    }
+  }
+  return slug
+}
+
+export const convertNameToTitle = (name) => {
+  var title = name
+  if (name) {
+    var title = ''
+    var aChunks = name.split(' ')
+    for (var c = 0; c < aChunks.length; c++) {
+      var nextChunk = aChunks[c]
+      if (nextChunk) {
+        nextChunk = nextChunk[0].toUpperCase() + nextChunk.substring(1)
+        title += nextChunk
+        if (c < aChunks.length - 1) {
+          title += ' '
+        }
+      }
+    }
+  }
+  return title
+}

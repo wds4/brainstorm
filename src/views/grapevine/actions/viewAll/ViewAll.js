@@ -13,7 +13,7 @@ import {
 import { useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
-import GrapevineListener from '../../components/GrapevineListener'
+import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
 import { Link } from 'react-router-dom'
 
 // eslint-disable-next-line react/prop-types

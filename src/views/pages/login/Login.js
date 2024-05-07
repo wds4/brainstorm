@@ -25,8 +25,9 @@ import {
   updateNpub,
   updatePubkey,
 } from '../../../redux/features/profile/slice'
+import { updateLoginRelayUrl } from '../../../redux/features/settings/slice'
 
-const LoginWithExtension = () => {
+const LoginWithExtension = ({ loginPath }) => {
   const [nip07ExtensionAvailable, setNip07ExtensionAvailable] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -68,7 +69,7 @@ const LoginWithExtension = () => {
       <>
         <CCardBody>
           <CCardTitle>Browser extension detected!</CCardTitle>
-          <Link to="/dashboard">
+          <Link to={loginPath}>
             <CButton
               color="primary"
               className="mt-1"
@@ -101,6 +102,9 @@ const Login = () => {
   const [hexKey, setHexKey] = useState('')
   const [npub, setNpub] = useState('')
   const [pubkey, setPubkey] = useState('')
+
+  const [privateRelay, setPrivateRelay] = useState('')
+  const [loginPath, setLoginPath] = useState('/dashboard?relays=default')
 
   const dispatch = useDispatch()
 
@@ -146,6 +150,18 @@ const Login = () => {
     [setNsec, setHexKey, setNpub, setError],
   )
 
+  const handlePrivateRelay = useCallback((e) => {
+    const relayUrl = e.target.value
+    setPrivateRelay(relayUrl)
+    dispatch(updateLoginRelayUrl(relayUrl))
+    console.log('handlePrivateRelay; relayUrl: ' + relayUrl)
+    if (relayUrl) {
+      setLoginPath('/dashboard?relays=private')
+    } else {
+      setLoginPath('/dashboard?relays=default')
+    }
+  }, [])
+
   const loginWithNsec = useCallback(async () => {
     if (!hexKey) return
 
@@ -170,7 +186,7 @@ const Login = () => {
                   <CCardTitle>Nostr Login</CCardTitle>
                 </center>
               </CCardBody>
-              <LoginWithExtension />
+              <LoginWithExtension loginPath={loginPath} />
               <center>
                 <CCardTitle>or</CCardTitle>
               </center>
@@ -201,18 +217,19 @@ const Login = () => {
                     disabled
                     value={npub}
                   />
+                  <br />
+                  <Link to={loginPath}>
+                    <CButton
+                      color="primary"
+                      className="mt-3"
+                      active
+                      tabIndex={-1}
+                      onClick={loginWithNsec}
+                    >
+                      Sign in
+                    </CButton>
+                  </Link>
                 </CForm>
-                <Link to="/dashboard">
-                  <CButton
-                    color="primary"
-                    className="mt-3"
-                    active
-                    tabIndex={-1}
-                    onClick={loginWithNsec}
-                  >
-                    Sign in
-                  </CButton>
-                </Link>
               </CCardBody>
             </CCard>
           </CRow>
@@ -223,3 +240,27 @@ const Login = () => {
 }
 
 export default Login
+
+                  /*
+                  <hr />
+                  <div>OPTIONAL / EXPERIMENTAL:</div>
+                  <div>
+                    Currently, the relay list is static. Eventually we will enable dynamic relay
+                    management in the Settings. But for now ...
+                  </div>
+                  <div>
+                    If the below field is empty, a set of default relays will be used. If filled in,
+                    only that relay will be used.
+                  </div>
+                  <div>
+                    Use this if experimenting with the Concept Graph and if you have your own relay.
+                  </div>
+                  <div>ws://umbrel.local:4848</div>
+                  <CFormInput
+                    type="text"
+                    placeholder="wss://..."
+                    label="Enter your private relay:"
+                    value={privateRelay}
+                    onChange={handlePrivateRelay}
+                  />
+                  */

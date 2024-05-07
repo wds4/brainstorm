@@ -1,97 +1,121 @@
 import React, { useCallback, useState } from 'react'
-import { CAvatar, CCol, CContainer, CNav, CNavLink, CRow } from '@coreui/react'
-import GrapevineSettings from '../grapevineSettings/Settings'
-import ConceptGraphSettings from '../conceptGraphSettings/Settings'
-import TwittrSettings from '../twittrSettings/Settings'
-
-// eslint-disable-next-line react/prop-types
-const SettingsContent = ({ whichSettings }) => {
-  const currentTime = Math.floor(Date.now() / 1000)
-  if (whichSettings == 'general') {
-    return (
-      <>
-        general settings
-        <div>currentTime: {currentTime}</div>
-        <br />
-      </>
-    )
-  }
-  if (whichSettings == 'grapevine') {
-    return <GrapevineSettings />
-  }
-  if (whichSettings == 'conceptGraph') {
-    return <ConceptGraphSettings />
-  }
-  if (whichSettings == 'twittr') {
-    return <TwittrSettings />
-  }
-  return <>general settings</>
-}
-// eslint-disable-next-line react/prop-types
-const SettingsNavigation = ({ updateWhichSettings }) => {
-  const [isGeneral, setIsGeneral] = useState(true)
-  const [isGrapevine, setIsGrapevine] = useState(false)
-  const [isConceptGraph, setIsConceptGraph] = useState(false)
-  const [isTwittr, setIsTwittr] = useState(false)
-
-  const setAllOptionsToFalse = () => {
-    setIsGeneral(false)
-    setIsGrapevine(false)
-    setIsConceptGraph(false)
-    setIsTwittr(false)
-  }
-
-  const setActiveTabGeneral = () => {
-    setAllOptionsToFalse()
-    setIsGeneral(true)
-    updateWhichSettings('general')
-  }
-  const setActiveTabGrapevine = () => {
-    setAllOptionsToFalse()
-    setIsGrapevine(true)
-    updateWhichSettings('grapevine')
-  }
-  const setActiveTabConceptGraph = () => {
-    setAllOptionsToFalse()
-    setIsConceptGraph(true)
-    updateWhichSettings('conceptGraph')
-  }
-  const setActiveTabTwittr = () => {
-    setAllOptionsToFalse()
-    setIsTwittr(true)
-    updateWhichSettings('twittr')
-  }
-
-  return (
-    <CNav as="nav" variant="tabs" layout="fill" className="flex-column flex-sm-row">
-      <CNavLink active={isGeneral} onClick={setActiveTabGeneral}>
-        General
-      </CNavLink>
-      <CNavLink active={isGrapevine} onClick={setActiveTabGrapevine}>
-        Grapevine
-      </CNavLink>
-      <CNavLink active={isConceptGraph} onClick={setActiveTabConceptGraph}>
-        Concept Graph
-      </CNavLink>
-      <CNavLink active={isTwittr} onClick={setActiveTabTwittr}>
-        Twittr
-      </CNavLink>
-    </CNav>
-  )
-}
+import { CCard, CCardBody, CCardHeader, CCol, CRow, CFormSwitch } from '@coreui/react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateActiveRelays, updateActiveRelaysGroups } from 'src/redux/features/settings/slice'
+import { aDefaultRelays } from 'src/const'
+import { removeDuplicatesFromArrayOfStrings } from 'src/helpers'
 
 const GeneralSettings = () => {
-  const [whichSettings, setWhichSettings] = useState('general') // use names of apps: general, grapevine, conceptGraph, twittr
+  const aActiveRelays = useSelector((state) => state.settings.general.aActiveRelays)
+  const aActiveRelaysGroups = useSelector((state) => state.settings.general.aActiveRelaysGroups)
+  const personalRelay = useSelector((state) => state.settings.conceptGraph.personalRelay)
+  const myCurrentProfileKind3Relays = useSelector((state) => state.profile.kind3.relays)
+
+  const dispatch = useDispatch()
+
+  const [isDefault, setIsDefault] = useState(aActiveRelaysGroups.includes('default'))
+  const [isProfile, setIsProfile] = useState(aActiveRelaysGroups.includes('profile'))
+  const [isPersonalRelay, setIsPersonalRelay] = useState(
+    aActiveRelaysGroups.includes('personalRelay'),
+  )
+
+  const currentTime = Math.floor(Date.now() / 1000)
+
+  const changeActiveRelaysGroups = useCallback(
+    (groupName) => {
+      const aNewActiveRelaysGroups = []
+      let aNewActiveRelays = []
+      let includeDefault = isDefault
+      let includeProfile = isProfile
+      let includePersonalRelay = isPersonalRelay
+      if (groupName == 'default') {
+        includeDefault = !isDefault
+      }
+      if (groupName == 'profile') {
+        includeProfile = !isProfile
+      }
+      if (groupName == 'personalRelay') {
+        includePersonalRelay = !isPersonalRelay
+      }
+
+      if (includeDefault) {
+        aNewActiveRelaysGroups.push('default')
+        aNewActiveRelays = aNewActiveRelays.concat(aDefaultRelays)
+      }
+      if (includeProfile) {
+        aNewActiveRelaysGroups.push('profile')
+        aNewActiveRelays = aNewActiveRelays.concat(Object.keys(myCurrentProfileKind3Relays))
+      }
+      if (includePersonalRelay) {
+        aNewActiveRelaysGroups.push('personalRelay')
+        if (personalRelay) {
+          aNewActiveRelays = aNewActiveRelays.concat(personalRelay)
+        }
+      }
+      dispatch(updateActiveRelaysGroups(aNewActiveRelaysGroups))
+      aNewActiveRelays = removeDuplicatesFromArrayOfStrings(aNewActiveRelays)
+      dispatch(updateActiveRelays(aNewActiveRelays))
+    },
+    [isDefault, isProfile, isPersonalRelay],
+  )
+
+  const processChange = useCallback(
+    (groupName) => {
+      if (groupName == 'default') {
+        setIsDefault(!isDefault)
+      }
+      if (groupName == 'profile') {
+        setIsProfile(!isProfile)
+      }
+      if (groupName == 'personalRelay') {
+        setIsPersonalRelay(!isPersonalRelay)
+      }
+      changeActiveRelaysGroups(groupName)
+    },
+    [isDefault, isProfile, isPersonalRelay],
+  )
+
   return (
     <>
-      <CContainer fluid>
-        <center>
-          <h3>Settings</h3>
-        </center>
-        <SettingsNavigation updateWhichSettings={setWhichSettings} />
-        <br />
-        <SettingsContent whichSettings={whichSettings} />
-      </CContainer>
+      <center>
+        <h4>General Settings</h4>
+        <div>currentTime: {currentTime}</div>
+      </center>
+      <CRow>
+        <CCol xs={12}>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>Relay Groups</strong> <small>Select which relay groups to be active.</small>
+            </CCardHeader>
+            <CCardBody>
+              <div>NOT YET FULLY FUNCTIONAL</div>
+              <CFormSwitch
+                label="brainstorm app default relays"
+                checked={isDefault}
+                onChange={() => {
+                  processChange('default')
+                }}
+              />
+              <CFormSwitch
+                label="your nostr profile relays"
+                checked={isProfile}
+                onChange={() => {
+                  processChange('profile')
+                }}
+              />
+              <CFormSwitch
+                label="your concept graph personal relay (see Concept Graph settings for details)"
+                checked={isPersonalRelay}
+                onChange={() => {
+                  processChange('personalRelay')
+                }}
+              />
+              <div>aActiveRelaysGroups: {JSON.stringify(aActiveRelaysGroups, null, 4)}</div>
+              <div>aActiveRelays: {JSON.stringify(aActiveRelays, null, 4)}</div>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
     </>
   )
 }

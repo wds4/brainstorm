@@ -5,6 +5,7 @@ import siteNavigationReducer from './features/siteNavigation/slice'
 import grapevineReducer from './features/grapevine/slice'
 import settingsReducer from './features/settings/slice'
 import twittrReducer from './features/twittr/slice'
+import conceptGraphReducer from './features/conceptGraph/slice'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2'
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   grapevine: grapevineReducer,
   settings: settingsReducer,
   twittr: twittrReducer,
+  conceptGraph: conceptGraphReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

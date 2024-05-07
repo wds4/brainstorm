@@ -15,7 +15,7 @@ import {
 import { signEventPGA } from 'src/helpers/signers'
 import { useSelector } from 'react-redux'
 import { useNostr } from 'nostr-react'
-import { fetchFirstByTag } from '../../../../helpers'
+import { convertNameToSlug, convertNameToTitle, fetchFirstByTag } from '../../../../helpers'
 
 const oEventDefault = {
   content: '',
@@ -34,21 +34,54 @@ const oEventDefault = {
 }
 
 async function makeWord(oProfile, nameSingular, namePlural, description) {
-  const path = nameSingular + 'Data'
+  const slugSingular = convertNameToSlug(nameSingular)
+  const slugPlural = convertNameToSlug(namePlural)
+  const titleSingular = convertNameToTitle(nameSingular)
+  const titlePlural = convertNameToTitle(namePlural)
+  const propertyPath = slugSingular + 'Data'
+
+  const currentTime = Math.floor(Date.now() / 1000)
+
   const oWord = {
     wordTypeData: {
-      name: {
+      oSlug: {
+        singular: slugSingular,
+        plural: slugPlural,
+      },
+      oName: {
         singular: nameSingular,
         plural: namePlural,
       },
+      oTitle: {
+        singular: titleSingular,
+        plural: titlePlural,
+      },
       description: description,
-      path: path,
+      propertyPath: propertyPath,
     },
   }
   const sWord = JSON.stringify(oWord)
+
+  // This is used to generate a unique hash value, similar to the IPNS hash of a file
+  // Effectively, the key is composed of the timestamp
+  // Alternative: put nameSingular, namePlural in the content field, eg content = nameSingular + '_' + namePlural
+
+  const oKey = {
+    kind: 0,
+    content: '',
+    created_at: currentTime,
+    tags: [],
+  }
+
+  const immutableNamingSystemHash = await signEventPGA(oProfile, oKey)
+
+  const kind = 39902
+  const d_tag_value = immutableNamingSystemHash.sig
   const oEvent = oEventDefault
   oEvent.content = ''
-  oEvent.kind = 39902
+  oEvent.kind = kind
+  oEvent.created_at = currentTime
+  // const a_tag_value = kind + ':' + oProfile?.pubkey + ':' + d_tag_value // INCORRECT - a tag does not go here
   const tags = [
     ['P', 'tapestry'],
     ['word', sWord],
@@ -57,10 +90,9 @@ async function makeWord(oProfile, nameSingular, namePlural, description) {
     ['nameSingular', nameSingular],
     ['namePlural', namePlural],
     ['description', description],
-    ['d', 'wordType_' + nameSingular],
+    ['d', d_tag_value],
   ]
   oEvent.tags = tags
-  oEvent.created_at = Math.floor(Date.now() / 1000)
   const oEvent_signed = await signEventPGA(oProfile, oEvent)
   return oEvent_signed
 }
@@ -112,16 +144,19 @@ const MakeNewWordType = () => {
   )
 
   const publishWordType = useCallback(async () => {
+    /*
     const note = {}
     note.kind = 1
     note.content = ''
     note.tags = []
     note.created_at = Math.floor(Date.now() / 1000)
     const note_signed = await signEventPGA(oProfile, note)
-    // publish(note_signed)
+    */
+    publish(oEvent)
+    console.log('publishWordType; oEvent: ' + JSON.stringify(oEvent, null, 4))
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
-  }, [nameSingular, namePlural, description])
+  }, [oEvent, nameSingular, namePlural, description])
 
   const clearFields = useCallback(async (e) => {
     setNameSingular('')

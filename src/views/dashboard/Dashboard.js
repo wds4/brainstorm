@@ -8,6 +8,7 @@ import { faBrain, faBoltLightning, faBolt } from '@fortawesome/free-solid-svg-ic
 
 const Dashboard = () => {
   const dispatch = useDispatch()
+  dispatch(updateApp('home'))
   const updateActiveApp = (newApp) => {
     dispatch(updateApp(newApp))
   }

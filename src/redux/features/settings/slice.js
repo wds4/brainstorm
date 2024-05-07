@@ -1,10 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchFirstByTag } from '../../../helpers'
+import { fetchFirstByTag } from 'src/helpers'
+import { aDefaultRelays } from 'src/const'
+
+const aMyPersonalTestRelay = ['ws://umbrel.local:4848']
 
 export const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
-    general: {},
+    general: {
+      aActiveRelays: aDefaultRelays, // aDefaultRelays,
+      aActiveRelaysGroups: ['default'], // default (defined by app), personalRelay (one relay stored in conceptGraphSettings), or profile (extracted from kind 3 event)
+      loginRelayUrl: '', // the relay entered by the user at login; if empty, aDefaultRelays will be used; otheriwse loginRelayUrl will be used
+    },
     grapevine: {},
     conceptGraph: {
       conceptGraphSettingsEvent: {}, // this is the entire kind 39902 event, of word type: conceptGraphSettings
@@ -21,8 +28,21 @@ export const settingsSlice = createSlice({
       const personalRelay = oWord?.conceptGraphSettingsData.personalRelay
       state.conceptGraph.personalRelay = personalRelay
     },
+    updateActiveRelaysGroups: (state, action) => {
+      state.general.aActiveRelaysGroups = action.payload
+    },
+    updateActiveRelays: (state, action) => {
+      state.general.aActiveRelays = action.payload
+    },
+    updateLoginRelayUrl: (state, action) => {
+      state.general.loginRelayUrl = action.payload
+    },
     wipeSettings: (state, action) => {
-      state.general = {}
+      state.general = {
+        aActiveRelays: aDefaultRelays,
+        aActiveRelaysGroups: ['default'],
+        loginRelayUrl: '',
+      }
       state.grapevine = {}
       state.conceptGraph = {
         conceptGraphSettingsEvent: {},
@@ -33,6 +53,12 @@ export const settingsSlice = createSlice({
   },
 })
 
-export const { updateConceptGraphSettingsEvent, wipeSettings } = settingsSlice.actions
+export const {
+  updateConceptGraphSettingsEvent,
+  updateActiveRelaysGroups,
+  updateActiveRelays,
+  updateLoginRelayUrl,
+  wipeSettings,
+} = settingsSlice.actions
 
 export default settingsSlice.reducer

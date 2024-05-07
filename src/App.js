@@ -33,23 +33,31 @@ const App = () => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // keep nostr relays updated based on user profile
-  const [ndkProviderRelays, setNdkProviderRelays] = useState(aDefaultRelays)
-  const myCurrentProfileKind3Relays = useSelector((state) => state.profile.kind3.relays)
+  const aActiveRelays = useSelector((state) => state.settings.general.aActiveRelays)
+  const loginRelayUrl = useSelector((state) => state.settings.general.loginRelayUrl)
+  console.log('QWERTY loginRelayUrl: ' + loginRelayUrl)
+  let aStarterRelays = aDefaultRelays
+  if (loginRelayUrl) {
+    aStarterRelays = [loginRelayUrl]
+  }
+  console.log('QWERTY aStarterRelays: ' + JSON.stringify(aStarterRelays))
+  const [ndkProviderRelays, setNdkProviderRelays] = useState(aStarterRelays)
+
+  /*
+  // const aMyPersonalTestRelay = ['ws://umbrel.local:4848']
+  // const [ndkProviderRelays, setNdkProviderRelays] = useState(aMyPersonalTestRelay)
+
+  // for some reason this does not seem to result in a change in relays.
+  // For now, user will have to log out / log back in after making changes to active relay groups
   useEffect(() => {
-    if (Object.keys(myCurrentProfileKind3Relays).length > 0) {
-      const aRelaysUpdated = []
-      Object.keys(myCurrentProfileKind3Relays).forEach((relay, item) => {
-        const read = myCurrentProfileKind3Relays[relay]?.read
-        if (read) {
-          aRelaysUpdated.push(relay)
-        }
-      })
-      // setNdkProviderRelays(aRelaysUpdated)
+    if (aActiveRelays.length > 0) {
+      setNdkProviderRelays(aActiveRelays)
     } else {
       // if user has no active relays, then use the default relays
-      setNdkProviderRelays(aDefaultRelays)
+      setNdkProviderRelays(aActiveRelays)
     }
-  }, [myCurrentProfileKind3Relays])
+  }, [aActiveRelays])
+  */
 
   return (
     <NDKProvider relayUrls={ndkProviderRelays}>
@@ -64,7 +72,11 @@ const App = () => {
           >
             <Routes>
               <Route exact path="/login" name="Login Page" element={<Login />} />
-              <Route path="*" name="Home" element={<DefaultLayout />} />
+              <Route
+                path="*"
+                name="Home"
+                element={<DefaultLayout/>}
+              />
             </Routes>
           </Suspense>
         </HashRouter>
@@ -74,7 +86,3 @@ const App = () => {
 }
 
 export default App
-
-/*
-    <NostrProvider relayUrls={ndkProviderRelays} debug={false}>    </NostrProvider>
-    */

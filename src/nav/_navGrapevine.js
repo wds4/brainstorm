@@ -14,9 +14,9 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavItem,
-    name: 'Grapevine',
+    name: 'Grapevine Dashboard',
     to: '/grapevine',
-    icon: <CIcon icon={cilApple} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,
