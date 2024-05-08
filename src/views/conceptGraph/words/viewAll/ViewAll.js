@@ -1,50 +1,81 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import DataGrid from 'react-data-grid'
-
-import 'react-data-grid/lib/styles.css'
-import ConceptGraphListener from '../../../../helpers/listeners/ConceptGraphListener'
-
-function App({ rows, columns }) {
-  return <DataGrid columns={columns} rows={rows} />
-}
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CNavLink,
+  CRow,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow,
+} from '@coreui/react'
+import { updateViewWord } from 'src/redux/features/siteNavigation/slice'
 
 const ViewAllWords = () => {
+  const viewWord = useSelector((state) => state.siteNavigation.conceptGraph.viewWord)
   const oConceptGraph = useSelector((state) => state.conceptGraph)
+  const oWords = oConceptGraph.words
 
-  const [rows, setRows] = useState([])
+  const dispatch = useDispatch()
 
-  const columns = [
-    { key: 'id', name: 'ID' },
-    { key: 'wt', name: 'Word Type' },
-    { key: 'cid', name: 'Cid' },
-    { key: 'pk', name: 'Pubkey' },
-  ]
-
-  useEffect(() => {
-    const aRows = []
-    Object.keys(oConceptGraph.words).forEach((cid) => {
-      const event = oConceptGraph.words[cid]
-      const pk = event.pubkey
-      const aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
-      let wT = ''
-      if (aTags_w.length > 0) {
-        wT = aTags_w[0][1]
-      }
-      const nextRow = { id: aRows.length, wt: wT, cid: cid, pk: pk }
-      aRows.push(nextRow)
-      setRows(aRows)
-    })
-  }, [oConceptGraph])
-
+  const processWordClick = (cid) => {
+    dispatch(updateViewWord(cid))
+  }
   return (
     <>
-      <ConceptGraphListener />
-      <center>
-        <h3>View All Words</h3>
-      </center>
-      <div>number of words: {Object.keys(oConceptGraph.words).length}</div>
-      <App columns={columns} rows={rows} />
+      <CRow>
+        <CCol xs={12}>
+          <div>viewWord: {viewWord}</div>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>{Object.keys(oWords).length} Words</strong>
+            </CCardHeader>
+            <CCardBody>
+              <CTable small>
+                <CTableHead>
+                  <CTableRow>
+                    <CTableHeaderCell scope="col">#</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Word Type</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">cid</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">pubkey</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+                  {Object.keys(oWords).map((cid, item) => {
+                    const event = oWords[cid]
+                    const pk = event.pubkey
+                    const aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
+                    let wT = ''
+                    if (aTags_w.length > 0) {
+                      wT = aTags_w[0][1]
+                    }
+                    return (
+                      <CTableRow key={cid}>
+                        <CTableHeaderCell scope="row">
+                          <CNavLink
+                            href="#/conceptGraph/words/viewSingle"
+                            onClick={() => processWordClick(cid)}
+                          >
+                            {item}
+                          </CNavLink>
+                        </CTableHeaderCell>
+                        <CTableDataCell>{wT}</CTableDataCell>
+                        <CTableDataCell>{cid}</CTableDataCell>
+                        <CTableDataCell>{pk}</CTableDataCell>
+                      </CTableRow>
+                    )
+                  })}
+                </CTableBody>
+              </CTable>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
     </>
   )
 }

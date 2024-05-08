@@ -10,6 +10,9 @@ const Settings = React.lazy(() => import('src/views/settings/conceptGraphSetting
 const Words = React.lazy(() => import('src/views/conceptGraph/words'))
 const ViewAllWords = React.lazy(() => import('src/views/conceptGraph/words/viewAll/ViewAll'))
 const MakeNewWord = React.lazy(() => import('src/views/conceptGraph/words/makeNew/MakeNew'))
+const ViewSingleWord = React.lazy(() =>
+  import('src/views/conceptGraph/words/viewSingle/ViewSingle'),
+)
 
 // WordTypes
 const WordTypes = React.lazy(() => import('src/views/conceptGraph/wordTypes'))
@@ -17,6 +20,9 @@ const ViewAllWordTypes = React.lazy(() =>
   import('src/views/conceptGraph/wordTypes/viewAll/ViewAll'),
 )
 const MakeNewWordType = React.lazy(() => import('src/views/conceptGraph/wordTypes/makeNew/MakeNew'))
+const ViewSingleWordType = React.lazy(() =>
+  import('src/views/conceptGraph/wordTypes/viewSingle/ViewSingle'),
+)
 
 // RelationshipTypes
 const RelationshipTypes = React.lazy(() => import('src/views/conceptGraph/relationshipTypes'))
@@ -25,6 +31,9 @@ const ViewAllRelationshipTypes = React.lazy(() =>
 )
 const MakeNewRelationshipType = React.lazy(() =>
   import('src/views/conceptGraph/relationshipTypes/makeNew/MakeNew'),
+)
+const ViewSingleRelationshipType = React.lazy(() =>
+  import('src/views/conceptGraph/relationshipTypes/viewSingle/ViewSingle'),
 )
 
 // ConceptGraphs
@@ -44,6 +53,7 @@ const routes = [
   { path: '/conceptGraph/words', name: 'Words', element: Words },
   { path: '/conceptGraph/words/makeNew', name: 'Make New Word', element: MakeNewWord },
   { path: '/conceptGraph/words/viewAll', name: 'View All Words', element: ViewAllWords },
+  { path: '/conceptGraph/words/viewSingle', name: 'View Single Word', element: ViewSingleWord },
 
   // Word Types
   { path: '/conceptGraph/wordTypes', name: 'Word Types', element: WordTypes },
@@ -52,6 +62,11 @@ const routes = [
     path: '/conceptGraph/wordTypes/viewAll',
     name: 'View All Word Types',
     element: ViewAllWordTypes,
+  },
+  {
+    path: '/conceptGraph/wordTypes/viewSingle',
+    name: 'View Single Word Type',
+    element: ViewSingleWordType,
   },
 
   // Relationship Types
@@ -69,6 +84,11 @@ const routes = [
     path: '/conceptGraph/relationshipTypes/viewAll',
     name: 'View All Relationship Types',
     element: ViewAllRelationshipTypes,
+  },
+  {
+    path: '/conceptGraph/relationshipTypes/viewSingle',
+    name: 'View Single Relationship Type',
+    element: ViewSingleRelationshipType,
   },
 
   // Concept Graphs
