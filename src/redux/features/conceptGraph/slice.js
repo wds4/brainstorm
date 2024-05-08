@@ -14,18 +14,23 @@ export const conceptGraphSlice = createSlice({
       const event = action.payload.event
       const cid = action.payload.cid
       const wordType = action.payload.wordType
-      console.log('addWordToConceptGraph; wordType: ' + wordType + '; cid: ' + cid)
+      // console.log('addWordToConceptGraph; wordType: ' + wordType + '; cid: ' + cid)
       state.words[cid] = event // need event.rawEvent()? or just event?
-      if (!state.byWordType[wordType].includes(cid)) {
-        state.byWordType[wordType].push(cid)
+      if (wordType) {
+        if (!state.byWordType[wordType]) {
+          state.byWordType[wordType] = []
+        }
+        if (!state.byWordType[wordType].includes(cid)) {
+          state.byWordType[wordType].push(cid)
+        }
       }
     },
     wipeGrapevine: (state, action) => {
       state = {}
       state.words = {}
       state.byWordType = {}
-      state.byWordType.wordTypes = []
-      state.byWordType.relationshipTypes = []
+      state.byWordType.wordType = []
+      state.byWordType.relationshipType = []
     },
   },
 })
