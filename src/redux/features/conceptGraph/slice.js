@@ -25,7 +25,7 @@ export const conceptGraphSlice = createSlice({
         }
       }
     },
-    wipeGrapevine: (state, action) => {
+    wipeConceptGraph: (state, action) => {
       state = {}
       state.words = {}
       state.byWordType = {}

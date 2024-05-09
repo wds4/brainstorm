@@ -3,9 +3,12 @@ import { CCardBody, CNavLink } from '@coreui/react'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { nip19 } from 'nostr-tools'
 import { fetchFirstByTag } from '../../../helpers'
+import { useDispatch } from 'react-redux'
+import { updateNpub } from 'src/redux/features/siteNavigation/slice'
 
 // eslint-disable-next-line react/prop-types
 export const Ratee = ({ event }) => {
+  const dispatch = useDispatch()
   const { getProfile } = useNDK()
   const pubkey = fetchFirstByTag('p', event)
   const npub = nip19.npubEncode(pubkey)
@@ -16,6 +19,9 @@ export const Ratee = ({ event }) => {
   }
   if (!ratee) {
     ratee = npub
+  }
+  const setCurrentNpub = (newNpub) => {
+    dispatch(updateNpub(newNpub))
   }
   return (
     <CCardBody className="d-flex justify-content-between align-items-center">

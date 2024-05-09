@@ -39,6 +39,8 @@ import { wipeSettings } from '../../redux/features/settings/slice'
 import { wipeTwittr } from '../../redux/features/twittr/slice'
 import sessionStorage from 'redux-persist/es/storage/session'
 import localStorage from 'redux-persist/es/storage'
+import { wipeConceptGraph } from '../../redux/features/conceptGraph/slice'
+import { wipeWikifreedia } from '../../redux/features/wikifreedia/slice'
 
 const AppHeaderDropdown = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
@@ -49,6 +51,8 @@ const AppHeaderDropdown = () => {
     dispatch(wipeGrapevine())
     dispatch(wipeSettings())
     dispatch(wipeTwittr())
+    dispatch(wipeConceptGraph())
+    dispatch(wipeWikifreedia())
     sessionStorage.clear()
     localStorage.clear()
     updateActiveApp('home')

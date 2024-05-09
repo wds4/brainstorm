@@ -4,7 +4,7 @@ import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { nip19 } from 'nostr-tools'
 import { secsToTimeAgo } from '../../../helpers'
 import { useDispatch } from 'react-redux'
-import { updateNpub } from '../../../redux/features/siteNavigation/slice'
+import { updateNpub } from 'src/redux/features/siteNavigation/slice'
 
 // eslint-disable-next-line react/prop-types
 export const SubmittedBy = ({ event }) => {

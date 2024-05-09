@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react'
-import { CAvatar, CCol, CContainer, CNav, CNavLink, CRow } from '@coreui/react'
+import React, { useState } from 'react'
+import { CContainer, CNav, CNavLink } from '@coreui/react'
 import GrapevineSettings from '../grapevineSettings/Settings'
 import ConceptGraphSettings from '../conceptGraphSettings/Settings'
 import TwittrSettings from '../twittrSettings/Settings'
 import GeneralSettings from '../generalSettings/GeneralSettings'
+import WikifreediaSettings from '../wikifreediaSettings/Settings'
 
 // eslint-disable-next-line react/prop-types
 const SettingsContent = ({ whichSettings }) => {
@@ -19,6 +20,9 @@ const SettingsContent = ({ whichSettings }) => {
   if (whichSettings == 'twittr') {
     return <TwittrSettings />
   }
+  if (whichSettings == 'wikifreedia') {
+    return <WikifreediaSettings />
+  }
   return <GeneralSettings />
 }
 // eslint-disable-next-line react/prop-types
@@ -27,12 +31,14 @@ const SettingsNavigation = ({ updateWhichSettings }) => {
   const [isGrapevine, setIsGrapevine] = useState(false)
   const [isConceptGraph, setIsConceptGraph] = useState(false)
   const [isTwittr, setIsTwittr] = useState(false)
+  const [isWikifreedia, setIsWikifreedia] = useState(false)
 
   const setAllOptionsToFalse = () => {
     setIsGeneral(false)
     setIsGrapevine(false)
     setIsConceptGraph(false)
     setIsTwittr(false)
+    setIsWikifreedia(false)
   }
 
   const setActiveTabGeneral = () => {
@@ -55,6 +61,11 @@ const SettingsNavigation = ({ updateWhichSettings }) => {
     setIsTwittr(true)
     updateWhichSettings('twittr')
   }
+  const setActiveTabWikifreedia = () => {
+    setAllOptionsToFalse()
+    setIsWikifreedia(true)
+    updateWhichSettings('wikifreedia')
+  }
 
   return (
     <CNav as="nav" variant="tabs" layout="fill" className="flex-column flex-sm-row">
@@ -69,6 +80,9 @@ const SettingsNavigation = ({ updateWhichSettings }) => {
       </CNavLink>
       <CNavLink active={isTwittr} onClick={setActiveTabTwittr}>
         Twittr
+      </CNavLink>
+      <CNavLink active={isWikifreedia} onClick={setActiveTabWikifreedia}>
+        Wikifreedia
       </CNavLink>
     </CNav>
   )

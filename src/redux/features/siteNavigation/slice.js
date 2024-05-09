@@ -13,6 +13,11 @@ export const siteNavigationSlice = createSlice({
       viewConceptGraph: '',
       viewConcept: '',
     },
+    wikifreedia: {
+      viewTopic: '', // string, human readable
+      viewArticle: '', // naddr
+      viewCategory: '',
+    },
   },
   reducers: {
     updateApp: (state, action) => {
@@ -33,6 +38,15 @@ export const siteNavigationSlice = createSlice({
     updateViewRelationshipType: (state, action) => {
       state.conceptGraph.viewRelationshipType = action.payload
     },
+    updateViewWikifreediaTopic: (state, action) => {
+      state.wikifreedia.viewTopic = action.payload
+    },
+    updateViewWikifreediaArticle: (state, action) => {
+      state.wikifreedia.viewArticle = action.payload
+    },
+    updateViewWikifreediaCategory: (state, action) => {
+      state.wikifreedia.viewCategory = action.payload
+    },
   },
 })
 
@@ -43,6 +57,9 @@ export const {
   updateViewWord,
   updateViewWordType,
   updateViewRelationshipType,
+  updateViewWikifreediaTopic,
+  updateViewWikifreediaArticle,
+  updateViewWikifreediaCategory,
 } = siteNavigationSlice.actions
 
 export default siteNavigationSlice.reducer

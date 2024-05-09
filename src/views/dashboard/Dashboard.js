@@ -1,5 +1,6 @@
 import React from 'react'
-import { CNavLink } from '@coreui/react'
+import { CNavLink, CRow } from '@coreui/react'
+import { DocsExample } from 'src/components'
 import { CCard, CCardBody, CCardHeader, CCardText, CCardTitle, CCol } from '@coreui/react'
 import { useDispatch } from 'react-redux'
 import { updateApp } from '../../redux/features/siteNavigation/slice'
@@ -19,25 +20,50 @@ const Dashboard = () => {
         <strong>
           playground for application of the tapestry protocol to nostr and Web of Trust
         </strong>
-        <br /><br />
+        <br />
+        <br />
         <div>This site is under construction!</div>
         <br />
       </center>
-      <CCol lg={4} key="0">
-        <CNavLink href="#/grapevine" onClick={() => updateActiveApp('grapevine')}>
-          <CCard className="mb-3 border-dark">
-            <CCardHeader>
-              <strong>The Grapevine</strong>
-            </CCardHeader>
-            <CCardBody>
-              <CCardText>
-                The Grapevine enables you and your community to identify who is the most
-                trustworthy, and in what context, to curate content, facts, and information.
-              </CCardText>
-            </CCardBody>
-          </CCard>
-        </CNavLink>
-      </CCol>
+      <DocsExample href="components/widgets/#cwidgetstatsf">
+        <CRow xs={{ gutter: 4 }}>
+          <CCol xs={12} sm={6} xl={4} xxl={3}>
+            <CNavLink
+              style={{ display: 'inline-block' }}
+              href="#/grapevine"
+              onClick={() => updateActiveApp('grapevine')}
+            >
+              <CCard className="mb-4 border-dark">
+                <CCardHeader>
+                  <strong>The Grapevine</strong>
+                </CCardHeader>
+                <CCardBody>
+                  <CCardText>
+                    The Grapevine enables you and your community to identify who is the most
+                    trustworthy, and in what context, to curate content, facts, and information.
+                  </CCardText>
+                </CCardBody>
+              </CCard>
+            </CNavLink>
+          </CCol>
+          <CCol xs={12} sm={6} xl={4} xxl={3}>
+            <CNavLink
+              style={{ display: 'inline-block' }}
+              href="#/wikifreedia"
+              onClick={() => updateActiveApp('wikifreedia')}
+            >
+              <CCard className="mb-3 border-dark">
+                <CCardHeader>
+                  <strong>Wikifreedia</strong>
+                </CCardHeader>
+                <CCardBody>
+                  <CCardText>Use your Grapevine to curate content on Wikifreedia!</CCardText>
+                </CCardBody>
+              </CCard>
+            </CNavLink>
+          </CCol>
+        </CRow>
+      </DocsExample>
     </>
   )
 }

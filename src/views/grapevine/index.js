@@ -5,7 +5,7 @@ import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
 import { cilBolt, cilBoltCircle, cilCircle, cilThumbUp } from '@coreui/icons'
 import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
-import { updateApp } from '../../redux/features/siteNavigation/slice'
+import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
 const GrapevineDashboard = () => {
   const dispatch = useDispatch()

@@ -1,13 +1,13 @@
 import React from 'react'
 
-const WikiEntries = () => {
+const WikiEntry = () => {
   return (
     <>
       <center>
-        <h3>Wiki Entries</h3>
+        <h3>Wikifreedia Entry</h3>
       </center>
     </>
   )
 }
 
-export default WikiEntries
+export default WikiEntry
