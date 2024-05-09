@@ -2,7 +2,8 @@ import React, { useCallback, useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow, CListGroup, CFormSwitch } from '@coreui/react'
 import { useSelector } from 'react-redux'
 import { ListEvent } from './ListEvent'
-import { fetchFirstByTag } from '../../../helpers'
+import { fetchFirstByTag } from 'src/helpers'
+import Markdown from 'react-markdown'
 
 const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   if (showRawDataButton == 'hide') {
@@ -50,12 +51,12 @@ const SingleEntry = ({ naddr, oEvent }) => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <div className="col-4" style={titleStyle}>
-              <strong>{title}</strong>
+            <div className="col" style={titleStyle}>
+              <div style={{ textAlign: 'center', fontSize: '26px' }}>{title}</div>
             </div>
           </CCardHeader>
           <CCardBody>
-            <div>{content}</div>
+            <Markdown>{content}</Markdown>
             <div style={{ textAlign: 'right' }}>
               <div style={{ display: 'inline-block' }}>
                 <CFormSwitch

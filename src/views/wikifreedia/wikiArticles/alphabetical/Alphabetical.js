@@ -31,7 +31,7 @@ const WikiArticlesAlphabetical = () => {
   return (
     <>
       <center>
-        <h3>Wiki Articles: Alphabetically</h3>
+        <h3>Wiki Topics: Alphabetically</h3>
       </center>
       <div>number of wiki articles by dTag: {Object.keys(oWikiArticles_byDTag).length}</div>
       <div>number of wiki articles by eventId: {Object.keys(oWikiArticles_byNaddr).length}</div>
@@ -42,8 +42,8 @@ const WikiArticlesAlphabetical = () => {
               <strong>{aDTags.length} topics (d-tags)</strong>
             </CCardHeader>
             <CCardBody>
-              <CTable small>
-                <CTableHead>
+              <CTable color="dark" striped small hover>
+                <CTableHead color="light">
                   <CTableRow>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
                     <CTableHeaderCell scope="col">topic</CTableHeaderCell>

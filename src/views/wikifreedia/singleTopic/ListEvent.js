@@ -11,6 +11,7 @@ export const ListEvent = ({ pubkey, oEvent, naddr, setNaddr, setOEvent }) => {
   const dispatch = useDispatch()
   const { getProfile } = useNDK()
 
+  // title
   let titleStyle = {}
   let title = fetchFirstByTag('title', oEvent)
   if (!title) {
@@ -19,6 +20,17 @@ export const ListEvent = ({ pubkey, oEvent, naddr, setNaddr, setOEvent }) => {
       color: 'orange',
     }
   }
+
+  // category
+  let categoryStyle = {}
+  let category = fetchFirstByTag('c', oEvent)
+  if (!category) {
+    category = 'no category provided'
+    categoryStyle = {
+      color: 'orange',
+    }
+  }
+
   const npub = nip19.npubEncode(pubkey)
   const oProfile = getProfile(npub)
   let author = oProfile?.displayName
@@ -49,11 +61,14 @@ export const ListEvent = ({ pubkey, oEvent, naddr, setNaddr, setOEvent }) => {
           <img src={oProfile?.image} className="profileAvatarSmall" />
         </CNavLink>
       </div>
-      <div className="col-4">
+      <div className="col-3">
         <strong>{author}</strong>
       </div>
-      <div className="col-4" style={titleStyle} onClick={() => ToggleEvent(naddr)}>
+      <div className="col-3" style={titleStyle} onClick={() => ToggleEvent(naddr)}>
         <strong>{title}</strong>
+      </div>
+      <div className="col-3" style={categoryStyle}>
+        <strong>{category}</strong>
       </div>
       <div className="col">
         <div style={{ float: 'right' }}>

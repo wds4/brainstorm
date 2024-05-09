@@ -39,6 +39,7 @@ export const siteNavigationSlice = createSlice({
       state.conceptGraph.viewRelationshipType = action.payload
     },
     updateViewWikifreediaTopic: (state, action) => {
+      console.log('siteNavigationSlice updateViewWikifreediaTopic new viewTopic: ' + action.payload)
       state.wikifreedia.viewTopic = action.payload
     },
     updateViewWikifreediaArticle: (state, action) => {

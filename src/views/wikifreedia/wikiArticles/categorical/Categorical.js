@@ -7,7 +7,7 @@ const WikiArticlesCategorical = () => {
   return (
     <>
       <center>
-        <h3>Wiki Articles: Categorically</h3>
+        <h3>Wiki Topics: Categorically</h3>
       </center>
 
       <div>number of wiki articles by dTag: {Object.keys(oWikiArticles_byDTag).length}</div>

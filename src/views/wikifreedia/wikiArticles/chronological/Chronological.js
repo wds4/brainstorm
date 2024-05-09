@@ -7,7 +7,7 @@ const WikiArticlesChronological = () => {
   return (
     <>
       <center>
-        <h3>Wiki Articles: Chronologically</h3>
+        <h3>Wiki Topics: Chronologically</h3>
       </center>
 
       <div>number of wiki articles by dTag: {Object.keys(oWikiArticles_byDTag).length}</div>

@@ -24,21 +24,37 @@ export const wikifreediaSlice = createSlice({
         created_at: event?.created_at,
         sig: event?.sig,
       }
-      const tag_d = fetchFirstByTag('d', oEvent)
+      const topic = fetchFirstByTag('d', oEvent)
       const naddr = nip19.naddrEncode({
         pubkey: oEvent.pubkey,
         kind: oEvent.kind,
-        identifier: tag_d,
+        identifier: topic,
         relays: [],
       })
       state.articles.byNaddr[naddr] = oEvent
-      const tag_title = fetchFirstByTag('title', oEvent)
-      const tag_published_at = fetchFirstByTag('published_at', oEvent)
-      if (tag_d) {
-        if (!state.articles.byDTag[tag_d]) {
-          state.articles.byDTag[tag_d] = {}
+      // const tag_title = fetchFirstByTag('title', oEvent)
+      // const tag_published_at = fetchFirstByTag('published_at', oEvent)
+      if (topic) {
+        if (!state.articles.byDTag[topic]) {
+          state.articles.byDTag[topic] = {}
         }
-        state.articles.byDTag[tag_d][oEvent.pubkey] = naddr
+        state.articles.byDTag[topic][oEvent.pubkey] = naddr
+      }
+      // process category
+      const category = fetchFirstByTag('c', oEvent)
+      console.log('wikifreediaSlice category: ' + category)
+      if (category) {
+        if (!state.categories[category]) {
+          state.categories[category] = {}
+        }
+        if (topic) {
+          if (!state.categories[category][topic]) {
+            state.categories[category][topic] = []
+          }
+          if (!state.categories[category][topic].includes(naddr)) {
+            state.categories[category][topic].push(naddr)
+          }
+        }
       }
     },
     addCategory: (state, action) => {
