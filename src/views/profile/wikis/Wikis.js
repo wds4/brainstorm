@@ -1,5 +1,3 @@
-import { cilClone } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
 import {
   CCard,
   CCardBody,
@@ -7,7 +5,6 @@ import {
   CCol,
   CContainer,
   CFormInput,
-  CFormSelect,
   CNavLink,
   CRow,
   CTable,
@@ -17,16 +14,21 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
+import { nip19 } from 'nostr-tools'
 import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateViewWikifreediaTopic } from '../../../redux/features/siteNavigation/slice'
+import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
+import { updateViewWikifreediaArticle } from '../../../redux/features/siteNavigation/slice'
 
 const Wikis = ({ oProfile, npub, pubkey }) => {
   const [searchField, setSearchField] = useState('')
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
   const oAuthors = useSelector((state) => state.wikifreedia.authors)
-  const aTopicsRef = oAuthors[pubkey].sort()
+  let aTopicsRef = []
+  if (oAuthors[pubkey]) {
+    aTopicsRef = oAuthors[pubkey].sort()
+  }
   const [aTopicsFiltered, setATopicsFiltered] = useState(aTopicsRef)
 
   const dispatch = useDispatch()
@@ -46,8 +48,8 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
     [searchField, aTopicsFiltered],
   )
 
-  const processDTagClick = (dTag) => {
-    dispatch(updateViewWikifreediaTopic(dTag))
+  const processViewArticleClick = (naddr) => {
+    dispatch(updateViewWikifreediaArticle(naddr))
   }
 
   return (
@@ -84,12 +86,18 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
                   {aTopicsFiltered.map((topicSlug, item) => {
                     const oAuthors = oWikiArticles_byDTag[topicSlug]
                     const aAuthors = Object.keys(oAuthors)
+                    const naddr = nip19.naddrEncode({
+                      pubkey,
+                      kind: 30818,
+                      identifier: topicSlug,
+                      relays: [],
+                    })
                     return (
                       <CTableRow key={item}>
                         <CTableDataCell scope="row">
                           <CNavLink
-                            href="#/wikifreedia/singleTopic"
-                            onClick={() => processDTagClick(topicSlug)}
+                            href="#/wikifreedia/singleEntry"
+                            onClick={() => processViewArticleClick(naddr)}
                           >
                             {topicSlug}
                           </CNavLink>

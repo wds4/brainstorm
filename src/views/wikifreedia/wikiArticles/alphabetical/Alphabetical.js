@@ -23,7 +23,10 @@ const WikiArticlesAlphabetical = () => {
   const [sortBy, setSortBy] = useState('alphabetical')
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
-  const aTopicsRef = Object.keys(oWikiArticles_byDTag).sort()
+  let aTopicsRef = []
+  if (Object.keys(oWikiArticles_byDTag)) {
+    aTopicsRef = Object.keys(oWikiArticles_byDTag).sort()
+  }
   const [aTopicsFiltered, setATopicsFiltered] = useState(aTopicsRef)
 
   const dispatch = useDispatch()
