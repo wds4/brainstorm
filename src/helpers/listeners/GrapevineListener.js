@@ -24,9 +24,9 @@ const GrapevineListener = () => {
   useEffect(() => {
     async function updateGrapevineDatabase() {
       const events = await fetchEvents(filter)
-      events.forEach((eventNS, item) => {
+      events.forEach((event, item) => {
         try {
-          const event = eventNS.rawEvent()
+          // const event = eventNS.rawEvent()
           const aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
           if (aTags_w.length > 0) {
             let cid = event.id

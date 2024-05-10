@@ -1,4 +1,6 @@
-const processWikiMarkdownLink = (contentIn) => {
+const processWikiMarkdownLink = (contentIn, aTopicSlugs) => {
+  // TO DO: may use aTopicSlugs to style link based on whether topic currently exists or not
+  const baseUrl = window.location.origin
   let contentOut = ''
   const bracketsStart = contentIn.indexOf('[[')
   const bracketsEnd = contentIn.indexOf(']]')
@@ -8,13 +10,14 @@ const processWikiMarkdownLink = (contentIn) => {
     const str1topicOriginal = contentIn.substr(bracketsStart + 2, bracketsEnd - bracketsStart - 2)
     const str1topicSlugified = str1topicOriginal.replace(' ', '-').toLowerCase()
     const str2 = contentIn.substr(bracketsEnd + 2)
-    const strLink =
+    let strLink =
       '[' +
       str1topicOriginal +
-      '](http://localhost:3000/#/wikifreedia/singleTopic?topic=' +
+      '](' +
+      baseUrl +
+      '/#/wikifreedia/singleTopic?topic=' +
       str1topicSlugified +
       ')'
-
     contentOut = str0 + strLink + str2
   } else {
     contentOut = contentIn
@@ -22,13 +25,13 @@ const processWikiMarkdownLink = (contentIn) => {
   return contentOut
 }
 
-export const processWikiMarkdownLinks = (contentIn) => {
+export const processWikiMarkdownLinks = (contentIn, aTopicSlugs) => {
   let contentOut = contentIn
   let contentProcessed = ''
   let contentTemp = contentIn
   do {
     contentTemp = contentOut
-    contentProcessed = processWikiMarkdownLink(contentTemp)
+    contentProcessed = processWikiMarkdownLink(contentTemp, aTopicSlugs)
     contentOut = contentProcessed
   } while (contentProcessed != contentTemp)
   return contentOut

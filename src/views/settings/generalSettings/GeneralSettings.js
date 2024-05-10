@@ -80,6 +80,7 @@ const GeneralSettings = () => {
       <center>
         <h4>General Settings</h4>
         <div>currentTime: {currentTime}</div>
+        <div>window.location.origin: {window.location.origin}</div>
       </center>
       <CRow>
         <CCol xs={12}>

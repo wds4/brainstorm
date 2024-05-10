@@ -6,6 +6,7 @@ import {
   CCardHeader,
   CCol,
   CFormInput,
+  CFormSelect,
   CNavLink,
   CRow,
   CTable,
@@ -19,6 +20,7 @@ import { updateViewWikifreediaTopic } from '../../../../redux/features/siteNavig
 
 const WikiArticlesAlphabetical = () => {
   const [searchField, setSearchField] = useState('')
+  const [sortBy, setSortBy] = useState('alphabetical')
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
   const aTopics = Object.keys(oWikiArticles_byDTag).sort()
@@ -56,6 +58,20 @@ const WikiArticlesAlphabetical = () => {
               </strong>
             </CCardHeader>
             <CCardBody>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ display: 'inline-block' }}>
+                  <CFormSelect
+                    value={sortBy}
+                    aria-label="Default select example"
+                    options={[
+                      'Open this select menu',
+                      { label: 'alphabetical', value: 'alphabetical' },
+                      { label: 'most recent update', value: 'chronological' },
+                      { label: 'WoT score', value: 'wetScore', disabled: true },
+                    ]}
+                  ></CFormSelect>
+                </div>
+              </div>
               <CFormInput
                 label="search by topic:"
                 type="text"

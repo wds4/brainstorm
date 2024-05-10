@@ -51,6 +51,7 @@ const DisplayCategory = ({oEvent}) => {
 
 const WikiEntry = () => {
   const oTopicSlugs = useSelector((state) => state.wikifreedia.articles.byDTag)
+  const aTopicSlugs = Object.keys(oTopicSlugs)
   const naddr = useSelector((state) => state.siteNavigation.wikifreedia.viewArticle)
   const oEvents = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oEvent = oEvents[naddr]
@@ -97,7 +98,7 @@ const WikiEntry = () => {
   const processViewTopicClick = (topicSlug) => {
     dispatch(updateViewWikifreediaTopic(topicSlug))
   }
-  const contentWithLinks = processWikiMarkdownLinks(content)
+  const contentWithLinks = processWikiMarkdownLinks(content, aTopicSlugs)
   const topicHref = '#/wikifreedia/singleTopic?topic=' + topicSlug
   return (
     <>
