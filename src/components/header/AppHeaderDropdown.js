@@ -54,7 +54,7 @@ const AppHeaderDropdown = () => {
     dispatch(wipeTwittr())
     dispatch(wipeConceptGraph())
     dispatch(wipeWikifreedia())
-    sessionStorage.clear()
+    // sessionStorage.clear()
     localStorage.clear()
     updateActiveApp('home')
   }

@@ -54,7 +54,6 @@ export const wikifreediaSlice = createSlice({
       }
       // process category
       const category = fetchFirstByTag('c', oEvent)
-      console.log('wikifreediaSlice category: ' + category)
       if (category) {
         if (!state.categories[category]) {
           state.categories[category] = {}
@@ -79,7 +78,6 @@ export const wikifreediaSlice = createSlice({
       state.articles.byDTag = {}
       state.authors = {}
       state.categories = {}
-      console.log('wipeWikifreedia!!')
     },
   },
 })

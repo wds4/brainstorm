@@ -45,7 +45,6 @@ const WikiTopic = () => {
     function updateTopicFromUrl() {
       const topicFromUrl = searchParams.get('topic')
       if (topicFromUrl) {
-        console.log('topicFromUrl: ' + topicFromUrl)
         dispatch(updateViewWikifreediaTopic(topicFromUrl))
         setTopicSlug(topicFromUrl)
       }

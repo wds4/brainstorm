@@ -229,7 +229,6 @@ const MakeNewWikiArticle = () => {
   const publishKind30818Note = useCallback(async () => {
     const oNote = await makeWord(oProfile, markdown, topicSlug, topicTitle, category, newCategory)
     publish(oNote)
-    console.log('publishKind30818Note; oNote: ' + JSON.stringify(oNote, null, 4))
   }, [oProfile, markdown, topicSlug, topicTitle, category, newCategory])
 
   const handlePreviewButton = useCallback(

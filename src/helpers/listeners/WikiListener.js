@@ -32,9 +32,17 @@ const WikiListener = () => {
     async function updateWikifreediaDatabase() {
       const events = await fetchEvents(filter)
 
-      events.forEach((event, item) => {
+      events.forEach((eventNS, item) => {
         try {
-          if (validateEvent(event)) {
+          if (validateEvent(eventNS)) {
+            const event = {}
+            event.id = eventNS.id
+            event.kind = eventNS.kind
+            event.content = eventNS.content
+            event.tags = eventNS.tags
+            event.created_at = eventNS.created_at
+            event.pubkey = eventNS.pubkey
+            event.sig = eventNS.sig
             // console.log('updateWikifreediaDatabase_B; oEvent.id: ' + oEvent.id + '; oEvent.content: ' + oEvent.content)
             // const event = eventNS.rawEvent()
             // add to wikifreedia store

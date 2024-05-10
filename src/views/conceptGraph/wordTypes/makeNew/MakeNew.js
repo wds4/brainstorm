@@ -144,16 +144,7 @@ const MakeNewWordType = () => {
   )
 
   const publishWordType = useCallback(async () => {
-    /*
-    const note = {}
-    note.kind = 1
-    note.content = ''
-    note.tags = []
-    note.created_at = Math.floor(Date.now() / 1000)
-    const note_signed = await signEventPGA(oProfile, note)
-    */
     publish(oEvent)
-    console.log('publishWordType; oEvent: ' + JSON.stringify(oEvent, null, 4))
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
   }, [oEvent, nameSingular, namePlural, description])

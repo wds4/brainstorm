@@ -36,7 +36,7 @@ const Notes = ({ oProfile, pubkey }) => {
   useEffect(() => {
     async function updateEvents() {
       if (pubkey && oEventsByAuthor[pubkey]) {
-        setACompositeIdentifiers(oEventsByAuthor[pubkey].sort().reverse())
+        setACompositeIdentifiers(oEventsByAuthor[pubkey])
       }
     }
     updateEvents()

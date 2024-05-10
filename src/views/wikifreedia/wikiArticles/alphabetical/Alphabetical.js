@@ -48,7 +48,6 @@ const WikiArticlesAlphabetical = () => {
 
   const handleSortByChange = useCallback(
     (newSortByValue) => {
-      console.log('handleSortByChange; sortBy: ' + newSortByValue)
       if (newSortByValue == 'alphabetical') {
         const aFoo = Object.keys(oWikiArticles_byDTag).sort()
         setATopicsFiltered(aFoo)

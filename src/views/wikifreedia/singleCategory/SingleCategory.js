@@ -14,7 +14,6 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchFirstByTag } from '../../../helpers'
 import { updateViewWikifreediaTopic } from '../../../redux/features/siteNavigation/slice'
 
 const WikiCategory = () => {
@@ -30,16 +29,7 @@ const WikiCategory = () => {
 
   const dispatch = useDispatch()
 
-  /*
-  useEffect(() => {
-    async function updateTopics() {
-
-    }
-    updateTopics()
-  }, [])
-  */
   const processTopicClick = (topic) => {
-    console.log('processTopicClick topic: ' + topic)
     dispatch(updateViewWikifreediaTopic(topic))
   }
   return (

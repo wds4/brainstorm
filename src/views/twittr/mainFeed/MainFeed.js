@@ -31,8 +31,16 @@ const MainFeed = () => {
     async function updateEvents() {
       if (aFollows) {
         const events = await fetchEvents(filter)
-        events.forEach((event) => {
-          if (validateEvent(event)) {
+        events.forEach((eventNS) => {
+          if (validateEvent(eventNS)) {
+            const event = {}
+            event.id = eventNS.id
+            event.content = eventNS.content
+            event.kind = eventNS.kind
+            event.tags = eventNS.tags
+            event.created_at = eventNS.created_at
+            event.pubkey = eventNS.pubkey
+            event.sig = eventNS.sig
             dispatch(processKind1Event(event))
           }
         })
@@ -46,12 +54,8 @@ const MainFeed = () => {
         <h3>Twittr Main Feed</h3>
       </center>
       <CContainer>
-        {aCompositeIdentifiers.map((compositeIdentifier) => {
-          return (
-            <>
-              <TwittrNote event={oKind1Events[compositeIdentifier]} />
-            </>
-          )
+        {aCompositeIdentifiers.map((compositeIdentifier, item) => {
+          return <TwittrNote key={item} event={oKind1Events[compositeIdentifier]} />
         })}
       </CContainer>
     </>

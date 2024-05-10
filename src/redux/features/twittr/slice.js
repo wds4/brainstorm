@@ -15,7 +15,7 @@ export const twittrSlice = createSlice({
       const eventID = event.id
       const created_at = event.created_at
       const compositeIdentifier = created_at + '_' + eventID // compositeIdentifier is easy to order chronoligically; the eventID ensures each event is represented only once
-      state.mainFeed.events[compositeIdentifier] = event.rawEvent()
+      state.mainFeed.events[compositeIdentifier] = event
       // now update eventsByAuthor
       if (!state.mainFeed.eventsByAuthor[event.pubkey]) {
         state.mainFeed.eventsByAuthor[event.pubkey] = []
