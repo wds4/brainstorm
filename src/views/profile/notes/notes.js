@@ -46,8 +46,16 @@ const Notes = ({ oProfile, pubkey }) => {
     async function updateEvents() {
       if (pubkey) {
         const events = await fetchEvents(filter)
-        events.forEach((event) => {
-          if (validateEvent(event)) {
+        events.forEach((eventNS) => {
+          if (validateEvent(eventNS)) {
+            const event = {}
+            event.id = eventNS.id
+            event.content = eventNS.content
+            event.kind = eventNS.kind
+            event.tags = eventNS.tags
+            event.created_at = eventNS.created_at
+            event.pubkey = eventNS.pubkey
+            event.sig = eventNS.sig
             dispatch(processKind1Event(event))
           }
         })

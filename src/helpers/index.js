@@ -1,12 +1,15 @@
 export function fetchFirstByTag(tag, event) {
-  let result = ''
   try {
-    result = event.tags.filter(([k, v]) => k === tag && v && v !== '')[0][1]
-    return result
+    const aResult = event.tags.filter(([k, v]) => k === tag && v && v !== '')
+    if (aResult.length > 0) {
+      const result = aResult[0][1]
+      return result
+    }
+    return ''
   } catch (e) {
     console.log(e)
   }
-  return result
+  return ''
 }
 
 export const secsToTime = (secs) => {
