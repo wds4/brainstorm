@@ -29,7 +29,7 @@ const WikifreediaCategories = () => {
   return (
     <>
       <center>
-        <h3>Wikifreedia Categories</h3>
+        <h3>Wiki Categories</h3>
       </center>
       <CRow>
         <CCol xs={12}>
@@ -38,10 +38,9 @@ const WikifreediaCategories = () => {
               <strong>{aWikiCategories.length} categories</strong>
             </CCardHeader>
             <CCardBody>
-              <CTable small>
-                <CTableHead>
+              <CTable striped small hover>
+                <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell scope="col">#</CTableHeaderCell>
                     <CTableHeaderCell scope="col">category</CTableHeaderCell>
                     <CTableHeaderCell scope="col"># of topics</CTableHeaderCell>
                   </CTableRow>
@@ -52,15 +51,14 @@ const WikifreediaCategories = () => {
                     const aTopics = Object.keys(oTopics)
                     return (
                       <CTableRow key={item}>
-                        <CTableDataCell>{item}</CTableDataCell>
-                        <CTableHeaderCell scope="row">
+                        <CTableDataCell scope="row">
                           <CNavLink
                             href="#/wikifreedia/singleCategory"
                             onClick={() => processCategoryClick(category)}
                           >
                             {category}
                           </CNavLink>
-                        </CTableHeaderCell>
+                        </CTableDataCell>
                         <CTableDataCell>{aTopics.length}</CTableDataCell>
                       </CTableRow>
                     )

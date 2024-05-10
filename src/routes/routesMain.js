@@ -2,6 +2,8 @@ import React from 'react'
 
 const Dashboard = React.lazy(() => import('src/views/dashboard/Dashboard'))
 
+const AboutBrainstorm = React.lazy(() => import('src/views/brainstorm/about/About'))
+
 const DiredtMessages = React.lazy(() => import('src/views/directMessages/DirectMessages'))
 const Notifications = React.lazy(() => import('src/views/notifications/Notifications'))
 const Profiles = React.lazy(() => import('src/views/profiles/Profiles'))
@@ -17,6 +19,7 @@ const Follows = React.lazy(() => import('src/views/myProfile/follows/Follows'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  { path: '/about', name: 'About', element: AboutBrainstorm },
   { path: '/directMessages', name: 'Direct Messages', element: DiredtMessages },
   { path: '/notifications', name: 'Notifications', element: Notifications },
   { path: '/profiles', name: 'Find User', element: Profiles },

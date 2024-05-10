@@ -17,3 +17,14 @@ export function safeDecode(str) {
     return result
   } catch (e) {}
 }
+
+export function getPubkeyFromNpub(str) {
+  try {
+    const decoded = nip19.decode(str)
+    if (decoded.type == 'npub') {
+      return decoded.data
+    } else {
+      return ''
+    }
+  } catch (e) {}
+}

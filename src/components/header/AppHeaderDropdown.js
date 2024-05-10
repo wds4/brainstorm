@@ -28,6 +28,7 @@ import {
   cilApple,
   cilGraph,
   cilHome,
+  cilInfo,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
@@ -71,7 +72,7 @@ const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0 pe-0" caret={false}>
-        <CAvatar style={{ backgroundColor: 'white' }} src={headerAvatar} size="md" />
+        <CAvatar style={{ backgroundColor: 'grey' }} src={headerAvatar} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">
@@ -138,6 +139,11 @@ const AppHeaderDropdown = () => {
         <CDropdownItem href="#/login" className={loggedOut} onClick={() => updateActiveApp('home')}>
           <CIcon icon={cilArrowThickFromLeft} className="me-2" />
           Login
+        </CDropdownItem>
+        <CDropdownHeader className="bg-body-secondary fw-semibold my-2">Brainstorm</CDropdownHeader>
+        <CDropdownItem href="#/about" onClick={() => updateActiveApp('home')}>
+          <CIcon icon={cilInfo} className="me-2" />
+          About
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

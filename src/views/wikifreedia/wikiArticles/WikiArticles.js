@@ -72,8 +72,6 @@ const WikiTopics = () => {
         <center>
           <h3>Wiki Topics</h3>
         </center>
-        <Navigation updateWhichTab={setWhichTab} />
-        <br />
         <Content whichTab={whichTab} />
       </CContainer>
     </>

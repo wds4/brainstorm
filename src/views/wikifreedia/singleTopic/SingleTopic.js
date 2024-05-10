@@ -1,9 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow, CListGroup, CFormSwitch } from '@coreui/react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ListEvent } from './ListEvent'
 import { fetchFirstByTag } from 'src/helpers'
 import Markdown from 'react-markdown'
+import { useSearchParams } from 'react-router-dom'
+import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
 
 const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   if (showRawDataButton == 'hide') {
@@ -24,80 +26,49 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   )
 }
 
-const SingleEntry = ({ naddr, oEvent }) => {
-  const [showRawDataButton, setShowRawDataButton] = useState('hide')
-  const toggleShowRawData = useCallback(
-    (e) => {
-      if (showRawDataButton == 'hide') {
-        setShowRawDataButton('show')
-      }
-      if (showRawDataButton == 'show') {
-        setShowRawDataButton('hide')
-      }
-    },
-    [showRawDataButton],
-  )
-  const content = oEvent?.content
-  let titleStyle = {}
-  let title = fetchFirstByTag('title', oEvent)
-  if (!title) {
-    title = 'no title provided'
-    titleStyle = {
-      color: 'orange',
-    }
-  }
-  return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <div className="col" style={titleStyle}>
-              <div style={{ textAlign: 'center', fontSize: '26px' }}>{title}</div>
-            </div>
-          </CCardHeader>
-          <CCardBody>
-            <Markdown>{content}</Markdown>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ display: 'inline-block' }}>
-                <CFormSwitch
-                  onChange={(e) => toggleShowRawData(e)}
-                  label="raw JSON"
-                  id="formSwitchCheckDefault"
-                />
-              </div>
-            </div>
-          </CCardBody>
-        </CCard>
-        <RawData showRawDataButton={showRawDataButton} oEvent={oEvent} naddr={naddr} />
-      </CCol>
-    </CRow>
-  )
-}
-
 const WikiTopic = () => {
-  const [naddr, setNaddr] = useState('')
-  const [oEvent, setOEvent] = useState({})
-  const topicSlug = useSelector((state) => state.siteNavigation.wikifreedia.viewTopic)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const viewTopic = useSelector((state) => state.siteNavigation.wikifreedia.viewTopic)
+  const [topicSlug, setTopicSlug] = useState(viewTopic)
   const oTopicSlugs = useSelector((state) => state.wikifreedia.articles.byDTag)
   const oEvents = useSelector((state) => state.wikifreedia.articles.byNaddr)
-  const oAuthors = oTopicSlugs[topicSlug]
-  const aAuthors = Object.keys(oAuthors)
+  let oAuthors = {}
+  let aAuthors = []
+  if (oTopicSlugs[topicSlug]) {
+    oAuthors = oTopicSlugs[topicSlug]
+    aAuthors = Object.keys(oAuthors)
+  }
 
-  let showVersions = aAuthors.length + ' versions'
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    function updateTopicFromUrl() {
+      const topicFromUrl = searchParams.get('topic')
+      if (topicFromUrl) {
+        console.log('topicFromUrl: ' + topicFromUrl)
+        dispatch(updateViewWikifreediaTopic(topicFromUrl))
+        setTopicSlug(topicFromUrl)
+      }
+    }
+    updateTopicFromUrl()
+  }, [topicSlug])
+
+  let showVersions = 'There are ' + aAuthors.length + ' versions of this article.'
   if (aAuthors.length == 1) {
-    showVersions = aAuthors.length + ' version'
+    showVersions = 'There is ' + aAuthors.length + ' version of this article.'
   }
   return (
     <>
       <center>
-        <h3>Wikifreedia Topic</h3>
+        <h1>
+          <strong>{topicSlug}</strong>
+        </h1>
       </center>
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>{topicSlug}</strong>
-              <small style={{ float: 'right' }}>{showVersions}</small>
+              <small>{showVersions}</small>
             </CCardHeader>
             <CCardBody>
               {aAuthors.map((pk) => {
@@ -105,13 +76,7 @@ const WikiTopic = () => {
                 const oEvent = oEvents[naddr]
                 return (
                   <CListGroup key={pk}>
-                    <ListEvent
-                      pubkey={pk}
-                      oEvent={oEvent}
-                      naddr={naddr}
-                      setNaddr={setNaddr}
-                      setOEvent={setOEvent}
-                    />
+                    <ListEvent pubkey={pk} oEvent={oEvent} naddr={naddr} />
                   </CListGroup>
                 )
               })}
@@ -119,7 +84,6 @@ const WikiTopic = () => {
           </CCard>
         </CCol>
       </CRow>
-      <SingleEntry naddr={naddr} oEvent={oEvent} />
     </>
   )
 }

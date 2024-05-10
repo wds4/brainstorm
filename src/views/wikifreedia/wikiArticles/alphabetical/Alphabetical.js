@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
+  CFormInput,
   CNavLink,
   CRow,
   CTable,
@@ -17,12 +18,28 @@ import {
 import { updateViewWikifreediaTopic } from '../../../../redux/features/siteNavigation/slice'
 
 const WikiArticlesAlphabetical = () => {
+  const [searchField, setSearchField] = useState('')
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
-
-  const aDTags = Object.keys(oWikiArticles_byDTag).sort()
+  const aTopics = Object.keys(oWikiArticles_byDTag).sort()
+  const [aTopicsFiltered, setATopicsFiltered] = useState(aTopics)
 
   const dispatch = useDispatch()
+
+  const handleSearchFieldChange = useCallback(
+    async (e) => {
+      const newField = e.target.value
+      setSearchField(newField)
+      const newArray = []
+      aTopics.forEach((t) => {
+        if (t.includes(newField)) {
+          newArray.push(t)
+        }
+      })
+      setATopicsFiltered(newArray)
+    },
+    [searchField],
+  )
 
   const processDTagClick = (dTag) => {
     console.log('processDTagClick dTag: ' + dTag)
@@ -30,38 +47,46 @@ const WikiArticlesAlphabetical = () => {
   }
   return (
     <>
-      <center>
-        <h3>Wiki Topics: Alphabetically</h3>
-      </center>
-      <div>number of wiki articles by dTag: {Object.keys(oWikiArticles_byDTag).length}</div>
-      <div>number of wiki articles by eventId: {Object.keys(oWikiArticles_byNaddr).length}</div>
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>{aDTags.length} topics (d-tags)</strong>
+              <strong>
+                {aTopics.length} Topics, {Object.keys(oWikiArticles_byNaddr).length} articles
+              </strong>
             </CCardHeader>
             <CCardBody>
-              <CTable color="dark" striped small hover>
+              <CFormInput
+                label="search by topic:"
+                type="text"
+                value={searchField}
+                onChange={handleSearchFieldChange}
+              />
+              <br />
+              <CTable striped small hover>
                 <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell scope="col">#</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">topic</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">
+                      topics ({aTopicsFiltered.length})
+                    </CTableHeaderCell>
+                    <CTableHeaderCell scope="col"># authors</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {aDTags.map((dTag, item) => {
+                  {aTopicsFiltered.map((topicSlug, item) => {
+                    const oAuthors = oWikiArticles_byDTag[topicSlug]
+                    const aAuthors = Object.keys(oAuthors)
                     return (
                       <CTableRow key={item}>
-                        <CTableDataCell>{item}</CTableDataCell>
-                        <CTableHeaderCell scope="row">
+                        <CTableDataCell scope="row">
                           <CNavLink
                             href="#/wikifreedia/singleTopic"
-                            onClick={() => processDTagClick(dTag)}
+                            onClick={() => processDTagClick(topicSlug)}
                           >
-                            {dTag}
+                            {topicSlug}
                           </CNavLink>
-                        </CTableHeaderCell>
+                        </CTableDataCell>
+                        <CTableDataCell>{aAuthors.length}</CTableDataCell>
                       </CTableRow>
                     )
                   })}

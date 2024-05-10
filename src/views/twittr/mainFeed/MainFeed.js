@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
-import { processKind1Event } from '../../../redux/features/twittr/slice'
-import TwittrNote from '../components/twittrNote'
+import { processKind1Event } from 'src/redux/features/twittr/slice'
+import TwittrNote from 'src/views/twittr/components/twittrNote'
 import { CContainer } from '@coreui/react'
 
 const MainFeed = () => {
@@ -28,7 +28,7 @@ const MainFeed = () => {
   // filter.since = currentTime - ( (24 * 60 * 60 * days) + (60 * 60 * hours) + (60 * minutes) )
 
   useEffect(() => {
-    async function updateMyFollowsAndRelays() {
+    async function updateEvents() {
       if (aFollows) {
         const events = await fetchEvents(filter)
         events.forEach((event) => {
@@ -38,7 +38,7 @@ const MainFeed = () => {
         })
       }
     }
-    updateMyFollowsAndRelays()
+    updateEvents()
   }, [fetchEvents(filter)])
   return (
     <>

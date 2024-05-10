@@ -47,7 +47,6 @@ const WikiCategory = () => {
       <center>
         <h3>Wikifreedia Category: {categoryName}</h3>
       </center>
-      <pre>{JSON.stringify(oTopics, null, 4)}</pre>
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">

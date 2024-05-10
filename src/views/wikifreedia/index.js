@@ -12,7 +12,7 @@ const WikifreediaDashboard = () => {
     <>
       <WikiListener />
       <center>
-        <h3>Wikifreedia Dashboard</h3>
+        <h3>Wiki Dashboard</h3>
       </center>
       <div>number of wiki articles: {Object.keys(oWikiAtricles).length}</div>
     </>

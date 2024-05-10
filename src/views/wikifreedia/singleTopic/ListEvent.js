@@ -1,23 +1,71 @@
-import React from 'react'
-import { CCardBody, CNavLink } from '@coreui/react'
-import { useNDK } from '@nostr-dev-kit/ndk-react'
+import React, { useCallback, useState } from 'react'
+import { CButton, CCard, CCardBody, CCol, CFormSwitch, CNavLink, CRow } from '@coreui/react'
 import { nip19 } from 'nostr-tools'
 import { useDispatch } from 'react-redux'
-import { updateNpub } from 'src/redux/features/siteNavigation/slice'
 import { secsToTimeAgo, fetchFirstByTag } from 'src/helpers'
+import { updateViewWikifreediaArticle } from '../../../redux/features/siteNavigation/slice'
+import { ShowAuthor } from '../components/ShowAuthor'
+
+const Details = ({ showDetailsButton, title, category, categoryStyle, displayTime }) => {
+  if (showDetailsButton == 'hide') {
+    return <></>
+  }
+  return (
+    <>
+      <br />
+      <CCard className="mb-4">
+        <CCardBody>
+          <CRow>
+            <CCol className="col-3" style={{ color: 'grey', textAlign: 'right' }}>
+              title:
+            </CCol>
+            <CCol className="col-9">{title}</CCol>
+          </CRow>
+          <CRow>
+            <CCol className="col-3" style={{ color: 'grey', textAlign: 'right' }}>
+              category:
+            </CCol>
+            <CCol className="col-9">{category}</CCol>
+          </CRow>
+          <CRow>
+            <CCol className="col-3" style={{ color: 'grey', textAlign: 'right' }}>
+              when last updated:
+            </CCol>
+            <CCol className="col-9">{displayTime}</CCol>
+          </CRow>
+        </CCardBody>
+      </CCard>
+    </>
+  )
+}
 
 // eslint-disable-next-line react/prop-types
-export const ListEvent = ({ pubkey, oEvent, naddr, setNaddr, setOEvent }) => {
+export const ListEvent = ({ pubkey, oEvent, naddr }) => {
+  const [showDetailsButton, setShowDetailsButton] = useState('hide')
+  const toggleShowDetails = useCallback(
+    (e) => {
+      if (showDetailsButton == 'hide') {
+        setShowDetailsButton('show')
+      }
+      if (showDetailsButton == 'show') {
+        setShowDetailsButton('hide')
+      }
+    },
+    [showDetailsButton],
+  )
+
   const dispatch = useDispatch()
-  const { getProfile } = useNDK()
 
   // title
-  let titleStyle = {}
+  let titleStyle = {
+    display: 'inline-block',
+  }
   let title = fetchFirstByTag('title', oEvent)
   if (!title) {
     title = 'no title provided'
     titleStyle = {
       color: 'orange',
+      display: 'inline-block',
     }
   }
 
@@ -32,21 +80,6 @@ export const ListEvent = ({ pubkey, oEvent, naddr, setNaddr, setOEvent }) => {
   }
 
   const npub = nip19.npubEncode(pubkey)
-  const oProfile = getProfile(npub)
-  let author = oProfile?.displayName
-  if (!author) {
-    author = '@' + oProfile?.name
-  }
-  if (!author) {
-    author = npub
-  }
-  const setCurrentNpub = (newNpub) => {
-    dispatch(updateNpub(newNpub))
-  }
-  const ToggleEvent = (naddr) => {
-    setNaddr(naddr)
-    setOEvent(oEvent)
-  }
 
   let published_at = fetchFirstByTag('published_at', oEvent)
   if (!published_at) {
@@ -54,27 +87,38 @@ export const ListEvent = ({ pubkey, oEvent, naddr, setNaddr, setOEvent }) => {
   }
   const displayTime = secsToTimeAgo(published_at)
 
+  const processViewArticleClick = (naddr) => {
+    dispatch(updateViewWikifreediaArticle(naddr))
+  }
   return (
-    <div className="row justify-content-between"style={{ display: 'flex', alignItems: 'center' }} >
-      <div className="col-md-auto profileAvatarContainerSmall" >
-        <CNavLink href="#/profile" onClick={() => setCurrentNpub(npub)}>
-          <img src={oProfile?.image} className="profileAvatarSmall" />
-        </CNavLink>
-      </div>
-      <div className="col-3">
-        <strong>{author}</strong>
-      </div>
-      <div className="col-3" style={titleStyle} onClick={() => ToggleEvent(naddr)}>
-        <strong>{title}</strong>
-      </div>
-      <div className="col-3" style={categoryStyle}>
-        <strong>{category}</strong>
-      </div>
-      <div className="col">
-        <div style={{ float: 'right' }}>
-          <small>{displayTime}</small>
+    <>
+      <div className="row justify-content-between">
+        <div className="col">
+          <ShowAuthor npub={npub} />
+        </div>
+        <div className="col-auto" style={{ display: 'flex', alignItems: 'center' }}>
+          <CButton color="primary">
+            <CNavLink
+              href="#/wikifreedia/singleEntry"
+              onClick={() => processViewArticleClick(naddr)}
+            >
+              View Article
+            </CNavLink>
+          </CButton>
+        </div>
+        <div className="col-auto" style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'inline-block' }}>
+            <CFormSwitch onChange={(e) => toggleShowDetails(e)} />
+          </div>
         </div>
       </div>
-    </div>
+      <Details
+        showDetailsButton={showDetailsButton}
+        title={title}
+        category={category}
+        categoryStyle={categoryStyle}
+        displayTime={displayTime}
+      />
+    </>
   )
 }
