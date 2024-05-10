@@ -11,9 +11,9 @@ import {
 } from '@coreui/react'
 import { useSelector } from 'react-redux'
 import Markdown from 'react-markdown'
-import { fetchFirstByTag, secsToTimeAgo } from '../../../helpers'
-import { updateViewWikifreediaTopic } from '../../../redux/features/siteNavigation/slice'
-import { processWikiMarkdownLinks } from '../../../helpers/contentFilters'
+import { fetchFirstByTag, secsToTimeAgo } from 'src/helpers'
+import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
+import { processWikiMarkdownLinks } from 'src/helpers/contentFilters'
 import { ShowAuthor } from '../components/ShowAuthor'
 import { nip19 } from 'nostr-tools'
 

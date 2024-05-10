@@ -24,14 +24,21 @@ const GrapevineListener = () => {
   useEffect(() => {
     async function updateGrapevineDatabase() {
       const events = await fetchEvents(filter)
-      events.forEach((event, item) => {
+      events.forEach((eventNS, item) => {
+        const event = {}
+        event.id = eventNS.id
+        event.content = eventNS.content
+        event.kind = eventNS.kind
+        event.tags = eventNS.tags
+        event.pubkey = eventNS.pubkey
+        event.sig = eventNS.sig
         try {
           // const event = eventNS.rawEvent()
           const aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
           if (aTags_w.length > 0) {
             let cid = event.id
             const wordType = aTags_w[0][1]
-            console.log('fetchEvents; wordType: ' + wordType)
+            // console.log('fetchEvents; wordType: ' + wordType)
             if (event.kind >= 30000 && event.kind < 40000) {
               const tag_d = fetchFirstByTag('d', event)
               const naddr = nip19.naddrEncode({
@@ -68,12 +75,12 @@ const GrapevineListener = () => {
                 ([k, v]) => k === 'nameSingular' && v && v !== '',
               )
               const nameSingular = aTags_nameSingular[0][1]
-              console.log('fetchEvents_wordType; nameSingular: ' + nameSingular)
+              // console.log('fetchEvents_wordType; nameSingular: ' + nameSingular)
               dispatch(addWordToConceptGraph({ event, cid, wordType }))
             }
             // will add to misc other apps (not yet implemented)
             if (wordType == 'nestedList') {
-              console.log('fetchEvents_nestedList')
+              // console.log('fetchEvents_nestedList')
             }
           }
         } catch (e) {

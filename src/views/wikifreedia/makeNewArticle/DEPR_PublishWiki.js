@@ -14,29 +14,22 @@ import { signEventPGA } from 'src/helpers/signers'
 import { useSelector } from 'react-redux'
 import { useNostr } from 'nostr-react'
 
-const PublishNote = () => {
+const PublishWiki = ({content}) => {
   const oProfile = useSelector((state) => state.profile)
-  const [content, setContent] = useState('')
   const [submitEventButtonClassName, setSubmitEventButtonClassName] = useState('mt-3')
   const [createAnotherElementClassName, setCreateAnotherElementClassName] = useState('hide')
 
-  const handleContentChange = useCallback(
-    async (e) => {
-      const newContent = e.target.value
-      setContent(newContent)
-    },
-    [content],
-  )
   const { publish } = useNostr()
 
-  const publishTwittrNote = useCallback(async () => {
+  const publishKind30818Note = useCallback(async () => {
     const note = {}
-    note.kind = 1
+    note.kind = 30818
     note.content = content
-    note.tags = []
+    note.tags = [
+    ]
     note.created_at = Math.floor(Date.now() / 1000)
     const note_signed = await signEventPGA(oProfile, note)
-    publish(note_signed)
+    // publish(note_signed)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
   }, [content])
@@ -44,13 +37,9 @@ const PublishNote = () => {
   const createAnotherNoteButton = useCallback(() => {
     setSubmitEventButtonClassName('mt-3')
     setCreateAnotherElementClassName('hide')
-    setContent('')
   }, [content])
   return (
     <>
-      <center>
-        <h3>Publish kind 1 Note</h3>
-      </center>
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
@@ -58,18 +47,10 @@ const PublishNote = () => {
               <strong>Make New Note</strong>
             </CCardHeader>
             <CCardBody>
-              <CForm>
-                <CFormTextarea
-                  type="text"
-                  rows={3}
-                  value={content}
-                  onChange={handleContentChange}
-                />
-              </CForm>
               <CButton
                 color="primary"
                 className={submitEventButtonClassName}
-                onClick={publishTwittrNote}
+                onClick={publishKind30818Note}
               >
                 Submit
               </CButton>
@@ -92,4 +73,4 @@ const PublishNote = () => {
   )
 }
 
-export default PublishNote
+export default PublishWiki
