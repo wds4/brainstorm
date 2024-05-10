@@ -5,6 +5,7 @@ import { CNav, CNavLink } from '@coreui/react'
 const TabsNavigation = ({ updateWhichTab }) => {
   const [isAbout, setIsAbout] = useState(true)
   const [isNotes, setIsNotes] = useState(false)
+  const [isWikis, setIsWikis] = useState(false)
   const [isLeaveRating, setIsLeaveRating] = useState(false)
   const [isRatingsOf, setIsRatingsOf] = useState(false)
   const [isRatingsBy, setIsRatingsBy] = useState(false)
@@ -13,6 +14,7 @@ const TabsNavigation = ({ updateWhichTab }) => {
   const setAllOptionsToFalse = () => {
     setIsAbout(false)
     setIsNotes(false)
+    setIsWikis(false)
     setIsLeaveRating(false)
     setIsRatingsOf(false)
     setIsRatingsBy(false)
@@ -28,6 +30,11 @@ const TabsNavigation = ({ updateWhichTab }) => {
     setAllOptionsToFalse()
     setIsNotes(true)
     updateWhichTab('notes')
+  }
+  const setActiveTabWikis = () => {
+    setAllOptionsToFalse()
+    setIsWikis(true)
+    updateWhichTab('wikis')
   }
   const setActiveTabLeaveRating = () => {
     setAllOptionsToFalse()
@@ -58,16 +65,19 @@ const TabsNavigation = ({ updateWhichTab }) => {
       <CNavLink active={isNotes} onClick={setActiveTabNotes}>
         Notes
       </CNavLink>
+      <CNavLink active={isWikis} onClick={setActiveTabWikis}>
+        Wikis
+      </CNavLink>
       <CNavLink active={isLeaveRating} onClick={setActiveTabLeaveRating}>
         Leave Rating
       </CNavLink>
-      <CNavLink active={isRatingsOf} onClick={setActiveTabRatingsOf}>
+      <CNavLink active={isRatingsOf} onClick={setActiveTabRatingsOf} disabled={true}>
         Ratings of
       </CNavLink>
-      <CNavLink active={isRatingsBy} onClick={setActiveTabRatingsBy}>
+      <CNavLink active={isRatingsBy} onClick={setActiveTabRatingsBy} disabled={true}>
         Ratings by
       </CNavLink>
-      <CNavLink active={isWotScores} onClick={setActiveTabWotScores}>
+      <CNavLink active={isWotScores} onClick={setActiveTabWotScores} disabled={true}>
         WoT Scores
       </CNavLink>
     </CNav>

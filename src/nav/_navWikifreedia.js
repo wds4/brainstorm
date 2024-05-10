@@ -1,6 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { cibWikipedia, cilSpeedometer } from '@coreui/icons'
+import { cibWikipedia, cilPeople, cilSpeedometer } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
@@ -31,6 +31,12 @@ const _nav = [
     name: 'Categories',
     to: '/wikifreedia/categories',
     icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Authors',
+    to: '/wikifreedia/authors',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,

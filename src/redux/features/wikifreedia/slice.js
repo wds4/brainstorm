@@ -9,11 +9,13 @@ export const wikifreediaSlice = createSlice({
       byNaddr: {},
       byDTag: {},
     },
+    authors: {}, // <pubkey>: array of topicSlugs
     categories: {},
   },
   reducers: {
     addArticle: (state, action) => {
       const event = action.payload.event
+      const pubkey = event.pubkey
       // or use event.rawEvent() ?
       const oEvent = {
         id: event.id,
@@ -25,6 +27,8 @@ export const wikifreediaSlice = createSlice({
         sig: event?.sig,
       }
       const topic = fetchFirstByTag('d', oEvent)
+
+      // byNaddr
       const naddr = nip19.naddrEncode({
         pubkey: oEvent.pubkey,
         kind: oEvent.kind,
@@ -32,8 +36,16 @@ export const wikifreediaSlice = createSlice({
         relays: [],
       })
       state.articles.byNaddr[naddr] = oEvent
-      // const tag_title = fetchFirstByTag('title', oEvent)
-      // const tag_published_at = fetchFirstByTag('published_at', oEvent)
+
+      // authors
+      if (!state.authors[pubkey]) {
+        state.authors[pubkey] = []
+      }
+      if (!state.authors[pubkey].includes(topic)) {
+        state.authors[pubkey].push(topic)
+      }
+
+      // byDTag
       if (topic) {
         if (!state.articles.byDTag[topic]) {
           state.articles.byDTag[topic] = {}
@@ -65,6 +77,7 @@ export const wikifreediaSlice = createSlice({
       state.articles = {}
       state.articles.byNaddr = {}
       state.articles.byDTag = {}
+      state.authors = {}
       state.categories = {}
       console.log('wipeWikifreedia!!')
     },

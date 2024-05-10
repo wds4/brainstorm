@@ -10,6 +10,7 @@ import { cilClone } from '@coreui/icons'
 import About from './about/About'
 import Notes from './notes/notes'
 import { getPubkeyFromNpub } from '../../helpers/nip19'
+import Wikis from './wikis/Wikis'
 
 // eslint-disable-next-line react/prop-types
 const ProfileTabsContent = ({ whichTab, npub, pubkey, oProfile }) => {
@@ -18,6 +19,9 @@ const ProfileTabsContent = ({ whichTab, npub, pubkey, oProfile }) => {
   }
   if (whichTab == 'notes') {
     return <Notes oProfile={oProfile} pubkey={pubkey} />
+  }
+  if (whichTab == 'wikis') {
+    return <Wikis oProfile={oProfile} npub={npub} pubkey={pubkey} />
   }
   if (whichTab == 'leaveRating') {
     return <LeaveRating rateeNpub={npub} />
