@@ -9,7 +9,7 @@ import {
   CButton,
   CNavLink,
 } from '@coreui/react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Markdown from 'react-markdown'
 import { fetchFirstByTag, secsToTimeAgo } from 'src/helpers'
 import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
@@ -50,6 +50,7 @@ const DisplayCategory = ({oEvent}) => {
 }
 
 const WikiEntry = () => {
+  const dispatch = useDispatch()
   const oTopicSlugs = useSelector((state) => state.wikifreedia.articles.byDTag)
   const aTopicSlugs = Object.keys(oTopicSlugs)
   const naddr = useSelector((state) => state.siteNavigation.wikifreedia.viewArticle)
