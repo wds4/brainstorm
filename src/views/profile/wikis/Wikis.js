@@ -15,7 +15,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { nip19 } from 'nostr-tools'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
 import { updateViewWikifreediaArticle } from '../../../redux/features/siteNavigation/slice'
@@ -25,10 +25,13 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
   const oAuthors = useSelector((state) => state.wikifreedia.authors)
+
   let aTopicsRef = []
   if (oAuthors[pubkey]) {
-    aTopicsRef = oAuthors[pubkey].sort()
+    aTopicsRef = oAuthors[pubkey]
   }
+
+  // ? TO DO: order topics alphabetically (or chronologically?)
   const [aTopicsFiltered, setATopicsFiltered] = useState(aTopicsRef)
 
   const dispatch = useDispatch()
