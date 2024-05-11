@@ -77,7 +77,7 @@ const Profile = () => {
               </a>
             </span>
           </div>
-          <div style={{ color: 'grey', marginBottom: '12px' }}>
+          <div style={{ color: 'grey', marginBottom: '12px', overflowWrap: 'break-word' }}>
             {npub}{' '}
             <CIcon icon={cilClone} className="me-2" onClick={() => copyNpubToClipboard(npub)} />
           </div>

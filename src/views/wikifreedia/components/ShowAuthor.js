@@ -10,12 +10,14 @@ export const ShowAuthor = ({npub}) => {
   const dispatch = useDispatch()
 
   const oProfile = getProfile(npub)
-  let author = oProfile?.displayName
-  if (!author) {
-    author = '@' + oProfile?.name
-  }
-  if (!author) {
-    author = npub
+  let author = '...' + npub.slice(-6)
+  if (oProfile) {
+    if (oProfile?.displayName) {
+      author = oProfile?.displayName
+    }
+    if (!oProfile?.displayName && oProfile?.name) {
+      author = '@' + oProfile?.name
+    }
   }
   const setCurrentNpub = (newNpub) => {
     dispatch(updateNpub(newNpub))

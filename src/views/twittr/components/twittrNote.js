@@ -29,7 +29,7 @@ const TwittrNote = ({ event }) => {
           {oProfile?.displayName}
           <span style={{ float: 'right', color: 'grey' }}>{displayTime}</span>
         </div>
-        <div>{event.content}</div>
+        <div style={{ overflowWrap: 'break-word' }}>{event.content}</div>
       </div>
     </div>
   )
