@@ -31,7 +31,6 @@ export const siteNavigationSlice = createSlice({
       state.npub = action.payload
     },
     updateViewProfileTab: (state, action) => {
-      console.log('updateViewProfileTab: ' + action.payload)
       state.profile.tab = action.payload
     },
     updateViewContextId: (state, action) => {
