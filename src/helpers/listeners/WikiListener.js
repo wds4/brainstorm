@@ -43,10 +43,7 @@ const WikiListener = () => {
             event.created_at = eventNS.created_at
             event.pubkey = eventNS.pubkey
             event.sig = eventNS.sig
-            // console.log('updateWikifreediaDatabase_B; oEvent.id: ' + oEvent.id + '; oEvent.content: ' + oEvent.content)
-            // const event = eventNS.rawEvent()
-            // add to wikifreedia store
-            dispatch(addArticle({ event }))
+            dispatch(addArticle(event))
             // EXPERIMENTAL:
             // Incorporate each entry into the Concept Graph store.
             // (Not yet implemented.)

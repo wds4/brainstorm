@@ -32,7 +32,24 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
 })
 export default store
 
 export const persistor = persistStore(store)
+
+/*
+// This code:
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
+// was added due to performance problems that were causing the app to freeze up whenever the WikiListener was active.
+// This code turns off a few checks that only run during development mode.
+// The freezing up was only a problem during development mode. Makes a gigantic difference.
+*/

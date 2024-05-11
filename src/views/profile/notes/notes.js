@@ -65,19 +65,14 @@ const Notes = ({ oProfile, pubkey }) => {
   }, [fetchEvents(filter)])
   return (
     <>
-
       <CContainer>
         <CRow>
           <CCol>
             <center>
               <h3>Notes by this user</h3>
             </center>
-            {aCompositeIdentifiers.map((compositeIdentifier) => {
-              return (
-                <>
-                  <TwittrNote event={oKind1Events[compositeIdentifier]} />
-                </>
-              )
+            {aCompositeIdentifiers.map((compositeIdentifier, item) => {
+              return <TwittrNote key={item} event={oKind1Events[compositeIdentifier]} />
             })}
           </CCol>
         </CRow>

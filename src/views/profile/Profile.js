@@ -84,6 +84,7 @@ const Profile = () => {
           <ContextualFollowBlockButtons rateeNpub={npub} />
         </div>
       </div>
+      <br />
       <CRow>
         <TabsNavigation whichTab={whichTab} updateWhichTab={updateWhichTab} />
       </CRow>

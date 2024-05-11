@@ -14,7 +14,7 @@ export const wikifreediaSlice = createSlice({
   },
   reducers: {
     addArticle: (state, action) => {
-      const event = action.payload.event
+      const event = action.payload
       const pubkey = event.pubkey
       // or use event.rawEvent() ?
       const oEvent = {
@@ -35,35 +35,43 @@ export const wikifreediaSlice = createSlice({
         identifier: topic,
         relays: [],
       })
-      state.articles.byNaddr[naddr] = oEvent
-
-      // authors
-      if (!state.authors[pubkey]) {
-        state.authors[pubkey] = []
-      }
-      if (!state.authors[pubkey].includes(topic)) {
-        state.authors[pubkey].push(topic)
-      }
-
-      // byDTag
-      if (topic) {
-        if (!state.articles.byDTag[topic]) {
-          state.articles.byDTag[topic] = {}
+      let continueProcessing = true
+      if (state.articles.byNaddr[naddr]) {
+        if (state.articles.byNaddr[naddr].created_at == oEvent.created_at) {
+          // no need to continue; already been processed
+          continueProcessing = false
         }
-        state.articles.byDTag[topic][oEvent.pubkey] = naddr
       }
-      // process category
-      const category = fetchFirstByTag('c', oEvent)
-      if (category) {
-        if (!state.categories[category]) {
-          state.categories[category] = {}
+      if (continueProcessing) {
+        state.articles.byNaddr[naddr] = oEvent
+        // authors
+        if (!state.authors[pubkey]) {
+          state.authors[pubkey] = []
         }
+        if (!state.authors[pubkey].includes(topic)) {
+          state.authors[pubkey].push(topic)
+        }
+
+        // byDTag
         if (topic) {
-          if (!state.categories[category][topic]) {
-            state.categories[category][topic] = []
+          if (!state.articles.byDTag[topic]) {
+            state.articles.byDTag[topic] = {}
           }
-          if (!state.categories[category][topic].includes(naddr)) {
-            state.categories[category][topic].push(naddr)
+          state.articles.byDTag[topic][oEvent.pubkey] = naddr
+        }
+        // process category
+        const category = fetchFirstByTag('c', oEvent)
+        if (category) {
+          if (!state.categories[category]) {
+            state.categories[category] = {}
+          }
+          if (topic) {
+            if (!state.categories[category][topic]) {
+              state.categories[category][topic] = []
+            }
+            if (!state.categories[category][topic].includes(naddr)) {
+              state.categories[category][topic].push(naddr)
+            }
           }
         }
       }

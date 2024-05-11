@@ -35,7 +35,7 @@ const WikiCategory = () => {
   return (
     <>
       <center>
-        <h3>Wikifreedia Category: {categoryName}</h3>
+        <h3>Category: {categoryName}</h3>
       </center>
       <CRow>
         <CCol xs={12}>
@@ -47,7 +47,6 @@ const WikiCategory = () => {
               <CTable small>
                 <CTableHead>
                   <CTableRow>
-                    <CTableHeaderCell scope="col">#</CTableHeaderCell>
                     <CTableHeaderCell scope="col">topic</CTableHeaderCell>
                     <CTableHeaderCell scope="col"># versions</CTableHeaderCell>
                   </CTableRow>
@@ -57,7 +56,6 @@ const WikiCategory = () => {
                     const aNaddr = oTopics[topic]
                     return (
                       <CTableRow key={item}>
-                        <CTableDataCell>{item}</CTableDataCell>
                         <CTableHeaderCell scope="row">
                           <CNavLink
                             href="#/wikifreedia/singleTopic"
