@@ -4,6 +4,7 @@ export const aDefaultRelays = [
   'wss://relay.damus.io',
   'wss://relay.primal.net',
   'wss://relay.wikifreedia.xyz',
+  'wss://purplepag.es',
 ]
 export const cutoffTime = 1714936803 // cutoff time when filtering for tapestry protocol words
 

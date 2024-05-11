@@ -6,6 +6,7 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
+  CCardTitle,
   CCol,
   CContainer,
   CForm,
@@ -97,6 +98,8 @@ const MakeNewWikiArticle = () => {
   const [topicSlug, setTopicSlug] = useState('')
   const [showRawDataButton, setShowRawDataButton] = useState('hide')
   const [showWikiPreviewButton, setShowWikiPreviewButton] = useState('hide')
+  const [publishWikiButtonClassName, setPublishWikiButtonClassName] = useState('mt-3')
+  const [publishAnotherWikiClassName, setPublishAnotherWikiClassName] = useState('hide')
   const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
   const aWikiCategories = Object.keys(oWikiCategories)
   const oProfile = useSelector((state) => state.profile)
@@ -262,7 +265,15 @@ const MakeNewWikiArticle = () => {
   const publishKind30818Note = useCallback(async () => {
     const oNote = await makeWord(oProfile, markdown, topicSlug, topicTitle, category, newCategory)
     publish(oNote)
+    setPublishWikiButtonClassName('hide')
+    setPublishAnotherWikiClassName('show')
   }, [oProfile, markdown, topicSlug, topicTitle, category, newCategory])
+
+  const publishAnotherWiki = useCallback(() => {
+    setPublishWikiButtonClassName('mt-3')
+    setPublishAnotherWikiClassName('hide')
+    setMarkdown('')
+  }, [])
 
   const handlePreviewButton = useCallback(
     (e) => {
@@ -367,12 +378,21 @@ const MakeNewWikiArticle = () => {
             }}
           >
             <CButton
-              style={{ display: 'inline-block' }}
+              className={publishWikiButtonClassName}
               color="primary"
               onClick={publishKind30818Note}
             >
-              Publish your wiki entry!
+              Publish
             </CButton>
+            <div className={publishAnotherWikiClassName}>
+              <CCardTitle>Your wiki has been published!</CCardTitle>
+              <CButton
+                color="primary"
+                onClick={publishAnotherWiki}
+              >
+                Create another wiki
+              </CButton>
+            </div>
           </div>
         </div>
 
