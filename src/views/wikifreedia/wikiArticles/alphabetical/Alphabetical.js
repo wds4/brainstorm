@@ -87,6 +87,7 @@ const WikiArticlesAlphabetical = () => {
                     onChange={(e)=>{updateSortBySelector(e)}}
                     options={[
                       { label: 'alphabetical', value: 'alphabetical' },
+                      { label: '# of versions', value: 'numerical', disabled: true },
                       { label: 'most recent update', value: 'chronological', disabled: true },
                       { label: 'WoT score', value: 'wetScore', disabled: true },
                     ]}

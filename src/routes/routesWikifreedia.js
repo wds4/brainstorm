@@ -32,7 +32,7 @@ const routes = [
 
   // content
   { path: '/wikifreedia/categories', name: 'Categories', element: Categories },
-  { path: '/wikifreedia/makeNewArticle', name: 'Make New Entry', element: MakeNewArticle },
+  { path: '/wikifreedia/publish', name: 'Publish', element: MakeNewArticle },
   { path: '/wikifreedia/wikiArticles', name: 'Wiki Articles', element: WikiArticles },
   { path: '/wikifreedia/singleCategory', name: 'Wiki Category', element: WikiCategory },
   { path: '/wikifreedia/singleEntry', name: 'Wiki Entry', element: WikiEntry },

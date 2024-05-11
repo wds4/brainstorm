@@ -21,6 +21,7 @@ import { ShowAuthor } from '../components/ShowAuthor'
 import { signEventPGA } from 'src/helpers/signers'
 import { useNostr } from 'nostr-react'
 import { fetchFirstByTag } from 'src/helpers'
+import { useSearchParams } from 'react-router-dom'
 
 const mdStr = `# Test Entry  \n## Subtitle \n\nLorem Ipsum \n\nCreated using [brainstorm.ninja](https://brainstorm.ninja)`
 
@@ -35,7 +36,7 @@ const oEventDefault = {
 }
 
 const Editor = ({ markdown, setMarkdown }) => {
-  return <MarkdownEditor value={mdStr} onChange={(value, viewUpdate) => setMarkdown(value)} />
+  return <MarkdownEditor value={markdown} onChange={(value, viewUpdate) => setMarkdown(value)} />
 }
 
 const DisplayCategory = ({ oEvent }) => {
@@ -87,19 +88,52 @@ const PreviewWiki = ({ oEvent, showWikiPreviewButton, markdown, topicTitle, topi
 }
 
 const MakeNewWikiArticle = () => {
-  const [markdown, setMarkdown] = useState(mdStr)
+  const [markdown, setMarkdown] = useState('')
   const [oEvent, setOEvent] = useState({})
   const [naddr, setNaddr] = useState('')
-  const [category, setCategory] = useState('')
+  const [category, setCategory] = useState('Neurology')
   const [newCategory, setNewCategory] = useState('')
-  const [topicTitle, setTopicTitle] = useState('Test')
-  const [topicSlug, setTopicSlug] = useState('test')
+  const [topicTitle, setTopicTitle] = useState('')
+  const [topicSlug, setTopicSlug] = useState('')
   const [showRawDataButton, setShowRawDataButton] = useState('hide')
   const [showWikiPreviewButton, setShowWikiPreviewButton] = useState('hide')
   const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
   const aWikiCategories = Object.keys(oWikiCategories)
   const oProfile = useSelector((state) => state.profile)
   const myPubkey = useSelector((state) => state.profile.pubkey)
+
+  const [searchParams, setSearchParams] = useSearchParams()
+  const naddrFromUrl = searchParams.get('naddr')
+  const oWikiArticlesByNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
+
+  useEffect(() => {
+    function updateFromPreviousArticle() {
+      try {
+        let oExistingEvent = {}
+        let existingTopicSlug = ''
+        let existingTopicTitle = ''
+        let existingCategory = ''
+        let existingMarkdown = ''
+        if (oWikiArticlesByNaddr[naddrFromUrl]) {
+          oExistingEvent = oWikiArticlesByNaddr[naddrFromUrl]
+          existingMarkdown = oExistingEvent.content
+          existingCategory = fetchFirstByTag('c', oExistingEvent)
+          existingTopicSlug = fetchFirstByTag('d', oExistingEvent)
+          existingTopicTitle = fetchFirstByTag('title', oExistingEvent)
+          if (!existingTopicTitle) {
+            existingTopicTitle = existingTopicSlug
+          }
+          setNewCategory(existingCategory)
+          setMarkdown(existingMarkdown)
+          setTopicTitle(existingTopicTitle)
+          setTopicSlug(existingTopicSlug)
+        }
+      } catch (e) {
+        console.log('updateFromPreviousArticle error: ' + e)
+      }
+    }
+    updateFromPreviousArticle()
+  }, [])
 
   const npub = nip19.npubEncode(myPubkey)
 
@@ -218,8 +252,7 @@ const MakeNewWikiArticle = () => {
   )
 
   const updateCategory = useCallback(
-    async (e) => {
-      const newCategory = e.target.value
+    async (newCategory) => {
       setCategory(newCategory)
       setNewCategory('')
     },
@@ -293,10 +326,10 @@ const MakeNewWikiArticle = () => {
             <CFormSelect
               id="existingCategorySelector"
               onChange={(e) => {
-                updateCategory(e)
+                updateCategory(e.target.value)
               }}
             >
-              <option value="">-- no category --</option>
+              <option value=""></option>
               {aWikiCategories.map((category) => {
                 return (
                   <option key={category} value={category}>

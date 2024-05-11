@@ -29,7 +29,7 @@ const WikifreediaDashboard = () => {
       </center>
       <CRow xs={{ gutter: 4 }}>
         <CCol xs={12} sm={6} xl={4} xxl={3}>
-          <CNavLink href="#/wikifreedia/makeNewArticle">
+          <CNavLink href="#/wikifreedia/publish">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cilPencil} size="xl" />}
               value="Write an article"

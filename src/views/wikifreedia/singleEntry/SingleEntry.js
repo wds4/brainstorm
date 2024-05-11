@@ -36,7 +36,7 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   )
 }
 
-const DisplayCategory = ({oEvent}) => {
+const DisplayCategory = ({ oEvent }) => {
   let category = fetchFirstByTag('c', oEvent)
   if (!category) {
     return <></>
@@ -101,6 +101,7 @@ const WikiEntry = () => {
   }
   const contentWithLinks = processWikiMarkdownLinks(content, aTopicSlugs)
   const topicHref = '#/wikifreedia/singleTopic?topic=' + topicSlug
+  const editThisArticleRef = '#/wikifreedia/publish?naddr=' + naddr
   return (
     <>
       <center>
@@ -117,11 +118,15 @@ const WikiEntry = () => {
                 <CCol xs="auto" className="me-auto">
                   <ShowAuthor npub={npub} />
                 </CCol>
-                <CCol xs="auto" className="align-self-center" style={{ color: 'grey' }}>{displayTime}</CCol>
+                <CCol xs="auto" className="align-self-center" style={{ color: 'grey' }}>
+                  {displayTime}
+                </CCol>
               </CRow>
             </CCardHeader>
             <CCardBody>
-              <Markdown>{contentWithLinks}</Markdown>
+              <div style={{ overflow: 'scroll' }}>
+                <Markdown>{contentWithLinks}</Markdown>
+              </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ display: 'inline-block' }}>
                   <CFormSwitch
@@ -143,6 +148,11 @@ const WikiEntry = () => {
             <CNavLink href={topicHref} onClick={() => processViewTopicClick(topicSlug)}>
               View all versions of {topicSlug}
             </CNavLink>
+          </CButton>
+        </CCol>
+        <CCol className="col-auto">
+          <CButton color="primary">
+            <CNavLink href={editThisArticleRef}>Edit</CNavLink>
           </CButton>
         </CCol>
       </div>

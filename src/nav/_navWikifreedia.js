@@ -1,6 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { cibWikipedia, cilPeople, cilSpeedometer } from '@coreui/icons'
+import { cibWikipedia, cilCalculator, cilCircle, cilGlobeAlt, cilGraph, cilListFilter, cilListHighPriority, cilPencil, cilPeople, cilSpeedometer, cilThumbUp } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
@@ -22,15 +22,15 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Make New Wiki Article',
-    to: '/wikifreedia/makeNewArticle',
-    icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
+    name: 'Publish',
+    to: '/wikifreedia/publish',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'Categories',
     to: '/wikifreedia/categories',
-    icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
@@ -46,19 +46,19 @@ const _nav = [
     component: CNavItem,
     name: 'Leave Trust Attestation',
     to: '/wikifreedia/leaveAttestation',
-    icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilThumbUp} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'View Trust Attestations',
     to: '/wikifreedia/viewAttestations',
-    icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'WoT Scores',
     to: '/wikifreedia/wotScores',
-    icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilCalculator} customClassName="nav-icon" />,
   },
 ]
 
