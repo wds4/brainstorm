@@ -296,9 +296,6 @@ const MakeNewWikiArticle = () => {
                 updateCategory(e)
               }}
             >
-              <option value="disabled" selected disabled>
-                select category
-              </option>
               <option value="">-- no category --</option>
               {aWikiCategories.map((category) => {
                 return (

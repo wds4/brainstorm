@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 import WikiListener from '../../helpers/listeners/WikiListener'
-import { cibWikipedia, cilPeople } from '@coreui/icons'
+import { cibWikipedia, cilPencil, cilPeople } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const WikifreediaDashboard = () => {
@@ -13,6 +13,14 @@ const WikifreediaDashboard = () => {
   const oTopics = useSelector((state) => state.wikifreedia.articles.byDTag)
   const oCategories = useSelector((state) => state.wikifreedia.categories)
   const oAuthors = useSelector((state) => state.wikifreedia.authors)
+  const myPubkey = useSelector((state) => state.profile.pubkey)
+
+  /*
+  let numArticlesByMe = 'Time to write your first one!'
+  if (oAuthors[myPubkey]) {
+    numArticlesByMe = oAuthors[myPubkey].length + ' so far'
+  }
+  */
   return (
     <>
       <WikiListener />
@@ -20,6 +28,15 @@ const WikifreediaDashboard = () => {
         <h3>Wiki Dashboard</h3>
       </center>
       <CRow xs={{ gutter: 4 }}>
+        <CCol xs={12} sm={6} xl={4} xxl={3}>
+          <CNavLink href="#/wikifreedia/makeNewArticle">
+            <CWidgetStatsF
+              icon={<CIcon width={24} icon={cilPencil} size="xl" />}
+              value="Write an article"
+              color="success"
+            />
+          </CNavLink>
+        </CCol>
         <CCol xs={12} sm={6} xl={4} xxl={3}>
           <CNavLink href="#/wikifreedia/wikiArticles">
             <CWidgetStatsF

@@ -39,7 +39,7 @@ const routes = [
   { path: '/wikifreedia/singleTopic', name: 'Wiki Topic', element: WikiTopic },
   { path: '/wikifreedia/authors', name: 'Authors', element: WikiAuthors },
 
-  // Wikifreedia WoT
+  // Wiki WoT
   { path: '/wikifreedia/leaveAttestation', name: 'Leave Attestation', element: LeaveAttestation },
   { path: '/wikifreedia/viewAttestations', name: 'View Attestations', element: ViewAttestations },
   { path: '/wikifreedia/wotScores', name: 'WoT Scores', element: WotScores },

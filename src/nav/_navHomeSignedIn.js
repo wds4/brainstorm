@@ -44,7 +44,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Wikifreedia',
+    name: 'Wiki',
     to: '/wikifreedia',
     icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
   },

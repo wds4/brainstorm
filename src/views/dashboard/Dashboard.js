@@ -30,34 +30,15 @@ const Dashboard = () => {
           <CCol xs={12} sm={6} xl={4} xxl={3}>
             <CNavLink
               style={{ display: 'inline-block' }}
-              href="#/grapevine"
-              onClick={() => updateActiveApp('grapevine')}
-            >
-              <CCard className="mb-4 border-dark">
-                <CCardHeader>
-                  <strong>The Grapevine</strong>
-                </CCardHeader>
-                <CCardBody>
-                  <CCardText>
-                    The Grapevine enables you and your community to identify who is the most
-                    trustworthy, and in what context, to curate content, facts, and information.
-                  </CCardText>
-                </CCardBody>
-              </CCard>
-            </CNavLink>
-          </CCol>
-          <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink
-              style={{ display: 'inline-block' }}
               href="#/wikifreedia"
               onClick={() => updateActiveApp('wikifreedia')}
             >
               <CCard className="mb-3 border-dark">
                 <CCardHeader>
-                  <strong>Wikifreedia</strong>
+                  <strong>Web-o-pedia</strong>
                 </CCardHeader>
                 <CCardBody>
-                  <CCardText>Use your Grapevine to curate content on Wikifreedia!</CCardText>
+                  <CCardText>Knowledge curation by your Grapevine</CCardText>
                 </CCardBody>
               </CCard>
             </CNavLink>
