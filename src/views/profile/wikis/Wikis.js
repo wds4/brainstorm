@@ -88,26 +88,42 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
                 <CTableBody>
                   {aTopicsFiltered.map((topicSlug, item) => {
                     const oAuthors = oWikiArticles_byDTag[topicSlug]
-                    const aAuthors = Object.keys(oAuthors)
-                    const naddr = nip19.naddrEncode({
-                      pubkey,
-                      kind: 30818,
-                      identifier: topicSlug,
-                      relays: [],
-                    })
-                    return (
-                      <CTableRow key={item}>
-                        <CTableDataCell scope="row">
-                          <CNavLink
-                            href="#/wikifreedia/singleEntry"
-                            onClick={() => processViewArticleClick(naddr)}
-                          >
-                            {topicSlug}
-                          </CNavLink>
-                        </CTableDataCell>
-                        <CTableDataCell>{aAuthors.length}</CTableDataCell>
-                      </CTableRow>
-                    )
+                    if (!oAuthors) {
+                      return (
+                        <CTableRow key={item}>
+                          <CTableDataCell scope="row">
+                            <CNavLink
+                              href="#/wikifreedia/singleEntry"
+                            >
+                              {topicSlug}
+                            </CNavLink>
+                          </CTableDataCell>
+                          <CTableDataCell>error retrieving data</CTableDataCell>
+                        </CTableRow>
+                      )
+                    }
+                    if (oAuthors) {
+                      const aAuthors = Object.keys(oAuthors)
+                      const naddr = nip19.naddrEncode({
+                        pubkey,
+                        kind: 30818,
+                        identifier: topicSlug,
+                        relays: [],
+                      })
+                      return (
+                        <CTableRow key={item}>
+                          <CTableDataCell scope="row">
+                            <CNavLink
+                              href="#/wikifreedia/singleEntry"
+                              onClick={() => processViewArticleClick(naddr)}
+                            >
+                              {topicSlug}
+                            </CNavLink>
+                          </CTableDataCell>
+                          <CTableDataCell>{aAuthors.length}</CTableDataCell>
+                        </CTableRow>
+                      )
+                    }
                   })}
                 </CTableBody>
               </CTable>

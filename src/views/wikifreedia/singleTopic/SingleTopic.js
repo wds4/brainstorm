@@ -8,8 +8,14 @@ import { useSearchParams } from 'react-router-dom'
 import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
 
 export const whenTopicWasLastUpdated = (oEvents, oTopicSlugs, topicSlug) => {
+  if (!topicSlug) {
+    return 0
+  }
   let mostRecentUpdate = 0
   const oEventsByPubkey = oTopicSlugs[topicSlug]
+  if (!oEventsByPubkey) {
+    return 0
+  }
   const aPubkeys = Object.keys(oEventsByPubkey)
   aPubkeys.forEach((pk, item) => {
     const naddr = oEventsByPubkey[pk]
@@ -76,7 +82,6 @@ const WikiTopic = () => {
           <strong>{topicSlug}</strong>
         </h1>
       </center>
-      <div>mostRecentUpdate: {mostRecentUpdate}</div>
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">

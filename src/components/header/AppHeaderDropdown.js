@@ -34,7 +34,7 @@ import CIcon from '@coreui/icons-react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { wipeActiveProfile } from '../../redux/features/profile/slice'
-import { updateApp } from '../../redux/features/siteNavigation/slice'
+import { updateApp, wipeSiteNavigation } from '../../redux/features/siteNavigation/slice'
 import { wipeGrapevine } from '../../redux/features/grapevine/slice'
 import { wipeSettings } from '../../redux/features/settings/slice'
 import { wipeTwittr } from '../../redux/features/twittr/slice'
@@ -54,8 +54,9 @@ const AppHeaderDropdown = () => {
     dispatch(wipeTwittr())
     dispatch(wipeConceptGraph())
     dispatch(wipeWikifreedia())
+    dispatch(wipeSiteNavigation())
     // sessionStorage.clear()
-    localStorage.clear()
+    // localStorage.clear()
     updateActiveApp('home')
   }
   let loggedOut = 'show'

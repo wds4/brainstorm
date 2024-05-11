@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   CCard,
@@ -16,12 +16,14 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import { updateViewWikifreediaTopic } from '../../../../redux/features/siteNavigation/slice'
+import { updateSortWikiTopicsBy, updateViewWikifreediaTopic } from '../../../../redux/features/siteNavigation/slice'
 import { whenTopicWasLastUpdated } from '../../singleTopic/SingleTopic'
+import { secsToTimeAgo } from '../../../../helpers'
 
 const WikiArticlesAlphabetical = () => {
+  const currentSortTopicsBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicsBy)
   const [searchField, setSearchField] = useState('')
-  const [sortBy, setSortBy] = useState('alphabetical')
+  const [sortBy, setSortBy] = useState(currentSortTopicsBy)
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
   let aTopicsRef = []
@@ -31,6 +33,15 @@ const WikiArticlesAlphabetical = () => {
   const [aTopicsFiltered, setATopicsFiltered] = useState(aTopicsRef)
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    try {
+      function initSortTopicsBy() {
+        updateSortBySelector(currentSortTopicsBy)
+      }
+      initSortTopicsBy()
+    } catch (e) {}
+  }, [])
 
   const handleSearchFieldChange = useCallback(
     async (e) => {
@@ -93,10 +104,10 @@ const WikiArticlesAlphabetical = () => {
     dispatch(updateViewWikifreediaTopic(dTag))
   }
 
-  const updateSortBySelector = (e) => {
-    const newSortByValue = e.target.value
+  const updateSortBySelector = (newSortByValue) => {
     setSortBy(newSortByValue)
     handleSortByChange(newSortByValue)
+    dispatch(updateSortWikiTopicsBy(newSortByValue))
   }
   return (
     <>
@@ -113,14 +124,14 @@ const WikiArticlesAlphabetical = () => {
                 <div style={{ display: 'inline-block' }}>
                   <CFormSelect
                     value={sortBy}
-                    onChange={(e)=>{updateSortBySelector(e)}}
+                    onChange={(e)=>{updateSortBySelector(e.target.value)}}
                     id="sortBySelector"
                     options={[
                       { label: 'alphabetical', value: 'alphabetical' },
                       { label: 'reverse alphabetical', value: 'reverseAlphabetical' },
                       { label: '# of versions', value: 'numerical' },
                       { label: 'most recent update', value: 'chronological' },
-                      { label: 'WoT score', value: 'wetScore', disabled: true },
+                      { label: 'WoT score', value: 'wotScore', disabled: true },
                     ]}
                   ></CFormSelect>
                 </div>
@@ -138,13 +149,19 @@ const WikiArticlesAlphabetical = () => {
                     <CTableHeaderCell scope="col">
                       topics ({aTopicsFiltered.length})
                     </CTableHeaderCell>
-                    <CTableHeaderCell scope="col"># authors</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>last update</CTableHeaderCell>
+                    <CTableHeaderCell scope="col"># versions</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
                   {aTopicsFiltered.map((topicSlug, item) => {
                     const oAuthors = oWikiArticles_byDTag[topicSlug]
-                    const aAuthors = Object.keys(oAuthors)
+                    let aAuthors = []
+                    if (oAuthors) {
+                      aAuthors = Object.keys(oAuthors)
+                    }
+                    const whenLastUpdated = whenTopicWasLastUpdated(oWikiArticles_byNaddr, oWikiArticles_byDTag, topicSlug)
+                    const howLongAgo = secsToTimeAgo(whenLastUpdated)
                     return (
                       <CTableRow key={item}>
                         <CTableDataCell scope="row">
@@ -155,7 +172,8 @@ const WikiArticlesAlphabetical = () => {
                             {topicSlug}
                           </CNavLink>
                         </CTableDataCell>
-                        <CTableDataCell>{aAuthors.length}</CTableDataCell>
+                        <CTableDataCell style={{ textAlign: 'right' }}>{howLongAgo} by (user)</CTableDataCell>
+                        <CTableDataCell style={{ textAlign: 'center' }}>{aAuthors.length}</CTableDataCell>
                       </CTableRow>
                     )
                   })}

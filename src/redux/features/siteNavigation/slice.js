@@ -21,6 +21,7 @@ export const siteNavigationSlice = createSlice({
       viewTopic: '', // string, human readable
       viewArticle: '', // naddr
       viewCategory: '', // human readable string
+      sortTopicsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore
     },
   },
   reducers: {
@@ -54,6 +55,37 @@ export const siteNavigationSlice = createSlice({
     updateViewWikifreediaCategory: (state, action) => {
       state.wikifreedia.viewCategory = action.payload
     },
+    updateSortWikiTopicsBy: (state, action) => {
+      state.wikifreedia.sortTopicsBy = action.payload
+    },
+    wipeSiteNavigation: (state, action) => {
+      // console.log('wipeSiteNavigation ... currently inactive')
+      // state.siteNavigation = {}
+      /*
+      state.siteNavigation = {
+        app: 'home', // home, conceptGraph, grapevine, curatedLists, wikifreedia, twittr
+        npub: '', // which npub is being viewed on the profile page
+        viewContextId: '', // which context is being viewed on the view single context page; is either an event id (if kind 9902) or an naddr (if kind 39902)
+        profile: { // ought to move npub here
+          tab: 'about', // about, notes, wikis, leaveRating, ratingsOf, ratingsBy, wotScores
+        },
+        grapevine: {}, // ought to move viewContextId here; and add actionId, categoryId
+        conceptGraph: {
+          viewWord: '', // cid of the word being viewed
+          viewWordType: '',
+          viewRelationshipType: '',
+          viewConceptGraph: '',
+          viewConcept: '',
+        },
+        wikifreedia: {
+          viewTopic: '', // string, human readable
+          viewArticle: '', // naddr
+          viewCategory: '', // human readable string
+          sortTopicsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore
+        },
+      }
+      */
+    },
   },
 })
 
@@ -68,6 +100,8 @@ export const {
   updateViewWikifreediaTopic,
   updateViewWikifreediaArticle,
   updateViewWikifreediaCategory,
+  updateSortWikiTopicsBy,
+  wipeSiteNavigation,
 } = siteNavigationSlice.actions
 
 export default siteNavigationSlice.reducer
