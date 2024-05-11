@@ -43,6 +43,8 @@ const WikiArticlesAlphabetical = () => {
     } catch (e) {}
   }, [])
 
+  // TO DO: merge sort and filter into a single function
+
   const handleSearchFieldChange = useCallback(
     async (e) => {
       const newField = e.target.value
@@ -55,47 +57,52 @@ const WikiArticlesAlphabetical = () => {
       })
       setATopicsFiltered(newArray)
     },
-    [searchField, aTopicsFiltered],
+    [searchField, aTopicsFiltered, sortBy],
   )
+
+  const sortFilteredTopics = (newSortByValue, aTopicsFiltered) => {
+    if (newSortByValue == 'alphabetical') {
+      const aFoo = aTopicsFiltered.sort()
+      setATopicsFiltered(aFoo)
+    }
+    if (newSortByValue == 'reverseAlphabetical') {
+      const aFoo = aTopicsFiltered.sort().reverse()
+      setATopicsFiltered(aFoo)
+    }
+    if (newSortByValue == 'numerical') {
+      const aFoo = aTopicsFiltered
+      const aTopicObjects = []
+      aFoo.forEach((topic) => {
+        const numberOfVersions = Object.keys(oWikiArticles_byDTag[topic]).length
+        aTopicObjects.push({topic, numberOfVersions})
+      })
+      const aTopicObjectsOrdered = aTopicObjects.sort((a,b) => parseFloat(b.numberOfVersions) - parseFloat(a.numberOfVersions))
+      const aTopicsOrdered = []
+      aTopicObjectsOrdered.forEach((obj, item) => {
+        aTopicsOrdered.push(obj.topic)
+      })
+      setATopicsFiltered(aTopicsOrdered)
+    }
+    if (newSortByValue == 'chronological') {
+      // const aFoo = Object.keys(oWikiArticles_byDTag)
+      const aFoo = aTopicsFiltered
+      const aTopicObjects = []
+      aFoo.forEach((topic) => {
+        const mostRecentUpdate = whenTopicWasLastUpdated(oWikiArticles_byNaddr, oWikiArticles_byDTag, topic)
+        aTopicObjects.push({topic, mostRecentUpdate})
+      })
+      const aTopicObjectsOrdered = aTopicObjects.sort((a,b) => parseFloat(b.mostRecentUpdate) - parseFloat(a.mostRecentUpdate))
+      const aTopicsOrdered = []
+      aTopicObjectsOrdered.forEach((obj, item) => {
+        aTopicsOrdered.push(obj.topic)
+      })
+      setATopicsFiltered(aTopicsOrdered)
+    }
+  }
 
   const handleSortByChange = useCallback(
     (newSortByValue) => {
-      if (newSortByValue == 'alphabetical') {
-        const aFoo = Object.keys(oWikiArticles_byDTag).sort()
-        setATopicsFiltered(aFoo)
-      }
-      if (newSortByValue == 'reverseAlphabetical') {
-        const aFoo = Object.keys(oWikiArticles_byDTag).sort().reverse()
-        setATopicsFiltered(aFoo)
-      }
-      if (newSortByValue == 'numerical') {
-        const aFoo = Object.keys(oWikiArticles_byDTag)
-        const aTopicObjects = []
-        aFoo.forEach((topic) => {
-          const numberOfVersions = Object.keys(oWikiArticles_byDTag[topic]).length
-          aTopicObjects.push({topic, numberOfVersions})
-        })
-        const aTopicObjectsOrdered = aTopicObjects.sort((a,b) => parseFloat(b.numberOfVersions) - parseFloat(a.numberOfVersions))
-        const aTopicsOrdered = []
-        aTopicObjectsOrdered.forEach((obj, item) => {
-          aTopicsOrdered.push(obj.topic)
-        })
-        setATopicsFiltered(aTopicsOrdered)
-      }
-      if (newSortByValue == 'chronological') {
-        const aFoo = Object.keys(oWikiArticles_byDTag)
-        const aTopicObjects = []
-        aFoo.forEach((topic) => {
-          const mostRecentUpdate = whenTopicWasLastUpdated(oWikiArticles_byNaddr, oWikiArticles_byDTag, topic)
-          aTopicObjects.push({topic, mostRecentUpdate})
-        })
-        const aTopicObjectsOrdered = aTopicObjects.sort((a,b) => parseFloat(b.mostRecentUpdate) - parseFloat(a.mostRecentUpdate))
-        const aTopicsOrdered = []
-        aTopicObjectsOrdered.forEach((obj, item) => {
-          aTopicsOrdered.push(obj.topic)
-        })
-        setATopicsFiltered(aTopicsOrdered)
-      }
+      sortFilteredTopics(newSortByValue, aTopicsFiltered)
     },
     [sortBy, aTopicsFiltered],
   )
@@ -150,7 +157,7 @@ const WikiArticlesAlphabetical = () => {
                       topics ({aTopicsFiltered.length})
                     </CTableHeaderCell>
                     <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>last update</CTableHeaderCell>
-                    <CTableHeaderCell scope="col"># versions</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">#</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -172,7 +179,7 @@ const WikiArticlesAlphabetical = () => {
                             {topicSlug}
                           </CNavLink>
                         </CTableDataCell>
-                        <CTableDataCell style={{ textAlign: 'right' }}>{howLongAgo} by (user)</CTableDataCell>
+                        <CTableDataCell style={{ textAlign: 'right' }}>{howLongAgo}</CTableDataCell>
                         <CTableDataCell style={{ textAlign: 'center' }}>{aAuthors.length}</CTableDataCell>
                       </CTableRow>
                     )
