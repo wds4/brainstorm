@@ -19,14 +19,14 @@ const About = ({ oProfile, npub, pubkey }) => {
     >
       <CRow>
         <div style={{ color: 'grey' }}>npub:</div>
-        <CCol>
+        <CCol style={{ overflowWrap: 'break-word' }}>
           {npub}{' '}
           <CIcon icon={cilClone} className="me-2" onClick={() => copyNpubToClipboard(npub)} />
         </CCol>
       </CRow>
       <CRow>
         <div style={{ color: 'grey' }}>pubkey:</div>
-        <CCol>
+        <CCol style={{ overflowWrap: 'break-word' }}>
           {pubkey}{' '}
           <CIcon icon={cilClone} className="me-2" onClick={() => copyPubkeyToClipboard(pubkey)} />
         </CCol>

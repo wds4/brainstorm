@@ -11,6 +11,7 @@ import {
   CForm,
   CFormInput,
   CRow,
+  CCol,
 } from '@coreui/react'
 import { generateSecretKey, getPublicKey, nip19 } from 'nostr-tools' // for up to date nostr-tools
 // import { nip19, generatePrivateKey, getPublicKey } from 'nostr-tools' // for nostr-tools 1.14.0
@@ -177,10 +178,10 @@ const Login = () => {
 
   return (
     <>
-      <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
-        <CContainer>
-          <CRow className="justify-content-center">
-            <CCard className="w-50">
+      <CContainer md style={{ marginTop: '20px' }}>
+        <CRow className="justify-content-center">
+          <div className="col-auto">
+            <CCard className="w-80">
               <CCardBody>
                 <center>
                   <CCardTitle>Nostr Login</CCardTitle>
@@ -192,10 +193,14 @@ const Login = () => {
               </center>
               <CCardBody>
                 <CCardTitle>
-                  Enter your secret key (nsec), or{' '}
-                  <CButton color="secondary" onClick={generateNewKey}>
-                    generate new secret
-                  </CButton>
+                  <CRow>
+                    <CCol>Enter your secret key (nsec), or </CCol>
+                    <CCol>
+                      <CButton color="secondary" onClick={generateNewKey}>
+                        generate new secret
+                      </CButton>
+                    </CCol>
+                  </CRow>
                 </CCardTitle>
                 <CForm>
                   <CFormInput
@@ -217,7 +222,6 @@ const Login = () => {
                     disabled
                     value={npub}
                   />
-                  <br />
                   <Link to={loginPath}>
                     <CButton
                       color="primary"
@@ -232,16 +236,16 @@ const Login = () => {
                 </CForm>
               </CCardBody>
             </CCard>
-          </CRow>
-        </CContainer>
-      </div>
+          </div>
+        </CRow>
+      </CContainer>
     </>
   )
 }
 
 export default Login
 
-                  /*
+/*
                   <hr />
                   <div>OPTIONAL / EXPERIMENTAL:</div>
                   <div>

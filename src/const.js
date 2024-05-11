@@ -9,8 +9,3 @@ export const aDefaultRelays = [
   'wss://purplepag.es',
 ]
 export const cutoffTime = 1714936803 // cutoff time when filtering for tapestry protocol words
-
-/*
-'wss://nostr.wine',
-'wss://nos.lol',
-*/

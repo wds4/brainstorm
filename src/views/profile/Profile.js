@@ -67,15 +67,15 @@ const Profile = () => {
           <img src={oProfile?.image} className="profileAvatarLarge" />
         </div>
         <div className="col" style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span style={{ fontSize: '34px', marginRight: '20px' }}>{oProfile?.displayName}</span>
-            <span style={{ color: 'grey' }}>@{oProfile?.name}</span>
-            <span style={{ marginLeft: '20px' }}>{oProfile?.nip05}</span>
-            <span style={{ marginLeft: '20px' }}>
+          <div className="row" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="col-auto" style={{ fontSize: '34px', overflowWrap: 'break-word' }}>{oProfile?.displayName}</div>
+            <div className="col-auto" style={{ color: 'grey' }}>@{oProfile?.name}</div>
+            <div className="col-auto">{oProfile?.nip05}</div>
+            <div className="col">
               <a href={oProfile?.website} target="_blank" rel="noreferrer">
                 {oProfile?.website}
               </a>
-            </span>
+            </div>
           </div>
           <div style={{ color: 'grey', marginBottom: '12px', overflowWrap: 'break-word' }}>
             {npub}{' '}
@@ -96,3 +96,5 @@ const Profile = () => {
 }
 
 export default Profile
+
+// <div style={{ display: 'flex', alignItems: 'center' }}>

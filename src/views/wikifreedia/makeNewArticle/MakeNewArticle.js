@@ -89,7 +89,7 @@ const PreviewWiki = ({ oEvent, showWikiPreviewButton, markdown, topicTitle, topi
 }
 
 const MakeNewWikiArticle = () => {
-  const [markdown, setMarkdown] = useState('')
+  const [markdown, setMarkdown] = useState('\n\n\n\n\n')
   const [oEvent, setOEvent] = useState({})
   const [naddr, setNaddr] = useState('')
   const [category, setCategory] = useState('Neurology')
