@@ -4,7 +4,7 @@ const LeaveWikifreediaTrustAttestation = () => {
   return (
     <>
       <center>
-        <h3>Leave Attestation: Wikifreedia</h3>
+        <h3>Leave Attestation: Wiki</h3>
       </center>
     </>
   )

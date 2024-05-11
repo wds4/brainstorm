@@ -101,7 +101,7 @@ const AppHeaderDropdown = () => {
         </CDropdownItem>
         <CDropdownItem href="#/wikifreedia" onClick={() => updateActiveApp('wikifreedia')}>
           <CIcon icon={cibWikipedia} className="me-2" />
-          Wikifreedia
+          Wiki
         </CDropdownItem>
         <CDropdownItem href="#/twittr" onClick={() => updateActiveApp('twittr')}>
           <CIcon icon={cibTwitter} className="me-2" />
