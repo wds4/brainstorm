@@ -33,7 +33,7 @@ const Dashboard = () => {
               href="#/wikifreedia"
               onClick={() => updateActiveApp('wikifreedia')}
             >
-              <CCard className="mb-3 border-dark">
+              <CCard className="mb-3 border-primary" textColor="primary">
                 <CCardHeader>
                   <strong>Web-o-pedia</strong>
                 </CCardHeader>

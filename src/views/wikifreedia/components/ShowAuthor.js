@@ -3,6 +3,7 @@ import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { CNavLink } from '@coreui/react'
 import { useDispatch } from 'react-redux'
 import { updateNpub } from 'src/redux/features/siteNavigation/slice'
+import { updateViewProfileTab } from '../../../redux/features/siteNavigation/slice'
 
 export const ShowAuthor = ({npub}) => {
   const { getProfile } = useNDK()
@@ -18,6 +19,7 @@ export const ShowAuthor = ({npub}) => {
   }
   const setCurrentNpub = (newNpub) => {
     dispatch(updateNpub(newNpub))
+    dispatch(updateViewProfileTab('wikis'))
   }
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>

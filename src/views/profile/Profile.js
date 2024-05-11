@@ -1,6 +1,6 @@
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CCol, CContainer, CNav, CNavLink, CRow } from '@coreui/react'
 import LeaveRating from './leaveRating/leaveTrustAttestation'
 import TabsNavigation from './tabsNavigation'
@@ -11,6 +11,7 @@ import About from './about/About'
 import Notes from './notes/notes'
 import { getPubkeyFromNpub } from '../../helpers/nip19'
 import Wikis from './wikis/Wikis'
+import { updateViewProfileTab } from '../../redux/features/siteNavigation/slice'
 
 // eslint-disable-next-line react/prop-types
 const ProfileTabsContent = ({ whichTab, npub, pubkey, oProfile }) => {
@@ -39,16 +40,24 @@ const ProfileTabsContent = ({ whichTab, npub, pubkey, oProfile }) => {
 }
 
 const Profile = () => {
-  const [whichTab, setWhichTab] = useState('about') // use names of apps: about, notes, leaveRating, ratingsOf, ratingsBy, wotScores
+  const viewProfileTab = useSelector((state) => state.siteNavigation.profile.tab)
+  const [whichTab, setWhichTab] = useState(viewProfileTab) // use names of apps: about, notes, leaveRating, ratingsOf, ratingsBy, wotScores
   const { getProfile } = useNDK()
   const npub = useSelector((state) => state.siteNavigation.npub)
   const oProfile = getProfile(npub)
+
+  const dispatch = useDispatch()
 
   const pubkey = getPubkeyFromNpub(npub)
 
   const copyNpubToClipboard = (np) => {
     navigator.clipboard.writeText(np)
     alert('user npub copied to clipboard: \n ' + np)
+  }
+
+  const updateWhichTab = (newTab) => {
+    setWhichTab(newTab)
+    dispatch(updateViewProfileTab(newTab))
   }
 
   return (
@@ -76,7 +85,7 @@ const Profile = () => {
         </div>
       </div>
       <CRow>
-        <TabsNavigation updateWhichTab={setWhichTab} />
+        <TabsNavigation whichTab={whichTab} updateWhichTab={updateWhichTab} />
       </CRow>
       <CRow>
         <ProfileTabsContent whichTab={whichTab} npub={npub} pubkey={pubkey} oProfile={oProfile} />

@@ -2,14 +2,20 @@ import React, { useState } from 'react'
 import { CNav, CNavLink } from '@coreui/react'
 
 // eslint-disable-next-line react/prop-types
-const TabsNavigation = ({ updateWhichTab }) => {
-  const [isAbout, setIsAbout] = useState(true)
-  const [isNotes, setIsNotes] = useState(false)
-  const [isWikis, setIsWikis] = useState(false)
-  const [isLeaveRating, setIsLeaveRating] = useState(false)
-  const [isRatingsOf, setIsRatingsOf] = useState(false)
-  const [isRatingsBy, setIsRatingsBy] = useState(false)
-  const [isWotScores, setIsWotScores] = useState(false)
+const TabsNavigation = ({ whichTab, updateWhichTab }) => {
+  const isTab = (queryTab) => {
+    if (whichTab == queryTab) {
+      return true
+    }
+    return false
+  }
+  const [isAbout, setIsAbout] = useState(isTab('about'))
+  const [isNotes, setIsNotes] = useState(isTab('notes'))
+  const [isWikis, setIsWikis] = useState(isTab('wikis'))
+  const [isLeaveRating, setIsLeaveRating] = useState(isTab('leaveRating'))
+  const [isRatingsOf, setIsRatingsOf] = useState(isTab('ratingsOf'))
+  const [isRatingsBy, setIsRatingsBy] = useState(isTab('ratingsBy'))
+  const [isWotScores, setIsWotScores] = useState(isTab('wotScores'))
 
   const setAllOptionsToFalse = () => {
     setIsAbout(false)

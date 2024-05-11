@@ -27,7 +27,7 @@ const ViewAttestations = React.lazy(() =>
 const WotScores = React.lazy(() => import('src/views/wikifreedia/wotScores/WotScores'))
 
 const routes = [
-  { path: '/wikifreedia', name: 'Wikifreedia', element: Wikifreedia },
+  { path: '/wikifreedia', name: 'Wiki', element: Wikifreedia },
   { path: '/wikifreedia/settings', name: 'Settings', element: Settings },
 
   // content
