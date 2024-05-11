@@ -8,7 +8,7 @@ const processWikiMarkdownLink = (contentIn, aTopicSlugs) => {
     const str0 = contentIn.substr(0, bracketsStart)
     const str1excise = contentIn.substr(bracketsStart, bracketsEnd - bracketsStart + 2)
     const str1topicOriginal = contentIn.substr(bracketsStart + 2, bracketsEnd - bracketsStart - 2)
-    const str1topicSlugified = str1topicOriginal.replace(' ', '-').toLowerCase()
+    const str1topicSlugified = str1topicOriginal.replaceAll(' ', '-').toLowerCase()
     const str2 = contentIn.substr(bracketsEnd + 2)
     let strLink =
       '[' +

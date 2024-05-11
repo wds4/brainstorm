@@ -239,7 +239,7 @@ const MakeNewWikiArticle = () => {
     async (e) => {
       const newTopicTitle = e.target.value
       setTopicTitle(newTopicTitle)
-      setTopicSlug(newTopicTitle.replace(' ', '-').toLowerCase())
+      setTopicSlug(newTopicTitle.replaceAll(' ', '-').toLowerCase())
     },
     [topicTitle, topicSlug],
   )
