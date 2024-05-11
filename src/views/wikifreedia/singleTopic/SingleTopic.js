@@ -7,6 +7,18 @@ import Markdown from 'react-markdown'
 import { useSearchParams } from 'react-router-dom'
 import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
 
+export const whenTopicWasLastUpdated = (oEvents, oTopicSlugs, topicSlug) => {
+  let mostRecentUpdate = 0
+  const oEventsByPubkey = oTopicSlugs[topicSlug]
+  const aPubkeys = Object.keys(oEventsByPubkey)
+  aPubkeys.forEach((pk, item) => {
+    const naddr = oEventsByPubkey[pk]
+    const oEvent = oEvents[naddr]
+    mostRecentUpdate = Math.max(mostRecentUpdate, oEvent.created_at)
+  })
+  return mostRecentUpdate
+}
+
 const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   if (showRawDataButton == 'hide') {
     return <></>
@@ -38,6 +50,7 @@ const WikiTopic = () => {
     oAuthors = oTopicSlugs[topicSlug]
     aAuthors = Object.keys(oAuthors)
   }
+  const mostRecentUpdate = whenTopicWasLastUpdated(oEvents, oTopicSlugs, topicSlug)
 
   const dispatch = useDispatch()
 
@@ -63,6 +76,7 @@ const WikiTopic = () => {
           <strong>{topicSlug}</strong>
         </h1>
       </center>
+      <div>mostRecentUpdate: {mostRecentUpdate}</div>
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">

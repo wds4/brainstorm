@@ -17,6 +17,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { updateViewWikifreediaTopic } from '../../../../redux/features/siteNavigation/slice'
+import { whenTopicWasLastUpdated } from '../../singleTopic/SingleTopic'
 
 const WikiArticlesAlphabetical = () => {
   const [searchField, setSearchField] = useState('')
@@ -52,9 +53,37 @@ const WikiArticlesAlphabetical = () => {
         const aFoo = Object.keys(oWikiArticles_byDTag).sort()
         setATopicsFiltered(aFoo)
       }
-      if (newSortByValue == 'chronological') {
+      if (newSortByValue == 'reverseAlphabetical') {
         const aFoo = Object.keys(oWikiArticles_byDTag).sort().reverse()
         setATopicsFiltered(aFoo)
+      }
+      if (newSortByValue == 'numerical') {
+        const aFoo = Object.keys(oWikiArticles_byDTag)
+        const aTopicObjects = []
+        aFoo.forEach((topic) => {
+          const numberOfVersions = Object.keys(oWikiArticles_byDTag[topic]).length
+          aTopicObjects.push({topic, numberOfVersions})
+        })
+        const aTopicObjectsOrdered = aTopicObjects.sort((a,b) => parseFloat(b.numberOfVersions) - parseFloat(a.numberOfVersions))
+        const aTopicsOrdered = []
+        aTopicObjectsOrdered.forEach((obj, item) => {
+          aTopicsOrdered.push(obj.topic)
+        })
+        setATopicsFiltered(aTopicsOrdered)
+      }
+      if (newSortByValue == 'chronological') {
+        const aFoo = Object.keys(oWikiArticles_byDTag)
+        const aTopicObjects = []
+        aFoo.forEach((topic) => {
+          const mostRecentUpdate = whenTopicWasLastUpdated(oWikiArticles_byNaddr, oWikiArticles_byDTag, topic)
+          aTopicObjects.push({topic, mostRecentUpdate})
+        })
+        const aTopicObjectsOrdered = aTopicObjects.sort((a,b) => parseFloat(b.mostRecentUpdate) - parseFloat(a.mostRecentUpdate))
+        const aTopicsOrdered = []
+        aTopicObjectsOrdered.forEach((obj, item) => {
+          aTopicsOrdered.push(obj.topic)
+        })
+        setATopicsFiltered(aTopicsOrdered)
       }
     },
     [sortBy, aTopicsFiltered],
@@ -85,10 +114,12 @@ const WikiArticlesAlphabetical = () => {
                   <CFormSelect
                     value={sortBy}
                     onChange={(e)=>{updateSortBySelector(e)}}
+                    id="sortBySelector"
                     options={[
                       { label: 'alphabetical', value: 'alphabetical' },
-                      { label: '# of versions', value: 'numerical', disabled: true },
-                      { label: 'most recent update', value: 'chronological', disabled: true },
+                      { label: 'reverse alphabetical', value: 'reverseAlphabetical' },
+                      { label: '# of versions', value: 'numerical' },
+                      { label: 'most recent update', value: 'chronological' },
                       { label: 'WoT score', value: 'wetScore', disabled: true },
                     ]}
                   ></CFormSelect>

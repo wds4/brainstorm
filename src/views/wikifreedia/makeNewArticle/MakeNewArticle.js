@@ -386,16 +386,12 @@ const MakeNewWikiArticle = () => {
             </CButton>
             <div className={publishAnotherWikiClassName}>
               <CCardTitle>Your wiki has been published!</CCardTitle>
-              <CButton
-                color="primary"
-                onClick={publishAnotherWiki}
-              >
+              <CButton color="primary" onClick={publishAnotherWiki}>
                 Create another wiki
               </CButton>
             </div>
           </div>
         </div>
-
         <div
           style={{
             display: 'flex',

@@ -6,6 +6,7 @@ export const wikifreediaSlice = createSlice({
   name: 'wikifreedia',
   initialState: {
     articles: {
+      byEventId: {}, // used as a lookup to avid repeat processing of the same event multiple times
       byNaddr: {},
       byDTag: {},
     },
@@ -14,35 +15,20 @@ export const wikifreediaSlice = createSlice({
   },
   reducers: {
     addArticle: (state, action) => {
-      const event = action.payload
-      const pubkey = event.pubkey
-      // or use event.rawEvent() ?
-      const oEvent = {
-        id: event.id,
-        kind: event.kind,
-        content: event?.content,
-        tags: event?.tags,
-        pubkey: event?.pubkey,
-        created_at: event?.created_at,
-        sig: event?.sig,
-      }
-      const topic = fetchFirstByTag('d', oEvent)
+      const oEvent = action.payload
+      if (!Object.keys(state.articles.byEventId).includes(oEvent.id)) {
+        // byEventId
+        state.articles.byEventId[oEvent.id] = oEvent
+        const pubkey = oEvent.pubkey
+        const topic = fetchFirstByTag('d', oEvent)
 
-      // byNaddr
-      const naddr = nip19.naddrEncode({
-        pubkey: oEvent.pubkey,
-        kind: oEvent.kind,
-        identifier: topic,
-        relays: [],
-      })
-      let continueProcessing = true
-      if (state.articles.byNaddr[naddr]) {
-        if (state.articles.byNaddr[naddr].created_at == oEvent.created_at) {
-          // no need to continue; already been processed
-          continueProcessing = false
-        }
-      }
-      if (continueProcessing) {
+        // byNaddr
+        const naddr = nip19.naddrEncode({
+          pubkey: oEvent.pubkey,
+          kind: oEvent.kind,
+          identifier: topic,
+          relays: [],
+        })
         state.articles.byNaddr[naddr] = oEvent
         // authors
         if (!state.authors[pubkey]) {
@@ -54,6 +40,17 @@ export const wikifreediaSlice = createSlice({
 
         // byDTag
         if (topic) {
+          /*
+          if (!state.articles.byDTag[topic]) {
+            state.articles.byDTag[topic] = {}
+            state.articles.byDTag[topic].mostRecentUpdate = 0
+            state.articles.byDTag[topic].byPubkey = {}
+          }
+          state.articles.byDTag[topic].byPubkey[oEvent.pubkey] = naddr
+          if (state.articles.byDTag[topic].mostRecentUpdate < oEvent.created_at) {
+            state.articles.byDTag[topic].mostRecentUpdate = oEvent.created_at
+          }
+          */
           if (!state.articles.byDTag[topic]) {
             state.articles.byDTag[topic] = {}
           }
@@ -82,6 +79,7 @@ export const wikifreediaSlice = createSlice({
     },
     wipeWikifreedia: (state, action) => {
       state.articles = {}
+      state.articles.byEventId = {}
       state.articles.byNaddr = {}
       state.articles.byDTag = {}
       state.authors = {}
