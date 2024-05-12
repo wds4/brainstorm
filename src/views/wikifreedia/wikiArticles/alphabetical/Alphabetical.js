@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  CButton,
   CCard,
   CCardBody,
   CCardHeader,
@@ -18,7 +19,7 @@ import {
 } from '@coreui/react'
 import { updateSortWikiTopicsBy, updateViewWikifreediaTopic } from '../../../../redux/features/siteNavigation/slice'
 import { whenTopicWasLastUpdated } from '../../singleTopic/SingleTopic'
-import { secsToTimeAgo } from '../../../../helpers'
+import { secsToTime, secsToTimeAgo } from '../../../../helpers'
 
 const WikiArticlesAlphabetical = () => {
   const currentSortTopicsBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicsBy)
@@ -157,7 +158,7 @@ const WikiArticlesAlphabetical = () => {
                       topics ({aTopicsFiltered.length})
                     </CTableHeaderCell>
                     <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>last update</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">#</CTableHeaderCell>
+                    <CTableHeaderCell scope="col"># authors</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -168,7 +169,7 @@ const WikiArticlesAlphabetical = () => {
                       aAuthors = Object.keys(oAuthors)
                     }
                     const whenLastUpdated = whenTopicWasLastUpdated(oWikiArticles_byNaddr, oWikiArticles_byDTag, topicSlug)
-                    const howLongAgo = secsToTimeAgo(whenLastUpdated)
+                    const howLongAgo = secsToTime(whenLastUpdated)
                     return (
                       <CTableRow key={item}>
                         <CTableDataCell scope="row">

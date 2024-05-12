@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { CContainer, CNav, CNavLink } from '@coreui/react'
+import { CButton, CContainer, CNav, CNavLink } from '@coreui/react'
 import { useSelector } from 'react-redux'
 import WikiArticlesChronological from './chronological/Chronological'
 import WikiArticlesAlphabetical from './alphabetical/Alphabetical'
 import WikiArticlesCategorical from './categorical/Categorical'
+import CIcon from '@coreui/icons-react'
+import { cilPencil } from '@coreui/icons'
 
 const Navigation = ({ updateWhichTab }) => {
   const [isAlphabetical, setIsAlphabetical] = useState(true)
@@ -69,9 +71,16 @@ const WikiTopics = () => {
   return (
     <>
       <CContainer fluid>
-        <center>
-          <h3>Wiki Topics</h3>
-        </center>
+        <div style={{ marginBottom: '20px' }}>
+          <div style={{ float: 'right' }}>
+            <CButton color="success" href="#/wikifreedia/publish">
+              <CIcon icon={cilPencil} /> Write an article
+            </CButton>
+          </div>
+          <center>
+            <h3>Topics</h3>
+          </center>
+        </div>
         <Content whichTab={whichTab} />
       </CContainer>
     </>
