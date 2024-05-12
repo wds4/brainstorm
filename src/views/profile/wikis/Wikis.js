@@ -19,6 +19,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
 import { updateViewWikifreediaArticle } from '../../../redux/features/siteNavigation/slice'
+import WikiListener from '../../../helpers/listeners/WikiListener'
 
 const Wikis = ({ oProfile, npub, pubkey }) => {
   const [searchField, setSearchField] = useState('')
@@ -56,73 +57,76 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
   }
 
   return (
-    <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <CRow>
-        <CCol xs={12}>
-          <CCard className="mb-4">
-            <CCardHeader>
-              <strong>This user has written articles on {aTopicsFiltered.length} Topics.</strong>
-            </CCardHeader>
-            <CCardBody>
-              <CFormInput
-                label="search by topic:"
-                type="text"
-                value={searchField}
-                onChange={handleSearchFieldChange}
-              />
-              <br />
-              <CTable striped small hover>
-                <CTableHead color="light">
-                  <CTableRow>
-                    <CTableHeaderCell scope="col">
-                      topics ({aTopicsFiltered.length})
-                    </CTableHeaderCell>
-                    <CTableHeaderCell scope="col"># authors</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {aTopicsFiltered.map((topicSlug, item) => {
-                    const oAuthors = oWikiArticles_byDTag[topicSlug]
-                    if (!oAuthors) {
-                      return (
-                        <CTableRow key={item}>
-                          <CTableDataCell scope="row">
-                            <CNavLink href="#/wikifreedia/singleEntry">{topicSlug}</CNavLink>
-                          </CTableDataCell>
-                          <CTableDataCell>error retrieving data</CTableDataCell>
-                        </CTableRow>
-                      )
-                    }
-                    if (oAuthors) {
-                      const aAuthors = Object.keys(oAuthors)
-                      const naddr = nip19.naddrEncode({
-                        pubkey,
-                        kind: 30818,
-                        identifier: topicSlug,
-                        relays: [],
-                      })
-                      return (
-                        <CTableRow key={item}>
-                          <CTableDataCell scope="row">
-                            <CNavLink
-                              href="#/wikifreedia/singleEntry"
-                              onClick={() => processViewArticleClick(naddr)}
-                            >
-                              {topicSlug}
-                            </CNavLink>
-                          </CTableDataCell>
-                          <CTableDataCell>{aAuthors.length}</CTableDataCell>
-                        </CTableRow>
-                      )
-                    }
-                  })}
-                </CTableBody>
-              </CTable>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-    </CContainer>
+    <>
+      <WikiListener />
+      <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <CRow>
+          <CCol xs={12}>
+            <CCard className="mb-4">
+              <CCardHeader>
+                <strong>This user has written articles on {aTopicsFiltered.length} Topics.</strong>
+              </CCardHeader>
+              <CCardBody>
+                <CFormInput
+                  label="search by topic:"
+                  type="text"
+                  value={searchField}
+                  onChange={handleSearchFieldChange}
+                />
+                <br />
+                <CTable striped small hover>
+                  <CTableHead color="light">
+                    <CTableRow>
+                      <CTableHeaderCell scope="col">
+                        topics ({aTopicsFiltered.length})
+                      </CTableHeaderCell>
+                      <CTableHeaderCell scope="col"># authors</CTableHeaderCell>
+                    </CTableRow>
+                  </CTableHead>
+                  <CTableBody>
+                    {aTopicsFiltered.map((topicSlug, item) => {
+                      const oAuthors = oWikiArticles_byDTag[topicSlug]
+                      if (!oAuthors) {
+                        return (
+                          <CTableRow key={item}>
+                            <CTableDataCell scope="row">
+                              <CNavLink href="#/wikifreedia/singleEntry">{topicSlug}</CNavLink>
+                            </CTableDataCell>
+                            <CTableDataCell>error retrieving data</CTableDataCell>
+                          </CTableRow>
+                        )
+                      }
+                      if (oAuthors) {
+                        const aAuthors = Object.keys(oAuthors)
+                        const naddr = nip19.naddrEncode({
+                          pubkey,
+                          kind: 30818,
+                          identifier: topicSlug,
+                          relays: [],
+                        })
+                        return (
+                          <CTableRow key={item}>
+                            <CTableDataCell scope="row">
+                              <CNavLink
+                                href="#/wikifreedia/singleEntry"
+                                onClick={() => processViewArticleClick(naddr)}
+                              >
+                                {topicSlug}
+                              </CNavLink>
+                            </CTableDataCell>
+                            <CTableDataCell>{aAuthors.length}</CTableDataCell>
+                          </CTableRow>
+                        )
+                      }
+                    })}
+                  </CTableBody>
+                </CTable>
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
+      </CContainer>
+    </>
   )
 }
 

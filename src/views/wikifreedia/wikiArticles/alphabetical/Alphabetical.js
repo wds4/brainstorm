@@ -171,7 +171,7 @@ const WikiArticlesAlphabetical = () => {
                       { label: 'alphabetical', value: 'alphabetical' },
                       { label: 'reverse alphabetical', value: 'reverseAlphabetical' },
                       { label: '# of versions', value: 'numerical' },
-                      { label: 'most recent update', value: 'chronological' },
+                      { label: 'most recent', value: 'chronological' },
                       { label: 'WoT score', value: 'wotScore', disabled: true },
                     ]}
                   ></CFormSelect>
