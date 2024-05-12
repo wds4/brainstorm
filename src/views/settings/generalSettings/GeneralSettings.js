@@ -4,8 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateActiveRelays, updateActiveRelaysGroups } from 'src/redux/features/settings/slice'
 import { aDefaultRelays } from 'src/const'
 import { removeDuplicatesFromArrayOfStrings } from 'src/helpers'
+import { updateDevelopmentMode } from '../../../redux/features/settings/slice'
 
 const GeneralSettings = () => {
+  const currentDevelopmentMode = useSelector((state) => state.settings.general.developmentMode)
+  const signedIn = useSelector((state) => state.profile.signedIn)
+  const [developmentMode, setDevelopmentMode] = useState(currentDevelopmentMode)
+  const [isDevMode, setIsDevMode] = useState(currentDevelopmentMode == 'show')
+
   const aActiveRelays = useSelector((state) => state.settings.general.aActiveRelays)
   const aActiveRelaysGroups = useSelector((state) => state.settings.general.aActiveRelaysGroups)
   const personalRelay = useSelector((state) => state.settings.conceptGraph.personalRelay)
@@ -20,6 +26,11 @@ const GeneralSettings = () => {
   )
 
   const currentTime = Math.floor(Date.now() / 1000)
+
+  let loggedInClassName = 'hide'
+  if (signedIn) {
+    loggedInClassName = 'show'
+  }
 
   const changeActiveRelaysGroups = useCallback(
     (groupName) => {
@@ -75,16 +86,43 @@ const GeneralSettings = () => {
     [isDefault, isProfile, isPersonalRelay],
   )
 
+  const toggleDevelopmentMode = useCallback(
+    (e) => {
+      if (!developmentMode) {
+        dispatch(updateDevelopmentMode('hide'))
+      }
+      if (developmentMode == 'hide') {
+        setIsDevMode(true)
+        setDevelopmentMode('show')
+        dispatch(updateDevelopmentMode('show'))
+      }
+      if (developmentMode == 'show') {
+        setIsDevMode(false)
+        setDevelopmentMode('hide')
+        dispatch(updateDevelopmentMode('hide'))
+      }
+    },
+    [developmentMode],
+  )
+
   return (
     <>
       <center>
         <h4>General Settings</h4>
-        <div>currentTime: {currentTime}</div>
-        <div>window.location.origin: {window.location.origin}</div>
       </center>
+      <br />
       <CRow>
         <CCol xs={12}>
-          <CCard className="mb-4">
+          <div className={loggedInClassName}>
+            <CFormSwitch
+              checked={isDevMode}
+              onChange={(e) => toggleDevelopmentMode(e)}
+              label="development mode: reveal stuff that's currently under construction."
+            />
+            <div>YOU PROBABLY SHOULD'T DO THIS!</div>
+          </div>
+          <br />
+          <CCard className={developmentMode}>
             <CCardHeader>
               <strong>Relay Groups</strong> <small>Select which relay groups to be active.</small>
             </CCardHeader>

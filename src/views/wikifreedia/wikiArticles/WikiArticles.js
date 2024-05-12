@@ -64,15 +64,21 @@ const Content = ({ whichTab }) => {
 }
 
 const WikiTopics = () => {
+  const signedIn = useSelector((state) => state.profile.signedIn)
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
+
+  let loggedInClassName = 'hide'
+  if (signedIn) {
+    loggedInClassName = 'show'
+  }
 
   const [whichTab, setWhichTab] = useState('alphabetical') // alphabetical, chronological, categorical
   return (
     <>
       <CContainer fluid>
         <div style={{ marginBottom: '20px' }}>
-          <div style={{ float: 'right' }}>
+          <div style={{ float: 'right' }} className={loggedInClassName}>
             <CButton color="success" href="#/wikifreedia/publish">
               <CIcon icon={cilPencil} /> Write an article
             </CButton>

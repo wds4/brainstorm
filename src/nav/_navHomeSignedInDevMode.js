@@ -38,6 +38,12 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Grapevine',
+    to: '/grapevine',
+    icon: <CIcon icon={cilApple} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Wiki',
     to: '/wikifreedia',
     icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
@@ -47,6 +53,28 @@ const _nav = [
     name: 'Twittr',
     to: '/twittr',
     icon: <CIcon icon={cibTwitter} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Settings',
+  },
+  {
+    component: CNavGroup,
+    name: 'Settings',
+    to: '/settings',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Settings',
+        to: '/settings/settings',
+      },
+      {
+        component: CNavItem,
+        name: 'Relays',
+        to: '/settings/relays',
+      },
+    ],
   },
 ]
 

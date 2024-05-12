@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { CNav, CNavLink } from '@coreui/react'
+import { useSelector } from 'react-redux'
 
 // eslint-disable-next-line react/prop-types
 const TabsNavigation = ({ whichTab, updateWhichTab }) => {
+  const developmentMode = useSelector((state) => state.settings.general.developmentMode)
   const isTab = (queryTab) => {
     if (whichTab == queryTab) {
       return true
@@ -74,16 +76,32 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
       <CNavLink active={isWikis} onClick={setActiveTabWikis}>
         Wikis
       </CNavLink>
-      <CNavLink active={isLeaveRating} onClick={setActiveTabLeaveRating}>
+      <CNavLink
+        active={isLeaveRating}
+        onClick={setActiveTabLeaveRating}
+        disabled={developmentMode == 'hide'}
+      >
         Leave Rating
       </CNavLink>
-      <CNavLink active={isRatingsOf} onClick={setActiveTabRatingsOf} disabled={true}>
+      <CNavLink
+        active={isRatingsOf}
+        onClick={setActiveTabRatingsOf}
+        disabled={developmentMode == 'hide'}
+      >
         Ratings of
       </CNavLink>
-      <CNavLink active={isRatingsBy} onClick={setActiveTabRatingsBy} disabled={true}>
+      <CNavLink
+        active={isRatingsBy}
+        onClick={setActiveTabRatingsBy}
+        disabled={developmentMode == 'hide'}
+      >
         Ratings by
       </CNavLink>
-      <CNavLink active={isWotScores} onClick={setActiveTabWotScores} disabled={true}>
+      <CNavLink
+        active={isWotScores}
+        onClick={setActiveTabWotScores}
+        disabled={developmentMode == 'hide'}
+      >
         WoT Scores
       </CNavLink>
     </CNav>

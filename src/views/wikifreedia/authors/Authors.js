@@ -23,17 +23,22 @@ import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
 
 const WikiAuthors = () => {
+  const signedIn = useSelector((state) => state.profile.signedIn)
   const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
   const aWikiCategories = Object.keys(oWikiCategories)
   const oAuthors = useSelector((state) => state.wikifreedia.authors)
 
   const aAuthors = Object.keys(oAuthors)
 
+  let loggedInClassName = 'hide'
+  if (signedIn) {
+    loggedInClassName = 'show'
+  }
   return (
     <>
       <CContainer fluid>
         <div style={{ marginBottom: '20px' }}>
-          <div style={{ float: 'right' }}>
+          <div style={{ float: 'right' }} className={loggedInClassName}>
             <CButton color="success" href="#/wikifreedia/publish">
               <CIcon icon={cilPencil} /> Write an article
             </CButton>

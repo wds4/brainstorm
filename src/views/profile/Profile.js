@@ -40,6 +40,7 @@ const ProfileTabsContent = ({ whichTab, npub, pubkey, oProfile }) => {
 }
 
 const Profile = () => {
+  const currentDevelopmentMode = useSelector((state) => state.settings.general.developmentMode)
   const viewProfileTab = useSelector((state) => state.siteNavigation.profile.tab)
   const [whichTab, setWhichTab] = useState(viewProfileTab) // use names of apps: about, notes, leaveRating, ratingsOf, ratingsBy, wotScores
   const { getProfile } = useNDK()
@@ -81,7 +82,9 @@ const Profile = () => {
             {npub}{' '}
             <CIcon icon={cilClone} className="me-2" onClick={() => copyNpubToClipboard(npub)} />
           </div>
-          <ContextualFollowBlockButtons rateeNpub={npub} />
+          <div className={currentDevelopmentMode}>
+            <ContextualFollowBlockButtons rateeNpub={npub} />
+          </div>
         </div>
       </div>
       <br />

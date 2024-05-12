@@ -5,6 +5,7 @@ import ConceptGraphSettings from '../conceptGraphSettings/Settings'
 import TwittrSettings from '../twittrSettings/Settings'
 import GeneralSettings from '../generalSettings/GeneralSettings'
 import WikifreediaSettings from '../wikifreediaSettings/Settings'
+import { useSelector } from 'react-redux'
 
 // eslint-disable-next-line react/prop-types
 const SettingsContent = ({ whichSettings }) => {
@@ -27,6 +28,7 @@ const SettingsContent = ({ whichSettings }) => {
 }
 // eslint-disable-next-line react/prop-types
 const SettingsNavigation = ({ updateWhichSettings }) => {
+  const developmentMode = useSelector((state) => state.settings.general.developmentMode)
   const [isGeneral, setIsGeneral] = useState(true)
   const [isGrapevine, setIsGrapevine] = useState(false)
   const [isConceptGraph, setIsConceptGraph] = useState(false)
@@ -72,16 +74,28 @@ const SettingsNavigation = ({ updateWhichSettings }) => {
       <CNavLink active={isGeneral} onClick={setActiveTabGeneral}>
         General
       </CNavLink>
-      <CNavLink active={isGrapevine} onClick={setActiveTabGrapevine}>
+      <CNavLink
+        active={isGrapevine}
+        onClick={setActiveTabGrapevine}
+        disabled={developmentMode == 'hide'}
+      >
         Grapevine
       </CNavLink>
-      <CNavLink active={isConceptGraph} onClick={setActiveTabConceptGraph}>
+      <CNavLink
+        active={isConceptGraph}
+        onClick={setActiveTabConceptGraph}
+        disabled={developmentMode == 'hide'}
+      >
         Concept Graph
       </CNavLink>
-      <CNavLink active={isTwittr} onClick={setActiveTabTwittr}>
+      <CNavLink active={isTwittr} onClick={setActiveTabTwittr} disabled={developmentMode == 'hide'}>
         Twittr
       </CNavLink>
-      <CNavLink active={isWikifreedia} onClick={setActiveTabWikifreedia}>
+      <CNavLink
+        active={isWikifreedia}
+        onClick={setActiveTabWikifreedia}
+        disabled={developmentMode == 'hide'}
+      >
         Wikifreedia
       </CNavLink>
     </CNav>

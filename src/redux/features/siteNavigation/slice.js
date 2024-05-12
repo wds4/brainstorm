@@ -61,7 +61,6 @@ export const siteNavigationSlice = createSlice({
     wipeSiteNavigation: (state, action) => {
       // console.log('wipeSiteNavigation ... currently inactive')
       // state.siteNavigation = {}
-      /*
       state.siteNavigation = {
         app: 'home', // home, conceptGraph, grapevine, curatedLists, wikifreedia, twittr
         npub: '', // which npub is being viewed on the profile page
@@ -84,7 +83,6 @@ export const siteNavigationSlice = createSlice({
           sortTopicsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore
         },
       }
-      */
     },
   },
 })

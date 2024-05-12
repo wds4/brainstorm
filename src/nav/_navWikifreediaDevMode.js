@@ -38,6 +38,28 @@ const _nav = [
     to: '/wikifreedia/authors',
     icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   },
+  {
+    component: CNavTitle,
+    name: 'Web of Trust',
+  },
+  {
+    component: CNavItem,
+    name: 'Leave Trust Attestation',
+    to: '/wikifreedia/leaveAttestation',
+    icon: <CIcon icon={cilThumbUp} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'View Trust Attestations',
+    to: '/wikifreedia/viewAttestations',
+    icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'WoT Scores',
+    to: '/wikifreedia/wotScores',
+    icon: <CIcon icon={cilCalculator} customClassName="nav-icon" />,
+  },
 ]
 
 export default _nav

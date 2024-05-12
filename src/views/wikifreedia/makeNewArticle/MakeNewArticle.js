@@ -23,6 +23,7 @@ import { signEventPGA } from 'src/helpers/signers'
 import { useNostr } from 'nostr-react'
 import { fetchFirstByTag } from 'src/helpers'
 import { useSearchParams } from 'react-router-dom'
+import { Container } from 'postcss'
 
 const mdStr = `# Test Entry  \n## Subtitle \n\nLorem Ipsum \n\nCreated using [brainstorm.ninja](https://brainstorm.ninja)`
 
@@ -88,7 +89,7 @@ const PreviewWiki = ({ oEvent, showWikiPreviewButton, markdown, topicTitle, topi
   )
 }
 
-const MakeNewWikiArticle = () => {
+const MakeNewWikiArticle2 = () => {
   const [markdown, setMarkdown] = useState('\n\n\n\n\n')
   const [oEvent, setOEvent] = useState({})
   const [naddr, setNaddr] = useState('')
@@ -426,6 +427,28 @@ const MakeNewWikiArticle = () => {
         />
         <RawData showRawDataButton={showRawDataButton} oEvent={oEvent} naddr={naddr} />
       </CContainer>
+    </>
+  )
+}
+
+const MakeNewWikiArticle = () => {
+  const signedIn = useSelector((state) => state.profile.signedIn)
+
+  let loggedInClassName = 'hide'
+  let loggedOutClassName = 'show'
+  if (signedIn) {
+    loggedInClassName = 'show'
+    loggedOutClassName = 'hide'
+  }
+
+  return (
+    <>
+      <div className={loggedOutClassName}>
+        You must be logged in to post or edit a wiki article.
+      </div>
+      <div className={loggedInClassName}>
+        <MakeNewWikiArticle2 />
+      </div>
     </>
   )
 }

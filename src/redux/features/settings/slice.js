@@ -8,6 +8,7 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
     general: {
+      developmentMode: 'hide', // 'show' or 'hide';  features that are under development
       aActiveRelays: aDefaultRelays, // aDefaultRelays,
       aActiveRelaysGroups: ['default'], // default (defined by app), personalRelay (one relay stored in conceptGraphSettings), or profile (extracted from kind 3 event)
       loginRelayUrl: '', // the relay entered by the user at login; if empty, aDefaultRelays will be used; otheriwse loginRelayUrl will be used
@@ -20,6 +21,9 @@ export const settingsSlice = createSlice({
     twittr: {},
   },
   reducers: {
+    updateDevelopmentMode: (state, action) => {
+      state.general.developmentMode = action.payload
+    },
     updateConceptGraphSettingsEvent: (state, action) => {
       const event = action.payload.event
       state.conceptGraph.conceptGraphSettingsEvent = event
@@ -39,6 +43,7 @@ export const settingsSlice = createSlice({
     },
     wipeSettings: (state, action) => {
       state.general = {
+        developmentMode: 'hide',
         aActiveRelays: aDefaultRelays,
         aActiveRelaysGroups: ['default'],
         loginRelayUrl: '',
@@ -54,6 +59,7 @@ export const settingsSlice = createSlice({
 })
 
 export const {
+  updateDevelopmentMode,
   updateConceptGraphSettingsEvent,
   updateActiveRelaysGroups,
   updateActiveRelays,

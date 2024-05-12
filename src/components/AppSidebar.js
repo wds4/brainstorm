@@ -12,11 +12,13 @@ import { AppSidebarNav } from 'src/components/AppSidebarNav'
 
 // sidebar nav config
 import navigationHomeSignedIn from 'src/nav/_navHomeSignedIn'
+import navigationHomeSignedInDevMode from 'src/nav/_navHomeSignedInDevMode'
 import navigationHomeSignedOut from 'src/nav/_navHomeSignedOut'
 import navigationConceptGraph from 'src/nav/_navConceptGraph'
 import navigationGrapevine from 'src/nav/_navGrapevine'
 import navigationNestedLists from 'src/nav/_navNestedLists'
 import navigationWikifreedia from 'src/nav/_navWikifreedia'
+import navigationWikifreediaDevMode from 'src/nav/_navWikifreediaDevMode'
 import navigationTwittr from 'src/nav/_navTwittr'
 import { updateSidebarShow, updateSidebarUnfoldable } from 'src/redux/features/ui/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
@@ -24,11 +26,14 @@ import { updateApp } from 'src/redux/features/siteNavigation/slice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBrain, faBoltLightning, faBolt } from '@fortawesome/free-solid-svg-icons'
 
-function getNavigation(activeApp, signedIn) {
+function getNavigation(activeApp, signedIn, developmentMode) {
   switch (activeApp) {
     case 'home':
       if (!signedIn) {
         return navigationHomeSignedOut
+      }
+      if (developmentMode == 'show') {
+        return navigationHomeSignedInDevMode
       }
       return navigationHomeSignedIn
     case 'conceptGraph':
@@ -43,6 +48,9 @@ function getNavigation(activeApp, signedIn) {
       }
       return navigationHomeSignedIn
     case 'wikifreedia':
+      if (developmentMode == 'show') {
+        return navigationWikifreediaDevMode
+      }
       return navigationWikifreedia
     case 'twittr':
       return navigationTwittr
@@ -60,12 +68,13 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.ui.sidebarShow)
   const activeApp = useSelector((state) => state.siteNavigation.app)
   const signedIn = useSelector((state) => state.profile.signedIn)
+  const developmentMode = useSelector((state) => state.settings.general.developmentMode)
 
   const updateActiveApp = (newApp) => {
     dispatch(updateApp(newApp))
   }
 
-  const navigation = getNavigation(activeApp, signedIn)
+  const navigation = getNavigation(activeApp, signedIn, developmentMode)
 
   return (
     <CSidebar

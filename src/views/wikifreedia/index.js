@@ -7,6 +7,7 @@ import { cibWikipedia, cilPencil, cilPeople } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const WikifreediaDashboard = () => {
+  const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
   dispatch(updateApp('wikifreedia'))
 
@@ -15,6 +16,10 @@ const WikifreediaDashboard = () => {
   const oAuthors = useSelector((state) => state.wikifreedia.authors)
   const myPubkey = useSelector((state) => state.profile.pubkey)
 
+  let loggedInClassName = 'hide'
+  if (signedIn) {
+    loggedInClassName = 'show'
+  }
   /*
   let numArticlesByMe = 'Time to write your first one!'
   if (oAuthors[myPubkey]) {
@@ -27,12 +32,13 @@ const WikifreediaDashboard = () => {
       <center>
         <h3>Wiki Dashboard</h3>
       </center>
+      <br />
       <CRow xs={{ gutter: 4 }}>
-        <CCol xs={12} sm={6} xl={4} xxl={3}>
+        <CCol xs={12} sm={6} xl={4} xxl={3} className={loggedInClassName}>
           <CNavLink href="#/wikifreedia/publish">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cilPencil} size="xl" />}
-              value="Write an article"
+              value="Publish an article"
               color="success"
             />
           </CNavLink>
