@@ -12,19 +12,33 @@ const BrainstormAbout = () => {
     <>
       <CContainer>
         <center>
-          <h3>About Brainstorm</h3>
+          <h3>About PGA: Brainstorm</h3>
         </center>
+        <br /><br />
         <div>
           <p>
-            Brainstrom is a playground for application of the tapestry protocol to nostr and Web of
-            Trust. This includes the base protocols of the Concept Graph and the Grapevine as well
-            as specialized applications such as Wikifreedia. The tapestry protocol is a work in
-            progress and may be subject to change, hence the need for this experimental site where
-            things may break from time to time.
+            This website serves as a playground for application of the{' '}
+            <a target="_blank" href="pgf.tech">
+              tapestry protocol
+            </a>{' '}
+            to nostr. This protocol is a work in progress and may be subject to change, hence the
+            need for this experimental site where things may break from time to time.
           </p>
           <p>
             Individual apps may be spun off into standalone websites once they reach a sufficient
             level of maturity.
+          </p>
+          <p>
+            Soon to come: calculation of a Web of Trust score according to the principles outlined
+            in{' '}
+            <a
+              target="_blank"
+              href="https://habla.news/a/naddr1qqxnzdes8q6rwv3hxs6rjvpeqgs98k45ww24g26dl8yatvefx3qrkaglp2yzu6dm3hv2vcxl822lqtgrqsqqqa28kn8wur"
+              rel="noreferrer"
+            >
+              this post in habla.news
+            </a>
+            .
           </p>
           <p>
             <CNavLink

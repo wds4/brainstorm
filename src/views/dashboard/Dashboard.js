@@ -17,12 +17,7 @@ const Dashboard = () => {
     <>
       <center>
         <h3>Pretty Good Apps: Brainstorm</h3>
-        <strong>
-          playground for application of the tapestry protocol to nostr and Web of Trust
-        </strong>
         <br />
-        <br />
-        <div>This site is under construction!</div>
         <br />
       </center>
       <DocsExample href="components/widgets/#cwidgetstatsf">
@@ -35,7 +30,7 @@ const Dashboard = () => {
             >
               <CCard className="mb-3 border-primary" textColor="primary">
                 <CCardHeader>
-                  <strong>Web-o-pedia</strong>
+                  <strong>Wiki</strong>
                 </CCardHeader>
                 <CCardBody>
                   <CCardText>Knowledge curation by your Grapevine</CCardText>
