@@ -3,12 +3,19 @@ import { CButton, CCard, CCardBody, CCol, CFormSwitch, CNavLink, CRow } from '@c
 import { nip19 } from 'nostr-tools'
 import { useDispatch } from 'react-redux'
 import { secsToTimeAgo, fetchFirstByTag } from 'src/helpers'
-import { updateViewWikifreediaArticle } from '../../../redux/features/siteNavigation/slice'
+import {
+  updateViewWikifreediaArticle,
+  updateViewWikifreediaCategory,
+} from '../../../redux/features/siteNavigation/slice'
 import { ShowAuthor } from '../components/ShowAuthor'
 
 const Details = ({ showDetailsButton, title, category, categoryStyle, displayTime }) => {
   if (showDetailsButton == 'hide') {
     return <></>
+  }
+  const dispatch = useDispatch()
+  const processViewCategoryClick = (c) => {
+    dispatch(updateViewWikifreediaCategory(c))
   }
   return (
     <>
@@ -16,22 +23,29 @@ const Details = ({ showDetailsButton, title, category, categoryStyle, displayTim
       <CCard className="mb-4">
         <CCardBody>
           <CRow>
-            <CCol className="col-3" style={{ color: 'grey', textAlign: 'right' }}>
+            <CCol className="col-6" style={{ color: 'grey', textAlign: 'right' }}>
               title:
             </CCol>
-            <CCol className="col-9">{title}</CCol>
+            <CCol className="col-6">{title}</CCol>
           </CRow>
           <CRow>
-            <CCol className="col-3" style={{ color: 'grey', textAlign: 'right' }}>
+            <CCol className="col-6" style={{ color: 'grey', textAlign: 'right' }}>
               category:
             </CCol>
-            <CCol className="col-9">{category}</CCol>
+            <CCol className="col-6">
+              <CNavLink
+                href="#/wikifreedia/singleCategory"
+                onClick={() => processViewCategoryClick(category)}
+              >
+                {category}
+              </CNavLink>
+            </CCol>
           </CRow>
           <CRow>
-            <CCol className="col-3" style={{ color: 'grey', textAlign: 'right' }}>
+            <CCol className="col-6" style={{ color: 'grey', textAlign: 'right' }}>
               when last updated:
             </CCol>
-            <CCol className="col-9">{displayTime}</CCol>
+            <CCol className="col-6">{displayTime}</CCol>
           </CRow>
         </CCardBody>
       </CCard>
