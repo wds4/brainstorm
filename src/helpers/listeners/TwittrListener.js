@@ -4,24 +4,14 @@ import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
 import { addArticle } from '../../redux/features/wikifreedia/slice'
 
-/*
-as per NIP-54, kind: 30818 is used for wiki articles, e.g.:
-{
-  "content": "A wiki is a hypertext publication collaboratively edited and managed by its own audience.",
-  "tags": [
-    ["d", "wiki"],
-    ["title", "Wiki"],
-  ]
-}
-Articles are identified by lowercase, normalized ascii d tags.
-Any non-letter character MUST be converted to a -.
-*/
-const WikiListener = () => {
+// TO DO: test
+const TwittrListener = ({aPubkeys}) => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const dispatch = useDispatch()
 
   const filter = {
-    kinds: [30818],
+    kinds: [1],
+    authors: aPubkeys,
     since: 0,
   }
 
@@ -58,4 +48,4 @@ const WikiListener = () => {
   return <></>
 }
 
-export default WikiListener
+export default TwittrListener

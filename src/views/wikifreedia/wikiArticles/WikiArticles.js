@@ -6,6 +6,7 @@ import WikiArticlesAlphabetical from './alphabetical/Alphabetical'
 import WikiArticlesCategorical from './categorical/Categorical'
 import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
+import WikiListener from '../../../helpers/listeners/WikiListener'
 
 const Navigation = ({ updateWhichTab }) => {
   const [isAlphabetical, setIsAlphabetical] = useState(true)
@@ -76,6 +77,7 @@ const WikiTopics = () => {
   const [whichTab, setWhichTab] = useState('alphabetical') // alphabetical, chronological, categorical
   return (
     <>
+      <WikiListener />
       <CContainer fluid>
         <div style={{ marginBottom: '20px' }}>
           <div style={{ float: 'right' }} className={loggedInClassName}>

@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { updateApp } from '../../redux/features/siteNavigation/slice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBrain, faBoltLightning, faBolt } from '@fortawesome/free-solid-svg-icons'
+import WikiListener from '../../helpers/listeners/WikiListener'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const Dashboard = () => {
   }
   return (
     <>
+      <WikiListener />
       <center>
         <h3>Pretty Good Apps: Brainstorm</h3>
         <br />
