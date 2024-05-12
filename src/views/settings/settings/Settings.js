@@ -4,7 +4,7 @@ import GrapevineSettings from '../grapevineSettings/Settings'
 import ConceptGraphSettings from '../conceptGraphSettings/Settings'
 import TwittrSettings from '../twittrSettings/Settings'
 import GeneralSettings from '../generalSettings/GeneralSettings'
-import WikifreediaSettings from '../wikifreediaSettings/Settings'
+import WikiSettings from '../wikifreediaSettings/Settings'
 import { useSelector } from 'react-redux'
 
 // eslint-disable-next-line react/prop-types
@@ -22,7 +22,7 @@ const SettingsContent = ({ whichSettings }) => {
     return <TwittrSettings />
   }
   if (whichSettings == 'wikifreedia') {
-    return <WikifreediaSettings />
+    return <WikiSettings />
   }
   return <GeneralSettings />
 }
@@ -33,14 +33,14 @@ const SettingsNavigation = ({ updateWhichSettings }) => {
   const [isGrapevine, setIsGrapevine] = useState(false)
   const [isConceptGraph, setIsConceptGraph] = useState(false)
   const [isTwittr, setIsTwittr] = useState(false)
-  const [isWikifreedia, setIsWikifreedia] = useState(false)
+  const [isWiki, setIsWiki] = useState(false)
 
   const setAllOptionsToFalse = () => {
     setIsGeneral(false)
     setIsGrapevine(false)
     setIsConceptGraph(false)
     setIsTwittr(false)
-    setIsWikifreedia(false)
+    setIsWiki(false)
   }
 
   const setActiveTabGeneral = () => {
@@ -63,9 +63,9 @@ const SettingsNavigation = ({ updateWhichSettings }) => {
     setIsTwittr(true)
     updateWhichSettings('twittr')
   }
-  const setActiveTabWikifreedia = () => {
+  const setActiveTabWiki = () => {
     setAllOptionsToFalse()
-    setIsWikifreedia(true)
+    setIsWiki(true)
     updateWhichSettings('wikifreedia')
   }
 
@@ -91,12 +91,8 @@ const SettingsNavigation = ({ updateWhichSettings }) => {
       <CNavLink active={isTwittr} onClick={setActiveTabTwittr} disabled={developmentMode == 'hide'}>
         Twittr
       </CNavLink>
-      <CNavLink
-        active={isWikifreedia}
-        onClick={setActiveTabWikifreedia}
-        disabled={developmentMode == 'hide'}
-      >
-        Wikifreedia
+      <CNavLink active={isWiki} onClick={setActiveTabWiki} disabled={developmentMode == 'hide'}>
+        Wiki
       </CNavLink>
     </CNav>
   )

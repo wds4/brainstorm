@@ -1,3 +1,5 @@
+import { cibGit, cibGithub } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 import { CContainer, CNavLink } from '@coreui/react'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -14,7 +16,8 @@ const BrainstormAbout = () => {
         <center>
           <h3>About PGA: Brainstorm</h3>
         </center>
-        <br /><br />
+        <br />
+        <br />
         <div>
           <p>
             This website serves as a playground for application of the{' '}
@@ -49,6 +52,12 @@ const BrainstormAbout = () => {
             >
               <strong>Get in touch!</strong>
             </CNavLink>
+          </p>
+          <p>
+            See the repo on{' '}
+            <a href="https://github.com/wds4/brainstorm" target="_blank" rel="noopener noreferrer">
+              <CIcon icon={cibGithub} size="lg" />
+            </a>
           </p>
         </div>
       </CContainer>

@@ -17,7 +17,12 @@ const AppFooter = () => {
         </a>
       </span>
       <div className="ms-auto">
-        <span className="ms-1">&copy; 2024 Pretty Good Freedom Tech</span>{' '}
+        <span className="ms-1">
+          &copy; 2024{' '}
+          <a target="_blank" href="pgf.tech">
+            Pretty Good Freedom Tech
+          </a>
+        </span>{' '}
         <a href="https://github.com/wds4/brainstorm" target="_blank" rel="noopener noreferrer">
           <CIcon icon={cibGithub} size="lg" />
         </a>

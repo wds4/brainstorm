@@ -4,7 +4,7 @@ const WikifreediaSettings = () => {
   return (
     <>
       <center>
-        <h4>Wikifreedia Settings</h4>
+        <h4>Wiki Settings</h4>
       </center>
     </>
   )
