@@ -11,20 +11,20 @@ const _nav = [
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
+    component: CNavItem,
+    name: 'Publish',
+    to: '/wikifreedia/publish',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+  },
+  {
     component: CNavTitle,
-    name: 'Content',
+    name: 'View Content',
   },
   {
     component: CNavItem,
     name: 'Topics',
     to: '/wikifreedia/wikiArticles',
     icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Publish',
-    to: '/wikifreedia/publish',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,

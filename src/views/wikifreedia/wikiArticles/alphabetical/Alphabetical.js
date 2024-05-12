@@ -17,7 +17,10 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import { updateSortWikiTopicsBy, updateViewWikifreediaTopic } from '../../../../redux/features/siteNavigation/slice'
+import {
+  updateSortWikiTopicsBy,
+  updateViewWikifreediaTopic,
+} from '../../../../redux/features/siteNavigation/slice'
 import { whenTopicWasLastUpdated } from '../../singleTopic/SingleTopic'
 import { secsToTime, secsToTimeAgo } from '../../../../helpers'
 
@@ -33,12 +36,23 @@ const WikiArticlesAlphabetical = () => {
   }
   const [aTopicsFiltered, setATopicsFiltered] = useState(aTopicsRef)
 
+  const [lastUpdateColumnClassName, setLastUpdateColumnClassName] = useState('show') // show or hide
+  const [numVersionsColumnClassName, setNumVersionsColumnClassName] = useState('show') // show or hide
+
   const dispatch = useDispatch()
 
   useEffect(() => {
     try {
       function initSortTopicsBy() {
         updateSortBySelector(currentSortTopicsBy)
+        if (currentSortTopicsBy == 'numerical') {
+          setNumVersionsColumnClassName('show')
+          setLastUpdateColumnClassName('hide')
+        }
+        if (currentSortTopicsBy == 'chronological') {
+          setNumVersionsColumnClassName('hide')
+          setLastUpdateColumnClassName('show')
+        }
       }
       initSortTopicsBy()
     } catch (e) {}
@@ -65,39 +79,55 @@ const WikiArticlesAlphabetical = () => {
     if (newSortByValue == 'alphabetical') {
       const aFoo = aTopicsFiltered.sort()
       setATopicsFiltered(aFoo)
+      setNumVersionsColumnClassName('hide')
+      setLastUpdateColumnClassName('hide')
     }
     if (newSortByValue == 'reverseAlphabetical') {
       const aFoo = aTopicsFiltered.sort().reverse()
       setATopicsFiltered(aFoo)
+      setNumVersionsColumnClassName('hide')
+      setLastUpdateColumnClassName('hide')
     }
     if (newSortByValue == 'numerical') {
       const aFoo = aTopicsFiltered
       const aTopicObjects = []
       aFoo.forEach((topic) => {
         const numberOfVersions = Object.keys(oWikiArticles_byDTag[topic]).length
-        aTopicObjects.push({topic, numberOfVersions})
+        aTopicObjects.push({ topic, numberOfVersions })
       })
-      const aTopicObjectsOrdered = aTopicObjects.sort((a,b) => parseFloat(b.numberOfVersions) - parseFloat(a.numberOfVersions))
+      const aTopicObjectsOrdered = aTopicObjects.sort(
+        (a, b) => parseFloat(b.numberOfVersions) - parseFloat(a.numberOfVersions),
+      )
       const aTopicsOrdered = []
       aTopicObjectsOrdered.forEach((obj, item) => {
         aTopicsOrdered.push(obj.topic)
       })
       setATopicsFiltered(aTopicsOrdered)
+      setNumVersionsColumnClassName('show')
+      setLastUpdateColumnClassName('hide')
     }
     if (newSortByValue == 'chronological') {
       // const aFoo = Object.keys(oWikiArticles_byDTag)
       const aFoo = aTopicsFiltered
       const aTopicObjects = []
       aFoo.forEach((topic) => {
-        const mostRecentUpdate = whenTopicWasLastUpdated(oWikiArticles_byNaddr, oWikiArticles_byDTag, topic)
-        aTopicObjects.push({topic, mostRecentUpdate})
+        const mostRecentUpdate = whenTopicWasLastUpdated(
+          oWikiArticles_byNaddr,
+          oWikiArticles_byDTag,
+          topic,
+        )
+        aTopicObjects.push({ topic, mostRecentUpdate })
       })
-      const aTopicObjectsOrdered = aTopicObjects.sort((a,b) => parseFloat(b.mostRecentUpdate) - parseFloat(a.mostRecentUpdate))
+      const aTopicObjectsOrdered = aTopicObjects.sort(
+        (a, b) => parseFloat(b.mostRecentUpdate) - parseFloat(a.mostRecentUpdate),
+      )
       const aTopicsOrdered = []
       aTopicObjectsOrdered.forEach((obj, item) => {
         aTopicsOrdered.push(obj.topic)
       })
       setATopicsFiltered(aTopicsOrdered)
+      setNumVersionsColumnClassName('hide')
+      setLastUpdateColumnClassName('show')
     }
   }
 
@@ -124,7 +154,8 @@ const WikiArticlesAlphabetical = () => {
           <CCard className="mb-4">
             <CCardHeader>
               <strong>
-                {aTopicsFiltered.length} Topics, {Object.keys(oWikiArticles_byNaddr).length} articles
+                {aTopicsFiltered.length} Topics, {Object.keys(oWikiArticles_byNaddr).length}{' '}
+                articles
               </strong>
             </CCardHeader>
             <CCardBody>
@@ -132,7 +163,9 @@ const WikiArticlesAlphabetical = () => {
                 <div style={{ display: 'inline-block' }}>
                   <CFormSelect
                     value={sortBy}
-                    onChange={(e)=>{updateSortBySelector(e.target.value)}}
+                    onChange={(e) => {
+                      updateSortBySelector(e.target.value)
+                    }}
                     id="sortBySelector"
                     options={[
                       { label: 'alphabetical', value: 'alphabetical' },
@@ -157,8 +190,16 @@ const WikiArticlesAlphabetical = () => {
                     <CTableHeaderCell scope="col">
                       topics ({aTopicsFiltered.length})
                     </CTableHeaderCell>
-                    <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>last update</CTableHeaderCell>
-                    <CTableHeaderCell scope="col"># authors</CTableHeaderCell>
+                    <CTableHeaderCell
+                      scope="col"
+                      style={{ textAlign: 'center' }}
+                      className={lastUpdateColumnClassName}
+                    >
+                      last update
+                    </CTableHeaderCell>
+                    <CTableHeaderCell scope="col" className={numVersionsColumnClassName}>
+                      # authors
+                    </CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -168,7 +209,11 @@ const WikiArticlesAlphabetical = () => {
                     if (oAuthors) {
                       aAuthors = Object.keys(oAuthors)
                     }
-                    const whenLastUpdated = whenTopicWasLastUpdated(oWikiArticles_byNaddr, oWikiArticles_byDTag, topicSlug)
+                    const whenLastUpdated = whenTopicWasLastUpdated(
+                      oWikiArticles_byNaddr,
+                      oWikiArticles_byDTag,
+                      topicSlug,
+                    )
                     const howLongAgo = secsToTime(whenLastUpdated)
                     return (
                       <CTableRow key={item}>
@@ -180,8 +225,18 @@ const WikiArticlesAlphabetical = () => {
                             {topicSlug}
                           </CNavLink>
                         </CTableDataCell>
-                        <CTableDataCell style={{ textAlign: 'right' }}>{howLongAgo}</CTableDataCell>
-                        <CTableDataCell style={{ textAlign: 'center' }}>{aAuthors.length}</CTableDataCell>
+                        <CTableDataCell
+                          style={{ textAlign: 'right' }}
+                          className={lastUpdateColumnClassName}
+                        >
+                          {howLongAgo}
+                        </CTableDataCell>
+                        <CTableDataCell
+                          style={{ textAlign: 'center' }}
+                          className={numVersionsColumnClassName}
+                        >
+                          {aAuthors.length}
+                        </CTableDataCell>
                       </CTableRow>
                     )
                   })}
