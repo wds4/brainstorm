@@ -13,10 +13,7 @@ const About = ({ oProfile, npub, pubkey }) => {
     alert('pubkey copied to clipboard: \n ' + pk)
   }
   return (
-    <CContainer
-      className="px-4"
-      style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}
-    >
+    <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <CRow>
         <div style={{ color: 'grey' }}>npub:</div>
         <CCol style={{ overflowWrap: 'break-word' }}>

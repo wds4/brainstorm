@@ -88,9 +88,11 @@ const Profile = () => {
       <CRow>
         <TabsNavigation whichTab={whichTab} updateWhichTab={updateWhichTab} />
       </CRow>
+      <br />
       <CRow>
         <ProfileTabsContent whichTab={whichTab} npub={npub} pubkey={pubkey} oProfile={oProfile} />
       </CRow>
+      <br />
     </div>
   )
 }

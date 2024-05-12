@@ -17,15 +17,24 @@ const TwittrNote = ({ event }) => {
   return (
     <div
       className="row"
-      style={{ border: '1px solid grey', borderRadius: '10px', marginBottom: '5px' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        border: '1px solid grey',
+        padding: '2px',
+        borderRadius: '10px',
+        marginBottom: '5px',
+      }}
     >
-      <div className="col-md-auto profileAvatarContainerSmall">
-        <CNavLink href="#/profile" onClick={() => dispatch(updateNpub(npub))}>
-          <img src={oProfile?.image} className="profileAvatarSmall" />
-        </CNavLink>
+      <div className="col-md-auto">
+        <div className="profileAvatarContainerSmall">
+          <CNavLink href="#/profile" onClick={() => dispatch(updateNpub(npub))}>
+            <img src={oProfile?.image} className="profileAvatarSmall" />
+          </CNavLink>
+        </div>
       </div>
       <div className="col">
-        <div>
+        <div style={{ color: 'grey' }}>
           {oProfile?.displayName}
           <span style={{ float: 'right', color: 'grey' }}>{displayTime}</span>
         </div>

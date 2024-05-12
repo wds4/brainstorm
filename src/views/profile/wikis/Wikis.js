@@ -56,17 +56,12 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
   }
 
   return (
-    <CContainer
-      className="px-4"
-      style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}
-    >
+    <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>
-                This user has written articles on {aTopicsFiltered.length} Topics.
-              </strong>
+              <strong>This user has written articles on {aTopicsFiltered.length} Topics.</strong>
             </CCardHeader>
             <CCardBody>
               <CFormInput
@@ -92,11 +87,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
                       return (
                         <CTableRow key={item}>
                           <CTableDataCell scope="row">
-                            <CNavLink
-                              href="#/wikifreedia/singleEntry"
-                            >
-                              {topicSlug}
-                            </CNavLink>
+                            <CNavLink href="#/wikifreedia/singleEntry">{topicSlug}</CNavLink>
                           </CTableDataCell>
                           <CTableDataCell>error retrieving data</CTableDataCell>
                         </CTableRow>

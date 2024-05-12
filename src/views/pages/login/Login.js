@@ -89,7 +89,8 @@ const LoginWithExtension = ({ loginPath }) => {
   return (
     <>
       <CCardBody>
-        Need to sign in with a browser extension (e.g. getalby, Nos2x, nostr-keyx)
+        BROWSER EXTENSION METHOD: You must first sign in to your browser with a browser extension
+        (e.g. getalby, Nos2x, nostr-keyx).
       </CCardBody>
     </>
   )
