@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { useNostr } from 'nostr-react'
 
 const PublishNote = () => {
+  const signedIn = useSelector((state) => state.profile.signedIn)
   const oProfile = useSelector((state) => state.profile)
   const [content, setContent] = useState('')
   const [submitEventButtonClassName, setSubmitEventButtonClassName] = useState('mt-3')
@@ -46,6 +47,13 @@ const PublishNote = () => {
     setCreateAnotherElementClassName('hide')
     setContent('')
   }, [content])
+  if (!signedIn) {
+    return (
+      <>
+        <div>You must be logged in to post a note.</div>
+      </>
+    )
+  }
   return (
     <>
       <center>

@@ -132,7 +132,11 @@ const AppHeaderDropdown = () => {
             <CIcon icon={cibWikipedia} className="me-2" />
             Wiki
           </CDropdownItem>
-          <CDropdownItem href="#/twittr" onClick={() => updateActiveApp('twittr')}>
+          <CDropdownItem
+            href="#/twittr"
+            onClick={() => updateActiveApp('twittr')}
+            className={loggedIn}
+          >
             <CIcon icon={cibTwitter} className="me-2" />
             Twittr
           </CDropdownItem>

@@ -1,13 +1,19 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 import CIcon from '@coreui/icons-react'
 import { cibTwitter, cilPencil } from '@coreui/icons'
 
 const TwittrDashboard = () => {
+  const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
   dispatch(updateApp('twittr'))
+
+  let loggedInClassName = 'hide'
+  if (signedIn) {
+    loggedInClassName = 'show'
+  }
   return (
     <>
       <center>
@@ -15,7 +21,7 @@ const TwittrDashboard = () => {
         <div>This app is under construction!</div>
       </center>
       <CRow xs={{ gutter: 4 }}>
-        <CCol xs={12} sm={6} xl={4} xxl={3}>
+        <CCol xs={12} sm={6} xl={4} xxl={3} className={loggedInClassName}>
           <CNavLink href="#/twittr/postNote">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cilPencil} size="xl" />}
