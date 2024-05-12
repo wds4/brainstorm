@@ -144,7 +144,7 @@ const WikiEntry = () => {
       <div className="row justify-content-between">
         <CCol style={{ color: 'grey' }}>{showVersions}</CCol>
         <CCol className="col-auto">
-          <CButton color="primary" onClick={() => ToggleEvent(naddr)}>
+          <CButton color="primary">
             <CNavLink href={topicHref} onClick={() => processViewTopicClick(topicSlug)}>
               View all versions of {topicSlug}
             </CNavLink>

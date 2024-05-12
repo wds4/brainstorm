@@ -93,7 +93,7 @@ const MakeNewWikiArticle2 = () => {
   const [markdown, setMarkdown] = useState('\n\n\n\n\n')
   const [oEvent, setOEvent] = useState({})
   const [naddr, setNaddr] = useState('')
-  const [category, setCategory] = useState('Neurology')
+  const [category, setCategory] = useState('')
   const [newCategory, setNewCategory] = useState('')
   const [topicTitle, setTopicTitle] = useState('')
   const [topicSlug, setTopicSlug] = useState('')
