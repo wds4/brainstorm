@@ -12,6 +12,7 @@ const About = ({ oProfile, npub, pubkey }) => {
     navigator.clipboard.writeText(pk)
     alert('pubkey copied to clipboard: \n ' + pk)
   }
+  const primalUrl = 'https://primal.net/p/' + npub
   return (
     <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <CRow>
@@ -41,6 +42,14 @@ const About = ({ oProfile, npub, pubkey }) => {
         <CCol>
           <a href={oProfile?.website} target="_blank" rel="noreferrer">
             {oProfile?.website}
+          </a>
+        </CCol>
+      </CRow>
+      <CRow>
+        <div style={{ color: 'grey' }}>view in primal:</div>
+        <CCol>
+          <a href={primalUrl} target="_blank" rel="noreferrer">
+            Primal
           </a>
         </CCol>
       </CRow>
