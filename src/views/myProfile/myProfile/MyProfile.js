@@ -1,85 +1,50 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import { useNDK } from '@nostr-dev-kit/ndk-react'
-import { CAvatar, CCol, CContainer, CRow } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilClone } from '@coreui/icons'
 
 const MyProfile = () => {
-  const myNpub = useSelector((state) => state.profile.npub)
-  const myPubkey = useSelector((state) => state.profile.pubkey)
-  const myName = useSelector((state) => state.profile.name)
-  const myDisplayName = useSelector((state) => state.profile.display_name)
-  const myPicture = useSelector((state) => state.profile.picture)
-  const myBackground = useSelector((state) => state.profile.banner)
+  const oMyProfile = useSelector((state) => state.profile)
 
-  const { fetchEvents } = useNDK()
-
-  const [kind1Events, setKind1Events] = useState([])
-
-  const filter = {
-    authors: [myPubkey],
-    since: 0,
-    kinds: [1],
+  const copyNpubToClipboard = (np) => {
+    navigator.clipboard.writeText(np)
+    alert('user npub copied to clipboard: \n ' + np)
   }
-  useEffect(() => {
-    async function updateMyFollowsAndRelays() {
-      if (myPubkey) {
-        const events = await fetchEvents(filter)
-        // cycle through events and add them to kind1Events; they seem to come in spurts
-        setKind1Events(events)
-      }
-    }
-    updateMyFollowsAndRelays()
-  }, [fetchEvents(filter)])
   return (
-    <CContainer fluid>
-      <CRow>
-        <CCol sm="auto">
-          <div className="profileAvatarContainer">
-            <img src={myPicture} className="profileAvatarLarge" />
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-5 profileAvatarContainer">
+          <img src={oMyProfile?.picture} className="profileAvatarLarge" />
+        </div>
+        <div className="col" style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className="row" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="col-auto" style={{ fontSize: '34px', overflowWrap: 'break-word' }}>
+              {oMyProfile?.display_name}
+            </div>
+            <div className="col-auto" style={{ color: 'grey' }}>
+              @{oMyProfile?.name}
+            </div>
+            <div className="col-auto">{oMyProfile?.nip05}</div>
+            <div className="col">
+              <a href={oMyProfile?.website} target="_blank" rel="noreferrer">
+                {oMyProfile?.website}
+              </a>
+            </div>
           </div>
-        </CCol>
-        <CCol sm="auto">
-          <div>
-            <span style={{ fontSize: '34px', marginRight: '20px' }}>{myDisplayName}</span>
-            <span style={{ color: 'grey' }}>@{myName}</span>
+          <div style={{ color: 'grey', marginBottom: '12px', overflowWrap: 'break-word' }}>
+            {oMyProfile?.npub}{' '}
+            <CIcon
+              icon={cilClone}
+              className="me-2"
+              onClick={() => copyNpubToClipboard(oMyProfile?.npub)}
+            />
           </div>
-          <small>{myNpub}</small>
-        </CCol>
-      </CRow>
-      <CRow>
-        <div>kind1Events.length: {kind1Events.length}</div>
-      </CRow>
-    </CContainer>
+        </div>
+      </div>
+      <br />
+      <br />
+    </div>
   )
 }
 
 export default MyProfile
-
-/*
-.grad1 img {
-  -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
-}
-<CRow>
-  <div style={{ position: 'relative' }}>
-    <div
-      className="grad1"
-      style={{
-        width: '100%',
-        maxHeight: '200px',
-        position: 'absolute',
-        top: '0px',
-        overflow: 'scroll',
-      }}
-    >
-      <img
-        src={myBackground}
-        style={{
-          borderRadius: '20px 20px 0px 0px',
-          width: '100%',
-        }}
-        alt=""
-      />
-    </div>
-  </div>
-</CRow>
-*/
