@@ -18,7 +18,7 @@ import CIcon from '@coreui/icons-react'
 import { cilThumbDown, cilThumbUp } from '@coreui/icons'
 import { Ratee } from '../../components/Ratee'
 import { ShowContext } from './ShowContext'
-import GrapevineListener from '../../helpers/listeners/GrapevineListener'
+import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
 
 const DisplayScore = ({ score }) => {
   if (score == '0') {
