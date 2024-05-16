@@ -8,7 +8,6 @@ import { addTrustAttestation } from 'src/redux/features/grapevine/slice'
 import { cutoffTime } from 'src/const'
 import { updateConceptGraphSettingsEvent } from 'src/redux/features/settings/slice'
 import { addWordToConceptGraph } from '../../redux/features/conceptGraph/slice'
-import { listenerMethod } from '../../const'
 
 const ConceptGraphListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -69,6 +68,10 @@ const ConceptGraphListenerMain = () => {
 }
 
 const ConceptGraphListener = () => {
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod == 'off') {
+    return <></>
+  }
   if (listenerMethod == 'oneMainListener') {
     return <></>
   }

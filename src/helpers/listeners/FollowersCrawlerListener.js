@@ -20,7 +20,6 @@ import {
   updateKind3Event,
   processKind3Event,
 } from 'src/redux/features/profiles/slice'
-import { listenerMethod } from '../../const'
 
 // TO DO: test
 const FollowersCrawlerListenerMain = () => {
@@ -104,6 +103,7 @@ const FollowersCrawlerListenerMain = () => {
 }
 
 const FollowersCrawlerListener = () => {
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod == 'oneMainListener') {
     return <></>
   }

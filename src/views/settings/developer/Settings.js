@@ -25,11 +25,14 @@ const DeveloperSettings = () => {
         setIsDevMode(true)
         setDevelopmentMode('show')
         dispatch(updateDevelopmentMode('show'))
-      }
-      if (developmentMode == 'show') {
-        setIsDevMode(false)
-        setDevelopmentMode('hide')
-        dispatch(updateDevelopmentMode('hide'))
+      } else {
+        if (developmentMode == 'show') {
+          setIsDevMode(false)
+          setDevelopmentMode('hide')
+          dispatch(updateDevelopmentMode('hide'))
+        } else {
+          dispatch(updateDevelopmentMode('hide'))
+        }
       }
     },
     [developmentMode],

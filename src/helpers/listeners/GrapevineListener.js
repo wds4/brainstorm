@@ -9,7 +9,6 @@ import { cutoffTime } from 'src/const'
 import { updateConceptGraphSettingsEvent } from 'src/redux/features/settings/slice'
 import { addWordToConceptGraph } from '../../redux/features/conceptGraph/slice'
 import { makeEventSerializable } from '..'
-import { listenerMethod } from '../../const'
 
 const GrapevineListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -96,6 +95,10 @@ const GrapevineListenerMain = () => {
 }
 
 const GrapevineListener = () => {
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod == 'off') {
+    return <></>
+  }
   if (listenerMethod == 'oneMainListener') {
     return <></>
   }

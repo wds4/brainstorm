@@ -20,4 +20,5 @@ export const cutoffTime = 1714936803 // cutoff time when filtering for tapestry 
 */
 
 // need to test which listener method makes more sense
-export const listenerMethod = 'oneMainListener' // individualListeners versus oneMainListener
+export const listenerMethod = 'oneMainListener' // individualListeners versus oneMainListener versus off
+// moving this variable to settings

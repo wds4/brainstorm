@@ -20,11 +20,14 @@ import {
   updateFilter,
   updateListenerApplication,
 } from '../redux/features/listenerManager/slice'
-import { listenerMethod } from '../const'
 
 const ShowListenerManagerOrNot = () => {
   const showListenerManager = useSelector((state) => state.settings.general.showListenerManager)
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod == 'individualListeners') {
+    return <></>
+  }
+  if (listenerMethod == 'off') {
     return <></>
   }
   if (showListenerManager == 'hide') {

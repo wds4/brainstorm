@@ -15,11 +15,14 @@ const ShowListenerSwitchOrNot = () => {
   const [showListenerManageraButton, setShowListenerManageraButton] = useState('hide')
   const toggleShowListenerManager = useCallback(
     (e) => {
+      console.log('toggleShowListenerManager')
       if (showListenerManageraButton == 'hide') {
         setShowListenerManageraButton('show')
         dispateh(updateShowListenerManagerMode('show'))
-      }
-      if (showListenerManageraButton == 'show') {
+      } else if (showListenerManageraButton == 'show') {
+        setShowListenerManageraButton('hide')
+        dispateh(updateShowListenerManagerMode('hide'))
+      } else {
         setShowListenerManageraButton('hide')
         dispateh(updateShowListenerManagerMode('hide'))
       }

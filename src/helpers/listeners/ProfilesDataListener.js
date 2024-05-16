@@ -20,7 +20,6 @@ import {
   updateKind3Event,
   processKind3Event,
 } from 'src/redux/features/profiles/slice'
-import { listenerMethod } from '../../const'
 
 // TO DO: test
 const ProfilesDataListenerMain = ({ aPubkeys }) => {
@@ -107,6 +106,10 @@ const ProfilesDataListenerMain = ({ aPubkeys }) => {
 }
 
 const ProfilesDataListener = ({ aPubkeys }) => {
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod == 'off') {
+    return <></>
+  }
   if (listenerMethod == 'oneMainListener') {
     return <></>
   }

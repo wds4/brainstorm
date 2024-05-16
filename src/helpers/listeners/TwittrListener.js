@@ -4,7 +4,6 @@ import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent } from 'nostr-tools'
 import { processKind1Event } from '../../redux/features/twittr/slice'
 import { makeEventSerializable } from '..'
-import { listenerMethod } from '../../const'
 
 // TO DO: test
 // eslint-disable-next-line react/prop-types
@@ -41,6 +40,10 @@ const TwittrListenerMain = ({ aPubkeys }) => {
 }
 
 const TwittrListener = () => {
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod == 'off') {
+    return <></>
+  }
   if (listenerMethod == 'oneMainListener') {
     return <></>
   }

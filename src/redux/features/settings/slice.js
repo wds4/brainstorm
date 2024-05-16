@@ -8,6 +8,7 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
     general: {
+      listenerMethod: 'oneMainListener', // 'oneMainListener' vs 'individualListeners' vs 'off'
       developmentMode: 'hide', // 'show' or 'hide';  features that are under development
       showListenerManager: 'hide', // show or hide
       aActiveRelays: aDefaultRelays, // aDefaultRelays,
@@ -22,6 +23,9 @@ export const settingsSlice = createSlice({
     twittr: {},
   },
   reducers: {
+    updateListenerMethod: (state, action) => {
+      state.general.listenerMethod = action.payload
+    },
     updateDevelopmentMode: (state, action) => {
       state.general.developmentMode = action.payload
     },
@@ -47,6 +51,7 @@ export const settingsSlice = createSlice({
     },
     wipeSettings: (state, action) => {
       state.general = {
+        listenerMethod: 'oneMainListener',
         developmentMode: 'hide',
         showListenerManager: 'hide',
         aActiveRelays: aDefaultRelays,
@@ -64,6 +69,7 @@ export const settingsSlice = createSlice({
 })
 
 export const {
+  updateListenerMethod,
   updateDevelopmentMode,
   updateShowListenerManagerMode,
   updateConceptGraphSettingsEvent,

@@ -4,7 +4,6 @@ import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
 import { addArticle } from '../../redux/features/wikifreedia/slice'
 import { makeEventSerializable } from '..'
-import { listenerMethod } from '../../const'
 
 const WikiListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -39,6 +38,10 @@ const WikiListenerMain = () => {
 }
 
 const WikiListener = () => {
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod == 'off') {
+    return <></>
+  }
   if (listenerMethod == 'oneMainListener') {
     return <></>
   }
