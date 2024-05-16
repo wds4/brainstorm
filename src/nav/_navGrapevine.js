@@ -6,6 +6,7 @@ import {
   cilBoltCircle,
   cilCalculator,
   cilCircle,
+  cilHome,
   cilSpeedometer,
   cilThumbUp,
 } from '@coreui/icons'
@@ -14,9 +15,9 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavItem,
-    name: 'Grapevine Dashboard',
+    name: 'Grapevine Home',
     to: '/grapevine',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,

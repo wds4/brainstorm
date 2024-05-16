@@ -12,6 +12,19 @@ export function fetchFirstByTag(tag, event) {
   return ''
 }
 
+// this imports an event which may or may not be serializable and returns a serializable event
+export const makeEventSerializable = (oEventIn) => {
+  const oEventOut = {}
+  oEventOut.id = oEventIn.id
+  oEventOut.kind = oEventIn.kind
+  oEventOut.content = oEventIn.content
+  oEventOut.tags = oEventIn.tags
+  oEventOut.created_at = oEventIn.created_at
+  oEventOut.pubkey = oEventIn.pubkey
+  oEventOut.sig = oEventIn.sig
+  return oEventOut
+}
+
 export const secsToTime = (secs) => {
   let displayTime = '--'
   const currentTime = Math.floor(Date.now() / 1000)
@@ -142,4 +155,8 @@ export const convertNameToTitle = (name) => {
     }
   }
   return title
+}
+
+export const timeout = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }

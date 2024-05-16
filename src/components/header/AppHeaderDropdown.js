@@ -35,7 +35,11 @@ import CIcon from '@coreui/icons-react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { wipeActiveProfile } from '../../redux/features/profile/slice'
-import { updateApp, wipeSiteNavigation } from '../../redux/features/siteNavigation/slice'
+import {
+  updateApp,
+  updateNpub,
+  wipeSiteNavigation,
+} from '../../redux/features/siteNavigation/slice'
 import { wipeGrapevine } from '../../redux/features/grapevine/slice'
 import { updateDevelopmentMode, wipeSettings } from '../../redux/features/settings/slice'
 import { wipeTwittr } from '../../redux/features/twittr/slice'
@@ -43,21 +47,27 @@ import sessionStorage from 'redux-persist/es/storage/session'
 import localStorage from 'redux-persist/es/storage'
 import { wipeConceptGraph } from '../../redux/features/conceptGraph/slice'
 import { wipeWikifreedia } from '../../redux/features/wikifreedia/slice'
+import { turnListenerOff, wipeListenerManager } from '../../redux/features/listenerManager/slice'
+import { wipeProfiles } from '../../redux/features/profiles/slice'
 
 const AppHeaderDropdown = () => {
   const developmentMode = useSelector((state) => state.settings.general.developmentMode)
   const signedIn = useSelector((state) => state.profile.signedIn)
   const myPictureUrl = useSelector((state) => state.profile.picture)
+  const myNpub = useSelector((state) => state.profile.npub)
   const dispatch = useDispatch()
   const runLogout = () => {
     dispatch(wipeActiveProfile())
+    dispatch(wipeProfiles())
     dispatch(wipeGrapevine())
     dispatch(wipeSettings())
     dispatch(wipeTwittr())
     dispatch(wipeConceptGraph())
     dispatch(wipeWikifreedia())
     dispatch(wipeSiteNavigation())
+    dispatch(wipeListenerManager())
     dispatch(updateDevelopmentMode('hide'))
+    dispatch(turnListenerOff())
     // sessionStorage.clear()
     // localStorage.clear()
     updateActiveApp('home')
@@ -74,16 +84,21 @@ const AppHeaderDropdown = () => {
     dispatch(updateApp(newApp))
   }
 
+  let dropdownHeaderClassname = 'bg-body-secondary fw-semibold mb-2'
   let devModeClassName = developmentMode
   if (!signedIn) {
     devModeClassName = 'hide'
+    dropdownHeaderClassname = 'hide'
+  }
+  if (devModeClassName == 'hide') {
+    dropdownHeaderClassname = 'hide'
   }
   return (
     <>
       <CButton href="#/login" color="primary" className={loggedOut}>
         Login
       </CButton>
-      <CDropdown variant="nav-item">
+      <CDropdown variant="nav-item" className={loggedIn}>
         <CDropdownToggle placement="bottom-end" className="py-0 pe-0" caret={false}>
           <CAvatar style={{ backgroundColor: 'grey' }} src={headerAvatar} size="md" />
         </CDropdownToggle>
@@ -95,6 +110,7 @@ const AppHeaderDropdown = () => {
             <CIcon icon={cilHome} className="me-2" />
             Home
           </CDropdownItem>
+          <CDropdownHeader className={dropdownHeaderClassname}>Tapestry Protocol</CDropdownHeader>
           <CDropdownItem
             className={devModeClassName}
             href="#/conceptGraph"
@@ -112,6 +128,45 @@ const AppHeaderDropdown = () => {
             Grapevine
           </CDropdownItem>
           <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Apps</CDropdownHeader>
+          <CDropdownItem href="#/wikifreedia" onClick={() => updateActiveApp('wikifreedia')}>
+            <CIcon icon={cibWikipedia} className="me-2" />
+            Wiki
+          </CDropdownItem>
+          <CDropdownItem
+            href="#/twittr"
+            onClick={() => updateActiveApp('twittr')}
+            className={loggedIn}
+          >
+            <CIcon icon={cibTwitter} className="me-2" />
+            Twittr
+          </CDropdownItem>
+          <CDropdownHeader className={dropdownHeaderClassname}>
+            App Stubs (incomplete)
+          </CDropdownHeader>
+          <CDropdownItem
+            className={devModeClassName}
+            href="#/helloWorld"
+            onClick={() => updateActiveApp('helloWorld')}
+          >
+            <CIcon icon={cilList} className="me-2" />
+            Hello World
+          </CDropdownItem>
+          <CDropdownItem
+            className={devModeClassName}
+            href="#/nostrAppsDirectory"
+            onClick={() => updateActiveApp('nostrAppsDirectory')}
+          >
+            <CIcon icon={cilList} className="me-2" />
+            Nostr Apps Directory
+          </CDropdownItem>
+          <CDropdownItem
+            className={devModeClassName}
+            href="#/relaysDirectory"
+            onClick={() => updateActiveApp('relaysDirectory')}
+          >
+            <CIcon icon={cilList} className="me-2" />
+            Relays Directory
+          </CDropdownItem>
           <CDropdownItem
             className={devModeClassName}
             href="#/nestedLists"
@@ -128,23 +183,17 @@ const AppHeaderDropdown = () => {
             <CIcon icon={cilList} className="me-2" />
             Curated Lists
           </CDropdownItem>
-          <CDropdownItem href="#/wikifreedia" onClick={() => updateActiveApp('wikifreedia')}>
-            <CIcon icon={cibWikipedia} className="me-2" />
-            Wiki
-          </CDropdownItem>
-          <CDropdownItem
-            href="#/twittr"
-            onClick={() => updateActiveApp('twittr')}
-            className={loggedIn}
-          >
-            <CIcon icon={cibTwitter} className="me-2" />
-            Twittr
-          </CDropdownItem>
           <div className={loggedIn}>
             <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">
               Account
             </CDropdownHeader>
-            <CDropdownItem href="#/myProfile/myProfile" onClick={() => updateActiveApp('home')}>
+            <CDropdownItem
+              href="#/profile"
+              onClick={() => {
+                dispatch(updateNpub(myNpub))
+                updateActiveApp('home')
+              }}
+            >
               <CIcon icon={cilUser} className="me-2" />
               My Profile
             </CDropdownItem>
@@ -169,7 +218,7 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             className={devModeClassName}
             href="#/settings/settings"
-            onClick={() => updateActiveApp('home')}
+            onClick={() => updateActiveApp('settings')}
           >
             <CIcon icon={cilSettings} className="me-2" />
             Settings

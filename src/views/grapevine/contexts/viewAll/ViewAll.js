@@ -13,9 +13,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
-import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
 import { Link } from 'react-router-dom'
 import { updateViewContextId } from '../../../../redux/features/siteNavigation/slice'
+import GrapevineListener from '../../helpers/listeners/GrapevineListener'
 
 // eslint-disable-next-line react/prop-types
 const ShowSingleItem = ({ contextId, event }) => {

@@ -8,8 +8,10 @@ import { addTrustAttestation } from 'src/redux/features/grapevine/slice'
 import { cutoffTime } from 'src/const'
 import { updateConceptGraphSettingsEvent } from 'src/redux/features/settings/slice'
 import { addWordToConceptGraph } from '../../redux/features/conceptGraph/slice'
+import { makeEventSerializable } from '..'
+import { listenerMethod } from '../../const'
 
-const GrapevineListener = () => {
+const GrapevineListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const dispatch = useDispatch()
 
@@ -26,16 +28,10 @@ const GrapevineListener = () => {
       const events = await fetchEvents(filter)
       events.forEach((eventNS, item) => {
         if (validateEvent(eventNS)) {
-          const event = {}
-          event.id = eventNS.id
-          event.content = eventNS.content
-          event.kind = eventNS.kind
-          event.tags = eventNS.tags
-          event.created_at = eventNS.created_at
-          event.pubkey = eventNS.pubkey
-          event.sig = eventNS.sig
+          const event = makeEventSerializable(eventNS)
           try {
             // const event = eventNS.rawEvent()
+
             const aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
             if (aTags_w.length > 0) {
               let cid = event.id
@@ -85,6 +81,8 @@ const GrapevineListener = () => {
                 // console.log('fetchEvents_nestedList')
               }
             }
+
+
           } catch (e) {
             console.log('updateGrapevineDatabase error: ' + e)
           }
@@ -94,6 +92,16 @@ const GrapevineListener = () => {
     updateGrapevineDatabase()
   }, [fetchEvents(filter)])
 
+  return <></>
+}
+
+const GrapevineListener = () => {
+  if (listenerMethod == 'oneMainListener') {
+    return <></>
+  }
+  if (listenerMethod == 'individualListeners') {
+    return <GrapevineListenerMain />
+  }
   return <></>
 }
 

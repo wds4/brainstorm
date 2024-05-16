@@ -18,8 +18,16 @@ import { nip19 } from 'nostr-tools'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
-import { updateViewWikifreediaArticle } from '../../../redux/features/siteNavigation/slice'
+import {
+  updateApp,
+  updateViewWikifreediaArticle,
+} from '../../../redux/features/siteNavigation/slice'
 import WikiListener from '../../../helpers/listeners/WikiListener'
+import {
+  turnListenerOn,
+  updateFilter,
+  updateListenerApplication,
+} from '../../../redux/features/listenerManager/slice'
 
 const Wikis = ({ oProfile, npub, pubkey }) => {
   const [searchField, setSearchField] = useState('')
@@ -36,6 +44,17 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
   const [aTopicsFiltered, setATopicsFiltered] = useState(aTopicsRef)
 
   const dispatch = useDispatch()
+
+  // manage listener
+  const filter = {
+    kinds: [30818],
+    authors: [pubkey],
+    since: 0,
+  }
+  dispatch(updateApp('wiki'))
+  dispatch(updateFilter(filter))
+  dispatch(turnListenerOn())
+  dispatch(updateListenerApplication('wiki'))
 
   const handleSearchFieldChange = useCallback(
     async (e) => {
@@ -59,7 +78,10 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
   return (
     <>
       <WikiListener />
-      <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <CContainer
+        className="px-4"
+        style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+      >
         <CRow>
           <CCol xs={12}>
             <CCard className="mb-4">

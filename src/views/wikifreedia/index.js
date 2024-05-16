@@ -2,14 +2,31 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
-import WikiListener from '../../helpers/listeners/WikiListener'
 import { cibWikipedia, cilPencil, cilPeople } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
+import {
+  turnListenerOn,
+  updateFilter,
+  updateFilterAuthors,
+  updateFilterKinds,
+  updateListenerApplication,
+} from '../../redux/features/listenerManager/slice'
+import WikiListener from '../../helpers/listeners/WikiListener'
 
-const WikifreediaDashboard = () => {
+const WikiHome = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
-  dispatch(updateApp('wikifreedia'))
+
+  // manage listener
+  const filter = {
+    kinds: [30818],
+    since: 0,
+  }
+
+  dispatch(updateApp('wiki'))
+  dispatch(updateFilter(filter))
+  dispatch(turnListenerOn())
+  dispatch(updateListenerApplication('wiki'))
 
   const oTopics = useSelector((state) => state.wikifreedia.articles.byDTag)
   const oCategories = useSelector((state) => state.wikifreedia.categories)
@@ -30,7 +47,7 @@ const WikifreediaDashboard = () => {
     <>
       <WikiListener />
       <center>
-        <h3>Wiki Dashboard</h3>
+        <h3>Wiki Home</h3>
       </center>
       <br />
       <CRow xs={{ gutter: 4 }}>
@@ -78,4 +95,4 @@ const WikifreediaDashboard = () => {
   )
 }
 
-export default WikifreediaDashboard
+export default WikiHome

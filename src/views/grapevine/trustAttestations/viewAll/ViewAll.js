@@ -13,12 +13,12 @@ import {
 import { useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
-import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
 import { Link } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
 import { cilThumbDown, cilThumbUp } from '@coreui/icons'
 import { Ratee } from '../../components/Ratee'
 import { ShowContext } from './ShowContext'
+import GrapevineListener from '../../helpers/listeners/GrapevineListener'
 
 const DisplayScore = ({ score }) => {
   if (score == '0') {

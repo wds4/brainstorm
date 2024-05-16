@@ -2,8 +2,9 @@ import { cilClone } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { CCol, CContainer, CRow } from '@coreui/react'
 import React from 'react'
+import RawDataNostrWord from '../../components/RawDataNostrWord'
 
-const About = ({ oProfile, npub, pubkey }) => {
+const About = ({ oKind0Event, oKind3Event, oProfile, oProfileBrainstorm, oProfileNdk, npub, pubkey }) => {
   const copyNpubToClipboard = (np) => {
     navigator.clipboard.writeText(np)
     alert('npub copied to clipboard: \n ' + np)
@@ -13,6 +14,7 @@ const About = ({ oProfile, npub, pubkey }) => {
     alert('pubkey copied to clipboard: \n ' + pk)
   }
   const primalUrl = 'https://primal.net/p/' + npub
+
   return (
     <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <CRow>
@@ -53,8 +55,23 @@ const About = ({ oProfile, npub, pubkey }) => {
           </a>
         </CCol>
       </CRow>
+      <CRow>
+        <RawDataNostrWord oEvent={oKind0Event} label="kind 0 event" />
+      </CRow>
+      <CRow>
+        <RawDataNostrWord oEvent={oKind3Event} label="kind 3 event" />
+      </CRow>
     </CContainer>
   )
 }
 
 export default About
+
+/*
+<CRow>
+  <div>oProfileNdk:</div>
+  <pre>{JSON.stringify(oProfileNdk, null, 4)}</pre>
+  <div>oProfileBrainstorm:</div>
+  <pre>{JSON.stringify(oProfileBrainstorm, null, 4)}</pre>
+</CRow>
+*/

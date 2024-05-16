@@ -4,7 +4,7 @@ const GrapevineSettings = () => {
   return (
     <>
       <center>
-        <h4>Grapevine Settings</h4>
+        <h4>Settings: Grapevine</h4>
       </center>
     </>
   )

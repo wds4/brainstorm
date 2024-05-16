@@ -4,16 +4,33 @@ import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
 import { cilBolt, cilBoltCircle, cilCircle, cilThumbUp } from '@coreui/icons'
-import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
+import { cutoffTime } from 'src/const'
+import {
+  turnListenerOn,
+  updateFilter,
+  updateListenerApplication,
+} from '../../redux/features/listenerManager/slice'
+import GrapevineListener from '../../helpers/listeners/GrapevineListener'
 
 const GrapevineDashboard = () => {
   const dispatch = useDispatch()
-  dispatch(updateApp('grapevine'))
+
   const oActions = useSelector((state) => state.grapevine.actions)
   const oCategories = useSelector((state) => state.grapevine.categories)
   const oContexts = useSelector((state) => state.grapevine.contexts)
   const oTrustAttestations = useSelector((state) => state.grapevine.trustAttestations)
+
+  // manage listener
+  const filter = {
+    kinds: [9902, 37069, 39902],
+    since: cutoffTime,
+    '#P': ['tapestry'],
+  }
+  dispatch(updateApp('grapevine'))
+  dispatch(updateFilter(filter))
+  dispatch(turnListenerOn())
+  dispatch(updateListenerApplication('grapevine'))
   return (
     <>
       <GrapevineListener />

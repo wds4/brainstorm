@@ -4,7 +4,7 @@ import React from 'react'
 const Wikifreedia = React.lazy(() => import('src/views/wikifreedia/index'))
 
 // Settings
-const Settings = React.lazy(() => import('src/views/settings/wikifreediaSettings/Settings'))
+const Settings = React.lazy(() => import('src/views/settings/wiki/Settings'))
 
 // content
 const Categories = React.lazy(() => import('src/views/wikifreedia/categories/Categories'))
@@ -31,13 +31,14 @@ const routes = [
   { path: '/wikifreedia/settings', name: 'Settings', element: Settings },
 
   // content
-  { path: '/wikifreedia/categories', name: 'Categories', element: Categories },
   { path: '/wikifreedia/publish', name: 'Publish', element: MakeNewArticle },
-  { path: '/wikifreedia/wikiArticles', name: 'Wiki Articles', element: WikiArticles },
+  { path: '/wikifreedia/categories', name: 'Categories', element: Categories },
+  { path: '/wikifreedia/wikiArticles', name: 'Topics', element: WikiArticles },
+  { path: '/wikifreedia/authors', name: 'Authors', element: WikiAuthors },
   { path: '/wikifreedia/singleCategory', name: 'Wiki Category', element: WikiCategory },
   { path: '/wikifreedia/singleEntry', name: 'Wiki Entry', element: WikiEntry },
   { path: '/wikifreedia/singleTopic', name: 'Wiki Topic', element: WikiTopic },
-  { path: '/wikifreedia/authors', name: 'Authors', element: WikiAuthors },
+
 
   // Wiki WoT
   { path: '/wikifreedia/leaveAttestation', name: 'Leave Attestation', element: LeaveAttestation },

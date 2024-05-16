@@ -3,11 +3,15 @@ import { createSlice } from '@reduxjs/toolkit'
 export const siteNavigationSlice = createSlice({
   name: 'siteNavigation',
   initialState: {
+    loginTime: 0,
     app: 'home', // home, conceptGraph, grapevine, curatedLists, wikifreedia, twittr
     npub: '', // which npub is being viewed on the profile page
     viewContextId: '', // which context is being viewed on the view single context page; is either an event id (if kind 9902) or an naddr (if kind 39902)
     profile: { // ought to move npub here
       tab: 'about', // about, notes, wikis, leaveRating, ratingsOf, ratingsBy, wotScores
+    },
+    twittr: {
+      mainFeed: 'following', // following, global
     },
     grapevine: {}, // ought to move viewContextId here; and add actionId, categoryId
     conceptGraph: {
@@ -22,17 +26,27 @@ export const siteNavigationSlice = createSlice({
       viewArticle: '', // naddr
       viewCategory: '', // human readable string
       sortTopicsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore
+      sortAuthorsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore, influenceScore
     },
   },
   reducers: {
     updateApp: (state, action) => {
       state.app = action.payload
     },
+    updateLoginTime: (state, action) => {
+      const currentTime = Math.floor(Date.now() / 1000)
+      state.loginTime = currentTime
+    },
     updateNpub: (state, action) => {
+      console.log('updateNpub; new npub: ' + action.payload)
+      state.profile.tab = 'about' // this is a crutch to address the problem that the follows tab doesn't work if it's the first one we see upon initially navigating to a profile
       state.npub = action.payload
     },
     updateViewProfileTab: (state, action) => {
       state.profile.tab = action.payload
+    },
+    updateTwittrMainFeed: (state, action) => {
+      state.twittr.mainFeed = action.payload
     },
     updateViewContextId: (state, action) => {
       state.viewContextId = action.payload
@@ -58,15 +72,22 @@ export const siteNavigationSlice = createSlice({
     updateSortWikiTopicsBy: (state, action) => {
       state.wikifreedia.sortTopicsBy = action.payload
     },
+    updateSortWikiAuthorsBy: (state, action) => {
+      state.wikifreedia.sortAuthorsBy = action.payload
+    },
     wipeSiteNavigation: (state, action) => {
-      // console.log('wipeSiteNavigation ... currently inactive')
-      // state.siteNavigation = {}
+      console.log('wipeSiteNavigation ... currently inactive')
+      state.siteNavigation = {}
       state.siteNavigation = {
+        loginTime: 0,
         app: 'home', // home, conceptGraph, grapevine, curatedLists, wikifreedia, twittr
         npub: '', // which npub is being viewed on the profile page
         viewContextId: '', // which context is being viewed on the view single context page; is either an event id (if kind 9902) or an naddr (if kind 39902)
         profile: { // ought to move npub here
           tab: 'about', // about, notes, wikis, leaveRating, ratingsOf, ratingsBy, wotScores
+        },
+        twittr: {
+          mainFeed: 'following', // following, global
         },
         grapevine: {}, // ought to move viewContextId here; and add actionId, categoryId
         conceptGraph: {
@@ -81,6 +102,7 @@ export const siteNavigationSlice = createSlice({
           viewArticle: '', // naddr
           viewCategory: '', // human readable string
           sortTopicsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore
+          sortAuthorsBy: 'chronological',
         },
       }
     },
@@ -89,8 +111,10 @@ export const siteNavigationSlice = createSlice({
 
 export const {
   updateApp,
+  updateLoginTime,
   updateNpub,
   updateViewProfileTab,
+  updateTwittrMainFeed,
   updateViewContextId,
   updateViewWord,
   updateViewWordType,
@@ -99,6 +123,7 @@ export const {
   updateViewWikifreediaArticle,
   updateViewWikifreediaCategory,
   updateSortWikiTopicsBy,
+  updateSortWikiAuthorsBy,
   wipeSiteNavigation,
 } = siteNavigationSlice.actions
 

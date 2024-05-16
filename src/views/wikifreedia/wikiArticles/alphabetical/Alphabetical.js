@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  CButton,
   CCard,
   CCardBody,
   CCardHeader,
@@ -22,7 +21,7 @@ import {
   updateViewWikifreediaTopic,
 } from '../../../../redux/features/siteNavigation/slice'
 import { whenTopicWasLastUpdated } from '../../singleTopic/SingleTopic'
-import { secsToTime, secsToTimeAgo } from '../../../../helpers'
+import { secsToTime } from '../../../../helpers'
 
 const WikiArticlesAlphabetical = () => {
   const currentSortTopicsBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicsBy)
@@ -153,10 +152,18 @@ const WikiArticlesAlphabetical = () => {
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>
-                {aTopicsFiltered.length} Topics, {Object.keys(oWikiArticles_byNaddr).length}{' '}
-                articles
-              </strong>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div style={{ flexGrow: '1' }}>
+                  <strong>
+                    showing {aTopicsFiltered.length} Topics
+                  </strong>
+                </div>
+                <div style={{ flexGrow: 'auto' }}>
+                  <strong>
+                    {aTopicsRef.length} topics, {Object.keys(oWikiArticles_byNaddr).length} articles in total
+                  </strong>
+                </div>
+              </div>
             </CCardHeader>
             <CCardBody>
               <div style={{ textAlign: 'right' }}>
@@ -187,9 +194,7 @@ const WikiArticlesAlphabetical = () => {
               <CTable striped small hover>
                 <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell scope="col">
-                      topics ({aTopicsFiltered.length})
-                    </CTableHeaderCell>
+                    <CTableHeaderCell scope="col">topic</CTableHeaderCell>
                     <CTableHeaderCell
                       scope="col"
                       style={{ textAlign: 'center' }}

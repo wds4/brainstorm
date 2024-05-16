@@ -4,7 +4,7 @@ import React from 'react'
 const NestedLists = React.lazy(() => import('src/views/nestedLists/index'))
 
 // Settings
-const Settings = React.lazy(() => import('src/views/settings/nestedListsSettings/Settings'))
+const Settings = React.lazy(() => import('src/views/settings/nestedLists/Settings'))
 
 const routes = [
   { path: '/nestedLists', name: 'Nested Lists', element: NestedLists },

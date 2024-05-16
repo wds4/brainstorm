@@ -4,7 +4,7 @@ import React from 'react'
 const ConceptGraph = React.lazy(() => import('src/views/conceptGraph/index'))
 
 // Settings
-const Settings = React.lazy(() => import('src/views/settings/conceptGraphSettings/Settings'))
+const Settings = React.lazy(() => import('src/views/settings/conceptGraph/Settings'))
 
 // Words
 const Words = React.lazy(() => import('src/views/conceptGraph/words'))

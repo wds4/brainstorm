@@ -17,6 +17,9 @@ const initState = {
   nip05: '',
   about: '',
   website: '',
+  kind0: {
+    oEvent: {},
+  },
   kind3: {
     created_at: 0,
     relays: {},
@@ -73,6 +76,9 @@ export const profileSlice = createSlice({
     updateWebsite: (state, action) => {
       state.website = action.payload
     },
+    updateKind0: (state, action) => {
+      state.kind0.oEvent = action.payload
+    },
     updateKind3CreatedAt: (state, action) => {
       state.kind3.created_at = action.payload
     },
@@ -98,6 +104,8 @@ export const profileSlice = createSlice({
       state.nip05 = ''
       state.about = ''
       state.website = ''
+      state.kind0 = {}
+      state.kind0.oEvent = {}
       state.kind3.created_at = 0
       state.kind3.relays = {}
       state.kind3.follows = []
@@ -121,6 +129,7 @@ export const {
   updateNip05,
   updateAbout,
   updateWebsite,
+  updateKind0,
   updateKind3CreatedAt,
   updateRelays,
   updateFollows,

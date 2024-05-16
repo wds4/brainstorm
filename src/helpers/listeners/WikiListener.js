@@ -3,20 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
 import { addArticle } from '../../redux/features/wikifreedia/slice'
+import { makeEventSerializable } from '..'
+import { listenerMethod } from '../../const'
 
-/*
-as per NIP-54, kind: 30818 is used for wiki articles, e.g.:
-{
-  "content": "A wiki is a hypertext publication collaboratively edited and managed by its own audience.",
-  "tags": [
-    ["d", "wiki"],
-    ["title", "Wiki"],
-  ]
-}
-Articles are identified by lowercase, normalized ascii d tags.
-Any non-letter character MUST be converted to a -.
-*/
-const WikiListener = () => {
+const WikiListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const dispatch = useDispatch()
 
@@ -34,18 +24,8 @@ const WikiListener = () => {
       events.forEach((eventNS, item) => {
         try {
           if (validateEvent(eventNS)) {
-            const event = {}
-            event.id = eventNS.id
-            event.kind = eventNS.kind
-            event.content = eventNS.content
-            event.tags = eventNS.tags
-            event.created_at = eventNS.created_at
-            event.pubkey = eventNS.pubkey
-            event.sig = eventNS.sig
+            const event = makeEventSerializable(eventNS)
             dispatch(addArticle(event))
-            // EXPERIMENTAL:
-            // Incorporate each entry into the Concept Graph store.
-            // (Not yet implemented.)
           }
         } catch (e) {
           console.log('updateWikifreediaDatabase error: ' + e)
@@ -53,8 +33,18 @@ const WikiListener = () => {
       })
     }
     updateWikifreediaDatabase()
-  }, [])
+  }, [fetchEvents(filter)])
 
+  return <></>
+}
+
+const WikiListener = () => {
+  if (listenerMethod == 'oneMainListener') {
+    return <></>
+  }
+  if (listenerMethod == 'individualListeners') {
+    return <WikiListenerMain />
+  }
   return <></>
 }
 

@@ -1,30 +1,29 @@
 import React from 'react'
-import {
-  CBadge,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CCol,
-  CFormCheck,
-  CListGroup,
-  CListGroupItem,
-  CRow,
-} from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DocsExample } from '../../../components'
-import { useNDK } from '@nostr-dev-kit/ndk-react'
-import { nip19 } from 'nostr-tools'
-import { updateNpub } from '../../../redux/features/siteNavigation/slice'
+import FollowsCoreuiTable from 'src/views/components/FollowsCoreuiTable'
+import {
+  turnListenerOn,
+  updateFilter,
+  updateListenerApplication,
+} from '../../../redux/features/listenerManager/slice'
+import { updateApp } from '../../../redux/features/siteNavigation/slice'
 
 const Follows = () => {
-  const { getProfile } = useNDK()
-  const dispatch = useDispatch()
-  const myName = useSelector((state) => state.profile.name)
   const aFollows = useSelector((state) => state.profile.kind3.follows)
 
-  const setCurrentNpub = (newNpub) => {
-    dispatch(updateNpub(newNpub))
+  const dispatch = useDispatch()
+
+  // manage listener
+  const filter = {
+    kinds: [0, 3],
+    authors: aFollows,
+    since: 0,
   }
+  dispatch(updateApp('home'))
+  dispatch(updateFilter(filter))
+  dispatch(turnListenerOn())
+  dispatch(updateListenerApplication('home'))
   return (
     <>
       <CRow>
@@ -34,35 +33,11 @@ const Follows = () => {
               <strong>Follows</strong>
             </CCardHeader>
             <CCardBody>
-              <DocsExample href="components/list-group/#links-and-buttons">
-                <CListGroup>
-                  {aFollows.map((pubkey, item) => {
-                    const npub = nip19.npubEncode(pubkey)
-                    const name = getProfile(npub)?.name
-                    let displayName = npub
-                    if (name) {
-                      displayName = name
-                    }
-                    return (
-                      <CListGroupItem
-                        key={item}
-                        as="a"
-                        href="#/profile"
-                        onClick={() => setCurrentNpub(npub)}
-                      >
-                        {displayName}
-                      </CListGroupItem>
-                    )
-                  })}
-                </CListGroup>
-              </DocsExample>
+              <FollowsCoreuiTable aFollows={aFollows} />
             </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-      <h1>Follows</h1>
-      <div>myName: {myName}</div>
-      <div>aFollows.length: {aFollows.length}</div>
     </>
   )
 }

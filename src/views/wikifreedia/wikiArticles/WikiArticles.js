@@ -8,6 +8,7 @@ import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
 import WikiListener from '../../../helpers/listeners/WikiListener'
 
+/*
 const Navigation = ({ updateWhichTab }) => {
   const [isAlphabetical, setIsAlphabetical] = useState(true)
   const [isChronological, setIsChronological] = useState(false)
@@ -49,6 +50,7 @@ const Navigation = ({ updateWhichTab }) => {
     </CNav>
   )
 }
+*/
 
 // eslint-disable-next-line react/prop-types
 const Content = ({ whichTab }) => {

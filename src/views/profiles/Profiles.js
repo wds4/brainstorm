@@ -1,66 +1,62 @@
+import React, { useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
-  CCard,
-  CCardBody,
-  CCardTitle,
-  CCol,
-  CForm,
-  CFormInput,
-  CNavLink,
-  CRow,
-} from '@coreui/react'
-import { useNDK } from '@nostr-dev-kit/ndk-react'
-import React, { useCallback, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { updateNpub } from '../../redux/features/siteNavigation/slice'
+  turnListenerOff,
+  turnListenerOn,
+  updateFilter,
+  updateListenerApplication,
+} from '../../redux/features/listenerManager/slice'
+import { updateApp } from '../../redux/features/siteNavigation/slice'
+// import TanstackReactTable from './TanstackReactTable'
+
+import { nip19 } from 'nostr-tools'
+import TanstackProfilesTable from '../components/TanstackProfilesTable'
+import FollowersCrawlerListener from '../../helpers/listeners/FollowersCrawlerListener'
+// import CalculateDegreesOfSeparation from './calculateDegreesOfSeparation'
 
 const Profiles = () => {
-  const [npub, setNpub] = useState('')
-  const { getProfile } = useNDK()
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const aNpubsToDisplay = Object.keys(oProfilesByNpub)
 
-  const handleRateeNpubChange = useCallback(
-    async (e) => {
-      const newNpub = e.target.value
-      setNpub(newNpub)
-    },
-    [npub],
-  )
-
+  /*
   const dispatch = useDispatch()
-  const setCurrentNpub = (newNpub) => {
-    dispatch(updateNpub(newNpub))
+  const turnListenerOnButton = () => {
+    const aProfilePubkeysToSearch = []
+    Object.keys(oProfilesByNpub).forEach((np) => {
+      const decoded = nip19.decode(np)
+      if (decoded.type == 'npub') {
+        const pk = decoded.data
+        aProfilePubkeysToSearch.push(pk)
+      }
+    })
+    const filter = {
+      kinds: [0, 3],
+      authors: aProfilePubkeysToSearch,
+      since: 0,
+    }
+    console.log('turnListenerOnButton')
+    dispatch(updateFilter(filter))
+    dispatch(turnListenerOn())
   }
+  const turnListenerOffButton = () => {
+    console.log('turnListenerOffButton')
+    dispatch(turnListenerOff())
+  }
+  */
+
   return (
     <>
       <div className="d-grid gap-2 col-12  mx-auto">
         <center>
-          <h3>Find User</h3>
+          <h3>{Object.keys(oProfilesByNpub).length} Profiles</h3>
         </center>
-        <CForm>
-          <CFormInput
-            type="text"
-            label="enter user npub"
-            placeholder="npub ..."
-            value={npub}
-            onChange={handleRateeNpubChange}
-          />
-        </CForm>
-        <div>click to view user profile:</div>
-        <CRow>
-          <CCol xs={12}>
-            <CCard className="mb-4">
-              <CCardBody className="d-flex justify-content-between align-items-center">
-                <CNavLink href="#/profile" onClick={() => setCurrentNpub(npub)}>
-                  {getProfile(npub)?.name}
-                  <br />
-                  {npub}
-                </CNavLink>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
+        <FollowersCrawlerListener />
+        <TanstackProfilesTable aNpubsToDisplay={aNpubsToDisplay} oProfilesByNpub={oProfilesByNpub} />
       </div>
     </>
   )
 }
 
 export default Profiles
+
+// <CalculateDegreesOfSeparation />

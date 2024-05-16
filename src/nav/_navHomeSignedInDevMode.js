@@ -4,6 +4,7 @@ import {
   cibTwitter,
   cibWikipedia,
   cilApple,
+  cilInfo,
   cilSettings,
   cilSpeedometer,
   cilUser,
@@ -16,6 +17,16 @@ const _nav = [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'About',
+  },
+  {
+    component: CNavItem,
+    name: 'About',
+    to: '/about',
+    icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,

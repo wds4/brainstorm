@@ -16,10 +16,19 @@ import navigationHomeSignedInDevMode from 'src/nav/_navHomeSignedInDevMode'
 import navigationHomeSignedOut from 'src/nav/_navHomeSignedOut'
 import navigationConceptGraph from 'src/nav/_navConceptGraph'
 import navigationGrapevine from 'src/nav/_navGrapevine'
+import navigationCuratedLists from 'src/nav/_navCuratedLists'
 import navigationNestedLists from 'src/nav/_navNestedLists'
 import navigationWikifreedia from 'src/nav/_navWikifreedia'
 import navigationWikifreediaDevMode from 'src/nav/_navWikifreediaDevMode'
 import navigationTwittr from 'src/nav/_navTwittr'
+import navigationHelloWorld from 'src/nav/_navHelloWorld'
+import navigationNostrAppsDirectory from 'src/nav/_navNostrAppsDirectory'
+import navigationRelaysDirectory from 'src/nav/_navRelaysDirectory'
+
+import navigationSettingsSignedIn from 'src/nav/_navSettingsSignedIn'
+import navigationSettingsSignedInDevMode from 'src/nav/_navSettingsSignedInDevMode'
+import navigationSettingsSignedOut from 'src/nav/_navSettingsSignedOut'
+
 import { updateSidebarShow, updateSidebarUnfoldable } from 'src/redux/features/ui/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
@@ -43,17 +52,28 @@ function getNavigation(activeApp, signedIn, developmentMode) {
     case 'nestedLists':
       return navigationNestedLists
     case 'curatedLists':
-      if (!signedIn) {
-        return navigationHomeSignedOut
-      }
-      return navigationHomeSignedIn
-    case 'wikifreedia':
+      return navigationCuratedLists
+    case 'wiki':
       if (developmentMode == 'show') {
         return navigationWikifreediaDevMode
       }
       return navigationWikifreedia
     case 'twittr':
       return navigationTwittr
+    case 'helloWorld':
+      return navigationHelloWorld
+    case 'nostrAppsDirectory':
+      return navigationNostrAppsDirectory
+    case 'relaysDirectory':
+      return navigationRelaysDirectory
+    case 'settings':
+      if (!signedIn) {
+        return navigationSettingsSignedOut
+      }
+      if (developmentMode == 'show') {
+        return navigationSettingsSignedInDevMode
+      }
+      return navigationSettingsSignedIn
     default:
       if (!signedIn) {
         return navigationHomeSignedOut

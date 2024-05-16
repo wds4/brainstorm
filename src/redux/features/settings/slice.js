@@ -9,6 +9,7 @@ export const settingsSlice = createSlice({
   initialState: {
     general: {
       developmentMode: 'hide', // 'show' or 'hide';  features that are under development
+      showListenerManager: 'hide', // show or hide
       aActiveRelays: aDefaultRelays, // aDefaultRelays,
       aActiveRelaysGroups: ['default'], // default (defined by app), personalRelay (one relay stored in conceptGraphSettings), or profile (extracted from kind 3 event)
       loginRelayUrl: '', // the relay entered by the user at login; if empty, aDefaultRelays will be used; otheriwse loginRelayUrl will be used
@@ -23,6 +24,9 @@ export const settingsSlice = createSlice({
   reducers: {
     updateDevelopmentMode: (state, action) => {
       state.general.developmentMode = action.payload
+    },
+    updateShowListenerManagerMode: (state, action) => {
+      state.general.showListenerManager = action.payload
     },
     updateConceptGraphSettingsEvent: (state, action) => {
       const event = action.payload.event
@@ -44,6 +48,7 @@ export const settingsSlice = createSlice({
     wipeSettings: (state, action) => {
       state.general = {
         developmentMode: 'hide',
+        showListenerManager: 'hide',
         aActiveRelays: aDefaultRelays,
         aActiveRelaysGroups: ['default'],
         loginRelayUrl: '',
@@ -60,6 +65,7 @@ export const settingsSlice = createSlice({
 
 export const {
   updateDevelopmentMode,
+  updateShowListenerManagerMode,
   updateConceptGraphSettingsEvent,
   updateActiveRelaysGroups,
   updateActiveRelays,

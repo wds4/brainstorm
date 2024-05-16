@@ -4,7 +4,7 @@ import React from 'react'
 const Grapevine = React.lazy(() => import('src/views/grapevine/index'))
 
 // Settings
-const Settings = React.lazy(() => import('src/views/settings/grapevineSettings/Settings'))
+const Settings = React.lazy(() => import('src/views/settings/grapevine/Settings'))
 
 // Actions
 const Actions = React.lazy(() => import('src/views/grapevine/actions'))

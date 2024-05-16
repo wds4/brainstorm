@@ -15,11 +15,12 @@ import {
   useColorModes,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilContrast, cilEnvelopeOpen, cilMagnifyingGlass, cilMenu, cilMoon, cilSettings, cilSun } from '@coreui/icons'
+import { cilBell, cilContrast, cilEnvelopeOpen, cilMagnifyingGlass, cilMenu, cilMoon, cilPeople, cilSettings, cilSun } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { updateSidebarShow } from '../redux/features/ui/slice'
+import { updateApp } from '../redux/features/siteNavigation/slice'
 
 const AppHeader = () => {
   const headerRef = useRef()
@@ -35,6 +36,9 @@ const AppHeader = () => {
     })
   }, [])
 
+  const updateActiveApp = (newApp) => {
+    dispatch(updateApp(newApp))
+  }
   return (
     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
       <CContainer className="border-bottom px-4" fluid>
@@ -53,13 +57,18 @@ const AppHeader = () => {
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
           <CNavItem>
+            <CNavLink href="#/findUser">
+              <CIcon icon={cilMagnifyingGlass} size="lg" onClick={() => updateActiveApp('home')} />
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
             <CNavLink href="#/profiles">
-              <CIcon icon={cilMagnifyingGlass} size="lg" />
+              <CIcon icon={cilPeople} size="lg" onClick={() => updateActiveApp('home')}/>
             </CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink href="#/settings/settings">
-              <CIcon icon={cilSettings} size="lg" />
+              <CIcon icon={cilSettings} size="lg" onClick={() => updateActiveApp('settings')} />
             </CNavLink>
           </CNavItem>
         </CHeaderNav>

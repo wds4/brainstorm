@@ -4,7 +4,7 @@ import React from 'react'
 const Twittr = React.lazy(() => import('src/views/twittr/index'))
 
 // Settings
-const Settings = React.lazy(() => import('src/views/settings/twittrSettings/Settings'))
+const Settings = React.lazy(() => import('src/views/settings/twittr/Settings'))
 
 // Content
 const TwittrMainFeed = React.lazy(() => import('src/views/twittr/mainFeed/MainFeed'))

@@ -21,7 +21,7 @@ const BrainstormAbout = () => {
         <div>
           <p>
             This website serves as a playground for application of the{' '}
-            <a target="_blank" href="pgf.tech">
+            <a target="_blank" href="https://pgf.tech">
               tapestry protocol
             </a>{' '}
             to nostr. This protocol is a work in progress and may be subject to change, hence the
