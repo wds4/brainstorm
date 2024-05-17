@@ -15,6 +15,8 @@ const About = ({ oKind0Event, oKind3Event, oProfile, oProfileBrainstorm, oProfil
   }
   const primalUrl = 'https://primal.net/p/' + npub
 
+  const njumpUrl = 'https://njump.me/' + npub
+
   return (
     <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <CRow>
@@ -44,6 +46,14 @@ const About = ({ oKind0Event, oKind3Event, oProfile, oProfileBrainstorm, oProfil
         <CCol>
           <a href={oProfile?.website} target="_blank" rel="noreferrer">
             {oProfile?.website}
+          </a>
+        </CCol>
+      </CRow>
+      <CRow>
+        <div style={{ color: 'grey' }}>view in njump:</div>
+        <CCol>
+          <a href={njumpUrl} target="_blank" rel="noreferrer">
+            njump
           </a>
         </CCol>
       </CRow>
