@@ -20,7 +20,6 @@ const WikiHome = () => {
   // manage listener
   const filter = {
     kinds: [30818],
-    since: 0,
   }
 
   dispatch(updateApp('wiki'))

@@ -154,13 +154,12 @@ const WikiArticlesAlphabetical = () => {
             <CCardHeader>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div style={{ flexGrow: '1' }}>
-                  <strong>
-                    showing {aTopicsFiltered.length} Topics
-                  </strong>
+                  <strong>showing {aTopicsFiltered.length} Topics</strong>
                 </div>
                 <div style={{ flexGrow: 'auto' }}>
                   <strong>
-                    {aTopicsRef.length} topics, {Object.keys(oWikiArticles_byNaddr).length} articles in total
+                    {aTopicsRef.length} topics, {Object.keys(oWikiArticles_byNaddr).length} articles
+                    in total
                   </strong>
                 </div>
               </div>

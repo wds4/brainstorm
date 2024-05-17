@@ -82,6 +82,7 @@ const WikiTopic = () => {
           <strong>{topicSlug}</strong>
         </h1>
       </center>
+
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
