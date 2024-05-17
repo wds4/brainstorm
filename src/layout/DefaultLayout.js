@@ -56,21 +56,13 @@ const DefaultLayout = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const myCurrentProfileKind3CreatedAt = useSelector((state) => state.profile.kind3.created_at)
 
-  // manage listener
-  // dispatch(updateApp('home'))
-  // dispatch(updateListenerApplication('home'))
-  if (isSignedIn) {
-    if (!oProfilesByNpub[myNpub]) {
-      const filter = {
-        authors: [myPubkey],
-        since: 0,
-        kinds: [0, 3],
-      }
-      dispatch(updateFilter(filter))
-      dispatch(turnListenerOn())
-    }
-    if (oProfilesByNpub[myNpub]) {
-      if (!oProfilesByNpub[myNpub].kind0 && !oProfilesByNpub[myNpub].kind3) {
+  // * manage listener
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    // dispatch(updateApp('home'))
+    // dispatch(updateListenerApplication('home'))
+    if (isSignedIn) {
+      if (!oProfilesByNpub[myNpub]) {
         const filter = {
           authors: [myPubkey],
           since: 0,
@@ -79,29 +71,39 @@ const DefaultLayout = () => {
         dispatch(updateFilter(filter))
         dispatch(turnListenerOn())
       }
-      if (!oProfilesByNpub[myNpub].kind0 && oProfilesByNpub[myNpub].kind3) {
-        const filter = {
-          authors: [myPubkey],
-          since: 0,
-          kinds: [0],
+      if (oProfilesByNpub[myNpub]) {
+        if (!oProfilesByNpub[myNpub].kind0 && !oProfilesByNpub[myNpub].kind3) {
+          const filter = {
+            authors: [myPubkey],
+            since: 0,
+            kinds: [0, 3],
+          }
+          dispatch(updateFilter(filter))
+          dispatch(turnListenerOn())
         }
-        dispatch(updateFilter(filter))
-        dispatch(turnListenerOn())
-      }
-      if (oProfilesByNpub[myNpub].kind0 && !oProfilesByNpub[myNpub].kind3) {
-        const filter = {
-          authors: [myPubkey],
-          since: 0,
-          kinds: [3],
+        if (!oProfilesByNpub[myNpub].kind0 && oProfilesByNpub[myNpub].kind3) {
+          const filter = {
+            authors: [myPubkey],
+            since: 0,
+            kinds: [0],
+          }
+          dispatch(updateFilter(filter))
+          dispatch(turnListenerOn())
         }
-        dispatch(updateFilter(filter))
-        dispatch(turnListenerOn())
+        if (oProfilesByNpub[myNpub].kind0 && !oProfilesByNpub[myNpub].kind3) {
+          const filter = {
+            authors: [myPubkey],
+            since: 0,
+            kinds: [3],
+          }
+          dispatch(updateFilter(filter))
+          dispatch(turnListenerOn())
+        }
       }
     }
-  }
-  if (!isSignedIn) {
-    // listen for wikis
-    /*
+    if (!isSignedIn) {
+      // listen for wikis
+      /*
     const filter = {
       kinds: [30818],
       since: 0,
@@ -109,6 +111,7 @@ const DefaultLayout = () => {
     dispatch(updateFilter(filter))
     dispatch(turnListenerOn())
     */
+    }
   }
 
   const { getProfile, fetchEvents } = useNDK()

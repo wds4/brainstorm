@@ -45,16 +45,19 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
 
   const dispatch = useDispatch()
 
-  // manage listener
-  const filter = {
-    kinds: [30818],
-    authors: [pubkey],
-    since: 0,
+  // * manage listener
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    const filter = {
+      kinds: [30818],
+      authors: [pubkey],
+      since: 0,
+    }
+    dispatch(updateApp('wiki'))
+    dispatch(updateFilter(filter))
+    dispatch(turnListenerOn())
+    dispatch(updateListenerApplication('wiki'))
   }
-  dispatch(updateApp('wiki'))
-  dispatch(updateFilter(filter))
-  dispatch(turnListenerOn())
-  dispatch(updateListenerApplication('wiki'))
 
   const handleSearchFieldChange = useCallback(
     async (e) => {

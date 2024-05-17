@@ -17,24 +17,28 @@ const TwittrHome = () => {
   const dispatch = useDispatch()
   const aFollows = useSelector((state) => state.profile.kind3.follows)
 
-  // TO DO: add selector so user has option to choose between global filter and following list
-  const globalFilter = {
-    kinds: [1],
-    since: 0,
-  }
-  const followsFilter = {
-    kinds: [1],
-    authors: aFollows,
-  }
-  // manage listener
-  dispatch(updateApp('twittr'))
-  // dispatch(updateFilter(globalFilter))
 
-  dispatch(updateFilter(followsFilter))
-  dispatch(updateFilterKinds([1]))
-  dispatch(updateFilterAuthors(aFollows))
-  dispatch(turnListenerOn())
-  dispatch(updateListenerApplication('twittr'))
+  // * manage listener
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    // TO DO: add selector so user has option to choose between global filter and following list
+    const globalFilter = {
+      kinds: [1],
+      since: 0,
+    }
+    const followsFilter = {
+      kinds: [1],
+      authors: aFollows,
+    }
+    dispatch(updateApp('twittr'))
+    // dispatch(updateFilter(globalFilter))
+
+    dispatch(updateFilter(followsFilter))
+    dispatch(updateFilterKinds([1]))
+    dispatch(updateFilterAuthors(aFollows))
+    dispatch(turnListenerOn())
+    dispatch(updateListenerApplication('twittr'))
+  }
 
   let loggedInClassName = 'hide'
   if (signedIn) {

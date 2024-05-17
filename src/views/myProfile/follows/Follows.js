@@ -14,16 +14,19 @@ const Follows = () => {
 
   const dispatch = useDispatch()
 
-  // manage listener
-  const filter = {
-    kinds: [0, 3],
-    authors: aFollows,
-    since: 0,
+  // * manage listener
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    const filter = {
+      kinds: [0, 3],
+      authors: aFollows,
+      since: 0,
+    }
+    dispatch(updateApp('home'))
+    dispatch(updateFilter(filter))
+    dispatch(turnListenerOn())
+    dispatch(updateListenerApplication('home'))
   }
-  dispatch(updateApp('home'))
-  dispatch(updateFilter(filter))
-  dispatch(turnListenerOn())
-  dispatch(updateListenerApplication('home'))
   return (
     <>
       <CRow>

@@ -175,17 +175,20 @@ const Profile = () => {
     })
   }
 
-  // manage listener part 1
-  if (!oProfileBrainstorm || aFollowPubkeys.length == 0) {
-    const filter = {
-      kinds: [0, 3],
-      authors: [pubkey],
-      since: 0,
+  // * manage listener part 1
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    if (!oProfileBrainstorm || aFollowPubkeys.length == 0) {
+      const filter = {
+        kinds: [0, 3],
+        authors: [pubkey],
+        since: 0,
+      }
+      dispatch(updateApp('home'))
+      dispatch(updateFilter(filter))
+      dispatch(turnListenerOn())
+      dispatch(updateListenerApplication('home'))
     }
-    dispatch(updateApp('home'))
-    dispatch(updateFilter(filter))
-    dispatch(turnListenerOn())
-    dispatch(updateListenerApplication('home'))
   }
 
   let oProfileNdk = { message: 'did not fetch bc profile already in redux database' }
@@ -226,13 +229,27 @@ const Profile = () => {
   }
 
   // manage listener part 2
-  // if kind0 and kind3 have already been downloaded, then switch to listening for follows info
-  // but not if on wikis or twitter tabs, in which case need to download those things
-  if (whichTab != 'wikis' && whichTab != 'notes') {
-    if (oProfileBrainstorm && aFollowPubkeys && aFollowPubkeys.length > 0) {
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    // if kind0 and kind3 have already been downloaded, then switch to listening for follows info
+    // but not if on wikis or twitter tabs, in which case need to download those things
+    if (whichTab != 'wikis' && whichTab != 'notes') {
+      if (oProfileBrainstorm && aFollowPubkeys && aFollowPubkeys.length > 0) {
+        const filter = {
+          kinds: [0, 3],
+          authors: aFollowPubkeys,
+          since: 0,
+        }
+        dispatch(updateApp('home'))
+        dispatch(updateFilter(filter))
+        dispatch(turnListenerOn())
+        dispatch(updateListenerApplication('home'))
+      }
+    }
+    if (whichTab == 'notes') {
       const filter = {
-        kinds: [0, 3],
-        authors: aFollowPubkeys,
+        kinds: [1],
+        authors: [pubkey],
         since: 0,
       }
       dispatch(updateApp('home'))
@@ -240,41 +257,30 @@ const Profile = () => {
       dispatch(turnListenerOn())
       dispatch(updateListenerApplication('home'))
     }
-  }
-  if (whichTab == 'notes') {
-    const filter = {
-      kinds: [1],
-      authors: [pubkey],
-      since: 0,
+    if (whichTab == 'follows') {
+      // if main profile kind3 events have been downloaded, then switch listener to follower profiles
+      if (aFollowPubkeys && aFollowPubkeys.length > 0) {
+        const filter = {
+          kinds: [0, 3],
+          authors: aFollowPubkeys,
+        }
+        dispatch(updateApp('home'))
+        dispatch(updateFilter(filter))
+        dispatch(turnListenerOn())
+        dispatch(updateListenerApplication('home'))
+      }
     }
-    dispatch(updateApp('home'))
-    dispatch(updateFilter(filter))
-    dispatch(turnListenerOn())
-    dispatch(updateListenerApplication('home'))
-  }
-  if (whichTab == 'follows') {
-    // if main profile kind3 events have been downloaded, then switch listener to follower profiles
-    if (aFollowPubkeys && aFollowPubkeys.length > 0) {
+    // if profile info is not available, that takes precedence, but don't forget about wikis and follows
+    if (oProfileBrainstorm.lastUpdated == 0) {
       const filter = {
         kinds: [0, 3],
-        authors: aFollowPubkeys,
+        authors: [pubkey],
       }
       dispatch(updateApp('home'))
       dispatch(updateFilter(filter))
       dispatch(turnListenerOn())
       dispatch(updateListenerApplication('home'))
     }
-  }
-  // if profile info is not available, that takes precedence, but don't forget about wikis and follows
-  if (oProfileBrainstorm.lastUpdated == 0) {
-    const filter = {
-      kinds: [0, 3],
-      authors: [pubkey],
-    }
-    dispatch(updateApp('home'))
-    dispatch(updateFilter(filter))
-    dispatch(turnListenerOn())
-    dispatch(updateListenerApplication('home'))
   }
 
   return (

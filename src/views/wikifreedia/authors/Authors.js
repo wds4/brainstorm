@@ -62,19 +62,22 @@ const WikiAuthors = () => {
 
   const dispatch = useDispatch()
 
-  ///// manage listener
-  dispatch(turnListenerOff()) // poor performance on this page
-  /*
-  const filter = {
-    kinds: [0, 3],
-    authors: aAuthors,
-  }
+  ///// * manage listener
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    dispatch(turnListenerOff()) // poor performance on this page
+    /*
+    const filter = {
+      kinds: [0, 3],
+      authors: aAuthors,
+    }
 
-  dispatch(updateApp('wiki'))
-  dispatch(updateFilter(filter))
-  dispatch(turnListenerOn())
-  dispatch(updateListenerApplication('wiki'))
-  */
+    dispatch(updateApp('wiki'))
+    dispatch(updateFilter(filter))
+    dispatch(turnListenerOn())
+    dispatch(updateListenerApplication('wiki'))
+    */
+  }
   ///// end manage listener
 
   const returnTimeOfMostRecentArticleByThisAuthor = (

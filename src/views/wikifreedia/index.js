@@ -17,15 +17,18 @@ const WikiHome = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
 
-  // manage listener
-  const filter = {
-    kinds: [30818],
-  }
+  // * manage listener
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    const filter = {
+      kinds: [30818],
+    }
 
-  dispatch(updateApp('wiki'))
-  dispatch(updateFilter(filter))
-  dispatch(turnListenerOn())
-  dispatch(updateListenerApplication('wiki'))
+    dispatch(updateApp('wiki'))
+    dispatch(updateFilter(filter))
+    dispatch(turnListenerOn())
+    dispatch(updateListenerApplication('wiki'))
+  }
 
   const oTopics = useSelector((state) => state.wikifreedia.articles.byDTag)
   const oCategories = useSelector((state) => state.wikifreedia.categories)

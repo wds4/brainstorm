@@ -21,16 +21,19 @@ const GrapevineDashboard = () => {
   const oContexts = useSelector((state) => state.grapevine.contexts)
   const oTrustAttestations = useSelector((state) => state.grapevine.trustAttestations)
 
-  // manage listener
-  const filter = {
-    kinds: [9902, 37069, 39902],
-    since: cutoffTime,
-    '#P': ['tapestry'],
+  // * manage listener
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    const filter = {
+      kinds: [9902, 37069, 39902],
+      since: cutoffTime,
+      '#P': ['tapestry'],
+    }
+    dispatch(updateApp('grapevine'))
+    dispatch(updateFilter(filter))
+    dispatch(turnListenerOn())
+    dispatch(updateListenerApplication('grapevine'))
   }
-  dispatch(updateApp('grapevine'))
-  dispatch(updateFilter(filter))
-  dispatch(turnListenerOn())
-  dispatch(updateListenerApplication('grapevine'))
   return (
     <>
       <GrapevineListener />
