@@ -37,6 +37,7 @@ import {
 } from '../../../redux/features/listenerManager/slice'
 import { whenTopicWasLastUpdated } from '../singleTopic/SingleTopic'
 import { secsToTime } from '../../../helpers'
+import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
 
 const WikiAuthors = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)

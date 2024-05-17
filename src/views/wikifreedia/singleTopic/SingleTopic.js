@@ -34,6 +34,7 @@ import {
   getProfileBrainstormFromNpub,
   getProfileBrainstormFromPubkey,
 } from '../../../helpers/brainstorm'
+import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
 
 export const whenTopicWasLastUpdated = (oEvents, oTopicSlugs, topicSlug) => {
   if (!topicSlug) {
@@ -230,7 +231,7 @@ const WikiTopic = () => {
                     return (
                       <CTableRow key={item}>
                         <CTableDataCell scope="row">
-                          <ShowAuthor npub={npub} />
+                          <ShowAuthorImageOnly npub={npub} />
                         </CTableDataCell>
                         <CTableDataCell className={lastUpdateColumnClassName}>
                           {displayTime}
