@@ -228,8 +228,7 @@ const Profile = () => {
     dispatch(updateViewProfileTab(newTab))
   }
 
-  // manage listener part 2
-  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  // * manage listener part 2
   if (listenerMethod != 'off') {
     // if kind0 and kind3 have already been downloaded, then switch to listening for follows info
     // but not if on wikis or twitter tabs, in which case need to download those things
