@@ -1,5 +1,5 @@
 import { CContainer, CRow } from '@coreui/react'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import FollowsCoreuiTable from 'src/views/components/FollowsCoreuiTable'
 import TanstackProfilesTable from '../../components/TanstackProfilesTable'
 import { useSelector } from 'react-redux'
@@ -14,14 +14,17 @@ One (the primary?) reason: it takes time to calculate the npubs from pubkeys ove
 Perhaps feed the pubkeys to the table and have the table determine npubs when those rows are displayed?
 */
 
-const ShowTableWhenReady = ({readyToDisplayTable, aNpubsToDisplay, oProfilesByNpub}) => {
+const ShowTableWhenReady = ({ readyToDisplayTable, aNpubsToDisplay, oProfilesByNpub }) => {
   if (!readyToDisplayTable) {
     return <div>Table Not Ready To Display</div>
   }
   if (readyToDisplayTable) {
     return (
       <>
-        <TanstackProfilesTable aNpubsToDisplay={aNpubsToDisplay} oProfilesByNpub={oProfilesByNpub}/>
+        <TanstackProfilesTable
+          aNpubsToDisplay={aNpubsToDisplay}
+          oProfilesByNpub={oProfilesByNpub}
+        />
       </>
     )
   }
@@ -33,26 +36,19 @@ const Follows = ({ aFollowNpubs, aFollowPubkeys, npub, oKind3Event }) => {
   const [aNpubsToDisplay, setANpubsToDisplay] = useState(aFollowNpubs)
   const [readyToDisplayTable, setReadyToDisplayTable] = useState(true)
 
-  /*
-  useEffect(() => {
-    const aOutput = []
-    aFollowPubkeys.forEach((pk) => {
-      // console.log('aProfilesByNpub; pk: ' + pk)
-      const np = nip19.npubEncode(pk)
-      if (np) {
-        aOutput.push(np)
-      }
-    })
-    setANpubsToDisplay(aOutput)
-    setReadyToDisplayTable(true)
-  }, [aFollowPubkeys])
-  */
-
   return (
-    <CContainer className="px-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <CContainer
+      className="px-4"
+      style={{ display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'scroll' }}
+    >
       <CRow>
-        <center><h3>Following {aFollowPubkeys.length} profiles</h3></center>
-        <ShowTableWhenReady readyToDisplayTable={readyToDisplayTable} aNpubsToDisplay={aNpubsToDisplay} oProfilesByNpub={oProfilesByNpub} />
+        <center>
+          <h3>Following {aFollowPubkeys.length} profiles</h3>
+        </center>
+        <TanstackProfilesTable
+          aNpubsToDisplay={aNpubsToDisplay}
+          oProfilesByNpub={oProfilesByNpub}
+        />
       </CRow>
     </CContainer>
   )
@@ -63,3 +59,4 @@ export default Follows
 // <FollowsCoreuiTable aFollows={aFollowPubkeys} />
 // redundant to have this here and on the main profile page
 // <ProfilesDataListener aPubkeys={aFollowPubkeys} />
+// <ShowTableWhenReady readyToDisplayTable={readyToDisplayTable} aNpubsToDisplay={aNpubsToDisplay} oProfilesByNpub={oProfilesByNpub} />

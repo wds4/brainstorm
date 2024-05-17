@@ -45,6 +45,7 @@ const ProfileTabsContent = ({
   oKind3Event,
   aFollowPubkeys,
   aFollowNpubs,
+  updateWhichTab,
 }) => {
   if (whichTab == 'about') {
     return (
@@ -69,6 +70,7 @@ const ProfileTabsContent = ({
         oProfile={oProfile}
         npub={npub}
         pubkey={pubkey}
+        updateWhichTab={updateWhichTab}
       />
     )
   }
@@ -112,6 +114,7 @@ const Profile = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const currentDevelopmentMode = useSelector((state) => state.settings.general.developmentMode)
   const viewProfileTab = useSelector((state) => state.siteNavigation.profile.tab)
+  // if (viewProfileTab == 'follows') { viewProfileTab == 'about' }
   const [whichTab, setWhichTab] = useState(viewProfileTab) // use names of apps: about, notes, leaveRating, ratingsOf, ratingsBy, wotScores
 
   const dispatch = useDispatch()
@@ -207,6 +210,10 @@ const Profile = () => {
     }
     updateEvents()
   }, [oProfilesByNpub, npub])
+
+  useEffect(() => {
+    setWhichTab('about')
+  }, [npub])
 
   const copyNpubToClipboard = (np) => {
     navigator.clipboard.writeText(np)
@@ -344,6 +351,7 @@ const Profile = () => {
             oKind3Event={oKind3Event}
             aFollowPubkeys={aFollowPubkeys}
             aFollowNpubs={aFollowNpubs}
+            updateWhichTab={updateWhichTab}
           />
         </CRow>
         <br />

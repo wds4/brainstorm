@@ -13,7 +13,7 @@ import {
 } from '@tanstack/react-table'
 import { CNavLink } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateNpub } from '../../redux/features/siteNavigation/slice'
+import { updateNpub, updateViewProfileTab } from '../../redux/features/siteNavigation/slice'
 import { noProfilePicUrl } from '../../const'
 
 const columnHelper = createColumnHelper()
@@ -55,6 +55,7 @@ const FollowCountCell = ({ npub }) => {
 const ProfileImageCell = ({ picture }) => {
   const dispatch = useDispatch()
   const updateProfileNpub = () => {
+    dispatch(updateViewProfileTab('about'))
     dispatch(updateNpub(picture.npub))
   }
   return (

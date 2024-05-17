@@ -43,6 +43,9 @@ const Profiles = () => {
     dispatch(turnListenerOff())
   }
   */
+  const updateWhichTab = () => {
+    // dummy function
+  }
 
   return (
     <>
@@ -51,7 +54,7 @@ const Profiles = () => {
           <h3>{Object.keys(oProfilesByNpub).length} Profiles</h3>
         </center>
         <FollowersCrawlerListener />
-        <TanstackProfilesTable aNpubsToDisplay={aNpubsToDisplay} oProfilesByNpub={oProfilesByNpub} />
+        <TanstackProfilesTable aNpubsToDisplay={aNpubsToDisplay} oProfilesByNpub={oProfilesByNpub} updateWhichTab={updateWhichTab} />
       </div>
     </>
   )

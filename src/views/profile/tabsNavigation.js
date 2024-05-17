@@ -73,11 +73,16 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
   }
 
   // this is needed bc follows tab can be changed from main profile page
+  // and about tab can be triggered from the follows table
   // no need to do this for other tabs
   useEffect(() => {
     if (whichTab == 'follows') {
       setAllOptionsToFalse()
       setIsFollows(true)
+    }
+    if (whichTab == 'about') {
+      setAllOptionsToFalse()
+      setIsAbout(true)
     }
   }, [whichTab])
 

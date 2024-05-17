@@ -6,7 +6,7 @@ import { CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavItem,
-    name: 'Settings Dashboard',
+    name: 'General Settings',
     to: '/settings',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
@@ -16,7 +16,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Wiki',
+    name: 'Wiki Settings',
     to: '/settings/wiki',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },

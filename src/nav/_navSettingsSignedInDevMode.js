@@ -6,7 +6,7 @@ import { CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavItem,
-    name: 'Settings Dashboard',
+    name: 'General Settings',
     to: '/settings',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
@@ -16,13 +16,13 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Wiki',
+    name: 'Wiki Settings',
     to: '/settings/wiki',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Twittr',
+    name: 'Twittr Settings',
     to: '/settings/twittr',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
@@ -32,13 +32,13 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Grapevine',
+    name: 'Grapevine Settings',
     to: '/settings/grapevine',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Concept Graph',
+    name: 'Concept Graph Settings',
     to: '/settings/conceptGraph',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },

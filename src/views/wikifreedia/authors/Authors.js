@@ -62,6 +62,8 @@ const WikiAuthors = () => {
   const dispatch = useDispatch()
 
   ///// manage listener
+  dispatch(turnListenerOff()) // poor performance on this page
+  /*
   const filter = {
     kinds: [0, 3],
     authors: aAuthors,
@@ -71,6 +73,7 @@ const WikiAuthors = () => {
   dispatch(updateFilter(filter))
   dispatch(turnListenerOn())
   dispatch(updateListenerApplication('wiki'))
+  */
   ///// end manage listener
 
   const returnTimeOfMostRecentArticleByThisAuthor = (
