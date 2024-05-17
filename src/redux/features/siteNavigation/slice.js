@@ -26,7 +26,8 @@ export const siteNavigationSlice = createSlice({
       viewArticle: '', // naddr
       viewCategory: '', // human readable string
       sortTopicsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore
-      sortAuthorsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore, influenceScore
+      sortSingleTopicBy: 'chronological', // chronological, degreesOfSeparation, wotScore, influenceScore
+      sortAuthorsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore, influenceScore, degreesOfSeparation
     },
   },
   reducers: {
@@ -72,6 +73,9 @@ export const siteNavigationSlice = createSlice({
     updateSortWikiTopicsBy: (state, action) => {
       state.wikifreedia.sortTopicsBy = action.payload
     },
+    updateSortSingleTopicBy: (state, action) => {
+      state.wikifreedia.sortSingleTopicBy = action.payload
+    },
     updateSortWikiAuthorsBy: (state, action) => {
       state.wikifreedia.sortAuthorsBy = action.payload
     },
@@ -101,7 +105,8 @@ export const siteNavigationSlice = createSlice({
           viewTopic: '', // string, human readable
           viewArticle: '', // naddr
           viewCategory: '', // human readable string
-          sortTopicsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore
+          sortTopicsBy: 'chronological',
+          sortSingleTopicBy: 'chronological',
           sortAuthorsBy: 'chronological',
         },
       }
@@ -123,6 +128,7 @@ export const {
   updateViewWikifreediaArticle,
   updateViewWikifreediaCategory,
   updateSortWikiTopicsBy,
+  updateSortSingleTopicBy,
   updateSortWikiAuthorsBy,
   wipeSiteNavigation,
 } = siteNavigationSlice.actions

@@ -268,7 +268,7 @@ const Profile = () => {
   // if profile info is not available, that takes precedence, but don't forget about wikis and follows
   if (oProfileBrainstorm.lastUpdated == 0) {
     const filter = {
-      kinds: [0, 3, 30818],
+      kinds: [0, 3],
       authors: [pubkey],
     }
     dispatch(updateApp('home'))

@@ -98,7 +98,6 @@ const WikiAuthors = () => {
 
   const sortItems = useCallback(
     (inputArray, sortByMethod) => {
-      console.log('sortItems; inputArray.length: ' + inputArray.length)
       if (inputArray.length == 0) {
         console.log('empty array!')
         return inputArray
@@ -305,7 +304,7 @@ const WikiAuthors = () => {
                       return (
                         <CTableRow key={item}>
                           <CTableDataCell scope="row">
-                            <ShowAuthorBrainstormProfile npub={npub} />
+                            <ShowAuthor npub={npub} />
                           </CTableDataCell>
                           <CTableDataCell className={numTopicsColumnClassName}>
                             {oAuthors[pubkey].length}
@@ -334,3 +333,5 @@ const WikiAuthors = () => {
 }
 
 export default WikiAuthors
+
+// <ShowAuthorBrainstormProfile npub={npub} />
