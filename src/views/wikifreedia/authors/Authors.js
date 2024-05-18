@@ -207,6 +207,7 @@ const WikiAuthors = () => {
 
   const sortAndFilterItems = useCallback(
     (searchString, sortByMethod) => {
+      /*
       console.log(
         'sortAndFilterItems; searchString: ' + searchString + '; sortByMethod: ' + sortByMethod,
       )
@@ -231,17 +232,20 @@ const WikiAuthors = () => {
         setAAuthorsFiltered(newFilteredArray)
         setAAuthorsFilteredAndSorted(sortItems(newFilteredArray, sortByMethod))
       }
+      */
     },
     [searchField, sortBy],
   )
 
+  /*
   useEffect(() => {
     try {
       sortAndFilterItems(searchField, sortBy)
     } catch (e) {}
   }, [])
+  */
 
-  const sortFilteredAuthors = useCallback(() => {}, [aAuthorsFiltered])
+  // const sortFilteredAuthors = useCallback(() => {}, [aAuthorsFiltered])
 
   let loggedInClassName = 'hide'
   if (signedIn) {

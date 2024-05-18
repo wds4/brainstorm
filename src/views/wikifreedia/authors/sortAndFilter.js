@@ -8,9 +8,9 @@ const SortAndFilter = ({ searchField, setSearchField, sortBy, setSortBy, sortAnd
 
   const updateSortBySelector = useCallback(
     (newSortByValue) => {
-      setSortBy(newSortByValue)
-      dispatch(updateSortWikiAuthorsBy(newSortByValue))
-      sortAndFilterItems(searchField, newSortByValue)
+      // setSortBy(newSortByValue)
+      // dispatch(updateSortWikiAuthorsBy(newSortByValue))
+      // sortAndFilterItems(searchField, newSortByValue)
     },
     [searchField, sortBy],
   )
@@ -18,8 +18,8 @@ const SortAndFilter = ({ searchField, setSearchField, sortBy, setSortBy, sortAnd
   const handleSearchFieldChange = useCallback(
     (e) => {
       const newField = e.target.value
-      setSearchField(newField)
-      sortAndFilterItems(newField, sortBy)
+      // setSearchField(newField)
+      // sortAndFilterItems(newField, sortBy)
     },
     [searchField, sortBy],
   )
