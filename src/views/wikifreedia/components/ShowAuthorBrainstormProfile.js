@@ -7,12 +7,8 @@ import { updateViewProfileTab } from '../../../redux/features/siteNavigation/sli
 import { getProfileBrainstormFromNpub } from '../../../helpers/brainstorm'
 import { noProfilePicUrl } from '../../../const'
 
-export const ShowAuthorBrainstormProfile = ({ npub }) => {
-  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  const oProfileBrainstorm = getProfileBrainstormFromNpub(npub, oProfilesByNpub)
+const GetProfileFromNdk = ({ npub }) => {
   const dispatch = useDispatch()
-
-  /*
   const { getProfile } = useNDK()
 
   const oProfile = getProfile(npub)
@@ -25,25 +21,54 @@ export const ShowAuthorBrainstormProfile = ({ npub }) => {
       author = '@' + oProfile?.name
     }
   }
-  */
+  if (!oProfile.image) {
+    oProfile.image = noProfilePicUrl
+  }
   const setCurrentNpub = (newNpub) => {
     dispatch(updateNpub(newNpub))
     // dispatch(updateViewProfileTab('wikis'))
   }
+  // ? TO DO: update local redux store with info ?
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <div className="profileAvatarContainerSmall">
         <CNavLink href="#/profile" onClick={() => setCurrentNpub(npub)}>
-          <img
-            src={oProfileBrainstorm?.image}
-            alt={noProfilePicUrl}
-            className="profileAvatarSmall"
-          />
+          <img src={oProfile?.image} className="profileAvatarSmall" />
         </CNavLink>
       </div>{' '}
       <div style={{ display: 'inline-block', marginLeft: '5px' }}>
-        <strong>{oProfileBrainstorm.brainstormDisplayName}</strong>
+        <strong>{author}</strong>
       </div>
     </div>
   )
+}
+
+export const ShowAuthorBrainstormProfile = ({ npub }) => {
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oProfileBrainstorm = getProfileBrainstormFromNpub(npub, oProfilesByNpub)
+  const dispatch = useDispatch()
+
+  const setCurrentNpub = (newNpub) => {
+    dispatch(updateNpub(newNpub))
+    // dispatch(updateViewProfileTab('wikis'))
+  }
+  if (oProfileBrainstorm.brainstorm == true) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="profileAvatarContainerSmall">
+          <CNavLink href="#/profile" onClick={() => setCurrentNpub(npub)}>
+            <img
+              src={oProfileBrainstorm?.picture}
+              alt={noProfilePicUrl}
+              className="profileAvatarSmall"
+            />
+          </CNavLink>
+        </div>{' '}
+        <div style={{ display: 'inline-block', marginLeft: '5px' }}>
+          <strong>{oProfileBrainstorm.brainstormDisplayName}</strong>
+        </div>
+      </div>
+    )
+  }
+  return <GetProfileFromNdk npub={npub} />
 }

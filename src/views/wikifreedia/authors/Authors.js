@@ -87,16 +87,18 @@ const WikiAuthors = () => {
     pubkey,
   ) => {
     let mostRecent_thisAuthor = 0
-    oAuthors[pubkey].forEach((t) => {
-      const mostRecent_thisTopic = whenTopicWasLastUpdated(
-        oWikiArticles_byNaddr,
-        oWikiArticles_byDTag,
-        t,
-      )
-      if (mostRecent_thisAuthor < mostRecent_thisTopic) {
-        mostRecent_thisAuthor = mostRecent_thisTopic
-      }
-    })
+    if (oAuthors[pubkey]) {
+      oAuthors[pubkey].forEach((t) => {
+        const mostRecent_thisTopic = whenTopicWasLastUpdated(
+          oWikiArticles_byNaddr,
+          oWikiArticles_byDTag,
+          t,
+        )
+        if (mostRecent_thisAuthor < mostRecent_thisTopic) {
+          mostRecent_thisAuthor = mostRecent_thisTopic
+        }
+      })
+    }
     return mostRecent_thisAuthor
   }
 
@@ -193,8 +195,8 @@ const WikiAuthors = () => {
           setInfluenceScoreColumnClassName('hide')
           const arraySorted = inputArray.sort(
             (a, b) =>
-              getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation -
-              getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation,
+              Number(getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation) -
+              Number(getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation),
           )
           return arraySorted
         }
@@ -305,13 +307,17 @@ const WikiAuthors = () => {
                         pubkey,
                       )
                       const howLongAgo = secsToTime(mostRecent_thisAuthor)
+                      let numAuthors = 0
+                      if (oAuthors[pubkey]) {
+                        numAuthors = oAuthors[pubkey].length
+                      }
                       return (
                         <CTableRow key={item}>
                           <CTableDataCell scope="row">
                             <ShowAuthorBrainstormProfile npub={npub} />
                           </CTableDataCell>
                           <CTableDataCell className={numTopicsColumnClassName}>
-                            {oAuthors[pubkey].length}
+                            {numAuthors}
                           </CTableDataCell>
                           <CTableDataCell className={lastUpdateColumnClassName}>
                             {howLongAgo}
