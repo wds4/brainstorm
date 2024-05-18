@@ -39,7 +39,6 @@ export const siteNavigationSlice = createSlice({
       state.loginTime = currentTime
     },
     updateNpub: (state, action) => {
-      console.log('updateNpub; new npub: ' + action.payload)
       state.profile.tab = 'about' // this is a crutch to address the problem that the follows tab doesn't work if it's the first one we see upon initially navigating to a profile
       state.npub = action.payload
     },

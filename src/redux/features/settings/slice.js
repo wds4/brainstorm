@@ -8,7 +8,7 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
     general: {
-      listenerMethod: 'oneMainListener', // 'oneMainListener' vs 'individualListeners' vs 'off'
+      listenerMethod: 'individualListeners', // 'oneMainListener' vs 'individualListeners' vs 'off'
       developmentMode: 'hide', // 'show' or 'hide';  features that are under development
       showListenerManager: 'hide', // show or hide
       aActiveRelays: aDefaultRelays, // aDefaultRelays,
@@ -51,7 +51,7 @@ export const settingsSlice = createSlice({
     },
     wipeSettings: (state, action) => {
       state.general = {
-        listenerMethod: 'oneMainListener',
+        listenerMethod: 'individualListeners',
         developmentMode: 'hide',
         showListenerManager: 'hide',
         aActiveRelays: aDefaultRelays,

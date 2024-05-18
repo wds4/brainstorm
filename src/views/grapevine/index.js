@@ -21,6 +21,7 @@ const GrapevineDashboard = () => {
   const oContexts = useSelector((state) => state.grapevine.contexts)
   const oTrustAttestations = useSelector((state) => state.grapevine.trustAttestations)
 
+  /*
   // * manage listener
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod != 'off') {
@@ -34,6 +35,7 @@ const GrapevineDashboard = () => {
     dispatch(turnListenerOn())
     dispatch(updateListenerApplication('grapevine'))
   }
+  */
   return (
     <>
       <GrapevineListener />

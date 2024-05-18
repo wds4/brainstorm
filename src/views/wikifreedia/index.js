@@ -18,6 +18,7 @@ const WikiHome = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
 
+  /*
   // * manage listener
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod != 'off') {
@@ -30,6 +31,7 @@ const WikiHome = () => {
     dispatch(turnListenerOn())
     dispatch(updateListenerApplication('wiki'))
   }
+  */
 
   const oTopics = useSelector((state) => state.wikifreedia.articles.byDTag)
   const oCategories = useSelector((state) => state.wikifreedia.categories)
@@ -39,15 +41,6 @@ const WikiHome = () => {
   let loggedInClassName = 'hide'
   if (signedIn) {
     loggedInClassName = 'show'
-  }
-  /*
-  let numArticlesByMe = 'Time to write your first one!'
-  if (oAuthors[myPubkey]) {
-    numArticlesByMe = oAuthors[myPubkey].length + ' so far'
-  }
-  */
-  const turnOffListener = () => {
-    dispatch(turnListenerOff())
   }
   return (
     <>
@@ -87,7 +80,7 @@ const WikiHome = () => {
           </CNavLink>
         </CCol>
         <CCol xs={12} sm={6} xl={4} xxl={3}>
-          <CNavLink href="#/wikifreedia/authors" onClick={() => {turnOffListener()}}>
+          <CNavLink href="#/wikifreedia/authors">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cilPeople} size="xl" />}
               title={Object.keys(oAuthors).length}

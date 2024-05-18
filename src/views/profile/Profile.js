@@ -281,7 +281,7 @@ const Profile = () => {
 
   return (
     <>
-      <ProfilesDataListener aPubkeys={aFollowPubkeys} />
+      <ProfilesDataListener pubkey={pubkey} aPubkeys={aFollowPubkeys} />
       <div className="container-fluid">
         <div className="row">
           <div className="col-5 profileAvatarContainer">

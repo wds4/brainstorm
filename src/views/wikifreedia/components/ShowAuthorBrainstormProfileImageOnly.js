@@ -7,7 +7,7 @@ import { updateViewProfileTab } from '../../../redux/features/siteNavigation/sli
 import { getProfileBrainstormFromNpub } from '../../../helpers/brainstorm'
 import { noProfilePicUrl } from '../../../const'
 
-const GetProfileFromNdk = ({ npub }) => {
+const GetProfileFromNdk = ({ npub, oProfilesByNpub }) => {
   const dispatch = useDispatch()
   const { getProfile } = useNDK()
 
@@ -21,7 +21,8 @@ const GetProfileFromNdk = ({ npub }) => {
       author = '@' + oProfile?.name
     }
   }
-  if (!oProfile.image) {
+
+  if (oProfile && !oProfile.image) {
     oProfile.image = noProfilePicUrl
   }
   const setCurrentNpub = (newNpub) => {
@@ -35,7 +36,7 @@ const GetProfileFromNdk = ({ npub }) => {
         <CNavLink href="#/profile" onClick={() => setCurrentNpub(npub)}>
           <img src={oProfile?.image} className="profileAvatarSmall" />
         </CNavLink>
-      </div>{' '}
+      </div>
     </div>
   )
 }
@@ -64,5 +65,5 @@ export const ShowAuthorBrainstormProfileImageOnly = ({ npub }) => {
       </div>
     )
   }
-  return <GetProfileFromNdk npub={npub} />
+  return <GetProfileFromNdk npub={npub} oProfilesByNpub={oProfilesByNpub} />
 }

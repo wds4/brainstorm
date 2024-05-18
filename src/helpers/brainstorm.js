@@ -61,6 +61,7 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
   if (oProfileBrainstorm?.display_name) {
     oProfileBrainstorm.brainstormDisplayName = oProfileBrainstorm?.display_name
   }
+  // console.log('npub: ' + npub + ' oProfileBrainstorm.wotScores.degreesOfSeparation: '+ oProfileBrainstorm.wotScores.degreesOfSeparation)
   return oProfileBrainstorm
 }
 

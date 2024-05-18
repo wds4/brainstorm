@@ -22,16 +22,21 @@ import {
 } from 'src/redux/features/profiles/slice'
 
 // TO DO: test
-const ProfilesDataListenerMain = ({ aPubkeys }) => {
+const ProfilesDataListenerMain = ({ pubkey, aPubkeys }) => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const myNpub = nip19.npubEncode(myPubkey)
   const myCurrentProfileKind3CreatedAt = useSelector((state) => state.profile.kind3.created_at)
 
   const dispatch = useDispatch()
 
+  let aAuthors = aPubkeys
+  if (aPubkeys.length == 0) {
+    aAuthors = [myPubkey, pubkey]
+  }
+
   const filter = {
     kinds: [0, 3],
-    authors: aPubkeys,
+    authors: aAuthors,
   }
 
   // use ndk-react
@@ -105,7 +110,7 @@ const ProfilesDataListenerMain = ({ aPubkeys }) => {
   return <><div>ProfilesDataListenerMain</div></>
 }
 
-const ProfilesDataListener = ({ aPubkeys }) => {
+const ProfilesDataListener = ({ pubkey, aPubkeys }) => {
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod == 'off') {
     return <></>
@@ -114,7 +119,7 @@ const ProfilesDataListener = ({ aPubkeys }) => {
     return <></>
   }
   if (listenerMethod == 'individualListeners') {
-    return <ProfilesDataListenerMain aPubkeys={aPubkeys} />
+    return <ProfilesDataListenerMain pubkey={pubkey} aPubkeys={aPubkeys} />
   }
   return <></>
 }

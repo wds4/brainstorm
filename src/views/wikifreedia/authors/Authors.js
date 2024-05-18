@@ -58,6 +58,27 @@ const WikiAuthors = () => {
   const [wotScoreColumnClassName, setWotScoreColumnClassName] = useState('show') // show or hide
   const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
 
+  const [npubLookupFromPubkey, setNpubLookupFromPubkey] = useState({}) // show or hide
+  const [dosLookupFromPubkey, setDosLookupFromPubkey] = useState({}) // show or hide
+
+  const makeNpubLookupFromPubkey = () => {
+    const oOutput = {}
+    aAuthors.forEach((pk) => {
+      oOutput[pk] = nip19.npubEncode(pk)
+    })
+    setNpubLookupFromPubkey(oOutput)
+  }
+  const makeDosLookupFromPubkey = () => {
+    const oOutput = {}
+    aAuthors.forEach((pk) => {
+      oOutput[pk] = getProfileBrainstormFromPubkey(
+        pk,
+        oProfilesByNpub,
+      ).wotScores.degreesOfSeparation
+    })
+    setDosLookupFromPubkey(oOutput)
+  }
+
   const returnTimeOfMostRecentArticleByThisAuthor = (
     oAuthors,
     oWikiArticles_byNaddr,
@@ -171,11 +192,7 @@ const WikiAuthors = () => {
           setDosScoreColumnClassName('show')
           setWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('hide')
-          const arraySorted = inputArray.sort(
-            (a, b) =>
-              Number(getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation) -
-              Number(getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation),
-          )
+          const arraySorted = inputArray.sort((a, b) => dosLookupFromPubkey[a] - dosLookupFromPubkey[b])
           return arraySorted
         }
         return inputArray
@@ -216,10 +233,12 @@ const WikiAuthors = () => {
 
   useEffect(() => {
     try {
+      makeNpubLookupFromPubkey() // temporary hack
+      makeDosLookupFromPubkey() // temporary hack
       sortAndFilterItems(searchField, sortBy)
+      setSearchField('npub') // TO DO for some wacky reason the degrees of separation sort doesn't work until I put something in the search field. even if I change it back manually later. wtf.
     } catch (e) {}
   }, [])
-
 
   const sortFilteredAuthors = useCallback(() => {}, [aAuthorsFiltered])
 

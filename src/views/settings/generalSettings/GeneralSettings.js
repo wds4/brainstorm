@@ -29,8 +29,8 @@ const GeneralSettings = () => {
             label="select a nost listener method:"
           >
             <option value="off">off</option>
-            <option value="oneMainListener">standard method</option>
-            <option value="individualListeners">experimental method</option>
+            <option value="oneMainListener">buggy method</option>
+            <option value="individualListeners">standard method</option>
           </CFormSelect>
           <br />
           <div>

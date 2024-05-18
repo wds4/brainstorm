@@ -18,6 +18,7 @@ const TwittrHome = () => {
   const aFollows = useSelector((state) => state.profile.kind3.follows)
 
 
+  /*
   // * manage listener
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod != 'off') {
@@ -38,6 +39,7 @@ const TwittrHome = () => {
     dispatch(turnListenerOn())
     dispatch(updateListenerApplication('twittr'))
   }
+  */
 
   let loggedInClassName = 'hide'
   if (signedIn) {
