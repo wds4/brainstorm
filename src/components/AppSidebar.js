@@ -29,7 +29,7 @@ import navigationSettingsSignedIn from 'src/nav/_navSettingsSignedIn'
 import navigationSettingsSignedInDevMode from 'src/nav/_navSettingsSignedInDevMode'
 import navigationSettingsSignedOut from 'src/nav/_navSettingsSignedOut'
 
-import { updateSidebarShow, updateSidebarUnfoldable } from 'src/redux/features/ui/slice'
+import { updateSidebarShow } from 'src/redux/features/ui/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -84,35 +84,17 @@ function getNavigation(activeApp, signedIn, developmentMode) {
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
-  const unfoldable = useSelector((state) => state.ui.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.ui.sidebarShow)
   const activeApp = useSelector((state) => state.siteNavigation.app)
   const signedIn = useSelector((state) => state.profile.signedIn)
   const developmentMode = useSelector((state) => state.settings.general.developmentMode)
 
-  const updateActiveApp = (newApp) => {
-    // dispatch(updateApp(newApp))
-  }
-
   const navigation = getNavigation(activeApp, signedIn, developmentMode)
 
   return (
-    <CSidebar
-      className="border-end"
-      colorScheme="dark"
-      position="fixed"
-      unfoldable={undefined}
-      visible={sidebarShow}
-      onVisibleChange={(visible) => {
-        dispatch(updateSidebarShow(visible))
-      }}
-    >
+    <CSidebar className="border-end" colorScheme="dark" position="fixed" visible={sidebarShow}>
       <CSidebarHeader className="border-bottom">
-        <CSidebarBrand
-          href="#/dashboard"
-          // onClick={() => updateActiveApp('home')}
-          style={{ textDecoration: 'none' }}
-        >
+        <CSidebarBrand href="#/dashboard" style={{ textDecoration: 'none' }}>
           <img
             src="./brainstorm010_white.svg"
             style={{ height: '25px', marginLeft: '8px', marginRight: '10px' }}
@@ -127,7 +109,7 @@ const AppSidebar = () => {
       </CSidebarHeader>
       <AppSidebarNav items={navigation} />
       <CSidebarFooter className="border-top d-none d-lg-flex">
-        <CSidebarToggler onClick={() => dispatch(updateSidebarUnfoldable(!unfoldable))} />
+        <CSidebarToggler />
       </CSidebarFooter>
     </CSidebar>
   )
