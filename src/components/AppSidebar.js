@@ -104,7 +104,8 @@ const AppSidebar = () => {
         <CCloseButton
           className="d-lg-none"
           dark
-          onClick={() => dispatch({ type: 'set', sidebarShow: false })}
+          // onClick={() => dispatch({ type: 'set', sidebarShow: false })}
+          onClick={() => dispatch(updateSidebarShow(false))}
         />
       </CSidebarHeader>
       <AppSidebarNav items={navigation} />

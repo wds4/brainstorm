@@ -58,7 +58,7 @@ const DefaultLayout = () => {
 
   // * manage listener
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
-  if (listenerMethod != 'off') {
+  if (listenerMethod == 'oneMainListener') {
     // dispatch(updateApp('home'))
     // dispatch(updateListenerApplication('home'))
     if (isSignedIn) {

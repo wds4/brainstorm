@@ -107,7 +107,7 @@ const ProfilesDataListenerMain = ({ pubkey, aPubkeys }) => {
     updateProfilesDatabase()
   }, [fetchEvents(filter)])
 
-  return <><div>ProfilesDataListenerMain</div></>
+  return <></>
 }
 
 const ProfilesDataListener = ({ pubkey, aPubkeys }) => {

@@ -37,6 +37,9 @@ const GetProfileFromNdk = ({ npub, oProfilesByNpub }) => {
           <img src={oProfile?.image} className="profileAvatarSmall" />
         </CNavLink>
       </div>
+      <div style={{ display: 'inline-block', marginLeft: '10px' }} className="d-none d-lg-block">
+        <strong>{author}</strong>
+      </div>
     </div>
   )
 }
@@ -61,6 +64,9 @@ export const ShowAuthorBrainstormProfileImageOnly = ({ npub }) => {
               className="profileAvatarSmall"
             />
           </CNavLink>
+        </div>
+        <div style={{ display: 'inline-block', marginLeft: '10px' }} className="d-none d-lg-block">
+          <strong>{oProfileBrainstorm.brainstormDisplayName}</strong>
         </div>
       </div>
     )

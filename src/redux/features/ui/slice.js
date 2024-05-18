@@ -8,11 +8,9 @@ export const uiSlice = createSlice({
   },
   reducers: {
     updateSidebarShow: (state, action) => {
-      console.log('uiSlice updateSidebarShow: ' + action.payload)
       state.sidebarShow = action.payload
     },
     updateTheme: (state, action) => {
-      console.log('uiSlice updateTheme')
       state.theme = action.payload
     },
   },
