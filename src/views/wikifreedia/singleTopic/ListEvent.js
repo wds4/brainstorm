@@ -8,6 +8,7 @@ import {
   updateViewWikifreediaCategory,
 } from '../../../redux/features/siteNavigation/slice'
 import { ShowAuthor } from '../components/ShowAuthor'
+import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
 
 const Details = ({ showDetailsButton, title, category, categoryStyle, displayTime }) => {
   if (showDetailsButton == 'hide') {
@@ -108,7 +109,7 @@ export const ListEvent = ({ pubkey, oEvent, naddr }) => {
     <>
       <div className="row justify-content-between">
         <div className="col">
-          <ShowAuthor npub={npub} />
+          <ShowAuthorBrainstormProfileImageOnly npub={npub} />
         </div>
         <div className="col-auto" style={{ display: 'flex', alignItems: 'center' }}>
           <CButton color="primary">

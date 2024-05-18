@@ -35,6 +35,7 @@ import {
   getProfileBrainstormFromPubkey,
 } from '../../../helpers/brainstorm'
 import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
+import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
 
 export const whenTopicWasLastUpdated = (oEvents, oTopicSlugs, topicSlug) => {
   if (!topicSlug) {
@@ -204,7 +205,7 @@ const WikiTopic = () => {
               <CTable striped small hover>
                 <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell scope="col">author</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>author</CTableHeaderCell>
                     <CTableHeaderCell
                       scope="col"
                       style={{ textAlign: 'center' }}
@@ -212,10 +213,16 @@ const WikiTopic = () => {
                     >
                       last update
                     </CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className={dosScoreColumnClassName}>
+                    <CTableHeaderCell
+                      scope="col"
+                      style={{ textAlign: 'center' }}
+                      className={dosScoreColumnClassName}
+                    >
                       degrees of separation
                     </CTableHeaderCell>
-                    <CTableHeaderCell scope="col">link</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>
+                      link
+                    </CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -231,18 +238,24 @@ const WikiTopic = () => {
                     return (
                       <CTableRow key={item}>
                         <CTableDataCell scope="row">
-                          <ShowAuthorImageOnly npub={npub} />
+                          <ShowAuthorBrainstormProfileImageOnly npub={npub} />
                         </CTableDataCell>
-                        <CTableDataCell className={lastUpdateColumnClassName}>
+                        <CTableDataCell
+                          style={{ textAlign: 'center' }}
+                          className={lastUpdateColumnClassName}
+                        >
                           {displayTime}
                         </CTableDataCell>
-                        <CTableDataCell className={dosScoreColumnClassName}>
+                        <CTableDataCell
+                          style={{ textAlign: 'center' }}
+                          className={dosScoreColumnClassName}
+                        >
                           {
                             getProfileBrainstormFromNpub(npub, oProfilesByNpub).wotScores
                               .degreesOfSeparation
                           }
                         </CTableDataCell>
-                        <CTableDataCell>
+                        <CTableDataCell style={{ textAlign: 'center' }}>
                           <CButton color="primary">
                             <CNavLink
                               href="#/wikifreedia/singleEntry"
