@@ -38,6 +38,7 @@ import {
 import { whenTopicWasLastUpdated } from '../singleTopic/SingleTopic'
 import { secsToTime } from '../../../helpers'
 import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
+import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
 
 const WikiAuthors = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
@@ -314,7 +315,7 @@ const WikiAuthors = () => {
                       return (
                         <CTableRow key={item}>
                           <CTableDataCell scope="row">
-                            <ShowAuthorBrainstormProfile npub={npub} />
+                            <ShowAuthorBrainstormProfileImageOnly npub={npub} />
                           </CTableDataCell>
                           <CTableDataCell className={numTopicsColumnClassName}>
                             {numAuthors}
