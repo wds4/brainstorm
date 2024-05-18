@@ -9,12 +9,15 @@ export const uiSlice = createSlice({
   },
   reducers: {
     updateSidebarShow: (state, action) => {
+      console.log('uiSlice updateSidebarShow: ' + action.payload)
       state.sidebarShow = action.payload
     },
     updateSidebarUnfoldable: (state, action) => {
+      console.log('uiSlice updateSidebarUnfoldable')
       state.sidebarUnfoldable = action.payload
     },
     updateTheme: (state, action) => {
+      console.log('uiSlice updateTheme')
       state.theme = action.payload
     },
   },
