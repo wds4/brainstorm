@@ -28,7 +28,7 @@ export const ShowAuthorBrainstormProfile = ({ npub }) => {
   */
   const setCurrentNpub = (newNpub) => {
     dispatch(updateNpub(newNpub))
-    dispatch(updateViewProfileTab('wikis'))
+    // dispatch(updateViewProfileTab('wikis'))
   }
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>

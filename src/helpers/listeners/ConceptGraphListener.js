@@ -14,7 +14,7 @@ const ConceptGraphListenerMain = () => {
   const dispatch = useDispatch()
 
   const filter = {
-    kinds: [9902, 37069, 39902],
+    kinds: [9902, 39902],
     since: cutoffTime,
     '#P': ['tapestry'],
   }

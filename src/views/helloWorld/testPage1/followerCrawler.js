@@ -13,7 +13,6 @@ const FollowerCrawler = ({ aPubkeysWithoutKind3Event, crawlerState }) => {
   const filter = {
     kinds: [0, 3],
     // authors: aPubkeysWithoutKind3Event,
-    since: 0,
   }
 
   const { fetchEvents } = useNDK()

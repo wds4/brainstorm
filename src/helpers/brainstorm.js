@@ -18,7 +18,7 @@ const oProfileBlank = {
   nip05: '',
   brainstormDisplayName: '',
   wotScores: {
-    degreesOfSeparation: 9999,
+    degreesOfSeparation: 99999,
   },
   lastUpdated: 0,
 }
@@ -27,6 +27,7 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
   let oProfileBrainstorm = oProfileBlank
   if (oProfilesByNpub[npub]) {
     const oThisProfile = oProfilesByNpub[npub]
+    oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
     if (
       oThisProfile &&
       oThisProfile.kind0 &&
@@ -48,6 +49,9 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
       oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
       oProfileBrainstorm.lastUpdated = oThisProfile.kind0.oEvent.created_at
     }
+  }
+  if (!oProfilesByNpub[npub]) {
+    oProfileBrainstorm.wotScores.degreesOfSeparation = 99
   }
   return oProfileBrainstorm
 }

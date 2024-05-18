@@ -20,7 +20,6 @@ const Follows = () => {
     const filter = {
       kinds: [0, 3],
       authors: aFollows,
-      since: 0,
     }
     dispatch(updateApp('home'))
     dispatch(updateFilter(filter))

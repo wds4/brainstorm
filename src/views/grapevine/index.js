@@ -25,7 +25,7 @@ const GrapevineDashboard = () => {
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod != 'off') {
     const filter = {
-      kinds: [9902, 37069, 39902],
+      kinds: [9902, 39902],
       since: cutoffTime,
       '#P': ['tapestry'],
     }

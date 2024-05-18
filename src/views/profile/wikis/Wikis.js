@@ -51,7 +51,6 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
     const filter = {
       kinds: [30818],
       authors: [pubkey],
-      since: 0,
     }
     dispatch(updateApp('wiki'))
     dispatch(updateFilter(filter))

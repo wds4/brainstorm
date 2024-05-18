@@ -8,7 +8,6 @@ export const listenerManagerSlice = createSlice({
     filter: {
       kinds: [],
       authors: [],
-      since: 0,
     },
   },
   reducers: {

@@ -182,7 +182,6 @@ const Profile = () => {
       const filter = {
         kinds: [0, 3],
         authors: [pubkey],
-        since: 0,
       }
       dispatch(updateApp('home'))
       dispatch(updateFilter(filter))
@@ -237,7 +236,6 @@ const Profile = () => {
         const filter = {
           kinds: [0, 3],
           authors: aFollowPubkeys,
-          since: 0,
         }
         dispatch(updateApp('home'))
         dispatch(updateFilter(filter))
@@ -249,7 +247,6 @@ const Profile = () => {
       const filter = {
         kinds: [1],
         authors: [pubkey],
-        since: 0,
       }
       dispatch(updateApp('home'))
       dispatch(updateFilter(filter))

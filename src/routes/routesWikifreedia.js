@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Dashboard
-const Wikifreedia = React.lazy(() => import('src/views/wikifreedia/index'))
+const Wiki = React.lazy(() => import('src/views/wikifreedia/index'))
 
 // Settings
 const Settings = React.lazy(() => import('src/views/settings/wiki/Settings'))
@@ -27,7 +27,7 @@ const ViewAttestations = React.lazy(() =>
 const WotScores = React.lazy(() => import('src/views/wikifreedia/wotScores/WotScores'))
 
 const routes = [
-  { path: '/wikifreedia', name: 'Wiki', element: Wikifreedia },
+  { path: '/wikifreedia', name: 'Wiki', element: Wiki },
   { path: '/wikifreedia/settings', name: 'Settings', element: Settings },
 
   // content

@@ -20,22 +20,6 @@ const _nav = [
     to: '/about',
     icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
   },
-  {
-    component: CNavTitle,
-    name: 'Apps',
-  },
-  {
-    component: CNavItem,
-    name: 'Wiki',
-    to: '/wikifreedia',
-    icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Twittr',
-    to: '/twittr',
-    icon: <CIcon icon={cibTwitter} customClassName="nav-icon" />,
-  },
 ]
 
 export default _nav

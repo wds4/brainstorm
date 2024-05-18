@@ -11,7 +11,6 @@ const WikiListenerMain = () => {
 
   const filter = {
     kinds: [30818],
-    since: 0,
   }
 
   // use ndk-react

@@ -33,7 +33,8 @@ const DisplayScore = ({ score }) => {
 // eslint-disable-next-line react/prop-types
 const ShowSingleItem = ({ trustAttestationId, event }) => {
   const [showDetailsElementClassName, setShowDetailsElementClassName] = useState('hide')
-  const toggleShowDetails = useCallback(async () => {
+  const toggleShowDetails = useCallback(async (e) => {
+    console.log('toggleShowDetails: ' + e.target.value)
     if (showDetailsElementClassName == 'hide') {
       setShowDetailsElementClassName('show')
     }
@@ -72,11 +73,12 @@ const ShowSingleItem = ({ trustAttestationId, event }) => {
       <CListGroupItem
         key={event.id}
         as="a"
-        onClick={(e) => toggleShowDetails(e)}
+        // onClick={(e) => toggleShowDetails(e)}
         className="d-flex justify-content-between align-items-center"
       >
         <DisplayScore score={score} />
         <Ratee event={event} />
+        <CButton onClick={(e) => toggleShowDetails(e)}>view details</CButton>
       </CListGroupItem>
       <CCardBody className={showDetailsElementClassName}>
         <ShowContext contextId={contextId} event={event} />

@@ -13,7 +13,6 @@ const TwittrListenerMain = ({ aPubkeys }) => {
   const filter = {
     kinds: [1],
     authors: aPubkeys,
-    since: 0,
   }
 
   // use ndk-react

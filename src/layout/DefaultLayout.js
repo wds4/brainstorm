@@ -65,7 +65,6 @@ const DefaultLayout = () => {
       if (!oProfilesByNpub[myNpub]) {
         const filter = {
           authors: [myPubkey],
-          since: 0,
           kinds: [0, 3],
         }
         dispatch(updateFilter(filter))
@@ -75,7 +74,6 @@ const DefaultLayout = () => {
         if (!oProfilesByNpub[myNpub].kind0 && !oProfilesByNpub[myNpub].kind3) {
           const filter = {
             authors: [myPubkey],
-            since: 0,
             kinds: [0, 3],
           }
           dispatch(updateFilter(filter))
@@ -84,7 +82,6 @@ const DefaultLayout = () => {
         if (!oProfilesByNpub[myNpub].kind0 && oProfilesByNpub[myNpub].kind3) {
           const filter = {
             authors: [myPubkey],
-            since: 0,
             kinds: [0],
           }
           dispatch(updateFilter(filter))
@@ -93,7 +90,6 @@ const DefaultLayout = () => {
         if (oProfilesByNpub[myNpub].kind0 && !oProfilesByNpub[myNpub].kind3) {
           const filter = {
             authors: [myPubkey],
-            since: 0,
             kinds: [3],
           }
           dispatch(updateFilter(filter))
@@ -106,7 +102,6 @@ const DefaultLayout = () => {
       /*
     const filter = {
       kinds: [30818],
-      since: 0,
     }
     dispatch(updateFilter(filter))
     dispatch(turnListenerOn())
@@ -133,46 +128,7 @@ const DefaultLayout = () => {
       }
     }
     updateMyProfile()
-  }, [getProfile(myNpub)])
-
-  /*
-  const filter = {
-    authors: [myPubkey],
-    since: 0,
-    kinds: [3],
-  }
-
-  useEffect(() => {
-    async function updateMyFollowsAndRelays() {
-      if (myPubkey) {
-        const events = await fetchEvents(filter)
-        events.forEach((event, item) => {
-          const createdAt = event.created_at
-          if (createdAt > myCurrentProfileKind3CreatedAt) {
-            // update relays in my profile
-            const content = event.content
-            const oRelays = JSON.parse(content)
-
-            // update follows in my profile
-            let aTags_p = event.tags.filter(([k, v]) => k === 'p' && v && v !== '')
-            const aFollows = []
-            aTags_p.forEach((tag_p, item) => {
-              if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
-                const pk = tag_p[1]
-                aFollows.push(pk)
-              }
-            })
-            dispatch(updateKind3CreatedAt(createdAt))
-            dispatch(updateRelays(oRelays))
-            dispatch(updateFollows(aFollows))
-
-          }
-        })
-      }
-    }
-    updateMyFollowsAndRelays()
-  }, [fetchEvents(filter)])
-  */
+  }, [myNpub])
 
   return (
     <div>

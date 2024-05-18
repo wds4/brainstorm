@@ -24,7 +24,6 @@ const TwittrHome = () => {
     // TO DO: add selector so user has option to choose between global filter and following list
     const globalFilter = {
       kinds: [1],
-      since: 0,
     }
     const followsFilter = {
       kinds: [1],

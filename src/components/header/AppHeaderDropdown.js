@@ -119,23 +119,19 @@ const AppHeaderDropdown = () => {
             <CIcon icon={cilGraph} className="me-2" />
             Concept Graph
           </CDropdownItem>
-          <CDropdownItem
-            className={devModeClassName}
-            href="#/grapevine"
-            onClick={() => updateActiveApp('grapevine')}
-          >
-            <CIcon icon={cilApple} className="me-2" />
-            Grapevine
-          </CDropdownItem>
           <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Apps</CDropdownHeader>
-          <CDropdownItem href="#/wikifreedia" onClick={() => updateActiveApp('wikifreedia')}>
+          <CDropdownItem href="#/wikifreedia" onClick={() => updateActiveApp('wiki')}>
             <CIcon icon={cibWikipedia} className="me-2" />
             Wiki
+          </CDropdownItem>
+          <CDropdownItem href="#/grapevine" onClick={() => updateActiveApp('grapevine')}>
+            <CIcon icon={cilApple} className="me-2" />
+            Grapevine
           </CDropdownItem>
           <CDropdownItem
             href="#/twittr"
             onClick={() => updateActiveApp('twittr')}
-            className={loggedIn}
+            className={devModeClassName}
           >
             <CIcon icon={cibTwitter} className="me-2" />
             Twittr

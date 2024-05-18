@@ -308,7 +308,7 @@ const WikiAuthors = () => {
                       return (
                         <CTableRow key={item}>
                           <CTableDataCell scope="row">
-                            <ShowAuthor npub={npub} />
+                            <ShowAuthorBrainstormProfile npub={npub} />
                           </CTableDataCell>
                           <CTableDataCell className={numTopicsColumnClassName}>
                             {oAuthors[pubkey].length}

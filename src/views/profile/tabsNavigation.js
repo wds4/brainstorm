@@ -95,9 +95,6 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
         <CNavLink active={isFollows} onClick={setActiveTabFollows}>
           Follows
         </CNavLink>
-        <CNavLink active={isNotes} onClick={setActiveTabNotes}>
-          Notes
-        </CNavLink>
         <CNavLink active={isWikis} onClick={setActiveTabWikis}>
           Wikis
         </CNavLink>
@@ -128,6 +125,9 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
           disabled={developmentMode == 'hide'}
         >
           WoT Scores
+        </CNavLink>
+        <CNavLink active={isNotes} onClick={setActiveTabNotes} disabled={true}>
+          Notes
         </CNavLink>
       </CNav>
     </>

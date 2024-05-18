@@ -32,7 +32,6 @@ const Profiles = () => {
     const filter = {
       kinds: [0, 3],
       authors: aProfilePubkeysToSearch,
-      since: 0,
     }
     console.log('turnListenerOnButton')
     dispatch(updateFilter(filter))

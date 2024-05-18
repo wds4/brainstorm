@@ -112,7 +112,7 @@ const RunningListener = ({ oListenerManager }) => {
             }
 
             // grapevine listener, concept graph listener, nested lists
-            if (event.kind == 9902 || event.kind == 37069 || event.kind == 39902) {
+            if (event.kind == 9902 || event.kind == 39902) {
               const aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
               if (aTags_w.length > 0) {
                 let cid = event.id
@@ -163,6 +163,7 @@ const RunningListener = ({ oListenerManager }) => {
                 }
                 */
                 // will add to misc other apps (not yet implemented)
+                // anticipate using kind 37069
                 if (wordType == 'nestedList') {
                   // console.log('fetchEvents_nestedList')
                 }
