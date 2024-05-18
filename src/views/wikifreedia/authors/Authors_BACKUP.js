@@ -44,8 +44,11 @@ const WikiAuthors = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
+  const currentSortAuthorsBy = useSelector(
+    (state) => state.siteNavigation.wikifreedia.sortAuthorsBy,
+  )
   const [searchField, setSearchField] = useState('')
-  const [sortBy, setSortBy] = useState('chronological')
+  const [sortBy, setSortBy] = useState(currentSortAuthorsBy)
   const signedIn = useSelector((state) => state.profile.signedIn)
   const oAuthors = useSelector((state) => state.wikifreedia.authors)
   const aAuthors = Object.keys(oAuthors)
@@ -58,6 +61,24 @@ const WikiAuthors = () => {
   const [wotScoreColumnClassName, setWotScoreColumnClassName] = useState('show') // show or hide
   const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
 
+  const dispatch = useDispatch()
+
+  /*
+  ///// * manage listener
+  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+  if (listenerMethod != 'off') {
+    dispatch(turnListenerOff()) // poor performance on this page
+    const filter = {
+      kinds: [0, 3],
+      authors: aAuthors,
+    }
+    dispatch(updateApp('wiki'))
+    dispatch(updateFilter(filter))
+    dispatch(turnListenerOn())
+    dispatch(updateListenerApplication('wiki'))
+  }
+  ///// end manage listener
+  */
   const returnTimeOfMostRecentArticleByThisAuthor = (
     oAuthors,
     oWikiArticles_byNaddr,
@@ -186,6 +207,7 @@ const WikiAuthors = () => {
 
   const sortAndFilterItems = useCallback(
     (searchString, sortByMethod) => {
+      /*
       console.log(
         'sortAndFilterItems; searchString: ' + searchString + '; sortByMethod: ' + sortByMethod,
       )
@@ -210,18 +232,20 @@ const WikiAuthors = () => {
         setAAuthorsFiltered(newFilteredArray)
         setAAuthorsFilteredAndSorted(sortItems(newFilteredArray, sortByMethod))
       }
+      */
     },
     [searchField, sortBy],
   )
 
+  /*
   useEffect(() => {
     try {
       sortAndFilterItems(searchField, sortBy)
     } catch (e) {}
   }, [])
+  */
 
-
-  const sortFilteredAuthors = useCallback(() => {}, [aAuthorsFiltered])
+  // const sortFilteredAuthors = useCallback(() => {}, [aAuthorsFiltered])
 
   let loggedInClassName = 'hide'
   if (signedIn) {
