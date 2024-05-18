@@ -5,6 +5,7 @@ import { updateApp } from 'src/redux/features/siteNavigation/slice'
 import { cibWikipedia, cilPencil, cilPeople } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import {
+  turnListenerOff,
   turnListenerOn,
   updateFilter,
   updateFilterAuthors,
@@ -45,6 +46,9 @@ const WikiHome = () => {
     numArticlesByMe = oAuthors[myPubkey].length + ' so far'
   }
   */
+  const turnOffListener = () => {
+    dispatch(turnListenerOff())
+  }
   return (
     <>
       <WikiListener />
@@ -83,7 +87,7 @@ const WikiHome = () => {
           </CNavLink>
         </CCol>
         <CCol xs={12} sm={6} xl={4} xxl={3}>
-          <CNavLink href="#/wikifreedia/authors">
+          <CNavLink href="#/wikifreedia/authors" onClick={() => {turnOffListener()}}>
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cilPeople} size="xl" />}
               title={Object.keys(oAuthors).length}

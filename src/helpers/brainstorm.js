@@ -39,11 +39,15 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
         oProfileBrainstorm.image = oProfileBrainstorm?.picture
       }
       oProfileBrainstorm.wotScores = {}
-      oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
+      if (oThisProfile.wotScores) {
+        oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
+      }
       oProfileBrainstorm.lastUpdated = oThisProfile.kind0.oEvent.created_at
       oProfileBrainstorm.brainstorm = true // indicates local info was found in redux store
     }
-    oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
+    if (oThisProfile.wotScores) {
+      oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
+    }
   }
   if (!oProfileBrainstorm?.image) {
     oProfileBrainstorm.image = noProfilePicUrl
