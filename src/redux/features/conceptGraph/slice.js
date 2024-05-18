@@ -14,7 +14,7 @@ export const conceptGraphSlice = createSlice({
       const event = action.payload.event
       const cid = action.payload.cid
       const wordType = action.payload.wordType
-      console.log('addWordToConceptGraph; wordType: ' + wordType + '; cid: ' + cid)
+      // console.log('addWordToConceptGraph; wordType: ' + wordType + '; cid: ' + cid)
       state.words[cid] = event // need event.rawEvent()? or just event?
       if (wordType) {
         if (!state.byWordType[wordType]) {

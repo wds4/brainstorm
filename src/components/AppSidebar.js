@@ -91,7 +91,7 @@ const AppSidebar = () => {
   const developmentMode = useSelector((state) => state.settings.general.developmentMode)
 
   const updateActiveApp = (newApp) => {
-    dispatch(updateApp(newApp))
+    // dispatch(updateApp(newApp))
   }
 
   const navigation = getNavigation(activeApp, signedIn, developmentMode)
@@ -110,7 +110,7 @@ const AppSidebar = () => {
       <CSidebarHeader className="border-bottom">
         <CSidebarBrand
           href="#/dashboard"
-          onClick={() => updateActiveApp('home')}
+          // onClick={() => updateActiveApp('home')}
           style={{ textDecoration: 'none' }}
         >
           <img
