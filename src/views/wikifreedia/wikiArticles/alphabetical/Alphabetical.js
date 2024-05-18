@@ -201,7 +201,11 @@ const WikiArticlesAlphabetical = () => {
                     >
                       last update
                     </CTableHeaderCell>
-                    <CTableHeaderCell scope="col" className={numVersionsColumnClassName}>
+                    <CTableHeaderCell
+                      scope="col"
+                      style={{ textAlign: 'center' }}
+                      className={numVersionsColumnClassName}
+                    >
                       # authors
                     </CTableHeaderCell>
                   </CTableRow>
@@ -230,7 +234,7 @@ const WikiArticlesAlphabetical = () => {
                           </CNavLink>
                         </CTableDataCell>
                         <CTableDataCell
-                          style={{ textAlign: 'right' }}
+                          style={{ textAlign: 'center' }}
                           className={lastUpdateColumnClassName}
                         >
                           {howLongAgo}

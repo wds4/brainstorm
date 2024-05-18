@@ -192,7 +192,9 @@ const WikiAuthors = () => {
           setDosScoreColumnClassName('show')
           setWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('hide')
-          const arraySorted = inputArray.sort((a, b) => dosLookupFromPubkey[a] - dosLookupFromPubkey[b])
+          const arraySorted = inputArray.sort(
+            (a, b) => dosLookupFromPubkey[a] - dosLookupFromPubkey[b],
+          )
           return arraySorted
         }
         return inputArray
@@ -284,13 +286,25 @@ const WikiAuthors = () => {
                   <CTableHead color="light">
                     <CTableRow>
                       <CTableHeaderCell scope="col">author</CTableHeaderCell>
-                      <CTableHeaderCell className={numTopicsColumnClassName} scope="col">
+                      <CTableHeaderCell
+                        scope="col"
+                        style={{ textAlign: 'center' }}
+                        className={numTopicsColumnClassName}
+                      >
                         # of topics
                       </CTableHeaderCell>
-                      <CTableHeaderCell className={lastUpdateColumnClassName} scope="col">
+                      <CTableHeaderCell
+                        scope="col"
+                        style={{ textAlign: 'center' }}
+                        className={lastUpdateColumnClassName}
+                      >
                         last update
                       </CTableHeaderCell>
-                      <CTableHeaderCell className={dosScoreColumnClassName} scope="col">
+                      <CTableHeaderCell
+                        scope="col"
+                        style={{ textAlign: 'center' }}
+                        className={dosScoreColumnClassName}
+                      >
                         degrees of separation
                       </CTableHeaderCell>
                     </CTableRow>
@@ -314,13 +328,25 @@ const WikiAuthors = () => {
                           <CTableDataCell scope="row">
                             <ShowAuthorBrainstormProfileImageOnly npub={npub} />
                           </CTableDataCell>
-                          <CTableDataCell className={numTopicsColumnClassName}>
+                          <CTableDataCell
+                            scope="row"
+                            style={{ textAlign: 'center' }}
+                            className={numTopicsColumnClassName}
+                          >
                             {numAuthors}
                           </CTableDataCell>
-                          <CTableDataCell className={lastUpdateColumnClassName}>
+                          <CTableDataCell
+                            scope="row"
+                            style={{ textAlign: 'center' }}
+                            className={lastUpdateColumnClassName}
+                          >
                             {howLongAgo}
                           </CTableDataCell>
-                          <CTableDataCell className={dosScoreColumnClassName}>
+                          <CTableDataCell
+                            scope="row"
+                            style={{ textAlign: 'center' }}
+                            className={dosScoreColumnClassName}
+                          >
                             {
                               getProfileBrainstormFromPubkey(pubkey, oProfilesByNpub).wotScores
                                 .degreesOfSeparation
