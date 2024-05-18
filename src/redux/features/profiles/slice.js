@@ -4,6 +4,9 @@ import { nip19 } from 'nostr-tools'
 
 /*
 oProfiles: {
+  byPubkey: {
+    <pubkey>: npub, // use pubkey to find the npub, then use byNpub to look up data
+  },
   byNpub: {
     <npub>: {
       kind0: {
@@ -12,8 +15,8 @@ oProfiles: {
       kind3: {
         oEvent: <oKind0Event>,
       },
-      aFollows: [],
-      oRelays: {},
+      pubkey: '',
+      followers: [],
       wotScores: {
         degreeOfSeparationFromMe: 999,
       },
@@ -28,9 +31,11 @@ kind0: profile info
 kind3: follows and relays info
 */
 
-const oDefaultData = {
+const oDefaultByNpubData = {
   kind0: {},
   kind3: {},
+  pubkey: '', // include npub here so no need to use nip19 every time you need to find the npub from the pubkey
+  followers: [], // array of pubkeys
   wotScores: {
     degreesOfSeparationFromMe: 999,
   },
@@ -50,7 +55,7 @@ export const profilesSlice = createSlice({
       const oKind0Event = action.payload
       const npub = nip19.npubEncode(oKind0Event.pubkey)
       if (!state.oProfiles.byNpub[npub]) {
-        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultData))
+        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultByNpubData))
       }
       if (!state.oProfiles.byNpub[npub].kind0.oEvent) {
         state.oProfiles.byNpub[npub].kind0.oEvent = oKind0Event
@@ -63,7 +68,7 @@ export const profilesSlice = createSlice({
       const oKind3Event = action.payload
       const npub = nip19.npubEncode(oKind3Event.pubkey)
       if (!state.oProfiles.byNpub[npub]) {
-        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultData))
+        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultByNpubData))
       }
       if (!state.oProfiles.byNpub[npub].kind3.oEvent) {
         state.oProfiles.byNpub[npub].kind3.oEvent = oKind3Event
@@ -80,7 +85,7 @@ export const profilesSlice = createSlice({
       // Presumably npub is already in the database, otherwise we would not have searched for its kind3 event.
       // But just in case it's not, add it:
       if (!state.oProfiles.byNpub[npub]) {
-        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultData))
+        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultByNpubData))
       }
       if (!state.oProfiles.byNpub[npub].kind3.oEvent) {
         state.oProfiles.byNpub[npub].kind3.oEvent = oKind3Event
@@ -104,7 +109,7 @@ export const profilesSlice = createSlice({
           }
           // Any newly added npub must have a degrees of separation minDoS = authorDoS + 1.
           if (!state.oProfiles.byNpub[np]) {
-            state.oProfiles.byNpub[np] = JSON.parse(JSON.stringify(oDefaultData))
+            state.oProfiles.byNpub[np] = JSON.parse(JSON.stringify(oDefaultByNpubData))
             state.oProfiles.byNpub[np].wotScores.degreesOfSeparationFromMe = minDoS
           }
         }
@@ -114,7 +119,7 @@ export const profilesSlice = createSlice({
       const { npub_toUpdate, degreesOfSeparationFromMe_new } = action.payload
       // console.log('updateDegreesOfSeparationFromMe; npub_toUpdate: ' + npub_toUpdate + '; degreesOfSeparationFromMe_new: ' + degreesOfSeparationFromMe_new)
       if (!state.oProfiles.byNpub[npub_toUpdate]) {
-        state.oProfiles.byNpub[npub_toUpdate] = JSON.parse(JSON.stringify(oDefaultData))
+        state.oProfiles.byNpub[npub_toUpdate] = JSON.parse(JSON.stringify(oDefaultByNpubData))
       }
       state.oProfiles.byNpub[npub_toUpdate].wotScores.degreesOfSeparationFromMe = degreesOfSeparationFromMe_new
       // console.log('updateDegreesOfSeparationFromMe; npub_toUpdate DONE: ' + npub_toUpdate + '; degreesOfSeparationFromMe_new: ' + degreesOfSeparationFromMe_new)

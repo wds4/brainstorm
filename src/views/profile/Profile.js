@@ -141,18 +141,18 @@ const Profile = () => {
   */
 
   let degreesOfSeparationFromMe = 999
-  let degreesOfSeparationFromMeText = 'unknown (not connected ?)'
+  let degreesOfSeparationFromMeText = '? hops)'
   if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
     degreesOfSeparationFromMe = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
     degreesOfSeparationFromMeText =
-      degreesOfSeparationFromMe + ' degrees of separation (via follows)'
+      degreesOfSeparationFromMe + ' hops'
     if (degreesOfSeparationFromMe == 1) {
       degreesOfSeparationFromMeText =
-        degreesOfSeparationFromMe + ' degree of separation (via follows)'
+        degreesOfSeparationFromMe + ' hop'
     }
     if (degreesOfSeparationFromMe == 0) {
       degreesOfSeparationFromMeText =
-        degreesOfSeparationFromMe + ' degrees of separation (this is me!)'
+        degreesOfSeparationFromMe + ' hops'
     }
   }
 
@@ -328,7 +328,8 @@ const Profile = () => {
               >
                 {aFollowPubkeys.length} Follows
               </div>
-              <div style={{ display: 'inline-block' }}>? Relays</div>
+              <div style={{ display: 'inline-block' }}>? Followers</div>
+              <div style={{ display: 'inline-block' }}>? WoT Score</div>
               <div style={{ display: 'inline-block' }}>{degreesOfSeparationFromMeText}</div>
             </div>
             <div className={currentDevelopmentMode} style={{ marginTop: '10px' }}>
