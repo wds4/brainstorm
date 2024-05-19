@@ -280,7 +280,7 @@ const WikiAuthors = () => {
             </CButton>
           </div>
           <center>
-            <h3>Authors {myFollows.length}</h3>
+            <h3>Authors</h3>
           </center>
         </div>
         <CRow>
