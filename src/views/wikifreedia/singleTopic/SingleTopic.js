@@ -170,9 +170,7 @@ const WikiTopic = () => {
       }
       if (sortByMethod == 'wotScore') {
         console.log('wotScore')
-        const arraySorted = aAuthorsRef.sort(
-          (a, b) => coracleWotScore[b] - coracleWotScore[a],
-        )
+        const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('show')
@@ -220,11 +218,11 @@ const WikiTopic = () => {
         <CCol xs={12}>
           <CCard className="mb-4">
             <CCardHeader>
-              <small>{showVersions}</small>
-            </CCardHeader>
-            <CCardBody>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ display: 'inline-block' }}>
+              <div className="row">
+                <div className="col">
+                  <small>{showVersions}</small>
+                </div>
+                <div className="col">
                   <CFormSelect
                     value={sortBy}
                     onChange={(e) => {
@@ -234,16 +232,20 @@ const WikiTopic = () => {
                     options={[
                       { label: 'most recent', value: 'chronological' },
                       { label: 'degrees of separation', value: 'degreesOfSeparation' },
-                      { label: 'Coracle WoT score', value: 'wotScore' },
+                      { label: 'WoT score', value: 'wotScore' },
+                      { label: 'Influence Score', value: 'influenceScore', disabled: true },
                     ]}
                   ></CFormSelect>
                 </div>
               </div>
-              <br />
+            </CCardHeader>
+            <CCardBody>
               <CTable striped small hover>
                 <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>author</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>
+                      author
+                    </CTableHeaderCell>
                     <CTableHeaderCell
                       scope="col"
                       style={{ textAlign: 'center' }}

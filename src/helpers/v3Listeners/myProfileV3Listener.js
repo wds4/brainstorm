@@ -104,6 +104,7 @@ const ListenerOn = () => {
     updateMyProfileDatabase()
   }, [fetchEvents(filter)])
 
+  return <></>
   return (
     <>
       <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>
@@ -123,6 +124,8 @@ const MyProfileV3Listener = () => {
       <ListenerOn />
     )
   }
+
+  return <></>
   return (
     <>
       <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>

@@ -39,10 +39,12 @@ const Dashboard = () => {
                 onClick={() => updateActiveApp('wiki')}
               >
                 <CCardHeader>
-                  <strong>Wiki</strong>
+                  <strong>Nostrapaedia</strong>
                 </CCardHeader>
                 <CCardBody>
-                  <CCardText>Nostr meets Wikipedia</CCardText>
+                  <CCardText>
+                  Nostrapedia? Nostrapaedia? idk. Who's in charge of these decisions?!? ...
+                  </CCardText>
                 </CCardBody>
               </CNavLink>
             </CCard>

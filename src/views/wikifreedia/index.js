@@ -46,7 +46,7 @@ const WikiHome = () => {
     <>
       <WikiListener />
       <center>
-        <h3>Wiki Home</h3>
+        <h3>Nostrapedia Home</h3>
       </center>
       <br />
       <CRow xs={{ gutter: 4 }}>
