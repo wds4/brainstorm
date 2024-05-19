@@ -5,9 +5,9 @@ const V3Listener = () => {
   return (
     <>
       <div
-        style={{ border: '1px solid grey', padding: '2px', height: '100px', overflow: 'scroll' }}
+        style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}
       >
-        V3Listener
+        Other Profiles Listener
       </div>
     </>
   )

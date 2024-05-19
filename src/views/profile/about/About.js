@@ -4,7 +4,7 @@ import { CCol, CContainer, CRow } from '@coreui/react'
 import React from 'react'
 import RawDataNostrWord from '../../components/RawDataNostrWord'
 
-const About = ({ oKind0Event, oKind3Event, oProfile, oProfileBrainstorm, oProfileNdk, npub, pubkey }) => {
+const About = ({ oKind0Event, oKind3Event, oKind10000Event, oProfile, oProfileBrainstorm, oProfileNdk, npub, pubkey }) => {
   const copyNpubToClipboard = (np) => {
     navigator.clipboard.writeText(np)
     alert('npub copied to clipboard: \n ' + np)
@@ -70,6 +70,9 @@ const About = ({ oKind0Event, oKind3Event, oProfile, oProfileBrainstorm, oProfil
       </CRow>
       <CRow>
         <RawDataNostrWord oEvent={oKind3Event} label="kind 3 event" />
+      </CRow>
+      <CRow>
+        <RawDataNostrWord oEvent={oKind10000Event} label="kind 10000 event" />
       </CRow>
     </CContainer>
   )

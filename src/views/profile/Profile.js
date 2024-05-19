@@ -43,6 +43,7 @@ const ProfileTabsContent = ({
   oProfileBrainstorm,
   oKind0Event,
   oKind3Event,
+  oKind10000Event,
   aFollowPubkeys,
   aFollowNpubs,
   updateWhichTab,
@@ -52,6 +53,7 @@ const ProfileTabsContent = ({
       <About
         oKind0Event={oKind0Event}
         oKind3Event={oKind3Event}
+        oKind10000Event={oKind10000Event}
         oProfile={oProfile}
         oProfileNdk={oProfileNdk}
         oProfileBrainstorm={oProfileBrainstorm}
@@ -156,8 +158,9 @@ const Profile = () => {
     }
   }
 
-  const [oKind0Event, setOKind0Event] = useState(k0)
-  const [oKind3Event, setOKind3Event] = useState(k3)
+  const [oKind0Event, setOKind0Event] = useState({})
+  const [oKind3Event, setOKind3Event] = useState({})
+  const [oKind10000Event, setOKind10000Event] = useState({})
 
   const aFollowPubkeys = []
   const aFollowNpubs = []
@@ -195,16 +198,21 @@ const Profile = () => {
   useEffect(() => {
     setOKind0Event({})
     setOKind3Event({})
+    setOKind10000Event({})
     function updateEvents() {
       if (oProfilesByNpub[npub]) {
         const oProf = oProfilesByNpub[npub]
         const oKind0Event = oProf.kind0.oEvent
         const oKind3Event = oProf.kind3.oEvent
+        const oKind10000Event = oProf.kind10000.oEvent
         if (oKind0Event) {
           setOKind0Event(oKind0Event)
         }
         if (oKind3Event) {
           setOKind3Event(oKind3Event)
+        }
+        if (oKind10000Event) {
+          setOKind10000Event(oKind10000Event)
         }
       } else {
         oProfileNdk = getProfile(npub)
@@ -329,6 +337,7 @@ const Profile = () => {
                 {aFollowPubkeys.length} Follows
               </div>
               <div style={{ display: 'inline-block' }}>{oProfileBrainstorm.followers.length} Followers</div>
+              <div style={{ display: 'inline-block' }}>muted by {oProfileBrainstorm.mutedBy.length}</div>
               <div style={{ display: 'inline-block' }}>? WoT Score</div>
               <div style={{ display: 'inline-block' }}>{degreesOfSeparationFromMeText}</div>
             </div>
@@ -352,6 +361,7 @@ const Profile = () => {
             oProfileBrainstorm={oProfileBrainstorm}
             oKind0Event={oKind0Event}
             oKind3Event={oKind3Event}
+            oKind10000Event={oKind10000Event}
             aFollowPubkeys={aFollowPubkeys}
             aFollowNpubs={aFollowNpubs}
             updateWhichTab={updateWhichTab}

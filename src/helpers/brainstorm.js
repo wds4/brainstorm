@@ -18,8 +18,10 @@ const oProfileBlank = {
   nip05: '',
   brainstormDisplayName: '',
   followers: [],
+  mutedBy: [],
   wotScores: {
     degreesOfSeparation: 99999,
+    coracle: 0,
   },
   lastUpdated: 0,
   brainstorm: false,
@@ -41,6 +43,9 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
       }
       if (oThisProfile.followers) {
         oProfileBrainstorm.followers = oThisProfile.followers
+      }
+      if (oThisProfile.mutedBy) {
+        oProfileBrainstorm.mutedBy = oThisProfile.mutedBy
       }
       oProfileBrainstorm.wotScores = {}
       if (oThisProfile.wotScores) {

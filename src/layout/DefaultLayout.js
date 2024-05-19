@@ -20,6 +20,7 @@ import {
   updateFilter,
   updateListenerApplication,
 } from '../redux/features/listenerManager/slice'
+import MyProfileV3Listener from '../helpers/v3Listeners/myProfileV3Listener'
 
 const ShowListenerManagerOrNot = () => {
   const showListenerManager = useSelector((state) => state.settings.general.showListenerManager)
@@ -65,7 +66,7 @@ const DefaultLayout = () => {
       if (!oProfilesByNpub[myNpub]) {
         const filter = {
           authors: [myPubkey],
-          kinds: [0, 3],
+          kinds: [0, 3, 10000],
         }
         dispatch(updateFilter(filter))
         dispatch(turnListenerOn())
@@ -135,6 +136,7 @@ const DefaultLayout = () => {
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100">
         <AppHeader />
+        <MyProfileV3Listener />
         <ShowListenerManagerOrNot />
         <div className="body flex-grow-1">
           <AppContent />

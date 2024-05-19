@@ -17,8 +17,10 @@ oProfiles: {
       },
       pubkey: '',
       followers: [],
+      mutedBy: [],
       wotScores: {
         degreeOfSeparationFromMe: 999,
+        coracle: 0,
       },
     }
   },
@@ -34,10 +36,13 @@ kind3: follows and relays info
 const oDefaultByNpubData = {
   kind0: {},
   kind3: {},
+  kind10000: {},
   pubkey: '', // include npub here so no need to use nip19 every time you need to find the npub from the pubkey
   followers: [], // array of pubkeys
+  mutedBy: [], // array of pubkeys
   wotScores: {
     degreesOfSeparationFromMe: 999,
+    coracle: 0,
   },
 }
 
@@ -52,6 +57,20 @@ export const profilesSlice = createSlice({
   name: 'profiles',
   initialState: initState,
   reducers: {
+    updateCoracleWoT: (state, action) => {
+      const refNpub = action.payload.refNpub
+      const myNpub = action.payload.myNpub
+      const myFollows = action.payload.myFollows
+      const refFollowers = state.oProfiles.byNpub[refNpub].followers
+      let wotScore = 0
+      refFollowers.forEach((refPubkey, item) => {
+        if (myFollows.includes(refPubkey)) {
+          wotScore++
+        }
+      })
+      state.oProfiles.byNpub[refNpub].wotScores.coracle = wotScore
+      // TO DO: subtract using mutes
+    },
     updateKind0Event: (state, action) => {
       const oKind0Event = action.payload
       const pubkey = oKind0Event.pubkey
@@ -87,6 +106,26 @@ export const profilesSlice = createSlice({
       }
       if (state.oProfiles.byNpub[npub].kind3.oEvent.created_at < oKind3Event.created_at) {
         state.oProfiles.byNpub[npub].kind3.oEvent = oKind3Event
+      }
+    },
+    updateKind10000Event: (state, action) => {
+      const oKind10000Event = action.payload
+      const pubkey = oKind10000Event.pubkey
+      const npub = nip19.npubEncode(pubkey)
+      if (!state.oProfiles.byPubkey[pubkey]) {
+        state.oProfiles.byPubkey[pubkey] = npub
+      }
+      if (!state.oProfiles.byNpub[npub]) {
+        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultByNpubData))
+      }
+      if (!state.oProfiles.byNpub[npub].pubkey) {
+        state.oProfiles.byNpub[npub].pubkey = pubkey
+      }
+      if (!state.oProfiles.byNpub[npub].kind10000.oEvent) {
+        state.oProfiles.byNpub[npub].kind10000.oEvent = oKind10000Event
+      }
+      if (state.oProfiles.byNpub[npub].kind10000.oEvent.created_at < oKind10000Event.created_at) {
+        state.oProfiles.byNpub[npub].kind10000.oEvent = oKind10000Event
       }
     },
     // same as updateKind3Event, but also initialize pubkeys from the following list
@@ -142,7 +181,47 @@ export const profilesSlice = createSlice({
           // update state.oProfiles.byNpub[np].followers
           if (!state.oProfiles.byNpub[np].followers.includes(pubkey)) {
             state.oProfiles.byNpub[np].followers.push(pubkey)
-
+          }
+        }
+      })
+    },
+    // same as updateKind10000Event, but also iterate through the mute list and update mutedBy
+    processKind10000Event: (state, action) => {
+      const oKind10000Event = action.payload
+      const pubkey = oKind10000Event.pubkey
+      const npub = nip19.npubEncode(pubkey)
+      if (!state.oProfiles.byPubkey[pubkey]) {
+        state.oProfiles.byPubkey[pubkey] = npub
+      }
+      if (!state.oProfiles.byNpub[npub]) {
+        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultByNpubData))
+      }
+      if (!state.oProfiles.byNpub[npub].pubkey) {
+        state.oProfiles.byNpub[npub].pubkey = pubkey
+      }
+      if (!state.oProfiles.byNpub[npub].kind10000.oEvent) {
+        state.oProfiles.byNpub[npub].kind10000.oEvent = oKind10000Event
+      }
+      if (state.oProfiles.byNpub[npub].kind10000.oEvent.created_at < oKind10000Event.created_at) {
+        state.oProfiles.byNpub[npub].kind10000.oEvent = oKind10000Event
+      }
+      // now process each pubkey from the mute list
+      const aTags_p = oKind10000Event.tags.filter(([k, v]) => k === 'p' && v && v !== '')
+      aTags_p.forEach((tag_p, item) => {
+        if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
+          const pk = tag_p[1]
+          const np = nip19.npubEncode(pk)
+          // Any newly added npub must have a degrees of separation minDoS = authorDoS + 1.
+          if (!state.oProfiles.byNpub[np]) {
+            state.oProfiles.byNpub[np] = JSON.parse(JSON.stringify(oDefaultByNpubData))
+          }
+          // instantiate byPubkey if not already done
+          if (!state.oProfiles.byPubkey[pk]) {
+            state.oProfiles.byPubkey[pk] = np
+          }
+          // update state.oProfiles.byNpub[np].followers
+          if (!state.oProfiles.byNpub[np].mutedBy.includes(pubkey)) {
+            state.oProfiles.byNpub[np].mutedBy.push(pubkey)
           }
         }
       })
@@ -166,8 +245,10 @@ export const profilesSlice = createSlice({
 })
 
 export const {
+  updateCoracleWoT,
   updateKind0Event,
   updateKind3Event,
+  updateKind10000Event,
   processKind3Event,
   updateDegreesOfSeparationFromMe,
   wipeProfiles,

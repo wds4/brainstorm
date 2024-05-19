@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
-import { nip19, validateEvent } from 'nostr-tools'
-import { makeEventSerializable } from '..'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   updateAbout,
   updateBanner,
@@ -20,41 +18,35 @@ import {
   updateKind3Event,
   processKind3Event,
 } from 'src/redux/features/profiles/slice'
+import { nip19, validateEvent } from 'nostr-tools'
+import { makeEventSerializable } from '..'
 import { updateKind10000Event } from '../../redux/features/profiles/slice'
 
-// TO DO: test
-const ProfilesDataListenerMain = ({ pubkey, aPubkeys }) => {
+const ListenerOn = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const myNpub = nip19.npubEncode(myPubkey)
   const myCurrentProfileKind3CreatedAt = useSelector((state) => state.profile.kind3.created_at)
-
   const dispatch = useDispatch()
 
-  let aAuthors = aPubkeys
-  if (aPubkeys.length == 0) {
-    aAuthors = [myPubkey, pubkey]
-  }
-
   const filter = {
+    authors: [myPubkey],
     kinds: [0, 3, 10000],
-    authors: aAuthors,
   }
 
   // use ndk-react
   const { fetchEvents } = useNDK()
   useEffect(() => {
-    async function updateProfilesDatabase() {
+    async function updateMyProfileDatabase() {
       const events = await fetchEvents(filter)
-
       events.forEach((eventNS, item) => {
-        // console.log('ProfilesDataListener; item: ' + item)
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
+            console.log('updateMyProfileDatabase_kind: ' + event.kind)
             if (event.kind == 0) {
               dispatch(updateKind0Event(event))
               if (event.pubkey == myPubkey) {
-                // console.log('ProfilesDataListener; my pubkey! myPubkey: ' + myPubkey)
+                console.log('updateMyProfileDatabase; my pubkey! myPubkey: ' + myPubkey)
                 const oMyProfile = JSON.parse(event.content)
                 dispatch(updateDisplayName(oMyProfile?.displayName))
                 dispatch(updateName(oMyProfile?.name))
@@ -100,33 +92,44 @@ const ProfilesDataListenerMain = ({ pubkey, aPubkeys }) => {
               }
             }
             if (event.kind == 10000) {
-              console.log('updateProfilesDatabase; kind 10000')
+              console.log('updateMyProfileDatabase, myProfile; kind 10000')
               dispatch(updateKind10000Event(event))
             }
           }
         } catch (e) {
-          console.log('updateProfilesDatabase error: ' + e)
+          console.log('updateMyProfileDatabase error: ' + e)
         }
       })
     }
-    updateProfilesDatabase()
+    updateMyProfileDatabase()
   }, [fetchEvents(filter)])
 
-  return <></>
+  return (
+    <>
+      <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>
+        My Profile Listener: On
+      </div>
+    </>
+  )
 }
 
-const ProfilesDataListener = ({ pubkey, aPubkeys }) => {
+const MyProfileV3Listener = () => {
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
-  if (listenerMethod == 'off') {
-    return <></>
+  const isSignedIn = useSelector((state) => state.profile.signedIn)
+  const myPubkey = useSelector((state) => state.profile.pubkey)
+
+  if (myPubkey && isSignedIn) {
+    return (
+      <ListenerOn />
+    )
   }
-  if (listenerMethod == 'oneMainListener') {
-    return <></>
-  }
-  if (listenerMethod == 'individualListeners') {
-    return <ProfilesDataListenerMain pubkey={pubkey} aPubkeys={aPubkeys} />
-  }
-  return <></>
+  return (
+    <>
+      <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>
+        My Profile Listener: Off
+      </div>
+    </>
+  )
 }
 
-export default ProfilesDataListener
+export default MyProfileV3Listener

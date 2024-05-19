@@ -20,8 +20,18 @@ const BrainstormAbout = () => {
         <br />
         <div>
           <p>
+            Following{' '}
+            <a
+              target="_blank"
+              href="https://habla.news/a/naddr1qvzqqqr4gupzpef89h53f0fsza2ugwdc3e54nfpun5nxfqclpy79r6w8nxsk5yp0qqxnzdesxqerwvesxvmn2dpj5hl046"
+              rel="noreferrer"
+            >
+              this roadmap
+            </a> to bring Web of Trust to nostr.
+          </p>
+          <p>
             This website serves as a playground for application of the{' '}
-            <a target="_blank" href="https://pgf.tech">
+            <a target="_blank" href="https://pgf.tech" rel="noreferrer">
               tapestry protocol
             </a>{' '}
             to nostr. This protocol is a work in progress and may be subject to change, hence the

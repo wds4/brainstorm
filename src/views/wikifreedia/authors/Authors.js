@@ -41,6 +41,7 @@ import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
 
 const WikiAuthors = () => {
+  const myFollows = useSelector((state) => state.profile.kind3.follows)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
@@ -55,19 +56,36 @@ const WikiAuthors = () => {
   const [lastUpdateColumnClassName, setLastUpdateColumnClassName] = useState('show') // show or hide
   const [numTopicsColumnClassName, setNumTopicsColumnClassName] = useState('show') // show or hide
   const [dosScoreColumnClassName, setDosScoreColumnClassName] = useState('show') // show or hide
-  const [wotScoreColumnClassName, setWotScoreColumnClassName] = useState('show') // show or hide
+  const [coracleWotScoreColumnClassName, setCoracleWotScoreColumnClassName] = useState('show') // show or hide
   const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
 
   const [npubLookupFromPubkey, setNpubLookupFromPubkey] = useState({}) // show or hide
   const [dosLookupFromPubkey, setDosLookupFromPubkey] = useState({}) // show or hide
 
+  const [coracleWotScore, setCoracleWotScore] = useState({}) // show or hide
+
   const makeNpubLookupFromPubkey = () => {
-    const oOutput = {}
+    const oOutput1 = {}
+    const oOutput2 = {}
     aAuthors.forEach((pk) => {
-      oOutput[pk] = nip19.npubEncode(pk)
+      const np = nip19.npubEncode(pk)
+      oOutput1[pk] = np
+      let wotScore = 0
+      let refFollowers = []
+      if (oProfilesByNpub[np] && oProfilesByNpub[np].followers) {
+        refFollowers = oProfilesByNpub[np].followers
+      }
+      refFollowers.forEach((refPubkey, item) => {
+        if (myFollows.includes(refPubkey)) {
+          wotScore++
+        }
+      })
+      oOutput2[pk] = wotScore
     })
-    setNpubLookupFromPubkey(oOutput)
+    setNpubLookupFromPubkey(oOutput1)
+    setCoracleWotScore(oOutput2)
   }
+
   const makeDosLookupFromPubkey = () => {
     const oOutput = {}
     aAuthors.forEach((pk) => {
@@ -117,7 +135,7 @@ const WikiAuthors = () => {
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('hide')
-          setWotScoreColumnClassName('hide')
+          setCoracleWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('hide')
           return arraySorted
         }
@@ -131,7 +149,7 @@ const WikiAuthors = () => {
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('hide')
-          setWotScoreColumnClassName('hide')
+          setCoracleWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('hide')
           return arraySorted
         }
@@ -141,7 +159,7 @@ const WikiAuthors = () => {
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('show')
           setDosScoreColumnClassName('hide')
-          setWotScoreColumnClassName('hide')
+          setCoracleWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('hide')
           return arraySorted
         }
@@ -165,24 +183,28 @@ const WikiAuthors = () => {
           setLastUpdateColumnClassName('show')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('hide')
-          setWotScoreColumnClassName('hide')
+          setCoracleWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('hide')
           return arraySorted
         }
         if (sortByMethod == 'wotScore') {
           console.log('wotScore')
+          const arraySorted = inputArray.sort((a, b) =>
+            coracleWotScore[b] - coracleWotScore[a],
+          )
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('hide')
-          setWotScoreColumnClassName('show')
+          setCoracleWotScoreColumnClassName('show')
           setInfluenceScoreColumnClassName('hide')
+          return arraySorted
         }
         if (sortByMethod == 'influenceScore') {
           console.log('influenceScore')
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('hide')
-          setWotScoreColumnClassName('hide')
+          setCoracleWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('show')
         }
         if (sortByMethod == 'degreesOfSeparation') {
@@ -190,7 +212,7 @@ const WikiAuthors = () => {
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('show')
-          setWotScoreColumnClassName('hide')
+          setCoracleWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('hide')
           const arraySorted = inputArray.sort(
             (a, b) => dosLookupFromPubkey[a] - dosLookupFromPubkey[b],
@@ -220,7 +242,7 @@ const WikiAuthors = () => {
             npub.includes(searchString) ||
             oProfileBrainstorm.brainstormDisplayName.includes(searchString) ||
             (oProfileBrainstorm?.name && oProfileBrainstorm?.name.includes(searchString)) ||
-            (oProfileBrainstorm?.dislay_name &&
+            (oProfileBrainstorm?.display_name &&
               oProfileBrainstorm?.display_name.includes(searchString))
           ) {
             newFilteredArray.push(pubkey)
@@ -258,7 +280,7 @@ const WikiAuthors = () => {
             </CButton>
           </div>
           <center>
-            <h3>Authors</h3>
+            <h3>Authors {myFollows.length}</h3>
           </center>
         </div>
         <CRow>
@@ -292,6 +314,13 @@ const WikiAuthors = () => {
                         className={numTopicsColumnClassName}
                       >
                         # of topics
+                      </CTableHeaderCell>
+                      <CTableHeaderCell
+                        scope="col"
+                        style={{ textAlign: 'center' }}
+                        className={coracleWotScoreColumnClassName}
+                      >
+                        WoT score
                       </CTableHeaderCell>
                       <CTableHeaderCell
                         scope="col"
@@ -334,6 +363,13 @@ const WikiAuthors = () => {
                             className={numTopicsColumnClassName}
                           >
                             {numAuthors}
+                          </CTableDataCell>
+                          <CTableDataCell
+                            scope="row"
+                            style={{ textAlign: 'center' }}
+                            className={coracleWotScoreColumnClassName}
+                          >
+                            {coracleWotScore[pubkey]}
                           </CTableDataCell>
                           <CTableDataCell
                             scope="row"

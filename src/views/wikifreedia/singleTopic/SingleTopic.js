@@ -75,6 +75,7 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
 }
 
 const WikiTopic = () => {
+  const myFollows = useSelector((state) => state.profile.kind3.follows)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const currentSortSingleTopicBy = useSelector(
     (state) => state.siteNavigation.wikifreedia.sortSingleTopicBy,
@@ -97,8 +98,32 @@ const WikiTopic = () => {
 
   const [lastUpdateColumnClassName, setLastUpdateColumnClassName] = useState('show') // show or hide
   const [dosScoreColumnClassName, setDosScoreColumnClassName] = useState('show') // show or hide
+  const [coracleWotScoreColumnClassName, setCoracleWotScoreColumnClassName] = useState('show') // show or hide
+
+  const [coracleWotScore, setCoracleWotScore] = useState({}) // show or hide
 
   const dispatch = useDispatch()
+
+  const makeNpubLookupFromPubkey = () => {
+    const oOutput1 = {}
+    const oOutput2 = {}
+    aAuthorsRef.forEach((pk) => {
+      const np = nip19.npubEncode(pk)
+      oOutput1[pk] = np
+      let wotScore = 0
+      let refFollowers = []
+      if (oProfilesByNpub[np] && oProfilesByNpub[np].followers) {
+        refFollowers = oProfilesByNpub[np].followers
+      }
+      refFollowers.forEach((refPubkey, item) => {
+        if (myFollows.includes(refPubkey)) {
+          wotScore++
+        }
+      })
+      oOutput2[pk] = wotScore
+    })
+    setCoracleWotScore(oOutput2)
+  }
 
   useEffect(() => {
     function updateTopicFromUrl() {
@@ -109,6 +134,7 @@ const WikiTopic = () => {
       }
     }
     updateTopicFromUrl()
+    makeNpubLookupFromPubkey()
   }, [topicSlug])
 
   let showVersions = 'There are ' + aAuthorsRef.length + ' versions of this article.'
@@ -139,12 +165,24 @@ const WikiTopic = () => {
         )
         setLastUpdateColumnClassName('show')
         setDosScoreColumnClassName('hide')
+        setCoracleWotScoreColumnClassName('hide')
+        return arraySorted
+      }
+      if (sortByMethod == 'wotScore') {
+        console.log('wotScore')
+        const arraySorted = aAuthorsRef.sort(
+          (a, b) => coracleWotScore[b] - coracleWotScore[a],
+        )
+        setLastUpdateColumnClassName('hide')
+        setDosScoreColumnClassName('hide')
+        setCoracleWotScoreColumnClassName('show')
         return arraySorted
       }
       if (sortByMethod == 'degreesOfSeparation') {
         console.log('degreesOfSeparation')
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('show')
+        setCoracleWotScoreColumnClassName('hide')
         const arraySorted = aAuthorsRef.sort(
           (a, b) =>
             getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation -
@@ -196,7 +234,7 @@ const WikiTopic = () => {
                     options={[
                       { label: 'most recent', value: 'chronological' },
                       { label: 'degrees of separation', value: 'degreesOfSeparation' },
-                      { label: 'WoT score', value: 'wotScore', disabled: true },
+                      { label: 'Coracle WoT score', value: 'wotScore' },
                     ]}
                   ></CFormSelect>
                 </div>
@@ -212,6 +250,13 @@ const WikiTopic = () => {
                       className={lastUpdateColumnClassName}
                     >
                       last update
+                    </CTableHeaderCell>
+                    <CTableHeaderCell
+                      scope="col"
+                      style={{ textAlign: 'center' }}
+                      className={coracleWotScoreColumnClassName}
+                    >
+                      WoT score
                     </CTableHeaderCell>
                     <CTableHeaderCell
                       scope="col"
@@ -245,6 +290,12 @@ const WikiTopic = () => {
                           className={lastUpdateColumnClassName}
                         >
                           {displayTime}
+                        </CTableDataCell>
+                        <CTableDataCell
+                          style={{ textAlign: 'center' }}
+                          className={coracleWotScoreColumnClassName}
+                        >
+                          {coracleWotScore[pk]}
                         </CTableDataCell>
                         <CTableDataCell
                           style={{ textAlign: 'center' }}

@@ -38,7 +38,7 @@ const SortAndFilter = ({ searchField, setSearchField, sortBy, setSortBy, sortAnd
               { label: 'reverse alphabetical', value: 'reverseAlphabetical' },
               { label: '# of topics', value: 'numerical' },
               { label: 'most recent', value: 'chronological' },
-              { label: 'WoT score', value: 'wotScore', disabled: true },
+              { label: 'Coracle WoT score', value: 'wotScore' },
               { label: 'Influence Score', value: 'influenceScore', disabled: true },
               { label: 'degrees of separation', value: 'degreesOfSeparation' },
             ]}
