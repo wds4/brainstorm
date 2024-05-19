@@ -328,7 +328,7 @@ const Profile = () => {
               >
                 {aFollowPubkeys.length} Follows
               </div>
-              <div style={{ display: 'inline-block' }}>? Followers</div>
+              <div style={{ display: 'inline-block' }}>{oProfileBrainstorm.followers.length} Followers</div>
               <div style={{ display: 'inline-block' }}>? WoT Score</div>
               <div style={{ display: 'inline-block' }}>{degreesOfSeparationFromMeText}</div>
             </div>

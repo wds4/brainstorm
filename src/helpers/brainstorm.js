@@ -17,6 +17,7 @@ const oProfileBlank = {
   display_name: '',
   nip05: '',
   brainstormDisplayName: '',
+  followers: [],
   wotScores: {
     degreesOfSeparation: 99999,
   },
@@ -37,6 +38,9 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
       oProfileBrainstorm = JSON.parse(oThisProfile.kind0.oEvent.content)
       if (oProfileBrainstorm?.picture) {
         oProfileBrainstorm.image = oProfileBrainstorm?.picture
+      }
+      if (oThisProfile.followers) {
+        oProfileBrainstorm.followers = oThisProfile.followers
       }
       oProfileBrainstorm.wotScores = {}
       if (oThisProfile.wotScores) {

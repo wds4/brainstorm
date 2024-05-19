@@ -1,4 +1,3 @@
-import { CRow } from '@coreui/react'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
