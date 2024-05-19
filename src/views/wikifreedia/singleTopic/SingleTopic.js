@@ -222,20 +222,22 @@ const WikiTopic = () => {
                 <div className="col">
                   <small>{showVersions}</small>
                 </div>
-                <div className="col">
-                  <CFormSelect
-                    value={sortBy}
-                    onChange={(e) => {
-                      updateSortBySelector(e.target.value)
-                    }}
-                    id="sortBySelector"
-                    options={[
-                      { label: 'most recent', value: 'chronological' },
-                      { label: 'degrees of separation', value: 'degreesOfSeparation' },
-                      { label: 'WoT score', value: 'wotScore' },
-                      { label: 'Influence Score', value: 'influenceScore', disabled: true },
-                    ]}
-                  ></CFormSelect>
+                <div className="col-auto">
+                  <div style={{ display: 'inline-block'}}>
+                    <CFormSelect
+                      value={sortBy}
+                      onChange={(e) => {
+                        updateSortBySelector(e.target.value)
+                      }}
+                      id="sortBySelector"
+                      options={[
+                        { label: 'most recent', value: 'chronological' },
+                        { label: 'degrees of separation', value: 'degreesOfSeparation' },
+                        { label: 'WoT score', value: 'wotScore' },
+                        { label: 'Influence Score', value: 'influenceScore', disabled: true },
+                      ]}
+                    ></CFormSelect>
+                  </div>
                 </div>
               </div>
             </CCardHeader>
