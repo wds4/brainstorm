@@ -27,3 +27,17 @@ export const cutoffTime = 1714936803 // cutoff time when filtering for tapestry 
 // need to test which listener method makes more sense
 export const listenerMethod = 'oneMainListener' // individualListeners versus oneMainListener versus off
 // moving this variable to settings
+
+// grapevine defaults
+export const defAttFac = 80
+export const defRigor = 25
+export const defDunbarNumber = 100
+
+export const defDefScore = 0
+export const defDefCon = 10
+
+export const defFollInterpScore = 100
+export const defFollInterpCon = 10
+
+export const defMuteInterpScore = 0
+export const defMuteInterpCon = 80

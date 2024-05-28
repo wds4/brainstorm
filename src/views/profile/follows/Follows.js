@@ -31,11 +31,13 @@ const ShowTableWhenReady = ({ readyToDisplayTable, aNpubsToDisplay, oProfilesByN
   return <div>Table Not Ready To Display</div>
 }
 
-const Follows = ({ aFollowNpubs, aFollowPubkeys, npub, oKind3Event }) => {
-  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  const [aNpubsToDisplay, setANpubsToDisplay] = useState(aFollowNpubs)
-  const [readyToDisplayTable, setReadyToDisplayTable] = useState(true)
-
+const Follows = ({
+  oProfilesByNpub,
+  oProfileBrainstorm,
+  aFollowNpubs,
+  aFollowPubkeys,
+  oKind3Event,
+}) => {
   return (
     <CContainer
       className="px-4"
@@ -43,12 +45,9 @@ const Follows = ({ aFollowNpubs, aFollowPubkeys, npub, oKind3Event }) => {
     >
       <CRow>
         <center>
-          <h3>Following {aFollowPubkeys.length} profiles</h3>
+          <h3>Following {aFollowNpubs.length} profiles</h3>
         </center>
-        <TanstackProfilesTable
-          aNpubsToDisplay={aNpubsToDisplay}
-          oProfilesByNpub={oProfilesByNpub}
-        />
+        <TanstackProfilesTable aNpubsToDisplay={aFollowNpubs} oProfilesByNpub={oProfilesByNpub} />
       </CRow>
     </CContainer>
   )

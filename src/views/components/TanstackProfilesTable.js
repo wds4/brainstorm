@@ -100,20 +100,63 @@ const columns = [
   }),
   columnHelper.accessor((row) => row.followCount, {
     id: 'followCount',
+    name: 'Follow Count',
     cell: (info) => <i>{info.getValue()}</i>,
     header: () => <span># Follows</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.followers, {
+    id: 'followers',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span># Followers</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.mutes, {
+    id: 'mutes',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span># Mutes</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.mutedBy, {
+    id: 'mutedBy',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span># Muted by</span>,
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor((row) => row.wotScore, {
     id: 'wotScore',
     cell: (info) => <i>{info.getValue()}</i>,
-    header: () => <span>WoT Score (coming soon!)</span>,
+    header: () => <span>WoT Score</span>,
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor((row) => row.degreeOfSeparation, {
     id: 'degreeOfSeparation',
     cell: (info) => <i>{info.getValue()}</i>,
     header: () => <span>degree of separation</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.influence, {
+    id: 'influence',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>influence</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.averageScore, {
+    id: 'averageScore',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>average score</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.certainty, {
+    id: 'certainty',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>certainty</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.input, {
+    id: 'input',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>input</span>,
     footer: (info) => info.column.id,
   }),
 ]
@@ -155,36 +198,50 @@ function Filter({ column, table }) {
 const createData = ({ oProfilesByNpub, aNpubsToDisplay }) => {
   const aData = []
   aNpubsToDisplay.forEach(async (npub, item) => {
-    if (1) {
-      if (
-        oProfilesByNpub[npub].kind0 &&
-        oProfilesByNpub[npub].kind0.oEvent &&
-        oProfilesByNpub[npub].kind0.oEvent.content
-      ) {
-        const oContent = JSON.parse(oProfilesByNpub[npub].kind0.oEvent.content)
-        const oNextEntry = {
-          npub: npub,
-          picture: { url: oContent?.picture, npub: npub },
-          name: oContent?.name,
-          displayName: oContent?.display_name,
-          followCount: returnFollowCount({ oProfilesByNpub, npub }),
-          degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
-          wotScore: 999,
-        }
-        aData.push(oNextEntry)
-      } else {
-        const oNextEntry = {
-          npub: npub,
-          picture: { url: noProfilePicUrl, npub: npub },
-          name: '',
-          displayName: '',
-          followCount: returnFollowCount({ oProfilesByNpub, npub }),
-          degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
-          wotScore: 5,
-        }
-        aData.push(oNextEntry)
+    // if (1) {
+    if (
+      oProfilesByNpub[npub].kind0 &&
+      oProfilesByNpub[npub].kind0.oEvent &&
+      oProfilesByNpub[npub].kind0.oEvent.content
+    ) {
+      const oContent = JSON.parse(oProfilesByNpub[npub].kind0.oEvent.content)
+      const oNextEntry = {
+        npub: npub,
+        picture: { url: oContent?.picture, npub: npub },
+        name: oContent?.name,
+        displayName: oContent?.display_name,
+        followCount: returnFollowCount({ oProfilesByNpub, npub }),
+        followers: oProfilesByNpub[npub].followers.length,
+        mutes: oProfilesByNpub[npub].mutes.length,
+        mutedBy: oProfilesByNpub[npub].mutedBy.length,
+        degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
+        wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        influence: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.influence),
+        certainty: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.certainty),
+        averageScore: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.averageScore),
+        input: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.input),
       }
+      aData.push(oNextEntry)
+    } else {
+      const oNextEntry = {
+        npub: npub,
+        picture: { url: noProfilePicUrl, npub: npub },
+        name: '',
+        displayName: '',
+        followCount: returnFollowCount({ oProfilesByNpub, npub }),
+        followers: oProfilesByNpub[npub].followers.length,
+        mutes: oProfilesByNpub[npub].mutes.length,
+        mutedBy: oProfilesByNpub[npub].mutedBy.length,
+        degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
+        wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        influence: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.influence),
+        certainty: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.certainty),
+        averageScore: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.averageScore),
+        input: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.input),
+      }
+      aData.push(oNextEntry)
     }
+    // }
   })
   return aData
 }
@@ -201,6 +258,9 @@ const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
     name: true,
     displayName: true,
     followCount: true,
+    followers: true,
+    mutes: true,
+    mutedBy: true,
     wotScore: true,
     degreeOfSeparation: true,
   })

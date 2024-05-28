@@ -3,8 +3,11 @@ import CIcon from '@coreui/icons-react'
 import { CCol, CContainer, CRow } from '@coreui/react'
 import React from 'react'
 import RawDataNostrWord from '../../components/RawDataNostrWord'
+import { useSelector } from 'react-redux'
 
-const About = ({ oKind0Event, oKind3Event, oKind10000Event, oProfile, oProfileBrainstorm, oProfileNdk, npub, pubkey }) => {
+const About = ({ oKind0Event, oKind3Event, oKind10000Event, oProfile, oProfileBrainstorm, oProfileNdk, pubkey }) => {
+  const npub = useSelector((state) => state.siteNavigation.npub)
+  const oProfileRedux = useSelector((state) => state.profiles.oProfiles.byNpub[npub])
   const copyNpubToClipboard = (np) => {
     navigator.clipboard.writeText(np)
     alert('npub copied to clipboard: \n ' + np)
@@ -73,6 +76,9 @@ const About = ({ oKind0Event, oKind3Event, oKind10000Event, oProfile, oProfileBr
       </CRow>
       <CRow>
         <RawDataNostrWord oEvent={oKind10000Event} label="kind 10000 event" />
+      </CRow>
+      <CRow>
+        <RawDataNostrWord oEvent={oProfileRedux} label="oProfile in redux" />
       </CRow>
     </CContainer>
   )

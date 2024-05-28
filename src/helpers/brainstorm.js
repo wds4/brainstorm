@@ -17,11 +17,19 @@ const oProfileBlank = {
   display_name: '',
   nip05: '',
   brainstormDisplayName: '',
+  follows: [],
   followers: [],
+  mutes: [],
   mutedBy: [],
   wotScores: {
     degreesOfSeparation: 99999,
     coracle: 0,
+    baselineInfluence: {
+      influence: 0,
+      averageScore: 0,
+      certainty: 0,
+      input: 0,
+    },
   },
   lastUpdated: 0,
   brainstorm: false,
@@ -42,20 +50,30 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
         oProfileBrainstorm.image = oProfileBrainstorm?.picture
       }
       if (oThisProfile.followers) {
+        oProfileBrainstorm.follows = oThisProfile.follows
+      }
+      if (oThisProfile.followers) {
         oProfileBrainstorm.followers = oThisProfile.followers
+      }
+      if (oThisProfile.mutes) {
+        oProfileBrainstorm.mutes = oThisProfile.mutes
       }
       if (oThisProfile.mutedBy) {
         oProfileBrainstorm.mutedBy = oThisProfile.mutedBy
       }
       oProfileBrainstorm.wotScores = {}
       if (oThisProfile.wotScores) {
+        oProfileBrainstorm.wotScores = JSON.parse(JSON.stringify(oThisProfile.wotScores))
         oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
+        oProfileBrainstorm.wotScores.coracle = oThisProfile.wotScores.coracle
       }
       oProfileBrainstorm.lastUpdated = oThisProfile.kind0.oEvent.created_at
       oProfileBrainstorm.brainstorm = true // indicates local info was found in redux store
     }
     if (oThisProfile.wotScores) {
+      oProfileBrainstorm.wotScores = JSON.parse(JSON.stringify(oThisProfile.wotScores))
       oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
+      oProfileBrainstorm.wotScores.coracle = oThisProfile.wotScores.coracle
     }
   }
   if (!oProfileBrainstorm?.image) {

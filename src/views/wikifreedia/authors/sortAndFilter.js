@@ -40,7 +40,7 @@ const SortAndFilter = ({ searchField, setSearchField, sortBy, setSortBy, sortAnd
               { label: 'most recent', value: 'chronological' },
               { label: 'degrees of separation', value: 'degreesOfSeparation' },
               { label: 'WoT score', value: 'wotScore' },
-              { label: 'Influence Score', value: 'influenceScore', disabled: true },
+              { label: 'Influence Score', value: 'influenceScore' },
             ]}
           ></CFormSelect>
         </div>

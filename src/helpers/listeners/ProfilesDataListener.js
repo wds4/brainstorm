@@ -20,7 +20,7 @@ import {
   updateKind3Event,
   processKind3Event,
 } from 'src/redux/features/profiles/slice'
-import { updateKind10000Event } from '../../redux/features/profiles/slice'
+import { processKind10000Event } from '../../redux/features/profiles/slice'
 
 // TO DO: test
 const ProfilesDataListenerMain = ({ pubkey, aPubkeys }) => {
@@ -101,7 +101,7 @@ const ProfilesDataListenerMain = ({ pubkey, aPubkeys }) => {
             }
             if (event.kind == 10000) {
               console.log('updateProfilesDatabase; kind 10000')
-              dispatch(updateKind10000Event(event))
+              dispatch(processKind10000Event(event))
             }
           }
         } catch (e) {

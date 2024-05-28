@@ -99,6 +99,7 @@ const WikiTopic = () => {
   const [lastUpdateColumnClassName, setLastUpdateColumnClassName] = useState('show') // show or hide
   const [dosScoreColumnClassName, setDosScoreColumnClassName] = useState('show') // show or hide
   const [coracleWotScoreColumnClassName, setCoracleWotScoreColumnClassName] = useState('show') // show or hide
+  const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
 
   const [coracleWotScore, setCoracleWotScore] = useState({}) // show or hide
 
@@ -166,6 +167,7 @@ const WikiTopic = () => {
         setLastUpdateColumnClassName('show')
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('hide')
+        setInfluenceScoreColumnClassName('hide')
         return arraySorted
       }
       if (sortByMethod == 'wotScore') {
@@ -174,6 +176,7 @@ const WikiTopic = () => {
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('show')
+        setInfluenceScoreColumnClassName('hide')
         return arraySorted
       }
       if (sortByMethod == 'degreesOfSeparation') {
@@ -181,12 +184,28 @@ const WikiTopic = () => {
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('show')
         setCoracleWotScoreColumnClassName('hide')
+        setInfluenceScoreColumnClassName('hide')
         const arraySorted = aAuthorsRef.sort(
           (a, b) =>
             getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation -
             getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation,
         )
         return arraySorted
+      }
+      if (sortByMethod == 'influenceScore') {
+        console.log('influenceScore')
+        // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
+        setLastUpdateColumnClassName('hide')
+        setDosScoreColumnClassName('hide')
+        setCoracleWotScoreColumnClassName('hide')
+        setInfluenceScoreColumnClassName('show')
+        const arraySorted = aAuthorsRef.sort(
+          (a, b) =>
+            getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence.influence -
+            getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence.influence,
+        )
+        return arraySorted
+        // return arraySorted
       }
     },
     [sortBy],
@@ -234,7 +253,7 @@ const WikiTopic = () => {
                         { label: 'most recent', value: 'chronological' },
                         { label: 'degrees of separation', value: 'degreesOfSeparation' },
                         { label: 'WoT score', value: 'wotScore' },
-                        { label: 'Influence Score', value: 'influenceScore', disabled: true },
+                        { label: 'Influence Score', value: 'influenceScore' },
                       ]}
                     ></CFormSelect>
                   </div>
@@ -268,6 +287,13 @@ const WikiTopic = () => {
                       className={dosScoreColumnClassName}
                     >
                       degrees of separation
+                    </CTableHeaderCell>
+                    <CTableHeaderCell
+                      scope="col"
+                      style={{ textAlign: 'center' }}
+                      className={influenceScoreColumnClassName}
+                    >
+                      influence score
                     </CTableHeaderCell>
                     <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>
                       link
@@ -305,9 +331,15 @@ const WikiTopic = () => {
                           style={{ textAlign: 'center' }}
                           className={dosScoreColumnClassName}
                         >
+                          {getProfileBrainstormFromPubkey(pk, oProfilesByNpub).wotScores.degreesOfSeparation}
+                        </CTableDataCell>
+                        <CTableDataCell
+                          style={{ textAlign: 'center' }}
+                          className={influenceScoreColumnClassName}
+                        >
                           {
                             getProfileBrainstormFromNpub(npub, oProfilesByNpub).wotScores
-                              .degreesOfSeparation
+                              .baselineInfluence.influence
                           }
                         </CTableDataCell>
                         <CTableDataCell style={{ textAlign: 'center' }}>
