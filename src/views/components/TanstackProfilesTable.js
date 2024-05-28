@@ -15,6 +15,7 @@ import { CNavLink } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateNpub, updateViewProfileTab } from '../../redux/features/siteNavigation/slice'
 import { noProfilePicUrl } from '../../const'
+import { nip19 } from 'nostr-tools'
 
 const columnHelper = createColumnHelper()
 
@@ -128,6 +129,8 @@ const columns = [
     cell: (info) => <i>{info.getValue()}</i>,
     header: () => <span>WoT Score</span>,
     footer: (info) => info.column.id,
+    sortUndefined: 'last', //force undefined values to the end
+    sortDescFirst: false, //first sort order will be ascending (nullable values can mess up auto detection of sort order)
   }),
   columnHelper.accessor((row) => row.degreeOfSeparation, {
     id: 'degreeOfSeparation',
@@ -195,11 +198,19 @@ function Filter({ column, table }) {
   )
 }
 
-const createData = ({ oProfilesByNpub, aNpubsToDisplay }) => {
+const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubkeysToDisplay }) => {
   const aData = []
-  aNpubsToDisplay.forEach(async (npub, item) => {
-    // if (1) {
+  // aNpubsToDisplay.forEach(async (npub, item) => {
+  aPubkeysToDisplay.forEach(async (pubkey, item) => {
+    let npub = ''
+    if (oProfilesByPubkey[pubkey]) {
+      npub = oProfilesByPubkey[pubkey]
+    }
+    if (!npub) {
+      npub = nip19.npubEncode(pubkey)
+    }
     if (
+      npub &&
       oProfilesByNpub[npub].kind0 &&
       oProfilesByNpub[npub].kind0.oEvent &&
       oProfilesByNpub[npub].kind0.oEvent.content
@@ -246,10 +257,11 @@ const createData = ({ oProfilesByNpub, aNpubsToDisplay }) => {
   return aData
 }
 
-const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
+const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesByNpub }) => {
   // const aNpubsToDisplay = Object.keys(oProfilesByNpub)
+  const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   const [data, _setData] = React.useState(() => [
-    ...createData({ oProfilesByNpub, aNpubsToDisplay }),
+    ...createData({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubkeysToDisplay }),
   ])
   const rerender = React.useReducer(() => ({}), {})[1]
   const [columnVisibility, setColumnVisibility] = React.useState({
@@ -270,18 +282,27 @@ const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
     pageSize: 10,
   })
 
+  const [columnResizeMode, setColumnResizeMode] = React.useState('onChange')
+  const [columnResizeDirection, setColumnResizeDirection] = React.useState('ltr')
+
+  const [sorting, setSorting] = React.useState([{ id: 'wotScore', desc: true }])
+
   const table = useReactTable({
     data,
     columns,
+    columnResizeMode,
+    columnResizeDirection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
     onPaginationChange: setPagination,
     state: {
       columnVisibility,
       pagination,
+      sorting,
     },
     debugTable: true,
     debugHeaders: true,
@@ -331,59 +352,110 @@ const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
       </div>
       <div className="h-4" />
       <br />
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    <div
+
+      <div style={{ direction: table.options.columnResizeDirection }}>
+        <div className="h-4" />
+        <div className="overflow-x-auto">
+          <table
+            {...{
+              style: {
+                width: table.getCenterTotalSize(),
+              },
+            }}
+          >
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <th
+                        {...{
+                          key: header.id,
+                          colSpan: header.colSpan,
+                          style: {
+                            width: header.getSize(),
+                          },
+                        }}
+                      >
+                        <div
+                          {...{
+                            className: header.column.getCanSort()
+                              ? 'cursor-pointer select-none'
+                              : '',
+                            onClick: header.column.getToggleSortingHandler(),
+                          }}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {{
+                            asc: ' 🔼',
+                            desc: ' 🔽',
+                          }[header.column.getIsSorted()] ?? null}
+                          {header.column.getCanFilter() ? (
+                            <div>
+                              <Filter column={header.column} table={table} />
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div
+                          {...{
+                            onDoubleClick: () => header.column.resetSize(),
+                            onMouseDown: header.getResizeHandler(),
+                            onTouchStart: header.getResizeHandler(),
+                            className: `resizer ${table.options.columnResizeDirection} ${
+                              header.column.getIsResizing() ? 'isResizing' : ''
+                            }`,
+                            style: {
+                              transform:
+                                columnResizeMode === 'onEnd' && header.column.getIsResizing()
+                                  ? `translateX(${
+                                      (table.options.columnResizeDirection === 'rtl' ? -1 : 1) *
+                                      (table.getState().columnSizingInfo.deltaOffset ?? 0)
+                                    }px)`
+                                  : '',
+                            },
+                          }}
+                        />
+                      </th>
+                    )
+                  })}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td
                       {...{
-                        className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
-                        onClick: header.column.getToggleSortingHandler(),
+                        key: cell.id,
+                        style: {
+                          width: cell.column.getSize(),
+                        },
                       }}
                     >
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                      {{
-                        asc: ' 🔼',
-                        desc: ' 🔽',
-                      }[header.column.getIsSorted()] ?? null}
-                      {header.column.getCanFilter() ? (
-                        <div>
-                          <Filter column={header.column} table={table} />
-                        </div>
-                      ) : null}
-                    </div>
-                  </th>
-                )
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.footer, header.getContext())}
-                </th>
+            </tbody>
+            <tfoot>
+              {table.getFooterGroups().map((footerGroup) => (
+                <tr key={footerGroup.id}>
+                  {footerGroup.headers.map((header) => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.footer, header.getContext())}
+                    </th>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tfoot>
-      </table>
+            </tfoot>
+          </table>
+        </div>
+      </div>
       <div className="h-4" />
 
       <div className="flex items-center gap-2">

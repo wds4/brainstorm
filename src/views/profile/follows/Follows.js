@@ -47,7 +47,11 @@ const Follows = ({
         <center>
           <h3>Following {aFollowNpubs.length} profiles</h3>
         </center>
-        <TanstackProfilesTable aNpubsToDisplay={aFollowNpubs} oProfilesByNpub={oProfilesByNpub} />
+        <TanstackProfilesTable
+          aPubkeysToDisplay={aFollowPubkeys}
+          aNpubsToDisplay={aFollowNpubs}
+          oProfilesByNpub={oProfilesByNpub}
+        />
       </CRow>
     </CContainer>
   )

@@ -75,6 +75,12 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
       oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
       oProfileBrainstorm.wotScores.coracle = oThisProfile.wotScores.coracle
     }
+    if (oThisProfile.followers) {
+      oProfileBrainstorm.followers = JSON.parse(JSON.stringify(oThisProfile.followers))
+    }
+    if (oThisProfile.mutedBy) {
+      oProfileBrainstorm.mutedBy = JSON.parse(JSON.stringify(oThisProfile.mutedBy))
+    }
   }
   if (!oProfileBrainstorm?.image) {
     oProfileBrainstorm.image = noProfilePicUrl

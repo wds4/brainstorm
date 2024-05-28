@@ -78,6 +78,9 @@ const About = ({ oKind0Event, oKind3Event, oKind10000Event, oProfile, oProfileBr
         <RawDataNostrWord oEvent={oKind10000Event} label="kind 10000 event" />
       </CRow>
       <CRow>
+        <RawDataNostrWord oEvent={oProfileBrainstorm} label="oProfileBrainstorm" />
+      </CRow>
+      <CRow>
         <RawDataNostrWord oEvent={oProfileRedux} label="oProfile in redux" />
       </CRow>
     </CContainer>

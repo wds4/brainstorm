@@ -126,7 +126,10 @@ const Profile = () => {
   const pubkey = getPubkeyFromNpub(npub)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
-  const aFollowPubkeys = oProfilesByNpub[npub].follows
+  let aFollowPubkeys = []
+  if (oProfilesByNpub[npub] && oProfilesByNpub[npub].follows) {
+    aFollowPubkeys = oProfilesByNpub[npub].follows
+  }
   const currentDevelopmentMode = useSelector((state) => state.settings.general.developmentMode)
   const viewProfileTab = useSelector((state) => state.siteNavigation.profile.tab)
   // if (viewProfileTab == 'follows') { viewProfileTab == 'about' }
@@ -134,26 +137,7 @@ const Profile = () => {
 
   const dispatch = useDispatch()
 
-  // let k0 = {}
-  // let k3 = {}
   const oProfileBrainstorm = getProfileBrainstormFromNpub(npub, oProfilesByNpub)
-  /*
-  let oProfileBrainstorm = oProfileBlank
-  if (oProfilesByNpub[npub]) {
-    const oThisProfile = oProfilesByNpub[npub]
-    const k0 = oThisProfile.kind0.oEvent
-    const k3 = oThisProfile.kind3.oEvent
-    oProfileBrainstorm = oThisProfile
-    if (
-      oThisProfile &&
-      oThisProfile.kind0 &&
-      oThisProfile.kind0.oEvent &&
-      oThisProfile.kind0.oEvent.content
-    ) {
-      oProfileBrainstorm = JSON.parse(oThisProfile.kind0.oEvent.content)
-    }
-  }
-  */
 
   let degreesOfSeparationFromMe = 999
   let degreesOfSeparationFromMeText = '? hops)'
@@ -172,23 +156,16 @@ const Profile = () => {
   const [oKind3Event, setOKind3Event] = useState({})
   const [oKind10000Event, setOKind10000Event] = useState({})
 
-  /*
-  const aFollowPubkeys = []
-  // const aFollowNpubs = []
+  const aFollowPubkeysB = []
   if (oKind3Event && oKind3Event.tags) {
     const aTags = oKind3Event.tags
     aTags.forEach((aTag, item) => {
       if (aTag[0] == 'p') {
         const pk = aTag[1]
-        aFollowPubkeys.push(pk)
-        const np = nip19.npubEncode(pk)
-        if (np) {
-          // aFollowNpubs.push(np)
-        }
+        aFollowPubkeysB.push(pk)
       }
     })
   }
-  */
 
   const aFollowNpubs = []
   aFollowPubkeys.forEach((pk) => {
@@ -353,7 +330,7 @@ const Profile = () => {
                 }}
                 style={{ display: 'inline-block' }}
               >
-                {aFollowPubkeys.length} Follows
+                {aFollowPubkeysB.length} Follows
               </div>
               <div style={{ display: 'inline-block' }}>
                 {oProfileBrainstorm.followers.length} Followers
@@ -391,7 +368,7 @@ const Profile = () => {
             oKind0Event={oKind0Event}
             oKind3Event={oKind3Event}
             oKind10000Event={oKind10000Event}
-            aFollowPubkeys={aFollowPubkeys}
+            aFollowPubkeys={aFollowPubkeysB}
             aFollowNpubs={aFollowNpubs}
             updateWhichTab={updateWhichTab}
             oProfilesByNpub={oProfilesByNpub}
