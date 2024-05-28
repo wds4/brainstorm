@@ -69,16 +69,9 @@ const InfluenceCalculations = () => {
   // oProfileData: the primary data object
   const [oProfileData, setOProfileData] = useState({})
 
-  // initialize ratings with my follows list
-  // organize ratings by ratee ?
-  const [aRatings, setARatings] = useState()
-
   const calculateInfluenceOneCycle = (oProfData) => {
-    console.log(
-      'calculateInfluenceOneCycle A; number of profiles: ' + Object.keys(oProfData).length,
-    )
     let oObj = JSON.parse(JSON.stringify(oProfData))
-    Object.keys(oProfData).forEach((pk_ratee) => {
+    Object.keys(oObj).forEach((pk_ratee) => {
       if (pk_ratee != myPubkey) {
         // aAllProfilesByPubkey.forEach((pk_ratee) => {
         // initialize variables
@@ -88,9 +81,9 @@ const InfluenceCalculations = () => {
 
         // STEP 1: ADD DIRECT RATINGS
 
-        // cycle through each followers
-        const aFollowers = oProfData[pk_ratee].followers
-        aFollowers.forEach((pk_rater) => {
+        // cycle through each of this profile's followers
+        const aFollowers = JSON.parse(JSON.stringify(oProfData[pk_ratee].followers))
+        aFollowers.forEach((pk_rater, item) => {
           if (oProfData[pk_rater]) {
             const rater_influence_ = oProfData[pk_rater].influenceData.influence
             const rating_ = followInterpretationScore_
@@ -158,7 +151,7 @@ const InfluenceCalculations = () => {
 
     aPubkeysUnderConsideration.forEach((pubkey) => {
     // aAllProfilesByPubkey.forEach((pubkey) => {
-      oObj[pubkey] = oDefaultData
+      oObj[pubkey] = JSON.parse(JSON.stringify(oDefaultData))
       const averageScore_ = defaultUserScore_
       const certainty_ = convertInputToCertainty(defaultUserConfidence_, rigor_)
       const influence_ = certainty_ * averageScore_
