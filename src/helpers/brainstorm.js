@@ -102,34 +102,28 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
 export const getProfileBrainstormFromPubkey = (pubkey, oProfilesByNpub) => {
   const npub = nip19.npubEncode(pubkey)
   return getProfileBrainstormFromNpub(npub, oProfilesByNpub)
-  /*
-  let oProfileBrainstorm = oProfileBlank
-  if (oProfilesByNpub[npub]) {
-    oProfileBrainstorm.brainstorm = true // indicates local info was found in redux store
-    const oThisProfile = oProfilesByNpub[npub]
-    oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
-    if (
-      oThisProfile &&
-      oThisProfile.kind0 &&
-      oThisProfile.kind0.oEvent &&
-      oThisProfile.kind0.oEvent.content
-    ) {
-      oProfileBrainstorm = JSON.parse(oThisProfile.kind0.oEvent.content)
-      if (oProfileBrainstorm?.picture) {
-        oProfileBrainstorm.image = oProfileBrainstorm?.picture
-      }
-      oProfileBrainstorm.brainstormDisplayName = '...' + npub.slice(-6)
-      if (oProfileBrainstorm?.name) {
-        oProfileBrainstorm.brainstormDisplayName = '@' + oProfileBrainstorm?.name
-      }
-      if (oProfileBrainstorm?.display_name) {
-        oProfileBrainstorm.brainstormDisplayName = oProfileBrainstorm?.display_name
-      }
-      oProfileBrainstorm.wotScores = {}
-      oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
-      oProfileBrainstorm.lastUpdated = oThisProfile.kind0.oEvent.created_at
-    }
+}
+
+const returnIntersection = (arr1, arr2) => {
+  const aOutput = []
+  if (!arr1 || !arr2) {
+    return aOutput
   }
-  return oProfileBrainstorm
-  */
+  arr1.forEach((elem, item) => {
+    if (arr2.includes(elem)) {
+      if (!aOutput.includes(elem)) {
+        aOutput.push(elem)
+      }
+    }
+  })
+  return aOutput
+}
+// the number of profiles who meet the following two criteria:
+// a follow of npub_subject
+// a follower of npub_ref
+export const returnWoTScore = (npub_subject, npub_ref, oProfilesByNpub) => {
+  const aFollow_ref = getProfileBrainstormFromNpub(npub_subject, oProfilesByNpub).followers
+  const aFollow_subject = getProfileBrainstormFromNpub(npub_subject, oProfilesByNpub).follows
+  const aIntersection = returnIntersection(aFollow_ref,aFollow_subject)
+  return aIntersection.length
 }

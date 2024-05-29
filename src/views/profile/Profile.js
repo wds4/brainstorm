@@ -20,7 +20,7 @@ import {
 } from '../../redux/features/listenerManager/slice'
 import { nip19 } from 'nostr-tools'
 import ProfilesDataListener from '../../helpers/listeners/ProfilesDataListener'
-import { getProfileBrainstormFromNpub } from '../../helpers/brainstorm'
+import { getProfileBrainstormFromNpub, returnWoTScore } from '../../helpers/brainstorm'
 import InfluenceScores from './influenceScores/InfluenceScores'
 
 const oProfileBlank = {
@@ -167,6 +167,8 @@ const MyNsec = ({ revealSecret }) => {
 }
 
 const Profile = () => {
+  const myNpub = useSelector((state) => state.profile.npub)
+  // info for this profile
   const npub = useSelector((state) => state.siteNavigation.npub)
   const pubkey = getPubkeyFromNpub(npub)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
@@ -185,7 +187,7 @@ const Profile = () => {
   const oProfileBrainstorm = getProfileBrainstormFromNpub(npub, oProfilesByNpub)
 
   let degreesOfSeparationFromMe = 999
-  let degreesOfSeparationFromMeText = '? hops)'
+  let degreesOfSeparationFromMeText = '? hops'
   if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
     degreesOfSeparationFromMe = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
     degreesOfSeparationFromMeText = degreesOfSeparationFromMe + ' hops'
@@ -391,7 +393,7 @@ const Profile = () => {
                 muted by {oProfileBrainstorm.mutedBy.length}
               </div>
               <div style={{ display: 'inline-block' }}>
-                {oProfileBrainstorm.wotScores.coracle} WoT Score
+                {returnWoTScore(npub, myNpub, oProfilesByNpub)} WoT Score
               </div>
               <div style={{ display: 'inline-block' }}>{degreesOfSeparationFromMeText}</div>
               <div style={{ display: 'inline-block' }}>

@@ -43,7 +43,7 @@ const Dashboard = () => {
                 </CCardHeader>
                 <CCardBody>
                   <CCardText>
-                    with articles curated by your Grapevine!
+                    created and curated by your Grapevine!
                   </CCardText>
                 </CCardBody>
               </CNavLink>

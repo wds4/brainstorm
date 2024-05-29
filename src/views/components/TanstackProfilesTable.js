@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateNpub, updateViewProfileTab } from '../../redux/features/siteNavigation/slice'
 import { noProfilePicUrl } from '../../const'
 import { nip19 } from 'nostr-tools'
+import { returnWoTScore } from '../../helpers/brainstorm'
 
 const columnHelper = createColumnHelper()
 
@@ -198,7 +199,7 @@ function Filter({ column, table }) {
   )
 }
 
-const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubkeysToDisplay }) => {
+const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubkeysToDisplay, myNpub }) => {
   const aData = []
   // aNpubsToDisplay.forEach(async (npub, item) => {
   aPubkeysToDisplay.forEach(async (pubkey, item) => {
@@ -226,7 +227,8 @@ const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubk
         mutes: oProfilesByNpub[npub].mutes.length,
         mutedBy: oProfilesByNpub[npub].mutedBy.length,
         degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
-        wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        // wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        wotScore: returnWoTScore(npub, myNpub, oProfilesByNpub),
         influence: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.influence),
         certainty: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.certainty),
         averageScore: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.averageScore),
@@ -244,7 +246,8 @@ const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubk
         mutes: oProfilesByNpub[npub].mutes.length,
         mutedBy: oProfilesByNpub[npub].mutedBy.length,
         degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
-        wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        // wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        wotScore: returnWoTScore(npub, myNpub, oProfilesByNpub),
         influence: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.influence),
         certainty: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.certainty),
         averageScore: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.averageScore),
@@ -259,9 +262,10 @@ const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubk
 
 const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesByNpub }) => {
   // const aNpubsToDisplay = Object.keys(oProfilesByNpub)
+  const myNpub = useSelector((state) => state.profile.npub)
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   const [data, _setData] = React.useState(() => [
-    ...createData({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubkeysToDisplay }),
+    ...createData({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubkeysToDisplay, myNpub }),
   ])
   const rerender = React.useReducer(() => ({}), {})[1]
   const [columnVisibility, setColumnVisibility] = React.useState({
@@ -304,9 +308,9 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
       pagination,
       sorting,
     },
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
+    debugTable: false,
+    debugHeaders: false,
+    debugColumns: false,
   })
 
   const totalRows = table.getPrePaginationRowModel().rows.length
