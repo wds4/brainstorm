@@ -124,7 +124,7 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
           onClick={setActiveTabWotScores}
           disabled={developmentMode == 'hide'}
         >
-          WoT Scores
+          Influence Scores
         </CNavLink>
         <CNavLink active={isNotes} onClick={setActiveTabNotes} disabled={true}>
           Notes

@@ -194,7 +194,7 @@ const InfluenceCalculations = () => {
 
   useEffect(() => {
     // initialize with my profile data
-    const oResult = initializeProfileData(aNearbyProfilesByPubkey) // aMyFollows
+    const oResult = initializeProfileData(aAllProfilesByPubkey) // aMyFollows, aNearbyProfilesByPubkey, aAllProfilesByPubkey
     setOProfileData(oResult)
     const oResult1 = calculateInfluenceOneCycle(oResult)
     const oResult2 = calculateInfluenceOneCycle(oResult1)

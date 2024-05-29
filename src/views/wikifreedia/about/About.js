@@ -81,8 +81,8 @@ const NostrapediaAbout = () => {
             The influence score is designed to address the above shortcomings. Like the WoT above,
             the influence score as currently implemented is based on follows and mutes. However, the
             algorithm is designed to synthesize data from multiple sources at once, including
-            contextual trust attestations. (Need to provide link to more in depth description of
-            algorithm.)
+            contextual trust attestations. For details of how the influence score is calculated, see
+            the Influence Scores tab on any individual profile page.
           </p>
           <p>
             Advantages include:
