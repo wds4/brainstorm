@@ -198,9 +198,12 @@ const WikiTopic = () => {
         setInfluenceScoreColumnClassName('hide')
         setCategoryColumnClassName('hide')
         const arraySorted = aAuthorsRef.sort(
-          (a, b) =>
-            getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation -
-            getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation,
+          (a, b) => {
+            const fooA = Number(getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation)
+            const fooB = Number(getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation)
+            console.log('degreesOfSeparation; fooA: ' + fooA + '; fooB: ' + fooB)
+            return fooA - fooB
+          }
         )
         return arraySorted
       }

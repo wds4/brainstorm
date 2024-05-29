@@ -118,12 +118,37 @@ const returnIntersection = (arr1, arr2) => {
   })
   return aOutput
 }
+
 // the number of profiles who meet the following two criteria:
 // a follow of npub_subject
 // a follower of npub_ref
 export const returnWoTScore = (npub_subject, npub_ref, oProfilesByNpub) => {
-  const aFollow_ref = getProfileBrainstormFromNpub(npub_subject, oProfilesByNpub).followers
-  const aFollow_subject = getProfileBrainstormFromNpub(npub_subject, oProfilesByNpub).follows
-  const aIntersection = returnIntersection(aFollow_ref,aFollow_subject)
+  const aFollowers_ref = getProfileBrainstormFromNpub(npub_ref, oProfilesByNpub).followers
+  const aFollows_subject = getProfileBrainstormFromNpub(npub_subject, oProfilesByNpub).follows
+  const aIntersection = returnIntersection(aFollowers_ref, aFollows_subject)
   return aIntersection.length
+}
+
+export const returnDegreesOfSeparation = (pubkey, oProfilesByNpub, oProfilesByPubkey) => {
+  let npub = oProfilesByPubkey[pubkey]
+  if (!npub) {
+    npub = nip19.npubEncode(pubkey)
+  }
+  let dosCurrent = 999
+  if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
+    dosCurrent = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+  }
+  let dosNew = 999
+  const aFollowers = getProfileBrainstormFromNpub(npub, oProfilesByNpub).followers
+  aFollowers.forEach((pk, item) => {
+    const np = oProfilesByPubkey[pk]
+    const aFollows = oProfilesByNpub[np].follows
+    if (aFollows.includes(pubkey)) {
+      // make sure dosScore is no greater than the current dosScore of np
+      const dosFollower = oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+      const dosMinimum = dosFollower + 1
+      dosNew = Math.min(dosCurrent, dosMinimum)
+    }
+  })
+  return dosNew
 }

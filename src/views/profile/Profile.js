@@ -20,8 +20,9 @@ import {
 } from '../../redux/features/listenerManager/slice'
 import { nip19 } from 'nostr-tools'
 import ProfilesDataListener from '../../helpers/listeners/ProfilesDataListener'
-import { getProfileBrainstormFromNpub, returnWoTScore } from '../../helpers/brainstorm'
+import { getProfileBrainstormFromNpub, returnWoTScore, returnDegreesOfSeparation } from '../../helpers/brainstorm'
 import InfluenceScores from './influenceScores/InfluenceScores'
+import { updateDegreesOfSeparationFromMe } from '../../redux/features/profiles/slice'
 
 const oProfileBlank = {
   banner: '',
@@ -187,9 +188,21 @@ const Profile = () => {
   const oProfileBrainstorm = getProfileBrainstormFromNpub(npub, oProfilesByNpub)
 
   let degreesOfSeparationFromMe = 999
-  let degreesOfSeparationFromMeText = '? hops'
   if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
     degreesOfSeparationFromMe = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+  }
+
+  // let dosScore = 0
+  const dosScore = returnDegreesOfSeparation(pubkey, oProfilesByNpub, oProfilesByPubkey)
+  if (degreesOfSeparationFromMe != dosScore) {
+    let oNew = {}
+    oNew.npub_toUpdate = npub
+    oNew.degreesOfSeparationFromMe_new = dosScore
+    dispatch(updateDegreesOfSeparationFromMe(oNew))
+  }
+
+  let degreesOfSeparationFromMeText = '? hops'
+  if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
     degreesOfSeparationFromMeText = degreesOfSeparationFromMe + ' hops'
     if (degreesOfSeparationFromMe == 1) {
       degreesOfSeparationFromMeText = degreesOfSeparationFromMe + ' hop'

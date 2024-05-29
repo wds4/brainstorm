@@ -29,15 +29,15 @@ export const listenerMethod = 'oneMainListener' // individualListeners versus on
 // moving this variable to settings
 
 // grapevine defaults
-export const defAttFac = 80
-export const defRigor = 25
+export const defAttFac = 80 // 0 is most strict; 100 is most permissive
+export const defRigor = 25 // 0 is most lax; 100 is most strict
 export const defDunbarNumber = 100
 
 export const defDefScore = 0
 export const defDefCon = 10
 
 export const defFollInterpScore = 100
-export const defFollInterpCon = 10
+export const defFollInterpCon = 5
 
 export const defMuteInterpScore = 0
-export const defMuteInterpCon = 80
+export const defMuteInterpCon = 10
