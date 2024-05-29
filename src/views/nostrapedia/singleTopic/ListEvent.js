@@ -35,7 +35,7 @@ const Details = ({ showDetailsButton, title, category, categoryStyle, displayTim
             </CCol>
             <CCol className="col-6">
               <CNavLink
-                href="#/nostrapedia/singleCategory"
+                href="#/nostrapedia/category"
                 onClick={() => processViewCategoryClick(category)}
               >
                 {category}

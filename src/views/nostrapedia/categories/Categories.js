@@ -71,7 +71,7 @@ const NostrapediaCategories = () => {
                         <CTableRow key={item}>
                           <CTableDataCell scope="row">
                             <CNavLink
-                              href="#/nostrapedia/singleCategory"
+                              href="#/nostrapedia/category"
                               onClick={() => processCategoryClick(category)}
                             >
                               {category}
