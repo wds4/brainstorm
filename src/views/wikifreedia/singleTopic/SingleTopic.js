@@ -93,13 +93,33 @@ const WikiTopic = () => {
     oAuthors = oTopicSlugs[topicSlug]
     aAuthorsRef = Object.keys(oAuthors)
   }
+
+  /*
+  const aCategories_temp = []
+  aAuthorsRef.forEach((pk, item) => {
+    console.log('aCategories_temp B')
+    const naddr = oAuthors[pk]
+    const oEvent = oEvents[naddr]
+    let category = fetchFirstByTag('c', oEvent)
+    console.log('aCategories_temp C; category: ' + category)
+    if (category) {
+      if (aCategories_temp.includes(category)) {
+        aCategories_temp.push(category)
+      }
+    }
+  })
+  */
+
   const [aAuthorsSorted, setAAuthorsSorted] = useState(aAuthorsRef)
   const mostRecentUpdate = whenTopicWasLastUpdated(oEvents, oTopicSlugs, topicSlug)
+
+  const [aCategories, setACategories] = useState([])
 
   const [lastUpdateColumnClassName, setLastUpdateColumnClassName] = useState('show') // show or hide
   const [dosScoreColumnClassName, setDosScoreColumnClassName] = useState('show') // show or hide
   const [coracleWotScoreColumnClassName, setCoracleWotScoreColumnClassName] = useState('show') // show or hide
   const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
+  const [categoryColumnClassName, setCategoryColumnClassName] = useState('show') // show or hide
 
   const [coracleWotScore, setCoracleWotScore] = useState({}) // show or hide
 
@@ -125,18 +145,6 @@ const WikiTopic = () => {
     })
     setCoracleWotScore(oOutput2)
   }
-
-  useEffect(() => {
-    function updateTopicFromUrl() {
-      const topicFromUrl = searchParams.get('topic')
-      if (topicFromUrl) {
-        dispatch(updateViewWikifreediaTopic(topicFromUrl))
-        setTopicSlug(topicFromUrl)
-      }
-    }
-    updateTopicFromUrl()
-    makeNpubLookupFromPubkey()
-  }, [topicSlug])
 
   let showVersions = 'There are ' + aAuthorsRef.length + ' versions of this article.'
   if (aAuthorsRef.length == 1) {
@@ -168,6 +176,7 @@ const WikiTopic = () => {
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('hide')
+        setCategoryColumnClassName('hide')
         return arraySorted
       }
       if (sortByMethod == 'wotScore') {
@@ -177,6 +186,7 @@ const WikiTopic = () => {
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('show')
         setInfluenceScoreColumnClassName('hide')
+        setCategoryColumnClassName('hide')
         return arraySorted
       }
       if (sortByMethod == 'degreesOfSeparation') {
@@ -185,6 +195,7 @@ const WikiTopic = () => {
         setDosScoreColumnClassName('show')
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('hide')
+        setCategoryColumnClassName('hide')
         const arraySorted = aAuthorsRef.sort(
           (a, b) =>
             getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation -
@@ -199,23 +210,30 @@ const WikiTopic = () => {
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('show')
+        setCategoryColumnClassName('hide')
         const arraySorted = aAuthorsRef.sort(
           (a, b) =>
-            getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence.influence -
-            getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence.influence,
+            getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence
+              .influence -
+            getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence
+              .influence,
         )
         return arraySorted
-        // return arraySorted
+      }
+      if (sortByMethod == 'category') {
+        console.log('category')
+        // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
+        setLastUpdateColumnClassName('hide')
+        setDosScoreColumnClassName('hide')
+        setCoracleWotScoreColumnClassName('hide')
+        setInfluenceScoreColumnClassName('hide')
+        setCategoryColumnClassName('show)')
+        const arraySorted = JSON.parse(JSON.stringify(aAuthorsRef))
+        return arraySorted
       }
     },
     [sortBy],
   )
-
-  useEffect(() => {
-    try {
-      sortItems(sortBy)
-    } catch (e) {}
-  }, [])
 
   const updateSortBySelector = useCallback(
     (newSortByValue) => {
@@ -225,6 +243,55 @@ const WikiTopic = () => {
     },
     [sortBy],
   )
+
+  const updateCategoryList = useCallback(() => {
+    const aCategories_temp = []
+    aAuthorsRef.forEach((pk, item) => {
+      const naddr = oAuthors[pk]
+      const oEvent = oEvents[naddr]
+      let category = fetchFirstByTag('c', oEvent)
+      if (category) {
+        if (!aCategories_temp.includes(category)) {
+          aCategories_temp.push(category)
+        }
+      }
+      setACategories(aCategories_temp)
+    })
+  }, [])
+
+  useEffect(() => {
+    function updateTopicFromUrl() {
+      const topicFromUrl = searchParams.get('topic')
+      if (topicFromUrl) {
+        dispatch(updateViewWikifreediaTopic(topicFromUrl))
+        setTopicSlug(topicFromUrl)
+      }
+    }
+    updateTopicFromUrl()
+    makeNpubLookupFromPubkey()
+    try {
+      sortItems(sortBy)
+    } catch (e) {}
+    updateCategoryList()
+  }, [topicSlug])
+
+  const aOptions = [
+    { label: 'category', value: 'category' },
+    { label: 'most recent', value: 'chronological' },
+    { label: 'degrees of separation', value: 'degreesOfSeparation' },
+    { label: 'WoT score', value: 'wotScore' },
+    { label: 'Influence Score', value: 'influenceScore' },
+  ]
+  aCategories.forEach((cat, item) => {
+    const label = 'Influence Score (for category: ' + cat + ')'
+    const oEntry = {
+      label,
+      value: 'influenceScoreByCategory',
+      disabled: true,
+    }
+    aOptions.push(oEntry)
+  })
+
   return (
     <>
       <center>
@@ -242,19 +309,14 @@ const WikiTopic = () => {
                   <small>{showVersions}</small>
                 </div>
                 <div className="col-auto">
-                  <div style={{ display: 'inline-block'}}>
+                  <div style={{ display: 'inline-block' }}>
                     <CFormSelect
                       value={sortBy}
                       onChange={(e) => {
                         updateSortBySelector(e.target.value)
                       }}
                       id="sortBySelector"
-                      options={[
-                        { label: 'most recent', value: 'chronological' },
-                        { label: 'degrees of separation', value: 'degreesOfSeparation' },
-                        { label: 'WoT score', value: 'wotScore' },
-                        { label: 'Influence Score', value: 'influenceScore' },
-                      ]}
+                      options={aOptions}
                     ></CFormSelect>
                   </div>
                 </div>
@@ -295,6 +357,13 @@ const WikiTopic = () => {
                     >
                       influence score
                     </CTableHeaderCell>
+                    <CTableHeaderCell
+                      scope="col"
+                      style={{ textAlign: 'center' }}
+                      className={categoryColumnClassName}
+                    >
+                      category
+                    </CTableHeaderCell>
                     <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>
                       link
                     </CTableHeaderCell>
@@ -303,8 +372,13 @@ const WikiTopic = () => {
                 <CTableBody>
                   {aAuthorsSorted.map((pk, item) => {
                     const naddr = oAuthors[pk]
+                    // const result = nip19.decode(naddr)
                     const npub = nip19.npubEncode(pk)
                     const oEvent = oEvents[naddr]
+                    let category = fetchFirstByTag('c', oEvent)
+                    if (!category) {
+                      category = ''
+                    }
                     let published_at = fetchFirstByTag('published_at', oEvent)
                     if (!published_at) {
                       published_at = oEvent.created_at
@@ -331,7 +405,10 @@ const WikiTopic = () => {
                           style={{ textAlign: 'center' }}
                           className={dosScoreColumnClassName}
                         >
-                          {getProfileBrainstormFromPubkey(pk, oProfilesByNpub).wotScores.degreesOfSeparation}
+                          {
+                            getProfileBrainstormFromPubkey(pk, oProfilesByNpub).wotScores
+                              .degreesOfSeparation
+                          }
                         </CTableDataCell>
                         <CTableDataCell
                           style={{ textAlign: 'center' }}
@@ -341,6 +418,12 @@ const WikiTopic = () => {
                             getProfileBrainstormFromNpub(npub, oProfilesByNpub).wotScores
                               .baselineInfluence.influence
                           }
+                        </CTableDataCell>
+                        <CTableDataCell
+                          style={{ textAlign: 'center' }}
+                          className={categoryColumnClassName}
+                        >
+                          {category}
                         </CTableDataCell>
                         <CTableDataCell style={{ textAlign: 'center' }}>
                           <CButton color="primary">

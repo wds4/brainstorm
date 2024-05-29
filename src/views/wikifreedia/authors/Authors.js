@@ -126,7 +126,6 @@ const WikiAuthors = () => {
         return inputArray
       } else {
         if (sortByMethod == 'alphabetical') {
-          console.log('alphabetical')
           const arraySorted = inputArray.sort((a, b) =>
             getProfileBrainstormFromPubkey(a, oProfilesByNpub).brainstormDisplayName.localeCompare(
               getProfileBrainstormFromPubkey(b, oProfilesByNpub).brainstormDisplayName,
@@ -140,7 +139,6 @@ const WikiAuthors = () => {
           return arraySorted
         }
         if (sortByMethod == 'reverseAlphabetical') {
-          console.log('reverseAlphabetical')
           const arraySorted = inputArray.sort((a, b) =>
             getProfileBrainstormFromPubkey(b, oProfilesByNpub).brainstormDisplayName.localeCompare(
               getProfileBrainstormFromPubkey(a, oProfilesByNpub).brainstormDisplayName,
@@ -154,7 +152,6 @@ const WikiAuthors = () => {
           return arraySorted
         }
         if (sortByMethod == 'numerical') {
-          console.log('numerical')
           const arraySorted = inputArray.sort((a, b) => oAuthors[b].length - oAuthors[a].length)
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('show')
@@ -164,7 +161,6 @@ const WikiAuthors = () => {
           return arraySorted
         }
         if (sortByMethod == 'chronological') {
-          console.log('chronological')
           const arraySorted = inputArray.sort(
             (a, b) =>
               returnTimeOfMostRecentArticleByThisAuthor(
@@ -188,7 +184,6 @@ const WikiAuthors = () => {
           return arraySorted
         }
         if (sortByMethod == 'wotScore') {
-          console.log('wotScore')
           const arraySorted = inputArray.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -198,7 +193,6 @@ const WikiAuthors = () => {
           return arraySorted
         }
         if (sortByMethod == 'influenceScore') {
-          console.log('influenceScore')
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('hide')
@@ -213,7 +207,6 @@ const WikiAuthors = () => {
           return arraySorted
         }
         if (sortByMethod == 'degreesOfSeparation') {
-          console.log('degreesOfSeparation')
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('show')
@@ -232,9 +225,6 @@ const WikiAuthors = () => {
 
   const sortAndFilterItems = useCallback(
     (searchString, sortByMethod) => {
-      console.log(
-        'sortAndFilterItems; searchString: ' + searchString + '; sortByMethod: ' + sortByMethod,
-      )
       if (!searchString) {
         setAAuthorsFiltered(aAuthors)
         setAAuthorsFilteredAndSorted(sortItems(JSON.parse(JSON.stringify(aAuthors)), sortByMethod))

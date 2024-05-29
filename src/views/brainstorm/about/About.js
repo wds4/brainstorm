@@ -15,6 +15,7 @@ const BrainstormAbout = () => {
       <CContainer>
         <center>
           <h3>About PGA: Brainstorm</h3>
+          <div>Pretty Good Apps</div>
         </center>
         <br />
         <br />

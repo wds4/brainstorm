@@ -6,6 +6,7 @@ const LeaveWikifreediaTrustAttestation = () => {
       <center>
         <h3>Leave Attestation: Wiki</h3>
       </center>
+      <div>under construction</div>
     </>
   )
 }

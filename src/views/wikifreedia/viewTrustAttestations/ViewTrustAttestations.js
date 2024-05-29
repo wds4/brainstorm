@@ -6,6 +6,7 @@ const ViewWikifreediaTrustAttestations = () => {
       <center>
         <h3>View Wiki Trust Attestations</h3>
       </center>
+      <div>under construction</div>
     </>
   )
 }

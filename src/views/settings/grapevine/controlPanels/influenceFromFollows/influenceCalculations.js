@@ -28,8 +28,8 @@ const InfluenceCalculations = () => {
   const aAllProfilesByPubkey = Object.keys(oProfilesByPubkey)
   const aNearbyProfilesByPubkey = []
   aAllProfilesByPubkey.forEach((pubkey) => {
-    // if (oProfilesByNpub[oProfilesByPubkey[pubkey]].wotScores.degreesOfSeparationFromMe < 2)
-    if (oProfilesByNpub[oProfilesByPubkey[pubkey]].wotScores.coracle > 0)
+    if (oProfilesByNpub[oProfilesByPubkey[pubkey]].wotScores.degreesOfSeparationFromMe < 6)
+    // if (oProfilesByNpub[oProfilesByPubkey[pubkey]].wotScores.coracle > 0)
       if (!aNearbyProfilesByPubkey.includes(pubkey)) {
         aNearbyProfilesByPubkey.push(pubkey)
       }
@@ -222,12 +222,15 @@ const InfluenceCalculations = () => {
       <div>
         {Object.keys(oProfileData).map((pubkey, index) => {
           const influence = oProfileData[pubkey].influenceData.influence
-          return (
-            <div key={index}>
-              <div style={{ display: 'inline-block', width: '100px' }}>{influence}</div>
-              <div style={{ display: 'inline-block' }}>{pubkey}</div>
-            </div>
-          )
+          if (index < 100) {
+            return (
+              <div key={index}>
+                <div style={{ display: 'inline-block', width: '100px' }}>{influence}</div>
+                <div style={{ display: 'inline-block' }}>{pubkey}</div>
+              </div>
+            )
+          }
+          return <></>
         })}
       </div>
     </div>
