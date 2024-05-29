@@ -18,7 +18,7 @@ import {
 } from '@coreui/react'
 import {
   updateSortWikiTopicsBy,
-  updateViewWikifreediaTopic,
+  updateViewNostrapediaTopic,
 } from '../../../../redux/features/siteNavigation/slice'
 import { whenTopicWasLastUpdated } from '../../singleTopic/SingleTopic'
 import { secsToTime } from '../../../../helpers'
@@ -138,7 +138,7 @@ const WikiArticlesAlphabetical = () => {
   )
 
   const processDTagClick = (dTag) => {
-    dispatch(updateViewWikifreediaTopic(dTag))
+    dispatch(updateViewNostrapediaTopic(dTag))
   }
 
   const updateSortBySelector = (newSortByValue) => {

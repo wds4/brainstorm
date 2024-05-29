@@ -17,10 +17,10 @@ import {
 import { nip19 } from 'nostr-tools'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
+import { updateViewNostrapediaTopic } from 'src/redux/features/siteNavigation/slice'
 import {
   updateApp,
-  updateViewWikifreediaArticle,
+  updateViewNostrapediaArticle,
 } from '../../../redux/features/siteNavigation/slice'
 import WikiListener from '../../../helpers/listeners/WikiListener'
 import {
@@ -74,7 +74,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
   )
 
   const processViewArticleClick = (naddr) => {
-    dispatch(updateViewWikifreediaArticle(naddr))
+    dispatch(updateViewNostrapediaArticle(naddr))
   }
 
   return (

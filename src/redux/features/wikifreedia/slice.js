@@ -77,7 +77,7 @@ export const wikifreediaSlice = createSlice({
       const oEvent = action.payload.oEvent
       state.categories[oEvent.id] = oEvent
     },
-    wipeWikifreedia: (state, action) => {
+    wipeNostrapedia: (state, action) => {
       state.articles = {}
       state.articles.byEventId = {}
       state.articles.byNaddr = {}
@@ -88,6 +88,6 @@ export const wikifreediaSlice = createSlice({
   },
 })
 
-export const { addArticle, addCategory, wipeWikifreedia } = wikifreediaSlice.actions
+export const { addArticle, addCategory, wipeNostrapedia } = wikifreediaSlice.actions
 
 export default wikifreediaSlice.reducer

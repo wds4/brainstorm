@@ -22,12 +22,12 @@ import { ListEvent } from './ListEvent'
 import { fetchFirstByTag } from 'src/helpers'
 import Markdown from 'react-markdown'
 import { useSearchParams } from 'react-router-dom'
-import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
+import { updateViewNostrapediaTopic } from 'src/redux/features/siteNavigation/slice'
 import { nip19 } from 'nostr-tools'
 import { ShowAuthor } from '../components/ShowAuthor'
 import {
   updateSortSingleTopicBy,
-  updateViewWikifreediaArticle,
+  updateViewNostrapediaArticle,
 } from '../../../redux/features/siteNavigation/slice'
 import { secsToTime } from '../../../helpers'
 import {
@@ -152,7 +152,7 @@ const WikiTopic = () => {
   }
 
   const processViewArticleClick = (naddr) => {
-    dispatch(updateViewWikifreediaArticle(naddr))
+    dispatch(updateViewNostrapediaArticle(naddr))
   }
 
   const getTimeOfPublication = (pk) => {
@@ -267,7 +267,7 @@ const WikiTopic = () => {
     function updateTopicFromUrl() {
       const topicFromUrl = searchParams.get('topic')
       if (topicFromUrl) {
-        dispatch(updateViewWikifreediaTopic(topicFromUrl))
+        dispatch(updateViewNostrapediaTopic(topicFromUrl))
         setTopicSlug(topicFromUrl)
       }
     }

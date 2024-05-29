@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ViewWikifreediaTrustAttestations = () => {
+const ViewNostrapediaTrustAttestations = () => {
   return (
     <>
       <center>
@@ -11,4 +11,4 @@ const ViewWikifreediaTrustAttestations = () => {
   )
 }
 
-export default ViewWikifreediaTrustAttestations
+export default ViewNostrapediaTrustAttestations

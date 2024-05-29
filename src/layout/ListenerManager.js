@@ -170,7 +170,7 @@ const RunningListener = ({ oListenerManager }) => {
             }
           }
         } catch (e) {
-          console.log('updateWikifreediaDatabase error: ' + e)
+          console.log('updateWikiDatabase error: ' + e)
         }
       })
     }

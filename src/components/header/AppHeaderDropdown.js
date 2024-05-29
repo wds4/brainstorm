@@ -46,7 +46,7 @@ import { wipeTwittr } from '../../redux/features/twittr/slice'
 import sessionStorage from 'redux-persist/es/storage/session'
 import localStorage from 'redux-persist/es/storage'
 import { wipeConceptGraph } from '../../redux/features/conceptGraph/slice'
-import { wipeWikifreedia } from '../../redux/features/wikifreedia/slice'
+import { wipeNostrapedia } from '../../redux/features/wikifreedia/slice'
 import { turnListenerOff, wipeListenerManager } from '../../redux/features/listenerManager/slice'
 import { wipeProfiles } from '../../redux/features/profiles/slice'
 
@@ -63,7 +63,7 @@ const AppHeaderDropdown = () => {
     dispatch(wipeSettings())
     dispatch(wipeTwittr())
     dispatch(wipeConceptGraph())
-    dispatch(wipeWikifreedia())
+    dispatch(wipeNostrapedia())
     dispatch(wipeSiteNavigation())
     dispatch(wipeListenerManager())
     dispatch(updateDevelopmentMode('hide'))

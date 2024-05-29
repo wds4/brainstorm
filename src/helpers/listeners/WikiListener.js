@@ -16,7 +16,7 @@ const WikiListenerMain = () => {
   // use ndk-react
   const { fetchEvents } = useNDK()
   useEffect(() => {
-    async function updateWikifreediaDatabase() {
+    async function updateWikiDatabase() {
       const events = await fetchEvents(filter)
 
       events.forEach((eventNS, item) => {
@@ -26,11 +26,11 @@ const WikiListenerMain = () => {
             dispatch(addArticle(event))
           }
         } catch (e) {
-          console.log('updateWikifreediaDatabase error: ' + e)
+          console.log('updateWikiDatabase error: ' + e)
         }
       })
     }
-    updateWikifreediaDatabase()
+    updateWikiDatabase()
   }, [fetchEvents(filter)])
 
   return <></>

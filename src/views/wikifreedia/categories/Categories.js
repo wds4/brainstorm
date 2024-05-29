@@ -16,11 +16,11 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import { updateViewWikifreediaCategory } from '../../../redux/features/siteNavigation/slice'
+import { updateViewNostrapediaCategory } from '../../../redux/features/siteNavigation/slice'
 import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
 
-const WikifreediaCategories = () => {
+const NostrapediaCategories = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
   const aWikiCategories = Object.keys(oWikiCategories)
@@ -29,7 +29,7 @@ const WikifreediaCategories = () => {
 
   const processCategoryClick = (category) => {
     // console.log('processCategoryClick category: ' + category)
-    dispatch(updateViewWikifreediaCategory(category))
+    dispatch(updateViewNostrapediaCategory(category))
   }
 
   let loggedInClassName = 'hide'
@@ -92,4 +92,4 @@ const WikifreediaCategories = () => {
   )
 }
 
-export default WikifreediaCategories
+export default NostrapediaCategories

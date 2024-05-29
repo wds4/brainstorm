@@ -4,8 +4,8 @@ import { nip19 } from 'nostr-tools'
 import { useDispatch } from 'react-redux'
 import { secsToTimeAgo, fetchFirstByTag } from 'src/helpers'
 import {
-  updateViewWikifreediaArticle,
-  updateViewWikifreediaCategory,
+  updateViewNostrapediaArticle,
+  updateViewNostrapediaCategory,
 } from '../../../redux/features/siteNavigation/slice'
 import { ShowAuthor } from '../components/ShowAuthor'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
@@ -16,7 +16,7 @@ const Details = ({ showDetailsButton, title, category, categoryStyle, displayTim
   }
   const dispatch = useDispatch()
   const processViewCategoryClick = (c) => {
-    dispatch(updateViewWikifreediaCategory(c))
+    dispatch(updateViewNostrapediaCategory(c))
   }
   return (
     <>
@@ -103,7 +103,7 @@ export const ListEvent = ({ pubkey, oEvent, naddr }) => {
   const displayTime = secsToTimeAgo(published_at)
 
   const processViewArticleClick = (naddr) => {
-    dispatch(updateViewWikifreediaArticle(naddr))
+    dispatch(updateViewNostrapediaArticle(naddr))
   }
   return (
     <>

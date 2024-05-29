@@ -18,8 +18,8 @@ import navigationConceptGraph from 'src/nav/_navConceptGraph'
 import navigationGrapevine from 'src/nav/_navGrapevine'
 import navigationCuratedLists from 'src/nav/_navCuratedLists'
 import navigationNestedLists from 'src/nav/_navNestedLists'
-import navigationWikifreedia from 'src/nav/_navWikifreedia'
-import navigationWikifreediaDevMode from 'src/nav/_navWikifreediaDevMode'
+import navigationNostrapedia from 'src/nav/_navNostrapedia'
+import navigationNostrapediaDevMode from 'src/nav/_navNostrapediaDevMode'
 import navigationTwittr from 'src/nav/_navTwittr'
 import navigationHelloWorld from 'src/nav/_navHelloWorld'
 import navigationNostrAppsDirectory from 'src/nav/_navNostrAppsDirectory'
@@ -55,9 +55,9 @@ function getNavigation(activeApp, signedIn, developmentMode) {
       return navigationCuratedLists
     case 'wiki':
       if (developmentMode == 'show') {
-        return navigationWikifreediaDevMode
+        return navigationNostrapediaDevMode
       }
-      return navigationWikifreedia
+      return navigationNostrapedia
     case 'twittr':
       return navigationTwittr
     case 'helloWorld':

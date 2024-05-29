@@ -16,7 +16,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Wiki Settings',
+    name: 'Nostrapedia Settings',
     to: '/settings/wiki',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },

@@ -14,7 +14,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateViewWikifreediaTopic } from '../../../redux/features/siteNavigation/slice'
+import { updateViewNostrapediaTopic } from '../../../redux/features/siteNavigation/slice'
 
 const WikiCategory = () => {
   // const [aTopics, setATopics] = useState([])
@@ -30,7 +30,7 @@ const WikiCategory = () => {
   const dispatch = useDispatch()
 
   const processTopicClick = (topic) => {
-    dispatch(updateViewWikifreediaTopic(topic))
+    dispatch(updateViewNostrapediaTopic(topic))
   }
   return (
     <>

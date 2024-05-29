@@ -60,13 +60,13 @@ export const siteNavigationSlice = createSlice({
     updateViewRelationshipType: (state, action) => {
       state.conceptGraph.viewRelationshipType = action.payload
     },
-    updateViewWikifreediaTopic: (state, action) => {
+    updateViewNostrapediaTopic: (state, action) => {
       state.wikifreedia.viewTopic = action.payload
     },
-    updateViewWikifreediaArticle: (state, action) => {
+    updateViewNostrapediaArticle: (state, action) => {
       state.wikifreedia.viewArticle = action.payload
     },
-    updateViewWikifreediaCategory: (state, action) => {
+    updateViewNostrapediaCategory: (state, action) => {
       state.wikifreedia.viewCategory = action.payload
     },
     updateSortWikiTopicsBy: (state, action) => {
@@ -123,9 +123,9 @@ export const {
   updateViewWord,
   updateViewWordType,
   updateViewRelationshipType,
-  updateViewWikifreediaTopic,
-  updateViewWikifreediaArticle,
-  updateViewWikifreediaCategory,
+  updateViewNostrapediaTopic,
+  updateViewNostrapediaArticle,
+  updateViewNostrapediaCategory,
   updateSortWikiTopicsBy,
   updateSortSingleTopicBy,
   updateSortWikiAuthorsBy,
