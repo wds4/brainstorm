@@ -46,7 +46,7 @@ import { wipeTwittr } from '../../redux/features/twittr/slice'
 import sessionStorage from 'redux-persist/es/storage/session'
 import localStorage from 'redux-persist/es/storage'
 import { wipeConceptGraph } from '../../redux/features/conceptGraph/slice'
-import { wipeNostrapedia } from '../../redux/features/wikifreedia/slice'
+import { wipeNostrapedia } from '../../redux/features/nostrapedia/slice'
 import { turnListenerOff, wipeListenerManager } from '../../redux/features/listenerManager/slice'
 import { wipeProfiles } from '../../redux/features/profiles/slice'
 
@@ -120,7 +120,7 @@ const AppHeaderDropdown = () => {
             Concept Graph
           </CDropdownItem>
           <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Apps</CDropdownHeader>
-          <CDropdownItem href="#/wikifreedia" onClick={() => updateActiveApp('wiki')}>
+          <CDropdownItem href="#/nostrapedia" onClick={() => updateActiveApp('wiki')}>
             <CIcon icon={cibWikipedia} className="me-2" />
             Wiki
           </CDropdownItem>

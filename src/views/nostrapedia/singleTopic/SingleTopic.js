@@ -429,7 +429,7 @@ const WikiTopic = () => {
                         <CTableDataCell style={{ textAlign: 'center' }}>
                           <CButton color="primary">
                             <CNavLink
-                              href="#/wikifreedia/singleEntry"
+                              href="#/nostrapedia/singleEntry"
                               onClick={() => processViewArticleClick(naddr)}
                             >
                               View Article

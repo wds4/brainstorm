@@ -35,7 +35,7 @@ const Details = ({ showDetailsButton, title, category, categoryStyle, displayTim
             </CCol>
             <CCol className="col-6">
               <CNavLink
-                href="#/wikifreedia/singleCategory"
+                href="#/nostrapedia/singleCategory"
                 onClick={() => processViewCategoryClick(category)}
               >
                 {category}
@@ -114,7 +114,7 @@ export const ListEvent = ({ pubkey, oEvent, naddr }) => {
         <div className="col-auto" style={{ display: 'flex', alignItems: 'center' }}>
           <CButton color="primary">
             <CNavLink
-              href="#/wikifreedia/singleEntry"
+              href="#/nostrapedia/singleEntry"
               onClick={() => processViewArticleClick(naddr)}
             >
               View Article

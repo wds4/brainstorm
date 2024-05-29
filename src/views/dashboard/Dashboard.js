@@ -35,7 +35,7 @@ const Dashboard = () => {
             <CCard style={{ width: '100%' }} className="mb-3 border-info" textColor="info">
               <CNavLink
                 style={{ display: 'inline-block' }}
-                href="#/wikifreedia"
+                href="#/nostrapedia"
                 onClick={() => updateActiveApp('wiki')}
               >
                 <CCardHeader>

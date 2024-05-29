@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
-import { addArticle } from '../../redux/features/wikifreedia/slice'
+import { addArticle } from '../../redux/features/nostrapedia/slice'
 import { makeEventSerializable } from '..'
 
 const WikiListenerMain = () => {

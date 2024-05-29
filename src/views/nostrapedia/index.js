@@ -51,7 +51,7 @@ const WikiHome = () => {
       <br />
       <CRow xs={{ gutter: 4 }}>
         <CCol xs={12} sm={6} xl={4} xxl={3} className={loggedInClassName}>
-          <CNavLink href="#/wikifreedia/publish">
+          <CNavLink href="#/nostrapedia/publish">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cilPencil} size="xl" />}
               value="Publish an article"
@@ -60,7 +60,7 @@ const WikiHome = () => {
           </CNavLink>
         </CCol>
         <CCol xs={12} sm={6} xl={4} xxl={3}>
-          <CNavLink href="#/wikifreedia/wikiArticles">
+          <CNavLink href="#/nostrapedia/wikiArticles">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cibWikipedia} size="xl" />}
               title={Object.keys(oTopics).length}
@@ -70,7 +70,7 @@ const WikiHome = () => {
           </CNavLink>
         </CCol>
         <CCol xs={12} sm={6} xl={4} xxl={3}>
-          <CNavLink href="#/wikifreedia/categories">
+          <CNavLink href="#/nostrapedia/categories">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cibWikipedia} size="xl" />}
               title={Object.keys(oCategories).length}
@@ -80,7 +80,7 @@ const WikiHome = () => {
           </CNavLink>
         </CCol>
         <CCol xs={12} sm={6} xl={4} xxl={3}>
-          <CNavLink href="#/wikifreedia/authors">
+          <CNavLink href="#/nostrapedia/authors">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cilPeople} size="xl" />}
               title={Object.keys(oAuthors).length}

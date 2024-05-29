@@ -100,8 +100,8 @@ const WikiEntry = () => {
     dispatch(updateViewNostrapediaTopic(topicSlug))
   }
   const contentWithLinks = processWikiMarkdownLinks(content, aTopicSlugs)
-  const topicHref = '#/wikifreedia/singleTopic?topic=' + topicSlug
-  const editThisArticleRef = '#/wikifreedia/publish?naddr=' + naddr
+  const topicHref = '#/nostrapedia/singleTopic?topic=' + topicSlug
+  const editThisArticleRef = '#/nostrapedia/publish?naddr=' + naddr
   return (
     <>
       <center>

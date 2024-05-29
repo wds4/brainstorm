@@ -7,13 +7,13 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Nostrapedia Home',
-    to: '/wikifreedia',
+    to: '/nostrapedia',
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'Publish',
-    to: '/wikifreedia/publish',
+    to: '/nostrapedia/publish',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   },
   {
@@ -23,19 +23,19 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Topics',
-    to: '/wikifreedia/wikiArticles',
+    to: '/nostrapedia/wikiArticles',
     icon: <CIcon icon={cibWikipedia} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'Categories',
-    to: '/wikifreedia/categories',
+    to: '/nostrapedia/categories',
     icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'Authors',
-    to: '/wikifreedia/authors',
+    to: '/nostrapedia/authors',
     icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   },
   {
@@ -45,19 +45,19 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Leave Trust Attestation',
-    to: '/wikifreedia/leaveAttestation',
+    to: '/nostrapedia/leaveAttestation',
     icon: <CIcon icon={cilThumbUp} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'View Trust Attestations',
-    to: '/wikifreedia/viewAttestations',
+    to: '/nostrapedia/viewAttestations',
     icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'WoT Scores',
-    to: '/wikifreedia/wotScores',
+    to: '/nostrapedia/wotScores',
     icon: <CIcon icon={cilCalculator} customClassName="nav-icon" />,
   },
   {
@@ -67,7 +67,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'About Nostrapedia',
-    to: '/wikifreedia/about',
+    to: '/nostrapedia/about',
     icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
   },
 ]

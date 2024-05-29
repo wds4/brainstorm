@@ -41,7 +41,7 @@ const NostrapediaCategories = () => {
       <CContainer fluid>
         <div style={{ marginBottom: '20px' }}>
           <div style={{ float: 'right' }} className={loggedInClassName}>
-            <CButton color="success" href="#/wikifreedia/publish">
+            <CButton color="success" href="#/nostrapedia/publish">
               <CIcon icon={cilPencil} /> Write an article
             </CButton>
           </div>
@@ -71,7 +71,7 @@ const NostrapediaCategories = () => {
                         <CTableRow key={item}>
                           <CTableDataCell scope="row">
                             <CNavLink
-                              href="#/wikifreedia/singleCategory"
+                              href="#/nostrapedia/singleCategory"
                               onClick={() => processCategoryClick(category)}
                             >
                               {category}

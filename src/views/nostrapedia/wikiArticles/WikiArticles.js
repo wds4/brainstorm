@@ -83,7 +83,7 @@ const WikiTopics = () => {
       <CContainer fluid>
         <div style={{ marginBottom: '20px' }}>
           <div style={{ float: 'right' }} className={loggedInClassName}>
-            <CButton color="success" href="#/wikifreedia/publish">
+            <CButton color="success" href="#/nostrapedia/publish">
               <CIcon icon={cilPencil} /> Write an article
             </CButton>
           </div>
