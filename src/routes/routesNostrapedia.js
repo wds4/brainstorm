@@ -16,7 +16,7 @@ const MakeNewArticle = React.lazy(() =>
 )
 const WikiTopics = React.lazy(() => import('src/views/nostrapedia/topics/Topics'))
 const WikiCategory = React.lazy(() => import('src/views/nostrapedia/category/Category'))
-const WikiArticle = React.lazy(() => import('src/views/nostrapedia/singleArticle/SingleArticle'))
+const WikiArticle = React.lazy(() => import('src/views/nostrapedia/article/Article'))
 const WikiTopic = React.lazy(() => import('src/views/nostrapedia/topic/Topic'))
 const WikiAuthors = React.lazy(() => import('src/views/nostrapedia/authors/Authors'))
 
@@ -42,8 +42,8 @@ const routes = [
   { path: '/nostrapedia/topics', name: 'Topics', element: WikiTopics },
   { path: '/nostrapedia/authors', name: 'Authors', element: WikiAuthors },
   { path: '/nostrapedia/category', name: 'Category', element: WikiCategory },
-  { path: '/nostrapedia/singleArticle', name: 'Article', element: WikiArticle },
-  { path: '/nostrapedia/singleTopic', name: 'Topic', element: WikiTopic },
+  { path: '/nostrapedia/article', name: 'Article', element: WikiArticle },
+  { path: '/nostrapedia/topic', name: 'Topic', element: WikiTopic },
 
   // Wiki WoT
   { path: '/nostrapedia/leaveAttestation', name: 'Leave Attestation', element: LeaveAttestation },

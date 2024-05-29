@@ -58,7 +58,7 @@ const WikiCategory = () => {
                       <CTableRow key={item}>
                         <CTableHeaderCell scope="row">
                           <CNavLink
-                            href="#/nostrapedia/singleTopic"
+                            href="#/nostrapedia/topic"
                             onClick={() => processTopicClick(topic)}
                           >
                             {topic}

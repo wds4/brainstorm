@@ -100,7 +100,7 @@ const WikiArticle = () => {
     dispatch(updateViewNostrapediaTopic(topicSlug))
   }
   const contentWithLinks = processWikiMarkdownLinks(content, aTopicSlugs)
-  const topicHref = '#/nostrapedia/singleTopic?topic=' + topicSlug
+  const topicHref = '#/nostrapedia/topic?topic=' + topicSlug
   const editThisArticleRef = '#/nostrapedia/publish?naddr=' + naddr
   return (
     <>

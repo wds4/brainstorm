@@ -227,7 +227,7 @@ const WikiArticlesAlphabetical = () => {
                       <CTableRow key={item}>
                         <CTableDataCell scope="row">
                           <CNavLink
-                            href="#/nostrapedia/singleTopic"
+                            href="#/nostrapedia/topic"
                             onClick={() => processDTagClick(topicSlug)}
                           >
                             {topicSlug}

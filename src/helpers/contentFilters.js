@@ -15,7 +15,7 @@ const processWikiMarkdownLink = (contentIn, aTopicSlugs) => {
       str1topicOriginal +
       '](' +
       baseUrl +
-      '/#/nostrapedia/singleTopic?topic=' +
+      '/#/nostrapedia/topic?topic=' +
       str1topicSlugified +
       ')'
     contentOut = str0 + strLink + str2

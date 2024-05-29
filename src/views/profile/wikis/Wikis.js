@@ -114,7 +114,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
                         return (
                           <CTableRow key={item}>
                             <CTableDataCell scope="row">
-                              <CNavLink href="#/nostrapedia/singleArticle">{topicSlug}</CNavLink>
+                              <CNavLink href="#/nostrapedia/article">{topicSlug}</CNavLink>
                             </CTableDataCell>
                             <CTableDataCell>error retrieving data</CTableDataCell>
                           </CTableRow>
@@ -132,7 +132,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
                           <CTableRow key={item}>
                             <CTableDataCell scope="row">
                               <CNavLink
-                                href="#/nostrapedia/singleArticle"
+                                href="#/nostrapedia/article"
                                 onClick={() => processViewArticleClick(naddr)}
                               >
                                 {topicSlug}
