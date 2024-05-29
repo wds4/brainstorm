@@ -121,16 +121,14 @@ const WikiTopic = () => {
   const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
   const [categoryColumnClassName, setCategoryColumnClassName] = useState('show') // show or hide
 
-  const [coracleWotScore, setCoracleWotScore] = useState({}) // show or hide
+
 
   const dispatch = useDispatch()
 
-  const makeNpubLookupFromPubkey = () => {
-    const oOutput1 = {}
-    const oOutput2 = {}
+  const calculateWotScores = () => {
+    const oWotScoresLookup = {}
     aAuthorsRef.forEach((pk) => {
       const np = nip19.npubEncode(pk)
-      oOutput1[pk] = np
       let wotScore = 0
       let refFollowers = []
       if (oProfilesByNpub[np] && oProfilesByNpub[np].followers) {
@@ -141,10 +139,12 @@ const WikiTopic = () => {
           wotScore++
         }
       })
-      oOutput2[pk] = wotScore
+      oWotScoresLookup[pk] = wotScore
     })
-    setCoracleWotScore(oOutput2)
+    return oWotScoresLookup
   }
+
+  const coracleWotScore = calculateWotScores()
 
   let showVersions = 'There are ' + aAuthorsRef.length + ' versions of this article.'
   if (aAuthorsRef.length == 1) {
@@ -180,8 +180,9 @@ const WikiTopic = () => {
         return arraySorted
       }
       if (sortByMethod == 'wotScore') {
-        console.log('wotScore')
-        const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
+        const arraySorted = aAuthorsRef.sort((a, b) => {
+          return coracleWotScore[b] - coracleWotScore[a]
+        })
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('show')
@@ -268,10 +269,7 @@ const WikiTopic = () => {
       }
     }
     updateTopicFromUrl()
-    makeNpubLookupFromPubkey()
-    try {
-      sortItems(sortBy)
-    } catch (e) {}
+    setAAuthorsSorted(sortItems(sortBy))
     updateCategoryList()
   }, [topicSlug])
 

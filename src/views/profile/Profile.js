@@ -121,6 +121,51 @@ const EditMyProfileButton = () => {
   return <></>
 }
 
+const ShowMyNsecButton = ({ setRevealSecret }) => {
+  const npubBeingObserved = useSelector((state) => state.siteNavigation.npub)
+  const myNpub = useSelector((state) => state.profile.npub)
+  const signInMethod = useSelector((state) => state.profile.signInMethod)
+  if (npubBeingObserved == myNpub) {
+    if (signInMethod == 'secret') {
+      return (
+        <CButton color="danger" onClick={() => setRevealSecret('yes')}>Show my nsec</CButton>
+      )
+    }
+  }
+  return <></>
+}
+
+const MyNsec = ({ revealSecret }) => {
+  const npubBeingObserved = useSelector((state) => state.siteNavigation.npub)
+  const myNpub = useSelector((state) => state.profile.npub)
+  const myNsec = useSelector((state) => state.profile.nsec)
+  const signInMethod = useSelector((state) => state.profile.signInMethod)
+  const copyNsecToClipboard = (ns) => {
+    navigator.clipboard.writeText(ns)
+    alert('user npub copied to clipboard: \n ' + ns)
+  }
+  if (revealSecret == 'yes') {
+    if (npubBeingObserved == myNpub) {
+      if (signInMethod == 'secret') {
+        return (
+          <div
+            style={{
+              fontSize: '10px',
+              color: 'grey',
+              marginBottom: '12px',
+              overflowWrap: 'break-word',
+            }}
+          >
+            {myNsec}{' '}
+            <CIcon icon={cilClone} className="me-2" onClick={() => copyNsecToClipboard(myNsec)} />
+          </div>
+        )
+      }
+    }
+  }
+  return <></>
+}
+
 const Profile = () => {
   const npub = useSelector((state) => state.siteNavigation.npub)
   const pubkey = getPubkeyFromNpub(npub)
@@ -151,6 +196,8 @@ const Profile = () => {
       degreesOfSeparationFromMeText = degreesOfSeparationFromMe + ' hops'
     }
   }
+
+  const [revealSecret, setRevealSecret] = useState('no')
 
   const [oKind0Event, setOKind0Event] = useState({})
   const [oKind3Event, setOKind3Event] = useState({})
@@ -286,6 +333,7 @@ const Profile = () => {
   return (
     <>
       <ProfilesDataListener pubkey={pubkey} aPubkeys={aFollowPubkeys} />
+      <div>revealSecret: {revealSecret}</div>
       <div className="container-fluid">
         <div className="row">
           <div className="col-5 profileAvatarContainer">
@@ -311,7 +359,11 @@ const Profile = () => {
               <div className="col">
                 <EditMyProfileButton />
               </div>
+              <div className="col">
+                <ShowMyNsecButton setRevealSecret={setRevealSecret} />
+              </div>
             </div>
+            <MyNsec revealSecret={revealSecret} />
             <div
               style={{
                 fontSize: '10px',

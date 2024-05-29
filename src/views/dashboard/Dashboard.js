@@ -39,11 +39,11 @@ const Dashboard = () => {
                 onClick={() => updateActiveApp('wiki')}
               >
                 <CCardHeader>
-                  <strong>Nostrapaedia</strong>
+                  <strong>Nostrapedia</strong>
                 </CCardHeader>
                 <CCardBody>
                   <CCardText>
-                  Nostrapedia? Nostrapaedia? idk. Who's in charge of these decisions?!? ...
+                    with articles curated by your Grapevine!
                   </CCardText>
                 </CCardBody>
               </CNavLink>
@@ -60,7 +60,7 @@ const Dashboard = () => {
                   <strong>Grapevine</strong>
                 </CCardHeader>
                 <CCardBody>
-                  <CCardText>Web of Trust</CCardText>
+                  <CCardText>Influence Scores and Web of Trust</CCardText>
                 </CCardBody>
               </CNavLink>
             </CCard>
