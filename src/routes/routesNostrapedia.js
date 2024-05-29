@@ -17,7 +17,7 @@ const MakeNewArticle = React.lazy(() =>
 const WikiTopics = React.lazy(() => import('src/views/nostrapedia/topics/Topics'))
 const WikiCategory = React.lazy(() => import('src/views/nostrapedia/category/Category'))
 const WikiArticle = React.lazy(() => import('src/views/nostrapedia/singleArticle/SingleArticle'))
-const WikiTopic = React.lazy(() => import('src/views/nostrapedia/singleTopic/SingleTopic'))
+const WikiTopic = React.lazy(() => import('src/views/nostrapedia/topic/Topic'))
 const WikiAuthors = React.lazy(() => import('src/views/nostrapedia/authors/Authors'))
 
 // WoT

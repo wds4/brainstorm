@@ -35,7 +35,7 @@ import {
   updateFilterAuthors,
   updateListenerApplication,
 } from '../../../redux/features/listenerManager/slice'
-import { whenTopicWasLastUpdated } from '../singleTopic/SingleTopic'
+import { whenTopicWasLastUpdated } from '../topic/Topic'
 import { secsToTime } from '../../../helpers'
 import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'

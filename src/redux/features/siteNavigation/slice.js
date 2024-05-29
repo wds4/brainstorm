@@ -26,7 +26,7 @@ export const siteNavigationSlice = createSlice({
       viewArticle: '', // naddr
       viewCategory: '', // human readable string
       sortTopicsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore
-      sortSingleTopicBy: 'chronological', // chronological, degreesOfSeparation, wotScore, influenceScore
+      sortTopicBy: 'chronological', // chronological, degreesOfSeparation, wotScore, influenceScore
       sortAuthorsBy: 'chronological', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore, influenceScore, degreesOfSeparation
     },
   },
@@ -73,7 +73,7 @@ export const siteNavigationSlice = createSlice({
       state.wikifreedia.sortTopicsBy = action.payload
     },
     updateSortSingleTopicBy: (state, action) => {
-      state.wikifreedia.sortSingleTopicBy = action.payload
+      state.wikifreedia.sortTopicBy = action.payload
     },
     updateSortWikiAuthorsBy: (state, action) => {
       state.wikifreedia.sortAuthorsBy = action.payload
@@ -105,7 +105,7 @@ export const siteNavigationSlice = createSlice({
           viewArticle: '', // naddr
           viewCategory: '', // human readable string
           sortTopicsBy: 'chronological',
-          sortSingleTopicBy: 'chronological',
+          sortTopicBy: 'chronological',
           sortAuthorsBy: 'chronological',
         },
       }

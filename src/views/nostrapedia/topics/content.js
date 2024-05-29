@@ -20,7 +20,7 @@ import {
   updateSortWikiTopicsBy,
   updateViewNostrapediaTopic,
 } from '../../../redux/features/siteNavigation/slice'
-import { whenTopicWasLastUpdated } from '../singleTopic/SingleTopic'
+import { whenTopicWasLastUpdated } from '../topic/Topic'
 import { secsToTime } from '../../../helpers'
 
 const WikiArticlesAlphabetical = () => {
