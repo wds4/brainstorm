@@ -19,9 +19,9 @@ import {
 import {
   updateSortWikiTopicsBy,
   updateViewNostrapediaTopic,
-} from '../../../../redux/features/siteNavigation/slice'
-import { whenTopicWasLastUpdated } from '../../singleTopic/SingleTopic'
-import { secsToTime } from '../../../../helpers'
+} from '../../../redux/features/siteNavigation/slice'
+import { whenTopicWasLastUpdated } from '../singleTopic/SingleTopic'
+import { secsToTime } from '../../../helpers'
 
 const WikiArticlesAlphabetical = () => {
   const currentSortTopicsBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicsBy)

@@ -60,7 +60,7 @@ const WikiHome = () => {
           </CNavLink>
         </CCol>
         <CCol xs={12} sm={6} xl={4} xxl={3}>
-          <CNavLink href="#/nostrapedia/wikiArticles">
+          <CNavLink href="#/nostrapedia/topics">
             <CWidgetStatsF
               icon={<CIcon width={24} icon={cibWikipedia} size="xl" />}
               title={Object.keys(oTopics).length}

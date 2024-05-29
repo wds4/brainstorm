@@ -49,7 +49,7 @@ const DisplayCategory = ({ oEvent }) => {
   )
 }
 
-const WikiEntry = () => {
+const WikiArticle = () => {
   const dispatch = useDispatch()
   const oTopicSlugs = useSelector((state) => state.wikifreedia.articles.byDTag)
   const aTopicSlugs = Object.keys(oTopicSlugs)
@@ -161,4 +161,4 @@ const WikiEntry = () => {
   )
 }
 
-export default WikiEntry
+export default WikiArticle

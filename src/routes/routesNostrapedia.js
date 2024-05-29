@@ -14,9 +14,9 @@ const Categories = React.lazy(() => import('src/views/nostrapedia/categories/Cat
 const MakeNewArticle = React.lazy(() =>
   import('src/views/nostrapedia/makeNewArticle/MakeNewArticle'),
 )
-const WikiArticles = React.lazy(() => import('src/views/nostrapedia/wikiArticles/WikiArticles'))
+const WikiTopics = React.lazy(() => import('src/views/nostrapedia/topics/Topics'))
 const WikiCategory = React.lazy(() => import('src/views/nostrapedia/singleCategory/SingleCategory'))
-const WikiEntry = React.lazy(() => import('src/views/nostrapedia/singleEntry/SingleEntry'))
+const WikiArticle = React.lazy(() => import('src/views/nostrapedia/singleArticle/SingleArticle'))
 const WikiTopic = React.lazy(() => import('src/views/nostrapedia/singleTopic/SingleTopic'))
 const WikiAuthors = React.lazy(() => import('src/views/nostrapedia/authors/Authors'))
 
@@ -39,10 +39,10 @@ const routes = [
   // content
   { path: '/nostrapedia/publish', name: 'Publish', element: MakeNewArticle },
   { path: '/nostrapedia/categories', name: 'Categories', element: Categories },
-  { path: '/nostrapedia/wikiArticles', name: 'Topics', element: WikiArticles },
+  { path: '/nostrapedia/topics', name: 'Topics', element: WikiTopics },
   { path: '/nostrapedia/authors', name: 'Authors', element: WikiAuthors },
   { path: '/nostrapedia/singleCategory', name: 'Wiki Category', element: WikiCategory },
-  { path: '/nostrapedia/singleEntry', name: 'Wiki Entry', element: WikiEntry },
+  { path: '/nostrapedia/singleArticle', name: 'Wiki Article', element: WikiArticle },
   { path: '/nostrapedia/singleTopic', name: 'Wiki Topic', element: WikiTopic },
 
   // Wiki WoT
