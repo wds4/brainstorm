@@ -4,6 +4,7 @@ import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
 import { addArticle } from '../../redux/features/nostrapedia/slice'
 import { makeEventSerializable } from '..'
+import { addNewPubkey } from '../../redux/features/profiles/slice'
 
 const WikiListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -23,6 +24,8 @@ const WikiListenerMain = () => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
+            const pubkey = event.pubkey
+            dispatch(addNewPubkey(pubkey))
             dispatch(addArticle(event))
           }
         } catch (e) {

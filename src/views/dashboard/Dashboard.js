@@ -13,17 +13,12 @@ import CIcon from '@coreui/icons-react'
 const Dashboard = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
-  dispatch(updateApp('home'))
-  const updateActiveApp = (newApp) => {
-    dispatch(updateApp(newApp))
-  }
   let loggedInClassName = 'hide'
   if (signedIn) {
     loggedInClassName = 'show'
   }
   return (
     <>
-      <WikiListener />
       <center>
         <h3>Pretty Good Apps: Brainstorm</h3>
         <br />
@@ -36,7 +31,7 @@ const Dashboard = () => {
               <CNavLink
                 style={{ display: 'inline-block' }}
                 href="#/nostrapedia"
-                onClick={() => updateActiveApp('wiki')}
+                onClick={() => dispatch(updateApp('wiki'))}
               >
                 <CCardHeader>
                   <strong>Nostrapedia</strong>
@@ -54,13 +49,13 @@ const Dashboard = () => {
               <CNavLink
                 style={{ display: 'inline-block' }}
                 href="#/grapevine"
-                onClick={() => updateActiveApp('grapevine')}
+                onClick={() => dispatch(updateApp('grapevine'))}
               >
                 <CCardHeader>
                   <strong>Grapevine</strong>
                 </CCardHeader>
                 <CCardBody>
-                  <CCardText>Influence Scores and Web of Trust</CCardText>
+                  <CCardText>Calculation of DoS, WoT and Influence Scores</CCardText>
                 </CCardBody>
               </CNavLink>
             </CCard>
@@ -72,3 +67,5 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
+// <WikiListener />

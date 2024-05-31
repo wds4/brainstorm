@@ -85,19 +85,27 @@ const NostrapediaAbout = () => {
             the Influence Scores tab on any individual profile page.
           </p>
           <p>
-            Advantages include:
-            <li>extends beyond 2 hops</li>
+            Advantages of the influence score over the WoT score include:
             <li>
-              ability to synthesize data from multiple sources, including contextual attestations
+              The influence score extends beyond 2 hops, whereas the WoT score (as frequently
+              implemented) is zero for anyone more than 2 hops away.
             </li>
-            <li>different scores for different purposes and contexts</li>
+            <li>
+              The influence score can readily synthesize data from multiple sources. Proxy trust
+              data (follows, mutes, likes, etc) and explict contextual attestations can be used
+              together in the same calculation to generate a single influence score.
+            </li>
+            <li>
+              Distinct influence scores can be generated for each distinct purpose and context of
+              interest.
+            </li>
           </p>
           <p>
-            Disadvantages include:
+            Disadvantages of the influence score include:
             <li>
               Influence score calculations are computationally expensive and take too long to do
               them all on the fly. The provision of readily available influence scores as a service
-              may one day be a business model.
+              may one day become an important business model.
             </li>
             <li>
               There are multiple adjustable parameters for calculation of influence scores, the
@@ -108,6 +116,29 @@ const NostrapediaAbout = () => {
         </div>
         <br />
         <br />
+        <center>
+          <h4>Interpretation of proxy indicators of trust</h4>
+        </center>
+        <br />
+        <br />
+        <div>
+          <p>
+            Q: How does the influence score synthesize proxy trust data (follows, mutes, likes, etc)
+            and contextual trust attestations into a single score?
+          </p>
+          <p>
+            A: Through the process of <i>interpretation</i>. Proxy data, such as a follow or a like,
+            is "interpreted" <i>as if</i> it were an explicit contextual trust attestation.
+          </p>
+          <p>
+            As we all know, proxy indicators are not <i>actual</i> statements of trust.
+            Nevertheless, we use them as if they were, especially if that's all we have to go on.
+            For this reason, interpreted data is typicaly assigned a very low confidence. Currently,
+            a follow is interpreted as a statement of trust in all contexts, with a score of 100,
+            but with a confidence of only (5% ?), which is a parameter than can be adjusted by the
+            user doing the interpretation (i.e. YOU).
+          </p>
+        </div>
       </CContainer>
     </>
   )

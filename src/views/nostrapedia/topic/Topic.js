@@ -23,10 +23,10 @@ import { fetchFirstByTag } from 'src/helpers'
 import Markdown from 'react-markdown'
 import { useSearchParams } from 'react-router-dom'
 import { updateViewNostrapediaTopic } from 'src/redux/features/siteNavigation/slice'
-import { nip19 } from 'nostr-tools'
+import { nip19, validateEvent } from 'nostr-tools'
 import { ShowAuthor } from '../components/ShowAuthor'
 import {
-  updateSortSingleTopicBy,
+  updateSortTopicBy,
   updateViewNostrapediaArticle,
 } from '../../../redux/features/siteNavigation/slice'
 import { secsToTime } from '../../../helpers'
@@ -77,10 +77,8 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
 const WikiTopic = () => {
   const myFollows = useSelector((state) => state.profile.kind3.follows)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  const currentSortSingleTopicBy = useSelector(
-    (state) => state.siteNavigation.wikifreedia.sortSingleTopicBy,
-  )
-  const [sortBy, setSortBy] = useState(currentSortSingleTopicBy)
+  const currentSortTopicBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicBy)
+  const [sortBy, setSortBy] = useState(currentSortTopicBy)
 
   const [searchParams, setSearchParams] = useSearchParams()
   const viewTopic = useSelector((state) => state.siteNavigation.wikifreedia.viewTopic)
@@ -120,8 +118,6 @@ const WikiTopic = () => {
   const [coracleWotScoreColumnClassName, setCoracleWotScoreColumnClassName] = useState('show') // show or hide
   const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
   const [categoryColumnClassName, setCategoryColumnClassName] = useState('show') // show or hide
-
-
 
   const dispatch = useDispatch()
 
@@ -197,14 +193,16 @@ const WikiTopic = () => {
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('hide')
         setCategoryColumnClassName('hide')
-        const arraySorted = aAuthorsRef.sort(
-          (a, b) => {
-            const fooA = Number(getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation)
-            const fooB = Number(getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation)
-            console.log('degreesOfSeparation; fooA: ' + fooA + '; fooB: ' + fooB)
-            return fooA - fooB
-          }
-        )
+        const arraySorted = aAuthorsRef.sort((a, b) => {
+          const fooA = Number(
+            getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation,
+          )
+          const fooB = Number(
+            getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation,
+          )
+          console.log('degreesOfSeparation; fooA: ' + fooA + '; fooB: ' + fooB)
+          return fooA - fooB
+        })
         return arraySorted
       }
       if (sortByMethod == 'influenceScore') {
@@ -215,13 +213,13 @@ const WikiTopic = () => {
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('show')
         setCategoryColumnClassName('hide')
-        const arraySorted = aAuthorsRef.sort(
-          (a, b) =>
-            getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence
-              .influence -
-            getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence
-              .influence,
-        )
+        const arraySorted = aAuthorsRef.sort((a, b) => {
+          const fooB = getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence.influence
+          const fooA = getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence.influence
+          const diff = Math.round(10000 * fooB) - Math.round(10000 * fooA)
+          console.log('diff: ' + diff)
+          return diff
+        })
         return arraySorted
       }
       if (sortByMethod == 'category') {
@@ -242,7 +240,7 @@ const WikiTopic = () => {
   const updateSortBySelector = useCallback(
     (newSortByValue) => {
       setSortBy(newSortByValue)
-      dispatch(updateSortSingleTopicBy(newSortByValue))
+      dispatch(updateSortTopicBy(newSortByValue))
       setAAuthorsSorted(sortItems(newSortByValue))
     },
     [sortBy],
@@ -272,6 +270,7 @@ const WikiTopic = () => {
       }
     }
     updateTopicFromUrl()
+    console.log('sortBy: ' + sortBy)
     setAAuthorsSorted(sortItems(sortBy))
     updateCategoryList()
   }, [topicSlug])
@@ -376,6 +375,9 @@ const WikiTopic = () => {
                     // const result = nip19.decode(naddr)
                     const npub = nip19.npubEncode(pk)
                     const oEvent = oEvents[naddr]
+                    if (!oEvent || !validateEvent(oEvent)) {
+                      return <></>
+                    }
                     let category = fetchFirstByTag('c', oEvent)
                     if (!category) {
                       category = ''

@@ -22,7 +22,6 @@ import {
 } from 'src/redux/features/profiles/slice'
 import { processKind10000Event } from '../../redux/features/profiles/slice'
 
-// TO DO: test
 const ProfilesDataListenerMain = ({ pubkey, aPubkeys }) => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const myNpub = nip19.npubEncode(myPubkey)

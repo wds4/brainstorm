@@ -21,7 +21,6 @@ const Profiles = () => {
         <center>
           <h3>{Object.keys(oProfilesByNpub).length} Profiles</h3>
         </center>
-        <FollowersCrawlerListener />
         <div style={{ overflow: 'scroll' }}>
           <TanstackProfilesTable aPubkeysToDisplay={aPubkeysToDisplay} aNpubsToDisplay={aNpubsToDisplay} oProfilesByNpub={oProfilesByNpub} updateWhichTab={updateWhichTab} />
         </div>
@@ -31,5 +30,7 @@ const Profiles = () => {
 }
 
 export default Profiles
+
+// <FollowersCrawlerListener />
 
 // <CalculateDegreesOfSeparation />

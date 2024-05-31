@@ -39,10 +39,13 @@ import { whenTopicWasLastUpdated } from '../topic/Topic'
 import { secsToTime } from '../../../helpers'
 import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
+import WikiListener from '../../../helpers/listeners/WikiListener'
+import { addNewPubkey } from '../../../redux/features/profiles/slice'
 
 const WikiAuthors = () => {
   const myFollows = useSelector((state) => state.profile.kind3.follows)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
   const [searchField, setSearchField] = useState('')
@@ -59,10 +62,29 @@ const WikiAuthors = () => {
   const [coracleWotScoreColumnClassName, setCoracleWotScoreColumnClassName] = useState('show') // show or hide
   const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
 
+  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
+  let whenInfluenceScoresUpdated = 0
+  if (oScoreUpdates && oScoreUpdates.influenceScore) {
+    whenInfluenceScoresUpdated = oScoreUpdates.influenceScore.timestamp
+  }
+  const [promptLoginElemClassName, setPromptLoginElemClassName] = useState('hide') // show or hide
+  const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
+    useState('hide') // show or hide
+
   const [npubLookupFromPubkey, setNpubLookupFromPubkey] = useState({}) // show or hide
   const [dosLookupFromPubkey, setDosLookupFromPubkey] = useState({}) // show or hide
 
   const [coracleWotScore, setCoracleWotScore] = useState({}) // show or hide
+
+  const dispatch = useDispatch()
+
+  const initAuthorPubkey = () => {
+    aAuthors.forEach((pubkey, item) => {
+      if (!Object.keys(oProfilesByPubkey).includes(pubkey)) {
+        dispatch(addNewPubkey(pubkey))
+      }
+    })
+  }
 
   const makeNpubLookupFromPubkey = () => {
     const oOutput1 = {}
@@ -184,6 +206,9 @@ const WikiAuthors = () => {
           return arraySorted
         }
         if (sortByMethod == 'wotScore') {
+          if (!signedIn) {
+            setPromptLoginElemClassName('show')
+          }
           const arraySorted = inputArray.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -193,20 +218,42 @@ const WikiAuthors = () => {
           return arraySorted
         }
         if (sortByMethod == 'influenceScore') {
+          if (!signedIn) {
+            setPromptLoginElemClassName('show')
+          }
+          if (whenInfluenceScoresUpdated == 0) {
+            if (signedIn) {
+              setPromptCalcInfluenceScoreElemClassName('show')
+            }
+          }
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('hide')
           setCoracleWotScoreColumnClassName('hide')
           setInfluenceScoreColumnClassName('show')
           // const arraySorted = inputArray.sort((a, b) => Number(getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence.influence) - Number(getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence.influence))
-          const arraySorted = inputArray.sort(
-            (a, b) =>
-              getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence.influence -
-              getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence.influence,
-          )
+          const arraySorted = inputArray.sort((a, b) => {
+            const fooA =
+              10000 *
+              Number(
+                getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence
+                  .influence,
+              )
+            const fooB =
+              10000 *
+              Number(
+                getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence
+                  .influence,
+              )
+            const fooC = Math.floor(fooA) - Math.floor(fooB)
+            return fooC
+          })
           return arraySorted
         }
         if (sortByMethod == 'degreesOfSeparation') {
+          if (!signedIn) {
+            setPromptLoginElemClassName('show')
+          }
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
           setDosScoreColumnClassName('show')
@@ -251,6 +298,7 @@ const WikiAuthors = () => {
   )
 
   useEffect(() => {
+    initAuthorPubkey()
     try {
       makeNpubLookupFromPubkey() // temporary hack
       makeDosLookupFromPubkey() // temporary hack
@@ -299,6 +347,33 @@ const WikiAuthors = () => {
                   setSortBy={setSortBy}
                   sortAndFilterItems={sortAndFilterItems}
                 />
+                <div
+                  style={{
+                    border: '1px solid gold',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginBottom: '10px',
+                  }}
+                  className={promptLoginElemClassName}
+                >
+                  You must login first to sort by Degrees of Separation, Web of Trust, or Influence
+                  Scores.
+                </div>
+                <div
+                  style={{
+                    border: '1px solid gold',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginBottom: '10px',
+                  }}
+                  className={promptCalcInfluenceScoreElemClassName}
+                >
+                  To calculate Influence Scores, go to{' '}
+                  <CButton color="primary" href="#/settings/settings">
+                    this page
+                  </CButton>.{' '}
+                  (to do: or click _this button_)
+                </div>
                 <CTable striped small hover>
                   <CTableHead color="light">
                     <CTableRow>
@@ -410,6 +485,7 @@ const WikiAuthors = () => {
           </CCol>
         </CRow>
       </CContainer>
+      <WikiListener />
     </>
   )
 }

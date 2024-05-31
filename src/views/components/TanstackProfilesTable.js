@@ -199,7 +199,13 @@ function Filter({ column, table }) {
   )
 }
 
-const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubkeysToDisplay, myNpub }) => {
+const createData = ({
+  oProfilesByPubkey,
+  oProfilesByNpub,
+  aNpubsToDisplay,
+  aPubkeysToDisplay,
+  myNpub,
+}) => {
   const aData = []
   // aNpubsToDisplay.forEach(async (npub, item) => {
   aPubkeysToDisplay.forEach(async (pubkey, item) => {
@@ -227,8 +233,8 @@ const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubk
         mutes: oProfilesByNpub[npub].mutes.length,
         mutedBy: oProfilesByNpub[npub].mutedBy.length,
         degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
-        // wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
-        wotScore: returnWoTScore(npub, myNpub, oProfilesByNpub),
+        wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        // wotScore: returnWoTScore(npub, myNpub, oProfilesByNpub),
         influence: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.influence),
         certainty: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.certainty),
         averageScore: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.averageScore),
@@ -246,8 +252,8 @@ const createData = ({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubk
         mutes: oProfilesByNpub[npub].mutes.length,
         mutedBy: oProfilesByNpub[npub].mutedBy.length,
         degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
-        // wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
-        wotScore: returnWoTScore(npub, myNpub, oProfilesByNpub),
+        wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        // wotScore: returnWoTScore(npub, myNpub, oProfilesByNpub),
         influence: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.influence),
         certainty: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.certainty),
         averageScore: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.averageScore),
@@ -265,7 +271,13 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
   const myNpub = useSelector((state) => state.profile.npub)
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   const [data, _setData] = React.useState(() => [
-    ...createData({ oProfilesByPubkey, oProfilesByNpub, aNpubsToDisplay, aPubkeysToDisplay, myNpub }),
+    ...createData({
+      oProfilesByPubkey,
+      oProfilesByNpub,
+      aNpubsToDisplay,
+      aPubkeysToDisplay,
+      myNpub,
+    }),
   ])
   const rerender = React.useReducer(() => ({}), {})[1]
   const [columnVisibility, setColumnVisibility] = React.useState({
@@ -372,15 +384,7 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <th
-                        {...{
-                          key: header.id,
-                          colSpan: header.colSpan,
-                          style: {
-                            width: header.getSize(),
-                          },
-                        }}
-                      >
+                      <th key={header.id} colSpan={header.colSpan}>
                         <div
                           {...{
                             className: header.column.getCanSort()
@@ -430,14 +434,7 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <td
-                      {...{
-                        key: cell.id,
-                        style: {
-                          width: cell.column.getSize(),
-                        },
-                      }}
-                    >
+                    <td key={cell.id} style={{ width: 'cell.column.getSize()' }}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}

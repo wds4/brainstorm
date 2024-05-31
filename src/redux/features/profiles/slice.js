@@ -66,6 +66,36 @@ export const profilesSlice = createSlice({
   name: 'profiles',
   initialState: initState,
   reducers: {
+    addNewPubkey: (state, action) => {
+      const pubkey = action.payload
+      const npub = nip19.npubEncode(pubkey)
+      ////////// !!!!!!!!!!!! //////////
+      if (!state.oProfiles.byPubkey[pubkey]) {
+        state.oProfiles.byPubkey[pubkey] = npub
+      }
+      if (!state.oProfiles.byNpub[npub]) {
+        state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultByNpubData))
+      }
+      if (!state.oProfiles.byNpub[npub].pubkey) {
+        state.oProfiles.byNpub[npub].pubkey = pubkey
+      }
+    },
+    updateAllDegreesOfSeparationScores: (state, action) => {
+      const oScores = action.payload
+      Object.keys(oScores).forEach((pubkey, item) => {
+        const npub = state.oProfiles.byPubkey[pubkey]
+        const { dosScore } = oScores[pubkey].dosScoreData
+        state.oProfiles.byNpub[npub].wotScores.degreesOfSeparationFromMe = dosScore
+      })
+    },
+    updateAllCoracleScores: (state, action) => {
+      const oScores = action.payload
+      Object.keys(oScores).forEach((pubkey, item) => {
+        const npub = state.oProfiles.byPubkey[pubkey]
+        const { wotScore } = oScores[pubkey].wotScoreData
+        state.oProfiles.byNpub[npub].wotScores.coracle = wotScore
+      })
+    },
     updateAllBaselineInfluenceScores: (state, action) => {
       const oBaselineInfluenceScores = action.payload
       Object.keys(oBaselineInfluenceScores).forEach((pubkey, item) => {
@@ -109,6 +139,10 @@ export const profilesSlice = createSlice({
       const oKind0Event = action.payload
       const pubkey = oKind0Event.pubkey
       const npub = nip19.npubEncode(pubkey)
+      ////////// !!!!!!!!!!!! //////////
+      if (!state.oProfiles.byPubkey[pubkey]) {
+        state.oProfiles.byPubkey[pubkey] = npub
+      }
       if (!state.oProfiles.byNpub[npub]) {
         state.oProfiles.byNpub[npub] = JSON.parse(JSON.stringify(oDefaultByNpubData))
       }
@@ -126,6 +160,7 @@ export const profilesSlice = createSlice({
       const oKind3Event = action.payload
       const pubkey = oKind3Event.pubkey
       const npub = nip19.npubEncode(pubkey)
+      ////////// !!!!!!!!!!!! //////////
       if (!state.oProfiles.byPubkey[pubkey]) {
         state.oProfiles.byPubkey[pubkey] = npub
       }
@@ -146,6 +181,7 @@ export const profilesSlice = createSlice({
       const oKind10000Event = action.payload
       const pubkey = oKind10000Event.pubkey
       const npub = nip19.npubEncode(pubkey)
+      ////////// !!!!!!!!!!!! //////////
       if (!state.oProfiles.byPubkey[pubkey]) {
         state.oProfiles.byPubkey[pubkey] = npub
       }
@@ -169,6 +205,7 @@ export const profilesSlice = createSlice({
       const npub = nip19.npubEncode(pubkey)
       // Presumably this profile is already in the database, otherwise we would not have searched for its kind3 event.
       // But just in case it's not, add it:
+      ////////// !!!!!!!!!!!! //////////
       if (!state.oProfiles.byPubkey[pubkey]) {
         state.oProfiles.byPubkey[pubkey] = npub
       }
@@ -227,6 +264,7 @@ export const profilesSlice = createSlice({
       const oKind10000Event = action.payload
       const pubkey = oKind10000Event.pubkey
       const npub = nip19.npubEncode(pubkey)
+      ////////// !!!!!!!!!!!! //////////
       if (!state.oProfiles.byPubkey[pubkey]) {
         state.oProfiles.byPubkey[pubkey] = npub
       }
@@ -287,6 +325,9 @@ export const profilesSlice = createSlice({
 })
 
 export const {
+  addNewPubkey,
+  updateAllDegreesOfSeparationScores,
+  updateAllCoracleScores,
   updateAllBaselineInfluenceScores,
   updateBaselineInfluence,
   updateCoracleWoT,

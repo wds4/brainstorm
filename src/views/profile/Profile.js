@@ -1,120 +1,33 @@
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CButton, CCol, CContainer, CNav, CNavLink, CRow } from '@coreui/react'
-import LeaveRating from './leaveRating/leaveTrustAttestation'
+import { CButton, CNavLink, CRow } from '@coreui/react'
 import TabsNavigation from './tabsNavigation'
 import ContextualFollowBlockButtons from './contextualFollowBlockButtons/contextualFollowBlockButtons'
 import CIcon from '@coreui/icons-react'
 import { cilClone } from '@coreui/icons'
-import About from './about/About'
-import Notes from './notes/notes'
 import { getPubkeyFromNpub } from '../../helpers/nip19'
-import Wikis from './wikis/Wikis'
 import { updateApp, updateViewProfileTab } from '../../redux/features/siteNavigation/slice'
-import Follows from './follows/Follows'
 import {
   turnListenerOn,
   updateFilter,
   updateListenerApplication,
 } from '../../redux/features/listenerManager/slice'
-import { nip19 } from 'nostr-tools'
 import ProfilesDataListener from '../../helpers/listeners/ProfilesDataListener'
-import { getProfileBrainstormFromNpub, returnWoTScore, returnDegreesOfSeparation } from '../../helpers/brainstorm'
-import InfluenceScores from './influenceScores/InfluenceScores'
+import {
+  getProfileBrainstormFromNpub,
+  returnWoTScore,
+  returnDegreesOfSeparation,
+} from '../../helpers/brainstorm'
 import { updateDegreesOfSeparationFromMe } from '../../redux/features/profiles/slice'
-
-const oProfileBlank = {
-  banner: '',
-  lud16: '',
-  picture: '',
-  lud06: '',
-  website: '',
-  about: '',
-  name: '',
-  display_name: '',
-  nip05: '',
-}
-// eslint-disable-next-line react/prop-types
-const ProfileTabsContent = ({
-  whichTab,
-  npub,
-  pubkey,
-  oProfile,
-  oProfileNdk,
-  oProfileBrainstorm,
-  oKind0Event,
-  oKind3Event,
-  oKind10000Event,
-  aFollowPubkeys,
-  aFollowNpubs,
-  updateWhichTab,
-  oProfilesByNpub,
-}) => {
-  if (whichTab == 'about') {
-    return (
-      <About
-        oKind0Event={oKind0Event}
-        oKind3Event={oKind3Event}
-        oKind10000Event={oKind10000Event}
-        oProfile={oProfile}
-        oProfileNdk={oProfileNdk}
-        oProfileBrainstorm={oProfileBrainstorm}
-        npub={npub}
-        pubkey={pubkey}
-        aFollowPubkeys={aFollowPubkeys}
-      />
-    )
-  }
-  if (whichTab == 'follows') {
-    return (
-      <Follows
-        oProfilesByNpub={oProfilesByNpub}
-        oProfileBrainstorm={oProfileBrainstorm}
-        aFollowPubkeys={aFollowPubkeys}
-        aFollowNpubs={aFollowNpubs}
-        oKind3Event={oKind3Event}
-        oProfile={oProfile}
-        npub={npub}
-        pubkey={pubkey}
-        updateWhichTab={updateWhichTab}
-      />
-    )
-  }
-  if (whichTab == 'notes') {
-    return <Notes oProfile={oProfile} pubkey={pubkey} />
-  }
-  if (whichTab == 'wikis') {
-    return <Wikis oProfile={oProfile} npub={npub} pubkey={pubkey} />
-  }
-  if (whichTab == 'leaveRating') {
-    return <LeaveRating rateeNpub={npub} />
-  }
-  if (whichTab == 'ratingsOf') {
-    return <>profile tabs content: {whichTab} </>
-  }
-  if (whichTab == 'ratingsBy') {
-    return <>profile tabs content: {whichTab} </>
-  }
-  if (whichTab == 'wotScores') {
-    return (
-      <InfluenceScores
-        npub={npub}
-        pubkey={pubkey}
-        oProfile={oProfile}
-        oProfilesByNpub={oProfilesByNpub}
-      />
-    )
-  }
-  return <>profile tabs content: {whichTab} </>
-}
+import TabsContent from './tabsContent'
 
 const EditMyProfileButton = () => {
   const npubBeingObserved = useSelector((state) => state.siteNavigation.npub)
   const myNpub = useSelector((state) => state.profile.npub)
   if (npubBeingObserved == myNpub) {
     return (
-      <CNavLink href="#/myProfile/editMyProfile">
+      <CNavLink href="#/profile/editMyProfile">
         <CButton color="primary">Edit my profile</CButton>
       </CNavLink>
     )
@@ -129,7 +42,9 @@ const ShowMyNsecButton = ({ setRevealSecret }) => {
   if (npubBeingObserved == myNpub) {
     if (signInMethod == 'secret') {
       return (
-        <CButton color="danger" onClick={() => setRevealSecret('yes')}>Show my nsec</CButton>
+        <CButton color="danger" onClick={() => setRevealSecret('yes')}>
+          Show my nsec
+        </CButton>
       )
     }
   }
@@ -181,7 +96,8 @@ const Profile = () => {
   const currentDevelopmentMode = useSelector((state) => state.settings.general.developmentMode)
   const viewProfileTab = useSelector((state) => state.siteNavigation.profile.tab)
   // if (viewProfileTab == 'follows') { viewProfileTab == 'about' }
-  const [whichTab, setWhichTab] = useState(viewProfileTab) // use names of apps: about, notes, leaveRating, ratingsOf, ratingsBy, wotScores
+  // const [whichTab, setWhichTab] = useState(viewProfileTab) // use names of apps: about, notes, leaveRating, ratingsOf, ratingsBy, wotScores
+  const [whichTab, setWhichTab] = useState('about')
 
   const dispatch = useDispatch()
 
@@ -279,9 +195,11 @@ const Profile = () => {
     updateEvents()
   }, [oProfilesByNpub, npub])
 
+  /*
   useEffect(() => {
     setWhichTab('about')
   }, [npub])
+  */
 
   const copyNpubToClipboard = (np) => {
     navigator.clipboard.writeText(np)
@@ -293,6 +211,7 @@ const Profile = () => {
     dispatch(updateViewProfileTab(newTab))
   }
 
+  /*
   // * manage listener part 2
   if (listenerMethod != 'off') {
     // if kind0 and kind3 have already been downloaded, then switch to listening for follows info
@@ -303,7 +222,7 @@ const Profile = () => {
           kinds: [0, 3],
           authors: aFollowPubkeys,
         }
-        dispatch(updateApp('home'))
+        // dispatch(updateApp('home'))
         dispatch(updateFilter(filter))
         dispatch(turnListenerOn())
         dispatch(updateListenerApplication('home'))
@@ -314,7 +233,7 @@ const Profile = () => {
         kinds: [1],
         authors: [pubkey],
       }
-      dispatch(updateApp('home'))
+      // dispatch(updateApp('home'))
       dispatch(updateFilter(filter))
       dispatch(turnListenerOn())
       dispatch(updateListenerApplication('home'))
@@ -344,10 +263,10 @@ const Profile = () => {
       dispatch(updateListenerApplication('home'))
     }
   }
+  */
 
   return (
     <>
-      <ProfilesDataListener pubkey={pubkey} aPubkeys={aFollowPubkeys} />
       <div className="container-fluid">
         <div className="row">
           <div className="col-5 profileAvatarContainer">
@@ -424,7 +343,7 @@ const Profile = () => {
         </CRow>
         <br />
         <CRow>
-          <ProfileTabsContent
+          <TabsContent
             whichTab={whichTab}
             npub={npub}
             pubkey={pubkey}
@@ -447,3 +366,5 @@ const Profile = () => {
 }
 
 export default Profile
+
+// <ProfilesDataListener pubkey={pubkey} aPubkeys={aFollowPubkeys} />

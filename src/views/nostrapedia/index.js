@@ -14,7 +14,7 @@ import {
 } from '../../redux/features/listenerManager/slice'
 import WikiListener from '../../helpers/listeners/WikiListener'
 
-const WikiHome = () => {
+const NostrapediaHome = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
 
@@ -94,4 +94,4 @@ const WikiHome = () => {
   )
 }
 
-export default WikiHome
+export default NostrapediaHome

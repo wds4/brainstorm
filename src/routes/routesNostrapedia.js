@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Dashboard
-const Wiki = React.lazy(() => import('src/views/nostrapedia/index'))
+const Nostrapedia = React.lazy(() => import('src/views/nostrapedia/index'))
 
 // Settings
 const Settings = React.lazy(() => import('src/views/settings/wiki/Settings'))
@@ -30,7 +30,7 @@ const ViewAttestations = React.lazy(() =>
 const WotScores = React.lazy(() => import('src/views/nostrapedia/wotScores/WotScores'))
 
 const routes = [
-  { path: '/nostrapedia', name: 'Wiki', element: Wiki },
+  { path: '/nostrapedia', name: 'Nostrapedia', element: Nostrapedia },
   { path: '/nostrapedia/settings', name: 'Settings', element: Settings },
 
   // about

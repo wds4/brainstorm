@@ -17,6 +17,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { updateViewNostrapediaCategory } from '../../../redux/features/siteNavigation/slice'
+import WikiListener from '../../../helpers/listeners/WikiListener'
 import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
 
@@ -88,6 +89,7 @@ const NostrapediaCategories = () => {
           </CCol>
         </CRow>
       </CContainer>
+      <WikiListener />
     </>
   )
 }

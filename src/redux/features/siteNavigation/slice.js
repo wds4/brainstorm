@@ -72,7 +72,7 @@ export const siteNavigationSlice = createSlice({
     updateSortWikiTopicsBy: (state, action) => {
       state.wikifreedia.sortTopicsBy = action.payload
     },
-    updateSortSingleTopicBy: (state, action) => {
+    updateSortTopicBy: (state, action) => {
       state.wikifreedia.sortTopicBy = action.payload
     },
     updateSortWikiAuthorsBy: (state, action) => {
@@ -127,7 +127,7 @@ export const {
   updateViewNostrapediaArticle,
   updateViewNostrapediaCategory,
   updateSortWikiTopicsBy,
-  updateSortSingleTopicBy,
+  updateSortTopicBy,
   updateSortWikiAuthorsBy,
   wipeSiteNavigation,
 } = siteNavigationSlice.actions

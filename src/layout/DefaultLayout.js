@@ -132,18 +132,20 @@ const DefaultLayout = () => {
   }, [myNpub])
 
   return (
-    <div>
-      <AppSidebar />
-      <div className="wrapper d-flex flex-column min-vh-100">
-        <AppHeader />
-        <MyProfileV3Listener />
-        <ShowListenerManagerOrNot />
-        <div className="body flex-grow-1">
-          <AppContent />
+    <>
+      <div>
+        <AppSidebar />
+        <div className="wrapper d-flex flex-column min-vh-100">
+          <AppHeader />
+          <MyProfileV3Listener />
+          <ShowListenerManagerOrNot />
+          <div className="body flex-grow-1">
+            <AppContent />
+          </div>
+          <AppFooter />
         </div>
-        <AppFooter />
       </div>
-    </div>
+    </>
   )
 }
 

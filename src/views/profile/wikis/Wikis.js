@@ -45,6 +45,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
 
   const dispatch = useDispatch()
 
+  /*
   // * manage listener
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod != 'off') {
@@ -57,6 +58,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
     dispatch(turnListenerOn())
     dispatch(updateListenerApplication('wiki'))
   }
+  */
 
   const handleSearchFieldChange = useCallback(
     async (e) => {
@@ -77,9 +79,13 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
     dispatch(updateViewNostrapediaArticle(naddr))
   }
 
+  let numTopicsWrittenText = 'This user has written articles on ' + aTopicsFiltered.length + ' Topics.'
+  if (aTopicsFiltered.length == 1) {
+    numTopicsWrittenText = 'This user has written articles on ' + aTopicsFiltered.length + ' Topic.'
+  }
+
   return (
     <>
-      <WikiListener />
       <CContainer
         className="px-4"
         style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
@@ -88,7 +94,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
           <CCol xs={12}>
             <CCard className="mb-4">
               <CCardHeader>
-                <strong>This user has written articles on {aTopicsFiltered.length} Topics.</strong>
+                <strong>{numTopicsWrittenText}</strong>
               </CCardHeader>
               <CCardBody>
                 <CFormInput
@@ -155,3 +161,5 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
 }
 
 export default Wikis
+
+// <WikiListener />

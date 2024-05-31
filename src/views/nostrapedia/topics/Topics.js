@@ -16,7 +16,6 @@ const WikiTopics = () => {
 
   return (
     <>
-      <WikiListener />
       <CContainer fluid>
         <div style={{ marginBottom: '20px' }}>
           <div style={{ float: 'right' }} className={loggedInClassName}>
@@ -30,6 +29,7 @@ const WikiTopics = () => {
         </div>
         <WikiArticlesContent />
       </CContainer>
+      <WikiListener />
     </>
   )
 }
