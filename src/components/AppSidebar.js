@@ -16,6 +16,7 @@ import navigationHomeSignedInDevMode from 'src/nav/_navHomeSignedInDevMode'
 import navigationHomeSignedOut from 'src/nav/_navHomeSignedOut'
 import navigationConceptGraph from 'src/nav/_navConceptGraph'
 import navigationGrapevine from 'src/nav/_navGrapevine'
+import navigationGrapevineDevMode from 'src/nav/_navGrapevineDevMode'
 import navigationCuratedLists from 'src/nav/_navCuratedLists'
 import navigationNestedLists from 'src/nav/_navNestedLists'
 import navigationNostrapedia from 'src/nav/_navNostrapedia'
@@ -48,6 +49,9 @@ function getNavigation(activeApp, signedIn, developmentMode) {
     case 'conceptGraph':
       return navigationConceptGraph
     case 'grapevine':
+      if (developmentMode == 'show') {
+        return navigationGrapevineDevMode
+      }
       return navigationGrapevine
     case 'nestedLists':
       return navigationNestedLists
@@ -94,7 +98,7 @@ const AppSidebar = () => {
   return (
     <CSidebar className="border-end" colorScheme="dark" position="fixed" visible={sidebarShow}>
       <CSidebarHeader className="border-bottom">
-        <CSidebarBrand href="#/dashboard" style={{ textDecoration: 'none' }}>
+        <CSidebarBrand onClick={() => dispatch(updateApp('home'))} href="#/dashboard" style={{ textDecoration: 'none' }}>
           <img
             src="./brainstorm010_white.svg"
             style={{ height: '25px', marginLeft: '8px', marginRight: '10px' }}

@@ -52,6 +52,17 @@ const InfluenceScores = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
 
+  const myNpub = useSelector((state) => state.profile.npub)
+  let aMyFollows = []
+  if (myNpub && oProfilesByNpub && oProfilesByNpub[myNpub]) {
+    aMyFollows = useSelector((state) => oProfilesByNpub[myNpub].follows)
+  }
+
+  let noFollowsWarning = 'hide'
+  if (!aMyFollows.length) {
+    noFollowsWarning = 'show'
+  }
+
   let numProfiles = 0
   let scoreTimestamp = 0
   if (oScoreUpdates && oScoreUpdates.influenceScore) {
@@ -77,6 +88,21 @@ const InfluenceScores = () => {
         </div>
         <div>Since then, {profilesAdded} profiles have been added.</div>
       </center>
+      <div
+        style={{
+          border: '1px solid red',
+          padding: '10px',
+          borderRadius: '5px',
+          marginTop: '10px',
+          marginBottom: '10px',
+          textAlign: 'center',
+        }}
+        className={noFollowsWarning}
+      >
+        YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
+        <br/><br/>
+        FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW ONE OR MORE PROFILES.
+      </div>
       <br />
       <InfluenceScoreButton calculate={calculate} processButtonClick={processButtonClick} />
       <br />

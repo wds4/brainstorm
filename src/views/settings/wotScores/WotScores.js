@@ -51,6 +51,17 @@ const WotScores = () => {
 
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
 
+  const myNpub = useSelector((state) => state.profile.npub)
+  let aMyFollows = []
+  if (myNpub && oProfilesByNpub && oProfilesByNpub[myNpub]) {
+    aMyFollows = useSelector((state) => oProfilesByNpub[myNpub].follows)
+  }
+
+  let noFollowsWarning = 'hide'
+  if (!aMyFollows.length) {
+    noFollowsWarning = 'show'
+  }
+
   const processButtonClick = async () => {
     setCalculatingIndicator('yes')
     const foo = await timeout(10)
@@ -64,6 +75,21 @@ const WotScores = () => {
         <div> -- profiles when WoT Scores were last calculated</div>
         <div>WORK IN PROGRESS (not yet functional)</div>
       </center>
+      <div
+        style={{
+          border: '1px solid red',
+          padding: '10px',
+          borderRadius: '5px',
+          marginTop: '10px',
+          marginBottom: '10px',
+          textAlign: 'center',
+        }}
+        className={noFollowsWarning}
+      >
+        YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S WoT SCORE WILL BE ZERO.
+        <br/><br/>
+        FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
+      </div>
       <br />
       <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
       <br />

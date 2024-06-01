@@ -7,50 +7,83 @@ import { useSelector } from 'react-redux'
 
 const GeneralSettings = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  console.log('GeneralSettings')
+  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
+
+  let numInfluenceScoreProfiles = 0
+  let numDosScoreProfiles = 0
+  let numWotScoreProfiles = 0
+  let influenceScoreTimestamp = 0
+  let wotScoreTimestamp = 0
+  let dosScoreTimestamp = 0
+  if (oScoreUpdates) {
+    if (oScoreUpdates.influenceScore) {
+      numInfluenceScoreProfiles = oScoreUpdates.influenceScore.numProfiles
+      influenceScoreTimestamp = oScoreUpdates.influenceScore.timestamp
+    }
+    if (oScoreUpdates.wotScore) {
+      numWotScoreProfiles = oScoreUpdates.wotScore.numProfiles
+      wotScoreTimestamp = oScoreUpdates.wotScore.timestamp
+    }
+    if (oScoreUpdates.degreesOfSeparation) {
+      numDosScoreProfiles = oScoreUpdates.degreesOfSeparation.numProfiles
+      dosScoreTimestamp = oScoreUpdates.degreesOfSeparation.timestamp
+    }
+  }
+  const influenceScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numInfluenceScoreProfiles
+  const wotScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numWotScoreProfiles
+  const dosScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numDosScoreProfiles
+
+  let influenceScores_value = ''
+  let influenceScores_title = ''
+  if (!influenceScoreTimestamp || !numInfluenceScoreProfiles) {
+    influenceScores_value = 'Calculate Influence Scores'
+    influenceScores_title = 'never calculated '
+  }
+  if (influenceScoreProfilesToAdd > 0) {
+    influenceScores_value = 'recalculate Influence Scores'
+    influenceScores_title = 'need to calculate for ' + influenceScoreProfilesToAdd + " profiles"
+  }
+  if (influenceScoreProfilesToAdd == 0) {
+    influenceScores_value = 'recalculate Influence Scores'
+    influenceScores_title = 'no new profiles'
+  }
+
+  let wotScores_value = ''
+  let wotScores_title = ''
+  if (!wotScoreTimestamp || !numWotScoreProfiles) {
+    wotScores_value = 'Calculate WoT Scores'
+    wotScores_title = 'never calculated '
+  }
+  if (wotScoreProfilesToAdd > 0) {
+    wotScores_value = 'recalculate WoT Scores'
+    wotScores_title = 'need to calculate for ' + wotScoreProfilesToAdd + " profiles"
+  }
+  if (wotScoreProfilesToAdd == 0) {
+    wotScores_value = 'recalculate WoT Scores'
+    wotScores_title = 'no new profiles'
+  }
+
+  let dosScores_value = ''
+  let dosScores_title = ''
+  if (!dosScoreTimestamp || !numDosScoreProfiles) {
+    dosScores_value = 'Calculate DoS Scores'
+    dosScores_title = 'never calculated'
+  }
+  if (dosScoreProfilesToAdd > 0) {
+    dosScores_value = 'recalculate DoS Scores'
+    dosScores_title = 'need to calculate for ' + dosScoreProfilesToAdd + " profiles"
+  }
+  if (dosScoreProfilesToAdd == 0) {
+    dosScores_value = 'recalculate DoS Scores'
+    dosScores_title = 'no new profiles'
+  }
+
   return (
     <>
       <center>
         <h4>General Settings</h4>
         <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
       </center>
-      <br />
-      <DocsExample href="components/widgets/#cwidgetstatsf">
-        <CRow xs={{ gutter: 4 }}>
-          <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink href="#/settings/influenceScores">
-              <CWidgetStatsF
-                icon={<CIcon width={24} icon={cilThumbUp} size="xl" />}
-                title="title"
-                value="recalculate Influence Scores"
-                color="info"
-              />
-            </CNavLink>
-          </CCol>
-
-          <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink href="#/settings/wotScores">
-              <CWidgetStatsF
-                icon={<CIcon width={24} icon={cilThumbUp} size="xl" />}
-                title="title"
-                value="recalculate WoT Scores"
-                color="info"
-              />
-            </CNavLink>
-          </CCol>
-
-          <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink href="#/settings/dosScores">
-              <CWidgetStatsF
-                icon={<CIcon width={24} icon={cilGraph} size="xl" />}
-                title="title"
-                value="recalculate Degrees of Separation Scores"
-                color="info"
-              />
-            </CNavLink>
-          </CCol>
-        </CRow>
-      </DocsExample>
     </>
   )
 }

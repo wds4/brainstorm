@@ -20,14 +20,14 @@ const Dashboard = () => {
   return (
     <>
       <center>
-        <h3>Pretty Good Apps: Brainstorm</h3>
+        <h3>Pretty Good Apps: BrainSToRm</h3>
         <br />
         <br />
       </center>
       <DocsExample href="components/widgets/#cwidgetstatsf">
         <CRow xs={{ gutter: 4 }}>
           <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CCard style={{ width: '100%' }} className="mb-3 border-info" textColor="info">
+            <CCard style={{ width: '100%', height: '100%' }} className="mb-3 border-info" textColor="info">
               <CNavLink
                 style={{ display: 'inline-block' }}
                 href="#/nostrapedia"
@@ -45,7 +45,7 @@ const Dashboard = () => {
             </CCard>
           </CCol>
           <CCol xs={12} sm={6} xl={4} xxl={3} className={loggedInClassName}>
-            <CCard style={{ width: '100%' }} className="mb-3 border-primary" textColor="primary">
+            <CCard style={{ width: '100%', height: '100%' }} className="mb-3 border-primary" textColor="primary">
               <CNavLink
                 style={{ display: 'inline-block' }}
                 href="#/grapevine"

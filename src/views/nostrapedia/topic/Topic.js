@@ -75,11 +75,10 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
 }
 
 const WikiTopic = () => {
-  const myFollows = useSelector((state) => state.profile.kind3.follows)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const currentSortTopicBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicBy)
   const [sortBy, setSortBy] = useState(currentSortTopicBy)
-
+  const signedIn = useSelector((state) => state.profile.signedIn)
   const [searchParams, setSearchParams] = useSearchParams()
   const viewTopic = useSelector((state) => state.siteNavigation.wikifreedia.viewTopic)
   const [topicSlug, setTopicSlug] = useState(viewTopic)
@@ -91,6 +90,28 @@ const WikiTopic = () => {
     oAuthors = oTopicSlugs[topicSlug]
     aAuthorsRef = Object.keys(oAuthors)
   }
+
+  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
+  let whenInfluenceScoresUpdated = 0
+  if (oScoreUpdates && oScoreUpdates.influenceScore) {
+    whenInfluenceScoresUpdated = oScoreUpdates.influenceScore.timestamp
+  }
+
+  const myNpub = useSelector((state) => state.profile.npub)
+  let aMyFollows = []
+  if (myNpub && oProfilesByNpub && oProfilesByNpub[myNpub]) {
+    aMyFollows = useSelector((state) => oProfilesByNpub[myNpub].follows)
+  }
+
+  const [promptLoginElemClassName, setPromptLoginElemClassName] = useState('hide') // show or hide
+  const [promptFollowForWotUtilityClassName, setPromptFollowForWotUtilityClassName] =
+    useState('hide') // show or hide
+  const [promptFollowForDosUtilityClassName, setPromptFollowForDosUtilityClassName] =
+    useState('hide') // show or hide
+  const [promptFollowForInfluenceUtilityClassName, setPromptFollowForInfluenceUtilityClassName] =
+    useState('hide') // show or hide
+  const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
+    useState('hide') // show or hide
 
   /*
   const aCategories_temp = []
@@ -131,7 +152,7 @@ const WikiTopic = () => {
         refFollowers = oProfilesByNpub[np].followers
       }
       refFollowers.forEach((refPubkey, item) => {
-        if (myFollows.includes(refPubkey)) {
+        if (aMyFollows.includes(refPubkey)) {
           wotScore++
         }
       })
@@ -176,6 +197,12 @@ const WikiTopic = () => {
         return arraySorted
       }
       if (sortByMethod == 'wotScore') {
+        if (!signedIn) {
+          setPromptLoginElemClassName('show')
+        }
+        if (signedIn && aMyFollows.length == 0) {
+          setPromptFollowForWotUtilityClassName('show')
+        }
         const arraySorted = aAuthorsRef.sort((a, b) => {
           return coracleWotScore[b] - coracleWotScore[a]
         })
@@ -187,6 +214,12 @@ const WikiTopic = () => {
         return arraySorted
       }
       if (sortByMethod == 'degreesOfSeparation') {
+        if (!signedIn) {
+          setPromptLoginElemClassName('show')
+        }
+        if (signedIn && aMyFollows.length == 0) {
+          setPromptFollowForDosUtilityClassName('show')
+        }
         console.log('degreesOfSeparation')
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('show')
@@ -206,6 +239,17 @@ const WikiTopic = () => {
         return arraySorted
       }
       if (sortByMethod == 'influenceScore') {
+        if (!signedIn) {
+          setPromptLoginElemClassName('show')
+        }
+        if (signedIn && aMyFollows.length == 0) {
+          setPromptFollowForInfluenceUtilityClassName('show')
+        }
+        if (whenInfluenceScoresUpdated == 0) {
+          if (signedIn) {
+            setPromptCalcInfluenceScoreElemClassName('show')
+          }
+        }
         console.log('influenceScore')
         // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
         setLastUpdateColumnClassName('hide')
@@ -320,6 +364,88 @@ const WikiTopic = () => {
                     ></CFormSelect>
                   </div>
                 </div>
+
+
+                <div
+                  style={{
+                    border: '1px solid red',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                    textAlign: 'center',
+                  }}
+                  className={promptFollowForInfluenceUtilityClassName}
+                >
+                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
+                  <br />
+                  FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
+                  <br />
+                  BUT ONE IS ENOUGH! HOW ABOUT _____
+                </div>
+                <div
+                  style={{
+                    border: '1px solid red',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                    textAlign: 'center',
+                  }}
+                  className={promptFollowForDosUtilityClassName}
+                >
+                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S DoS SCORE WILL BE ZERO.
+                  <br />
+                  FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
+                  <br />
+                  BUT ONE IS ENOUGH! HOW ABOUT _____
+                </div>
+                <div
+                  style={{
+                    border: '1px solid red',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                    textAlign: 'center',
+                  }}
+                  className={promptFollowForWotUtilityClassName}
+                >
+                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S WoT SCORE WILL BE ZERO.
+                  <br />
+                  FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
+                  <br />
+                  HOW ABOUT START WITH ONE FOLLOW AND THEN CHECK OUT THE DoS AND INFLUENCE SCORES.
+                </div>
+                <div
+                  style={{
+                    border: '1px solid gold',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginBottom: '10px',
+                  }}
+                  className={promptLoginElemClassName}
+                >
+                  You must login first to sort by Degrees of Separation, Web of Trust, or Influence
+                  Scores.
+                </div>
+                <div
+                  style={{
+                    border: '1px solid gold',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginBottom: '10px',
+                  }}
+                  className={promptCalcInfluenceScoreElemClassName}
+                >
+                  To calculate Influence Scores, go to{' '}
+                  <CButton color="primary" href="#/grapevine/calculateInfluenceScores">
+                    this page
+                  </CButton>
+                  . (to do: or click _this button_)
+                </div>
+
+
               </div>
             </CCardHeader>
             <CCardBody>

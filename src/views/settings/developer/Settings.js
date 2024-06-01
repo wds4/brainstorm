@@ -64,27 +64,29 @@ const DeveloperSettings = () => {
         </CCol>
       </CRow>
       <br />
-      <CRow>
-        <CCol xs={12}>
-          <CFormSelect
-            value={listenerMethodState}
-            onChange={(e) => {
-              changeListenerMethod(e.target.value)
-            }}
-            label="select a nost listener method:"
-          >
-            <option value="off">off</option>
-            <option value="vsListeners">version 3 method (option 1)</option>
-            <option value="individualListeners">prior standard method (option 2)</option>
-            <option value="oneMainListener">buggy method (option 3)</option>
-          </CFormSelect>
-          <br />
-          <div>
-            Set this to off if the website is having performance issues. Especially if your laptop
-            is overheating.
-          </div>
-        </CCol>
-      </CRow>
+      <div className={developmentMode}>
+        <CRow>
+          <CCol xs={12}>
+            <CFormSelect
+              value={listenerMethodState}
+              onChange={(e) => {
+                changeListenerMethod(e.target.value)
+              }}
+              label="select a nost listener method:"
+            >
+              <option value="off">off</option>
+              <option value="vsListeners">version 3 method (option 1)</option>
+              <option value="individualListeners">prior standard method (option 2)</option>
+              <option value="oneMainListener">buggy method (option 3)</option>
+            </CFormSelect>
+            <br />
+            <div>
+              Set this to off if the website is having performance issues. Especially if your laptop
+              is overheating.
+            </div>
+          </CCol>
+        </CRow>
+      </div>
     </>
   )
 }

@@ -67,7 +67,20 @@ const WikiAuthors = () => {
   if (oScoreUpdates && oScoreUpdates.influenceScore) {
     whenInfluenceScoresUpdated = oScoreUpdates.influenceScore.timestamp
   }
+
+  const myNpub = useSelector((state) => state.profile.npub)
+  let aMyFollows = []
+  if (myNpub && oProfilesByNpub && oProfilesByNpub[myNpub]) {
+    aMyFollows = useSelector((state) => oProfilesByNpub[myNpub].follows)
+  }
+
   const [promptLoginElemClassName, setPromptLoginElemClassName] = useState('hide') // show or hide
+  const [promptFollowForWotUtilityClassName, setPromptFollowForWotUtilityClassName] =
+    useState('hide') // show or hide
+  const [promptFollowForDosUtilityClassName, setPromptFollowForDosUtilityClassName] =
+    useState('hide') // show or hide
+  const [promptFollowForInfluenceUtilityClassName, setPromptFollowForInfluenceUtilityClassName] =
+    useState('hide') // show or hide
   const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
     useState('hide') // show or hide
 
@@ -209,6 +222,10 @@ const WikiAuthors = () => {
           if (!signedIn) {
             setPromptLoginElemClassName('show')
           }
+          if (signedIn && aMyFollows.length == 0) {
+            setPromptFollowForWotUtilityClassName('show')
+          }
+          promptFollowForWotUtilityClassName
           const arraySorted = inputArray.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -220,6 +237,9 @@ const WikiAuthors = () => {
         if (sortByMethod == 'influenceScore') {
           if (!signedIn) {
             setPromptLoginElemClassName('show')
+          }
+          if (signedIn && aMyFollows.length == 0) {
+            setPromptFollowForInfluenceUtilityClassName('show')
           }
           if (whenInfluenceScoresUpdated == 0) {
             if (signedIn) {
@@ -253,6 +273,9 @@ const WikiAuthors = () => {
         if (sortByMethod == 'degreesOfSeparation') {
           if (!signedIn) {
             setPromptLoginElemClassName('show')
+          }
+          if (signedIn && aMyFollows.length == 0) {
+            setPromptFollowForDosUtilityClassName('show')
           }
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -349,6 +372,57 @@ const WikiAuthors = () => {
                 />
                 <div
                   style={{
+                    border: '1px solid red',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                    textAlign: 'center',
+                  }}
+                  className={promptFollowForInfluenceUtilityClassName}
+                >
+                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
+                  <br />
+                  FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
+                  <br />
+                  BUT ONE IS ENOUGH! HOW ABOUT _____
+                </div>
+                <div
+                  style={{
+                    border: '1px solid red',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                    textAlign: 'center',
+                  }}
+                  className={promptFollowForDosUtilityClassName}
+                >
+                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S DoS SCORE WILL BE ZERO.
+                  <br />
+                  FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
+                  <br />
+                  BUT ONE IS ENOUGH! HOW ABOUT _____
+                </div>
+                <div
+                  style={{
+                    border: '1px solid red',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                    textAlign: 'center',
+                  }}
+                  className={promptFollowForWotUtilityClassName}
+                >
+                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S WoT SCORE WILL BE ZERO.
+                  <br />
+                  FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
+                  <br />
+                  HOW ABOUT START WITH ONE FOLLOW AND THEN CHECK OUT THE DoS AND INFLUENCE SCORES.
+                </div>
+                <div
+                  style={{
                     border: '1px solid gold',
                     padding: '10px',
                     borderRadius: '5px',
@@ -369,10 +443,10 @@ const WikiAuthors = () => {
                   className={promptCalcInfluenceScoreElemClassName}
                 >
                   To calculate Influence Scores, go to{' '}
-                  <CButton color="primary" href="#/settings/settings">
+                  <CButton color="primary" href="#/grapevine/calculateInfluenceScores">
                     this page
-                  </CButton>.{' '}
-                  (to do: or click _this button_)
+                  </CButton>
+                  . (to do: or click _this button_)
                 </div>
                 <CTable striped small hover>
                   <CTableHead color="light">

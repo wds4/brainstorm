@@ -46,10 +46,22 @@ const CalculateScoresButton = ({ calculate, processButtonClick }) => {
 }
 
 const DosScores = () => {
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+
   const [calculatingIndicator, setCalculatingIndicator] = useState('no')
   const [calculate, setCalculate] = useState('no')
 
-  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const myNpub = useSelector((state) => state.profile.npub)
+  let aMyFollows = []
+  if (myNpub && oProfilesByNpub && oProfilesByNpub[myNpub]) {
+    aMyFollows = useSelector((state) => oProfilesByNpub[myNpub].follows)
+  }
+
+  let noFollowsWarning = 'hide'
+  if (!aMyFollows.length) {
+    noFollowsWarning = 'show'
+  }
+
   const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
   // const numProfiles = oScoreUpdates.degreesOfSeparation.numProfiles
   // const profilesAdded = Object.keys(oProfilesByNpub).length - oScoreUpdates.degreesOfSeparation.numProfiles
@@ -76,6 +88,21 @@ const DosScores = () => {
         <div>Since then, {profilesAdded} profiles have been added.</div>
         <div>WORK IN PROGRESS (not yet functional)</div>
       </center>
+      <div
+        style={{
+          border: '1px solid red',
+          padding: '10px',
+          borderRadius: '5px',
+          marginTop: '10px',
+          marginBottom: '10px',
+          textAlign: 'center',
+        }}
+        className={noFollowsWarning}
+      >
+        YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S DoS SCORE WILL BE ZERO.
+        <br/><br/>
+        FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW ONE OR MORE PROFILES.
+      </div>
       <br />
       <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
       <br />

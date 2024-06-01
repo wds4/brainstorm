@@ -11,24 +11,6 @@ const _nav = [
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
-    component: CNavItem,
-    name: 'Calculate Influence Scores',
-    to: '/settings/influenceScores',
-    icon: <CIcon icon={cilThumbUp} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Calculate WoT Scores',
-    to: '/settings/wotScores',
-    icon: <CIcon icon={cilThumbUp} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Calculate Degrees of Separation Scores',
-    to: '/settings/dosScores',
-    icon: <CIcon icon={cilGraph} customClassName="nav-icon" />,
-  },
-  {
     component: CNavTitle,
     name: 'Apps',
   },

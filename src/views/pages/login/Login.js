@@ -27,6 +27,7 @@ import {
   updatePubkey,
 } from '../../../redux/features/profile/slice'
 import { updateLoginRelayUrl } from '../../../redux/features/settings/slice'
+import { addNewPubkey } from '../../../redux/features/profiles/slice'
 
 const LoginWithExtension = ({ loginPath }) => {
   const [nip07ExtensionAvailable, setNip07ExtensionAvailable] = useState(false)
@@ -175,6 +176,7 @@ const Login = () => {
     dispatch(updateNpub(npub))
     dispatch(updateSignInMethod('secret'))
     dispatch(updateSignedIn(true))
+    dispatch(addNewPubkey(pubkey))
   }, [hexKey, nsec, pubkey, npub])
 
   return (

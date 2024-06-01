@@ -1,98 +1,120 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useCallback, useState } from 'react'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
-import { cilBolt, cilBoltCircle, cilCircle, cilThumbUp } from '@coreui/icons'
-import { updateApp } from 'src/redux/features/siteNavigation/slice'
-import { cutoffTime } from 'src/const'
-import {
-  turnListenerOn,
-  updateFilter,
-  updateListenerApplication,
-} from '../../redux/features/listenerManager/slice'
-import GrapevineListener from '../../helpers/listeners/GrapevineListener'
+import { cilBolt, cilBoltCircle, cilCircle, cilGraph, cilThumbUp } from '@coreui/icons'
+import { useSelector } from 'react-redux'
 
-const GrapevineDashboard = () => {
-  const dispatch = useDispatch()
+const GrapevineCalculations = () => {
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
 
-  const oActions = useSelector((state) => state.grapevine.actions)
-  const oCategories = useSelector((state) => state.grapevine.categories)
-  const oContexts = useSelector((state) => state.grapevine.contexts)
-  const oTrustAttestations = useSelector((state) => state.grapevine.trustAttestations)
-
-  /*
-  // * manage listener
-  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
-  if (listenerMethod != 'off') {
-    const filter = {
-      kinds: [9902, 39902],
-      since: cutoffTime,
-      '#P': ['tapestry'],
+  let numInfluenceScoreProfiles = 0
+  let numDosScoreProfiles = 0
+  let numWotScoreProfiles = 0
+  let influenceScoreTimestamp = 0
+  let wotScoreTimestamp = 0
+  let dosScoreTimestamp = 0
+  if (oScoreUpdates) {
+    if (oScoreUpdates.influenceScore) {
+      numInfluenceScoreProfiles = oScoreUpdates.influenceScore.numProfiles
+      influenceScoreTimestamp = oScoreUpdates.influenceScore.timestamp
     }
-    dispatch(updateApp('grapevine'))
-    dispatch(updateFilter(filter))
-    dispatch(turnListenerOn())
-    dispatch(updateListenerApplication('grapevine'))
+    if (oScoreUpdates.wotScore) {
+      numWotScoreProfiles = oScoreUpdates.wotScore.numProfiles
+      wotScoreTimestamp = oScoreUpdates.wotScore.timestamp
+    }
+    if (oScoreUpdates.degreesOfSeparation) {
+      numDosScoreProfiles = oScoreUpdates.degreesOfSeparation.numProfiles
+      dosScoreTimestamp = oScoreUpdates.degreesOfSeparation.timestamp
+    }
   }
-  */
+  const influenceScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numInfluenceScoreProfiles
+  const wotScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numWotScoreProfiles
+  const dosScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numDosScoreProfiles
+
+  let influenceScores_value = ''
+  let influenceScores_title = ''
+  if (!influenceScoreTimestamp || !numInfluenceScoreProfiles) {
+    influenceScores_value = 'Calculate Influence Scores'
+    influenceScores_title = 'never calculated '
+  }
+  if (influenceScoreProfilesToAdd > 0) {
+    influenceScores_value = 'recalculate Influence Scores'
+    influenceScores_title = 'need to calculate for ' + influenceScoreProfilesToAdd + " profiles"
+  }
+  if (influenceScoreProfilesToAdd == 0) {
+    influenceScores_value = 'recalculate Influence Scores'
+    influenceScores_title = 'no new profiles'
+  }
+
+  let wotScores_value = ''
+  let wotScores_title = ''
+  if (!wotScoreTimestamp || !numWotScoreProfiles) {
+    wotScores_value = 'Calculate WoT Scores'
+    wotScores_title = 'never calculated '
+  }
+  if (wotScoreProfilesToAdd > 0) {
+    wotScores_value = 'recalculate WoT Scores'
+    wotScores_title = 'need to calculate for ' + wotScoreProfilesToAdd + " profiles"
+  }
+  if (wotScoreProfilesToAdd == 0) {
+    wotScores_value = 'recalculate WoT Scores'
+    wotScores_title = 'no new profiles'
+  }
+
+  let dosScores_value = ''
+  let dosScores_title = ''
+  if (!dosScoreTimestamp || !numDosScoreProfiles) {
+    dosScores_value = 'Calculate DoS Scores'
+    dosScores_title = 'never calculated'
+  }
+  if (dosScoreProfilesToAdd > 0) {
+    dosScores_value = 'recalculate DoS Scores'
+    dosScores_title = 'need to calculate for ' + dosScoreProfilesToAdd + " profiles"
+  }
+  if (dosScoreProfilesToAdd == 0) {
+    dosScores_value = 'recalculate DoS Scores'
+    dosScores_title = 'no new profiles'
+  }
+
   return (
     <>
-      <GrapevineListener />
       <center>
-        <h3>Grapevine Dashboard</h3>
-        <br />
-        <div>This app is under construction!</div>
+        <h4>Grapevine Calculations</h4>
+        <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
       </center>
       <br />
       <DocsExample href="components/widgets/#cwidgetstatsf">
-        <CRow xs={{ gutter: 1 }}>
-          <div>
-            Create <span style={{ fontStyle: 'italic' }}>context-specific</span> trust attestations.
-          </div>
-          <div>
-            Each context is defined by an <span style={{ fontStyle: 'italic' }}>action</span> and a{' '}
-            <span style={{ fontStyle: 'italic' }}>category</span>.
-          </div>
-        </CRow>
-        <br />
         <CRow xs={{ gutter: 4 }}>
           <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink href="#/grapevine/trustAttestations/viewAll">
+            <CNavLink href="#/grapevine/calculateInfluenceScores">
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilThumbUp} size="xl" />}
-                title={Object.keys(oTrustAttestations).length}
-                value="trust attestations"
-                color="primary"
-              />
-            </CNavLink>
-          </CCol>
-          <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink href="#/grapevine/contexts/viewAll">
-              <CWidgetStatsF
-                icon={<CIcon width={24} icon={cilBoltCircle} size="xl" />}
-                title={Object.keys(oContexts).length}
-                value="contexts"
+                title={influenceScores_title}
+                value={influenceScores_value}
                 color="info"
               />
             </CNavLink>
           </CCol>
+
           <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink href="#/grapevine/actions/viewAll">
+            <CNavLink href="#/grapevine/calculateWotScores">
               <CWidgetStatsF
-                icon={<CIcon width={24} icon={cilBolt} size="xl" />}
-                title={Object.keys(oActions).length}
-                value="actions"
+                icon={<CIcon width={24} icon={cilThumbUp} size="xl" />}
+                title={wotScores_title}
+                value={wotScores_value}
                 color="info"
               />
             </CNavLink>
           </CCol>
+
           <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink href="#/grapevine/categories/viewAll">
+            <CNavLink href="#/grapevine/calculateDosScores">
               <CWidgetStatsF
-                icon={<CIcon width={24} icon={cilCircle} size="xl" />}
-                title={Object.keys(oCategories).length}
-                value="categories"
+                icon={<CIcon width={24} icon={cilGraph} size="xl" />}
+                title={dosScores_title}
+                value={dosScores_value}
                 color="info"
               />
             </CNavLink>
@@ -103,4 +125,4 @@ const GrapevineDashboard = () => {
   )
 }
 
-export default GrapevineDashboard
+export default GrapevineCalculations

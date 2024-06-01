@@ -3,10 +3,6 @@ import React from 'react'
 // Dashboard
 const Settings = React.lazy(() => import('src/views/settings/settings/Settings'))
 
-const InfluenceScores = React.lazy(() => import('src/views/settings/influenceScores/InfluenceScores'))
-const WotScores = React.lazy(() => import('src/views/settings/wotScores/WotScores'))
-const DosScores = React.lazy(() => import('src/views/settings/dosScores/DosScores'))
-
 const Database = React.lazy(() => import('src/views/settings/database/Database.js'))
 const Developer = React.lazy(() => import('src/views/settings/developer/Settings.js'))
 const Grapevine = React.lazy(() => import('src/views/settings/grapevine/Settings.js'))
@@ -24,10 +20,6 @@ const RelaysDirectory = React.lazy(() => import('src/views/settings/relaysDirect
 
 const routes = [
   { path: '/settings', name: 'Settings', element: Settings },
-
-  { path: '/settings/influenceScores', name: 'Influence Scores', element: InfluenceScores },
-  { path: '/settings/wotScores', name: 'WoT Scores', element: WotScores },
-  { path: '/settings/dosScores', name: 'DoS Scores', element: DosScores },
 
   { path: '/settings/database', name: 'Database', element: Database },
   { path: '/settings/developer', name: 'Developer', element: Developer },
