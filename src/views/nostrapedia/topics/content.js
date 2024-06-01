@@ -26,7 +26,7 @@ import { secsToTime } from '../../../helpers'
 const WikiArticlesAlphabetical = () => {
   const currentSortTopicsBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicsBy)
   const [searchField, setSearchField] = useState('')
-  const [sortBy, setSortBy] = useState(currentSortTopicsBy)
+  const [sortBy, setSortBy] = useState('numerical')
   const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
   const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
   let aTopicsRef = []

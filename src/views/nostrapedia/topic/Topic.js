@@ -77,7 +77,7 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
 const WikiTopic = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const currentSortTopicBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicBy)
-  const [sortBy, setSortBy] = useState(currentSortTopicBy)
+  const [sortBy, setSortBy] = useState('category')
   const signedIn = useSelector((state) => state.profile.signedIn)
   const [searchParams, setSearchParams] = useSearchParams()
   const viewTopic = useSelector((state) => state.siteNavigation.wikifreedia.viewTopic)

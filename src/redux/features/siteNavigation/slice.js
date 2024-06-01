@@ -80,7 +80,7 @@ export const siteNavigationSlice = createSlice({
     },
     wipeSiteNavigation: (state, action) => {
       console.log('wipeSiteNavigation ... currently inactive')
-      state.siteNavigation = {}
+      // state.siteNavigation = {}
       state.siteNavigation = {
         loginTime: 0,
         app: 'home', // home, conceptGraph, grapevine, curatedLists, wikifreedia, twittr
@@ -104,9 +104,9 @@ export const siteNavigationSlice = createSlice({
           viewTopic: '', // string, human readable
           viewArticle: '', // naddr
           viewCategory: '', // human readable string
-          sortTopicsBy: 'chronological',
-          sortTopicBy: 'chronological',
-          sortAuthorsBy: 'chronological',
+          sortTopicsBy: 'numerical', // alphabetical, reverseAlphabetical, numerical, chronological,
+          sortTopicBy: 'category', // chronological, wotScore, degreesOfSeparation, influenceScore, category
+          sortAuthorsBy: 'numerical', // alphabetical, reverseAlphabetical, numerical, chronological, wotScore, influenceScore, degreesOfSeparation
         },
       }
     },
