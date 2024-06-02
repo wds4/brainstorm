@@ -21,6 +21,7 @@ import {
   updateListenerApplication,
 } from '../redux/features/listenerManager/slice'
 import MyProfileV3Listener from '../helpers/v3Listeners/myProfileV3Listener'
+import AllConnectedProfilesV3Listener from '../helpers/v3Listeners/allConnectedProfilesListener'
 
 const ShowListenerManagerOrNot = () => {
   const showListenerManager = useSelector((state) => state.settings.general.showListenerManager)
@@ -138,6 +139,7 @@ const DefaultLayout = () => {
         <div className="wrapper d-flex flex-column min-vh-100">
           <AppHeader />
           <MyProfileV3Listener />
+          <AllConnectedProfilesV3Listener />
           <ShowListenerManagerOrNot />
           <div className="body flex-grow-1">
             <AppContent />
