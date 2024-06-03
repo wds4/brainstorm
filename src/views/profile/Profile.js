@@ -326,7 +326,7 @@ const Profile = () => {
                 muted by {oProfileBrainstorm.mutedBy.length}
               </div>
               <div style={{ display: 'inline-block' }}>
-                {returnWoTScore(npub, myNpub, oProfilesByNpub)} WoT Score
+                {oProfileBrainstorm.wotScores.coracle} WoT Score
               </div>
               <div style={{ display: 'inline-block' }}>{degreesOfSeparationFromMeText}</div>
               <div style={{ display: 'inline-block' }}>

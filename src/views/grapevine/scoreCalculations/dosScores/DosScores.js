@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { CButton } from '@coreui/react'
 import { useSelector } from 'react-redux'
-import { timeout } from 'src/helpers'
+import { secsToTimeAgo, timeout } from 'src/helpers'
 import DosCalculations from './dosCalculations'
 
 const DoCalculation = ({ calculate }) => {
@@ -47,6 +47,7 @@ const CalculateScoresButton = ({ calculate, processButtonClick }) => {
 
 const DosScores = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
 
   const [calculatingIndicator, setCalculatingIndicator] = useState('no')
   const [calculate, setCalculate] = useState('no')
@@ -62,14 +63,14 @@ const DosScores = () => {
     noFollowsWarning = 'show'
   }
 
-  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
-  // const numProfiles = oScoreUpdates.degreesOfSeparation.numProfiles
-  // const profilesAdded = Object.keys(oProfilesByNpub).length - oScoreUpdates.degreesOfSeparation.numProfiles
-  // const howLongAgo = secsToTimeAgo(oScoreUpdates.degreesOfSeparation.timestamp)
-
-  const numProfiles = 999
-  const profilesAdded = 999
-  const howLongAgo = 999
+  let numProfiles = 0
+  let scoreTimestamp = 0
+  if (oScoreUpdates && oScoreUpdates.degreesOfSeparation) {
+    numProfiles = oScoreUpdates.degreesOfSeparation.numProfiles
+    scoreTimestamp = oScoreUpdates.degreesOfSeparation.timestamp
+  }
+  const profilesAdded = Object.keys(oProfilesByNpub).length - numProfiles
+  const howLongAgo = secsToTimeAgo(scoreTimestamp)
 
   const processButtonClick = async () => {
     setCalculatingIndicator('yes')
@@ -86,7 +87,6 @@ const DosScores = () => {
           calculated {howLongAgo}
         </div>
         <div>Since then, {profilesAdded} profiles have been added.</div>
-        <div>WORK IN PROGRESS (not yet functional)</div>
       </center>
       <div
         style={{

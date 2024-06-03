@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { CButton } from '@coreui/react'
 import { useSelector } from 'react-redux'
-import { timeout } from 'src/helpers'
+import { secsToTimeAgo, timeout } from 'src/helpers'
 import WotCalculations from './wotCalculations'
 
 const DoCalculation = ({ calculate }) => {
@@ -46,10 +46,11 @@ const CalculateScoresButton = ({ calculate, processButtonClick }) => {
 }
 
 const WotScores = () => {
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
+
   const [calculatingIndicator, setCalculatingIndicator] = useState('no')
   const [calculate, setCalculate] = useState('no')
-
-  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
 
   const myNpub = useSelector((state) => state.profile.npub)
   let aMyFollows = []
@@ -62,6 +63,15 @@ const WotScores = () => {
     noFollowsWarning = 'show'
   }
 
+  let numProfiles = 0
+  let scoreTimestamp = 0
+  if (oScoreUpdates && oScoreUpdates.wotScore) {
+    numProfiles = oScoreUpdates.wotScore.numProfiles
+    scoreTimestamp = oScoreUpdates.wotScore.timestamp
+  }
+  const profilesAdded = Object.keys(oProfilesByNpub).length - numProfiles
+  const howLongAgo = secsToTimeAgo(scoreTimestamp)
+
   const processButtonClick = async () => {
     setCalculatingIndicator('yes')
     const foo = await timeout(10)
@@ -72,7 +82,8 @@ const WotScores = () => {
       <center>
         <h4>Web of Trust (WoT) Scores</h4>
         <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
-        <div> -- profiles when WoT Scores were last calculated</div>
+        <div> {numProfiles} profiles when WoT Scores were last calculated {howLongAgo}</div>
+        <div>Since then, {profilesAdded} profiles have been added.</div>
         <div>WORK IN PROGRESS (not yet functional)</div>
       </center>
       <div

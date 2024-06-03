@@ -1,9 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  updateAllBaselineInfluenceScores,
-  updateBaselineInfluence,
-} from 'src/redux/features/profiles/slice'
 import { updateGrapevineScores } from '../../../../redux/features/settings/slice'
 import { updateAllDegreesOfSeparationScores } from '../../../../redux/features/profiles/slice'
 
@@ -72,7 +68,6 @@ const DosCalculations = () => {
 
   const [progressIndicator, setProgressIndicator] = useState(' ... calculating ... ')
   useEffect(() => {
-    // initialize with my profile data
     let oProfiles = initializeProfileData(aAllProfilesByPubkey) // aMyFollows, aNearbyProfilesByPubkey, aAllProfilesByPubkey
     let changesMade = false
     let currentDegree = 0

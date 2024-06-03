@@ -126,23 +126,6 @@ const GrapevineCalculations = () => {
             </CNavLink>
           </CCol>
         </CRow>
-
-        <br />
-
-        <CRow>
-          <li>
-            The Web of Trust score is excellent for eliminating spam, but cannot look past 2 hops on
-            your social graph.
-          </li>
-          <li>
-            Unlike the WoT score, the Influence Score can see more than 2 hops away on your social
-            graph.
-          </li>
-          <li>
-            Of the three methods, the Influence Score is best suited to incorporate contextual trust
-            attestations, once such data becomes available.
-          </li>
-        </CRow>
       </DocsExample>
     </>
   )

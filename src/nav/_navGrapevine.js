@@ -8,6 +8,7 @@ import {
   cilCircle,
   cilGraph,
   cilHome,
+  cilInfo,
   cilSpeedometer,
   cilThumbUp,
 } from '@coreui/icons'
@@ -45,6 +46,12 @@ const _nav = [
   {
     component: CNavTitle,
     name: 'About',
+  },
+  {
+    component: CNavItem,
+    name: 'Score Comparisons',
+    to: '/grapevine/scoreComparisons',
+    icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
   },
 ]
 

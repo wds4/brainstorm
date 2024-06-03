@@ -92,8 +92,8 @@ export const profilesSlice = createSlice({
       const oScores = action.payload
       Object.keys(oScores).forEach((pubkey, item) => {
         const npub = state.oProfiles.byPubkey[pubkey]
-        const { wotScore } = oScores[pubkey].wotScoreData
-        state.oProfiles.byNpub[npub].wotScores.coracle = wotScore
+        const { score } = oScores[pubkey].wotScoreData
+        state.oProfiles.byNpub[npub].wotScores.coracle = score
       })
     },
     updateAllBaselineInfluenceScores: (state, action) => {

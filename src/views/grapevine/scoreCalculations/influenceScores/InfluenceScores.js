@@ -46,11 +46,11 @@ const InfluenceScoreButton = ({ calculate, processButtonClick }) => {
 }
 
 const InfluenceScores = () => {
-  const [calculatingIndicator, setCalculatingIndicator] = useState('no')
-  const [calculate, setCalculate] = useState('no')
-
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
+
+  const [calculatingIndicator, setCalculatingIndicator] = useState('no')
+  const [calculate, setCalculate] = useState('no')
 
   const myNpub = useSelector((state) => state.profile.npub)
   let aMyFollows = []

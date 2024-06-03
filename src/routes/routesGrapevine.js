@@ -7,6 +7,11 @@ const GrapevineDashboard = React.lazy(() => import('src/views/grapevine/dashboar
 // Settings
 const Settings = React.lazy(() => import('src/views/settings/grapevine/Settings'))
 
+// About
+const GrapevineScoreComparisons = React.lazy(
+  () => import('src/views/grapevine/about/scoreComparisons'),
+)
+
 const CalculateInfluenceScores = React.lazy(
   () => import('src/views/grapevine/scoreCalculations/influenceScores/InfluenceScores'),
 )
@@ -77,6 +82,9 @@ const routes = [
   },
   { path: '/grapevine/calculateWotScores', name: 'WoT Scores', element: CalculateWotScores },
   { path: '/grapevine/calculateDosScores', name: 'DoS Scores', element: CalculateDosScores },
+
+  // About
+  { path: '/grapevine/scoreComparisons', name: 'Score Comparisons', element: GrapevineScoreComparisons },
 
   // Actions
   { path: '/grapevine/actions', name: 'Actions', element: Actions },
