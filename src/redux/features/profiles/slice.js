@@ -84,8 +84,8 @@ export const profilesSlice = createSlice({
       const oScores = action.payload
       Object.keys(oScores).forEach((pubkey, item) => {
         const npub = state.oProfiles.byPubkey[pubkey]
-        const { dosScore } = oScores[pubkey].dosScoreData
-        state.oProfiles.byNpub[npub].wotScores.degreesOfSeparationFromMe = dosScore
+        const { score } = oScores[pubkey].dosData
+        state.oProfiles.byNpub[npub].wotScores.degreesOfSeparationFromMe = score
       })
     },
     updateAllCoracleScores: (state, action) => {

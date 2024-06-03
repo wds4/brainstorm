@@ -21,6 +21,7 @@ import {
 } from '../../helpers/brainstorm'
 import { updateDegreesOfSeparationFromMe } from '../../redux/features/profiles/slice'
 import TabsContent from './tabsContent'
+import SingleProfileListener from '../../helpers/v3Listeners/singleProfileListener'
 
 const EditMyProfileButton = () => {
   const npubBeingObserved = useSelector((state) => state.siteNavigation.npub)
@@ -361,6 +362,7 @@ const Profile = () => {
         </CRow>
         <br />
       </div>
+      <SingleProfileListener />
     </>
   )
 }

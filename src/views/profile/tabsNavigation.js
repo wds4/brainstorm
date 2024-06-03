@@ -98,6 +98,9 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
         <CNavLink active={isWikis} onClick={setActiveTabWikis}>
           Wikis
         </CNavLink>
+        <CNavLink active={isWotScores} onClick={setActiveTabWotScores}>
+          Influence Scores
+        </CNavLink>
         <CNavLink
           active={isLeaveRating}
           onClick={setActiveTabLeaveRating}
@@ -119,13 +122,7 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
         >
           Ratings by
         </CNavLink>
-        <CNavLink
-          active={isWotScores}
-          onClick={setActiveTabWotScores}
-          disabled={developmentMode == 'hide'}
-        >
-          Influence Scores
-        </CNavLink>
+
         <CNavLink active={isNotes} onClick={setActiveTabNotes} disabled={true}>
           Notes
         </CNavLink>
