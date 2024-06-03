@@ -17,10 +17,10 @@ import {
 import { nip19 } from 'nostr-tools'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateViewWikifreediaTopic } from 'src/redux/features/siteNavigation/slice'
+import { updateViewNostrapediaTopic } from 'src/redux/features/siteNavigation/slice'
 import {
   updateApp,
-  updateViewWikifreediaArticle,
+  updateViewNostrapediaArticle,
 } from '../../../redux/features/siteNavigation/slice'
 import WikiListener from '../../../helpers/listeners/WikiListener'
 import {
@@ -45,6 +45,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
 
   const dispatch = useDispatch()
 
+  /*
   // * manage listener
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod != 'off') {
@@ -57,6 +58,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
     dispatch(turnListenerOn())
     dispatch(updateListenerApplication('wiki'))
   }
+  */
 
   const handleSearchFieldChange = useCallback(
     async (e) => {
@@ -74,12 +76,16 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
   )
 
   const processViewArticleClick = (naddr) => {
-    dispatch(updateViewWikifreediaArticle(naddr))
+    dispatch(updateViewNostrapediaArticle(naddr))
+  }
+
+  let numTopicsWrittenText = 'This user has written articles on ' + aTopicsFiltered.length + ' Topics.'
+  if (aTopicsFiltered.length == 1) {
+    numTopicsWrittenText = 'This user has written articles on ' + aTopicsFiltered.length + ' Topic.'
   }
 
   return (
     <>
-      <WikiListener />
       <CContainer
         className="px-4"
         style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
@@ -88,7 +94,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
           <CCol xs={12}>
             <CCard className="mb-4">
               <CCardHeader>
-                <strong>This user has written articles on {aTopicsFiltered.length} Topics.</strong>
+                <strong>{numTopicsWrittenText}</strong>
               </CCardHeader>
               <CCardBody>
                 <CFormInput
@@ -114,7 +120,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
                         return (
                           <CTableRow key={item}>
                             <CTableDataCell scope="row">
-                              <CNavLink href="#/wikifreedia/singleEntry">{topicSlug}</CNavLink>
+                              <CNavLink href="#/nostrapedia/article">{topicSlug}</CNavLink>
                             </CTableDataCell>
                             <CTableDataCell>error retrieving data</CTableDataCell>
                           </CTableRow>
@@ -132,7 +138,7 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
                           <CTableRow key={item}>
                             <CTableDataCell scope="row">
                               <CNavLink
-                                href="#/wikifreedia/singleEntry"
+                                href="#/nostrapedia/article"
                                 onClick={() => processViewArticleClick(naddr)}
                               >
                                 {topicSlug}
@@ -155,3 +161,5 @@ const Wikis = ({ oProfile, npub, pubkey }) => {
 }
 
 export default Wikis
+
+// <WikiListener />

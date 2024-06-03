@@ -1,11 +1,11 @@
 import { CCol, CRow } from '@coreui/react'
 import React from 'react'
 
-const WikifreediaSettings = () => {
+const NostrapediaSettings = () => {
   return (
     <>
       <center>
-        <h4>Wiki Settings</h4>
+        <h4>Nostrapedia Settings</h4>
       </center>
       <CRow>
         <CCol xs={12}>
@@ -17,4 +17,4 @@ const WikifreediaSettings = () => {
   )
 }
 
-export default WikifreediaSettings
+export default NostrapediaSettings

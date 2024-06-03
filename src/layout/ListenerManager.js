@@ -7,7 +7,7 @@ import {
   updateKind3Event,
   processKind3Event,
 } from '../redux/features/profiles/slice'
-import { addArticle, addCategory } from '../redux/features/wikifreedia/slice'
+import { addArticle, addCategory } from '../redux/features/nostrapedia/slice'
 import { processKind1Event } from '../redux/features/twittr/slice'
 import { nip19, validateEvent } from 'nostr-tools'
 import { fetchFirstByTag, makeEventSerializable } from '../helpers/index'
@@ -170,7 +170,7 @@ const RunningListener = ({ oListenerManager }) => {
             }
           }
         } catch (e) {
-          console.log('updateWikifreediaDatabase error: ' + e)
+          console.log('updateWikiDatabase error: ' + e)
         }
       })
     }

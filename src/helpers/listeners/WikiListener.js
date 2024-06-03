@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
-import { addArticle } from '../../redux/features/wikifreedia/slice'
+import { addArticle } from '../../redux/features/nostrapedia/slice'
 import { makeEventSerializable } from '..'
+import { addNewPubkey } from '../../redux/features/profiles/slice'
 
 const WikiListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -16,21 +17,23 @@ const WikiListenerMain = () => {
   // use ndk-react
   const { fetchEvents } = useNDK()
   useEffect(() => {
-    async function updateWikifreediaDatabase() {
+    async function updateWikiDatabase() {
       const events = await fetchEvents(filter)
 
       events.forEach((eventNS, item) => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
+            const pubkey = event.pubkey
+            dispatch(addNewPubkey(pubkey))
             dispatch(addArticle(event))
           }
         } catch (e) {
-          console.log('updateWikifreediaDatabase error: ' + e)
+          console.log('updateWikiDatabase error: ' + e)
         }
       })
     }
-    updateWikifreediaDatabase()
+    updateWikiDatabase()
   }, [fetchEvents(filter)])
 
   return <></>

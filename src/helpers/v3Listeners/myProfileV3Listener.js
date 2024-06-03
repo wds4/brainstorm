@@ -20,7 +20,7 @@ import {
 } from 'src/redux/features/profiles/slice'
 import { nip19, validateEvent } from 'nostr-tools'
 import { makeEventSerializable } from '..'
-import { updateKind10000Event } from '../../redux/features/profiles/slice'
+import { processKind10000Event } from '../../redux/features/profiles/slice'
 
 const ListenerOn = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -42,11 +42,11 @@ const ListenerOn = () => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
-            console.log('updateMyProfileDatabase_kind: ' + event.kind)
+            // console.log('updateMyProfileDatabase_kind: ' + event.kind)
             if (event.kind == 0) {
               dispatch(updateKind0Event(event))
               if (event.pubkey == myPubkey) {
-                console.log('updateMyProfileDatabase; my pubkey! myPubkey: ' + myPubkey)
+                // console.log('updateMyProfileDatabase; my pubkey! myPubkey: ' + myPubkey)
                 const oMyProfile = JSON.parse(event.content)
                 dispatch(updateDisplayName(oMyProfile?.displayName))
                 dispatch(updateName(oMyProfile?.name))
@@ -92,8 +92,8 @@ const ListenerOn = () => {
               }
             }
             if (event.kind == 10000) {
-              console.log('updateMyProfileDatabase, myProfile; kind 10000')
-              dispatch(updateKind10000Event(event))
+              // console.log('updateMyProfileDatabase, myProfile; kind 10000')
+              dispatch(processKind10000Event(event))
             }
           }
         } catch (e) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { cibTwitter, cilPencil, cilSettings, cilSpeedometer } from '@coreui/icons'
+import { cibTwitter, cilGraph, cilPencil, cilSettings, cilSpeedometer, cilThumbUp } from '@coreui/icons'
 import { CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
@@ -16,7 +16,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Wiki Settings',
+    name: 'Nostrapedia Settings',
     to: '/settings/wiki',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },

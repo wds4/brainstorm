@@ -2,61 +2,89 @@ import React from 'react'
 
 // Dashboard
 const Grapevine = React.lazy(() => import('src/views/grapevine/index'))
+const GrapevineDashboard = React.lazy(() => import('src/views/grapevine/dashboard/Dashboard'))
 
 // Settings
 const Settings = React.lazy(() => import('src/views/settings/grapevine/Settings'))
+
+// About
+const GrapevineScoreComparisons = React.lazy(
+  () => import('src/views/grapevine/about/scoreComparisons'),
+)
+
+const CalculateInfluenceScores = React.lazy(
+  () => import('src/views/grapevine/scoreCalculations/influenceScores/InfluenceScores'),
+)
+const CalculateWotScores = React.lazy(
+  () => import('src/views/grapevine/scoreCalculations/wotScores/WotScores'),
+)
+const CalculateDosScores = React.lazy(
+  () => import('src/views/grapevine/scoreCalculations/dosScores/DosScores'),
+)
 
 // Actions
 const Actions = React.lazy(() => import('src/views/grapevine/actions'))
 const ViewAllActions = React.lazy(() => import('src/views/grapevine/actions/viewAll/ViewAll'))
 const MakeNewAction = React.lazy(() => import('src/views/grapevine/actions/makeNew/MakeNew'))
-const ViewAllActionRelationships = React.lazy(() =>
-  import('src/views/grapevine/actions/viewAllRelationships/ViewAllRelationships'),
+const ViewAllActionRelationships = React.lazy(
+  () => import('src/views/grapevine/actions/viewAllRelationships/ViewAllRelationships'),
 )
-const MakeNewActionRelationship = React.lazy(() =>
-  import('src/views/grapevine/actions/makeNewRelationship/MakeNewRelationship'),
+const MakeNewActionRelationship = React.lazy(
+  () => import('src/views/grapevine/actions/makeNewRelationship/MakeNewRelationship'),
 )
 
 // Categories
 const Categories = React.lazy(() => import('src/views/grapevine/categories'))
 const ViewAllCategories = React.lazy(() => import('src/views/grapevine/categories/viewAll/ViewAll'))
 const MakeNewCategory = React.lazy(() => import('src/views/grapevine/categories/makeNew/MakeNew'))
-const ViewAllCategoryRelationships = React.lazy(() =>
-  import('src/views/grapevine/categories/viewAllRelationships/ViewAllRelationships'),
+const ViewAllCategoryRelationships = React.lazy(
+  () => import('src/views/grapevine/categories/viewAllRelationships/ViewAllRelationships'),
 )
-const MakeNewCategoryRelationship = React.lazy(() =>
-  import('src/views/grapevine/categories/makeNewRelationship/MakeNewRelationship'),
+const MakeNewCategoryRelationship = React.lazy(
+  () => import('src/views/grapevine/categories/makeNewRelationship/MakeNewRelationship'),
 )
 
 // Contexts
 const Contexts = React.lazy(() => import('src/views/grapevine/contexts'))
 const ViewAllContexts = React.lazy(() => import('src/views/grapevine/contexts/viewAll/ViewAll'))
 const MakeNewContext = React.lazy(() => import('src/views/grapevine/contexts/makeNew/MakeNew'))
-const ViewSingleContext = React.lazy(() =>
-  import('src/views/grapevine/contexts/viewSingle/ViewSingle'),
+const ViewSingleContext = React.lazy(
+  () => import('src/views/grapevine/contexts/viewSingle/ViewSingle'),
 )
 
 // Trust Attestations
 const TrustAttestations = React.lazy(() => import('src/views/grapevine/trustAttestations'))
-const ViewAllTrustAttestations = React.lazy(() =>
-  import('src/views/grapevine/trustAttestations/viewAll/ViewAll'),
+const ViewAllTrustAttestations = React.lazy(
+  () => import('src/views/grapevine/trustAttestations/viewAll/ViewAll'),
 )
-const MakeNewTrustAttestation = React.lazy(() =>
-  import('src/views/grapevine/trustAttestations/makeNew/MakeNew'),
+const MakeNewTrustAttestation = React.lazy(
+  () => import('src/views/grapevine/trustAttestations/makeNew/MakeNew'),
 )
 
 // Influence Scores
 const InfluenceScores = React.lazy(() => import('src/views/grapevine/influenceScores'))
-const ViewAllInfluenceScores = React.lazy(() =>
-  import('src/views/grapevine/influenceScores/viewAll/ViewAll'),
+const ViewAllInfluenceScores = React.lazy(
+  () => import('src/views/grapevine/influenceScores/viewAll/ViewAll'),
 )
-const RecalculateInfluenceScores = React.lazy(() =>
-  import('src/views/grapevine/influenceScores/recalculate/Recalculate'),
+const RecalculateInfluenceScores = React.lazy(
+  () => import('src/views/grapevine/influenceScores/recalculate/Recalculate'),
 )
 
 const routes = [
   { path: '/grapevine', name: 'Grapevine', element: Grapevine },
   { path: '/grapevine/settings', name: 'Settings', element: Settings },
+  { path: '/grapevine/dashboard', name: 'Dashboard', element: GrapevineDashboard },
+
+  {
+    path: '/grapevine/calculateInfluenceScores',
+    name: 'Influence Scores',
+    element: CalculateInfluenceScores,
+  },
+  { path: '/grapevine/calculateWotScores', name: 'WoT Scores', element: CalculateWotScores },
+  { path: '/grapevine/calculateDosScores', name: 'DoS Scores', element: CalculateDosScores },
+
+  // About
+  { path: '/grapevine/scoreComparisons', name: 'Score Comparisons', element: GrapevineScoreComparisons },
 
   // Actions
   { path: '/grapevine/actions', name: 'Actions', element: Actions },

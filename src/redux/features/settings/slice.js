@@ -15,7 +15,22 @@ export const settingsSlice = createSlice({
       aActiveRelaysGroups: ['default'], // default (defined by app), personalRelay (one relay stored in conceptGraphSettings), or profile (extracted from kind 3 event)
       loginRelayUrl: '', // the relay entered by the user at login; if empty, aDefaultRelays will be used; otheriwse loginRelayUrl will be used
     },
-    grapevine: {},
+    grapevine: {
+      scoreUpdates: { // record when various wotScores were updated and how many profiles were in the database at the time of the calculation. Prompt user to repeat calculation when lots of new profiles are downloaded.
+        degreesOfSeparation: {
+          numProfiles: 0,
+          timestamp: 0,
+        },
+        wotScore: {
+          numProfiles: 0,
+          timestamp: 0,
+        },
+        influenceScore: {
+          numProfiles: 0,
+          timestamp: 0,
+        },
+      }
+    },
     conceptGraph: {
       conceptGraphSettingsEvent: {}, // this is the entire kind 39902 event, of word type: conceptGraphSettings
       personalRelay: '', // extracted from conceptGraphSettingsData
@@ -23,6 +38,20 @@ export const settingsSlice = createSlice({
     twittr: {},
   },
   reducers: {
+    updateGrapevineScores: (state, action) => {
+      const { scoreType, numProfiles } = action.payload
+      const currentTime = Math.floor(Date.now() / 1000)
+      if (!state.grapevine.scoreUpdates) {
+        state.grapevine.scoreUpdates = {}
+        state.grapevine.scoreUpdates.degreesOfSeparation = {}
+        state.grapevine.scoreUpdates.wotScore = {}
+        state.grapevine.scoreUpdates.influenceScore = {}
+      }
+      // work in progress
+      state.grapevine.scoreUpdates[scoreType] = {}
+      state.grapevine.scoreUpdates[scoreType].numProfiles = numProfiles
+      state.grapevine.scoreUpdates[scoreType].timestamp = currentTime
+    },
     updateListenerMethod: (state, action) => {
       state.general.listenerMethod = action.payload
     },
@@ -69,6 +98,7 @@ export const settingsSlice = createSlice({
 })
 
 export const {
+  updateGrapevineScores,
   updateListenerMethod,
   updateDevelopmentMode,
   updateShowListenerManagerMode,

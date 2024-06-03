@@ -15,7 +15,17 @@ import {
   useColorModes,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilContrast, cilEnvelopeOpen, cilMagnifyingGlass, cilMenu, cilMoon, cilPeople, cilSettings, cilSun } from '@coreui/icons'
+import {
+  cilBell,
+  cilContrast,
+  cilEnvelopeOpen,
+  cilMagnifyingGlass,
+  cilMenu,
+  cilMoon,
+  cilPeople,
+  cilSettings,
+  cilSun,
+} from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
@@ -36,9 +46,6 @@ const AppHeader = () => {
     })
   }, [])
 
-  const updateActiveApp = (newApp) => {
-    dispatch(updateApp(newApp))
-  }
   return (
     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
       <CContainer className="border-bottom px-4" fluid>
@@ -50,7 +57,7 @@ const AppHeader = () => {
         </CHeaderToggler>
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem>
-            <CNavLink to="/dashboard" as={NavLink}>
+            <CNavLink onClick={() => dispatch(updateApp('home'))} to="/dashboard" as={NavLink}>
               Dashboard
             </CNavLink>
           </CNavItem>
@@ -58,17 +65,21 @@ const AppHeader = () => {
         <CHeaderNav className="ms-auto">
           <CNavItem>
             <CNavLink href="#/findUser">
-              <CIcon icon={cilMagnifyingGlass} size="lg" onClick={() => updateActiveApp('home')} />
+              <CIcon
+                icon={cilMagnifyingGlass}
+                size="lg"
+                onClick={() => dispatch(updateApp('home'))}
+              />
             </CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink href="#/profiles">
-              <CIcon icon={cilPeople} size="lg" onClick={() => updateActiveApp('home')}/>
+              <CIcon icon={cilPeople} size="lg" onClick={() => dispatch(updateApp('home'))} />
             </CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink href="#/settings/settings">
-              <CIcon icon={cilSettings} size="lg" onClick={() => updateActiveApp('settings')} />
+              <CIcon icon={cilSettings} size="lg" onClick={() => dispatch(updateApp('settings'))} />
             </CNavLink>
           </CNavItem>
         </CHeaderNav>

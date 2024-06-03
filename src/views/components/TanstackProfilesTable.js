@@ -11,10 +11,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { CNavLink } from '@coreui/react'
+import { CFormSwitch, CNavLink } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateNpub, updateViewProfileTab } from '../../redux/features/siteNavigation/slice'
 import { noProfilePicUrl } from '../../const'
+import { nip19 } from 'nostr-tools'
+import { returnWoTScore } from '../../helpers/brainstorm'
 
 const columnHelper = createColumnHelper()
 
@@ -100,20 +102,65 @@ const columns = [
   }),
   columnHelper.accessor((row) => row.followCount, {
     id: 'followCount',
+    name: 'Follow Count',
     cell: (info) => <i>{info.getValue()}</i>,
     header: () => <span># Follows</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.followers, {
+    id: 'followers',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span># Followers</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.mutes, {
+    id: 'mutes',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span># Mutes</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.mutedBy, {
+    id: 'mutedBy',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span># Muted by</span>,
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor((row) => row.wotScore, {
     id: 'wotScore',
     cell: (info) => <i>{info.getValue()}</i>,
-    header: () => <span>WoT Score (coming soon!)</span>,
+    header: () => <span>WoT Score</span>,
     footer: (info) => info.column.id,
+    sortUndefined: 'last', //force undefined values to the end
+    sortDescFirst: false, //first sort order will be ascending (nullable values can mess up auto detection of sort order)
   }),
   columnHelper.accessor((row) => row.degreeOfSeparation, {
     id: 'degreeOfSeparation',
     cell: (info) => <i>{info.getValue()}</i>,
     header: () => <span>degree of separation</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.influence, {
+    id: 'influence',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>influence</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.averageScore, {
+    id: 'averageScore',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>average score</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.certainty, {
+    id: 'certainty',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>certainty</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor((row) => row.input, {
+    id: 'input',
+    cell: (info) => <i>{info.getValue()}</i>,
+    header: () => <span>input</span>,
     footer: (info) => info.column.id,
   }),
 ]
@@ -152,47 +199,85 @@ function Filter({ column, table }) {
   )
 }
 
-const createData = ({ oProfilesByNpub, aNpubsToDisplay }) => {
+const createData = ({
+  oProfilesByPubkey,
+  oProfilesByNpub,
+  aNpubsToDisplay,
+  aPubkeysToDisplay,
+  myNpub,
+}) => {
   const aData = []
-  aNpubsToDisplay.forEach(async (npub, item) => {
-    if (1) {
-      if (
-        oProfilesByNpub[npub].kind0 &&
-        oProfilesByNpub[npub].kind0.oEvent &&
-        oProfilesByNpub[npub].kind0.oEvent.content
-      ) {
-        const oContent = JSON.parse(oProfilesByNpub[npub].kind0.oEvent.content)
-        const oNextEntry = {
-          npub: npub,
-          picture: { url: oContent?.picture, npub: npub },
-          name: oContent?.name,
-          displayName: oContent?.display_name,
-          followCount: returnFollowCount({ oProfilesByNpub, npub }),
-          degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
-          wotScore: 999,
-        }
-        aData.push(oNextEntry)
-      } else {
-        const oNextEntry = {
-          npub: npub,
-          picture: { url: noProfilePicUrl, npub: npub },
-          name: '',
-          displayName: '',
-          followCount: returnFollowCount({ oProfilesByNpub, npub }),
-          degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
-          wotScore: 5,
-        }
-        aData.push(oNextEntry)
-      }
+  // aNpubsToDisplay.forEach(async (npub, item) => {
+  aPubkeysToDisplay.forEach(async (pubkey, item) => {
+    let npub = ''
+    if (oProfilesByPubkey[pubkey]) {
+      npub = oProfilesByPubkey[pubkey]
     }
+    if (!npub) {
+      npub = nip19.npubEncode(pubkey)
+    }
+    if (
+      npub &&
+      oProfilesByNpub[npub].kind0 &&
+      oProfilesByNpub[npub].kind0.oEvent &&
+      oProfilesByNpub[npub].kind0.oEvent.content
+    ) {
+      const oContent = JSON.parse(oProfilesByNpub[npub].kind0.oEvent.content)
+      const oNextEntry = {
+        npub: npub,
+        picture: { url: oContent?.picture, npub: npub },
+        name: oContent?.name,
+        displayName: oContent?.display_name,
+        followCount: returnFollowCount({ oProfilesByNpub, npub }),
+        followers: oProfilesByNpub[npub].followers.length,
+        mutes: oProfilesByNpub[npub].mutes.length,
+        mutedBy: oProfilesByNpub[npub].mutedBy.length,
+        degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
+        wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        // wotScore: returnWoTScore(npub, myNpub, oProfilesByNpub),
+        influence: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.influence),
+        certainty: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.certainty),
+        averageScore: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.averageScore),
+        input: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.input),
+      }
+      aData.push(oNextEntry)
+    } else {
+      const oNextEntry = {
+        npub: npub,
+        picture: { url: noProfilePicUrl, npub: npub },
+        name: '',
+        displayName: '',
+        followCount: returnFollowCount({ oProfilesByNpub, npub }),
+        followers: oProfilesByNpub[npub].followers.length,
+        mutes: oProfilesByNpub[npub].mutes.length,
+        mutedBy: oProfilesByNpub[npub].mutedBy.length,
+        degreeOfSeparation: returnDegreeOfSeparation({ oProfilesByNpub, npub }),
+        wotScore: Number(oProfilesByNpub[npub].wotScores.coracle),
+        // wotScore: returnWoTScore(npub, myNpub, oProfilesByNpub),
+        influence: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.influence),
+        certainty: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.certainty),
+        averageScore: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.averageScore),
+        input: Number(oProfilesByNpub[npub].wotScores.baselineInfluence.input),
+      }
+      aData.push(oNextEntry)
+    }
+    // }
   })
   return aData
 }
 
-const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
+const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesByNpub }) => {
   // const aNpubsToDisplay = Object.keys(oProfilesByNpub)
+  const myNpub = useSelector((state) => state.profile.npub)
+  const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   const [data, _setData] = React.useState(() => [
-    ...createData({ oProfilesByNpub, aNpubsToDisplay }),
+    ...createData({
+      oProfilesByPubkey,
+      oProfilesByNpub,
+      aNpubsToDisplay,
+      aPubkeysToDisplay,
+      myNpub,
+    }),
   ])
   const rerender = React.useReducer(() => ({}), {})[1]
   const [columnVisibility, setColumnVisibility] = React.useState({
@@ -201,6 +286,9 @@ const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
     name: true,
     displayName: true,
     followCount: true,
+    followers: true,
+    mutes: true,
+    mutedBy: true,
     wotScore: true,
     degreeOfSeparation: true,
   })
@@ -210,32 +298,58 @@ const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
     pageSize: 10,
   })
 
+  const [columnResizeMode, setColumnResizeMode] = React.useState('onChange')
+  const [columnResizeDirection, setColumnResizeDirection] = React.useState('ltr')
+
+  const [sorting, setSorting] = React.useState([{ id: 'wotScore', desc: true }])
+
   const table = useReactTable({
     data,
     columns,
+    columnResizeMode,
+    columnResizeDirection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
     onPaginationChange: setPagination,
     state: {
       columnVisibility,
       pagination,
+      sorting,
     },
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
+    debugTable: false,
+    debugHeaders: false,
+    debugColumns: false,
   })
 
   const totalRows = table.getPrePaginationRowModel().rows.length
 
+  const [showColsControlPanelButton, setShowColsControlPanelButton] = React.useState('hide')
+  const toggleShowColumnsControlPanel = React.useCallback(
+    (e) => {
+      if (showColsControlPanelButton == 'hide') {
+        setShowColsControlPanelButton('show')
+      }
+      if (showColsControlPanelButton == 'show') {
+        setShowColsControlPanelButton('hide')
+      }
+    },
+    [showColsControlPanelButton],
+  )
+
   return (
     <div className="p-2">
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ display: 'flex', flexGrow: '1', alignItems: 'flex-end' }}>
-          <div>{totalRows} rows displayed</div>
-        </div>
+      <div>
+        <CFormSwitch
+          onChange={(e) => toggleShowColumnsControlPanel(e)}
+          label="toggle columns"
+          id="formSwitchCheckDefault"
+        />
+      </div>
+      <div className={showColsControlPanelButton}>
         <div style={{ display: 'flex', flexGrow: 'auto' }}>
           <div className="inline-block border border-black shadow rounded">
             <div className="px-1 border-b border-black">
@@ -252,7 +366,7 @@ const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
             </div>
             {table.getAllLeafColumns().map((column) => {
               return (
-                <div key={column.id} className="px-1">
+                <div key={column.id} className="px-1" style={{ display: 'flex', flexGrow: 'auto' }}>
                   <label>
                     <input
                       {...{
@@ -269,61 +383,98 @@ const TanstackProfilesTable = ({ aNpubsToDisplay, oProfilesByNpub }) => {
           </div>
         </div>
       </div>
+      <div>
+        <div>{totalRows} rows displayed</div>
+      </div>
       <div className="h-4" />
-      <br />
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    <div
-                      {...{
-                        className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                      {{
-                        asc: ' 🔼',
-                        desc: ' 🔽',
-                      }[header.column.getIsSorted()] ?? null}
-                      {header.column.getCanFilter() ? (
-                        <div>
-                          <Filter column={header.column} table={table} />
+      <div style={{ direction: table.options.columnResizeDirection }}>
+        <div className="h-4" />
+        <div className="overflow-x-auto">
+          <table
+            {...{
+              style: {
+                width: table.getCenterTotalSize(),
+              },
+            }}
+          >
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <th key={header.id} colSpan={header.colSpan}>
+                        <div
+                          {...{
+                            className: header.column.getCanSort()
+                              ? 'cursor-pointer select-none'
+                              : '',
+                            onClick: header.column.getToggleSortingHandler(),
+                          }}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {{
+                            asc: ' 🔼',
+                            desc: ' 🔽',
+                          }[header.column.getIsSorted()] ?? null}
+                          {header.column.getCanFilter() ? (
+                            <div>
+                              <Filter column={header.column} table={table} />
+                            </div>
+                          ) : null}
                         </div>
-                      ) : null}
-                    </div>
-                  </th>
-                )
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+
+                        <div
+                          {...{
+                            onDoubleClick: () => header.column.resetSize(),
+                            onMouseDown: header.getResizeHandler(),
+                            onTouchStart: header.getResizeHandler(),
+                            className: `resizer ${table.options.columnResizeDirection} ${
+                              header.column.getIsResizing() ? 'isResizing' : ''
+                            }`,
+                            style: {
+                              transform:
+                                columnResizeMode === 'onEnd' && header.column.getIsResizing()
+                                  ? `translateX(${
+                                      (table.options.columnResizeDirection === 'rtl' ? -1 : 1) *
+                                      (table.getState().columnSizingInfo.deltaOffset ?? 0)
+                                    }px)`
+                                  : '',
+                            },
+                          }}
+                        />
+                      </th>
+                    )
+                  })}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.footer, header.getContext())}
-                </th>
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} style={{ width: 'cell.column.getSize()' }}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tfoot>
-      </table>
+            </tbody>
+            <tfoot>
+              {table.getFooterGroups().map((footerGroup) => (
+                <tr key={footerGroup.id}>
+                  {footerGroup.headers.map((header) => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.footer, header.getContext())}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </tfoot>
+          </table>
+        </div>
+      </div>
       <div className="h-4" />
 
       <div className="flex items-center gap-2">

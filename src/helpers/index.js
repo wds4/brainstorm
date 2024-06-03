@@ -80,29 +80,44 @@ export const secsToTimeAgo = (secs) => {
     // if less than one minute,
     // display in seconds
     displayTime = `${ageSecs} seconds`
+    if (ageSecs == 1) {
+      displayTime = `${ageSecs} second`
+    }
     discoveredUnit = true
   }
   if (!discoveredUnit && ageSecs < 60 * 60) {
     // if less than one hour,
     // display in minutes
     displayTime = `${ageMins} minutes`
+    if (ageMins == 1) {
+      displayTime = `${ageMins} minute`
+    }
     discoveredUnit = true
   }
   if (!discoveredUnit && ageSecs < 24 * 60 * 60) {
     // if less than one day,
     // display in hours
     displayTime = `${ageHours} hours`
+    if (ageHours == 1) {
+      displayTime = `${ageHours} hour`
+    }
     discoveredUnit = true
   }
   if (!discoveredUnit && ageSecs < 365 * 24 * 60 * 60) {
     // if less than one year,
     // display in days
     displayTime = `${ageDays} days`
+    if (ageDays == 1) {
+      displayTime = `${ageDays} day`
+    }
     discoveredUnit = true
   }
   if (!discoveredUnit) {
     // else display in years
     displayTime = `${ageYears} years`
+    if (ageYears == 1) {
+      displayTime = `${ageYears} year`
+    }
     discoveredUnit = true
   }
   displayTime += ' ago'
@@ -157,6 +172,7 @@ export const convertNameToTitle = (name) => {
   return title
 }
 
-export const timeout = (ms) => {
+export const timeout = async (ms) => {
+  console.log('timeout')
   return new Promise((resolve) => setTimeout(resolve, ms))
 }

@@ -5,7 +5,7 @@ import routesTwittr from 'src/routes/routesTwittr'
 import routesNestedLists from 'src/routes/routesNestedLists'
 import routesNip51Lists from 'src/routes/routesNip51Lists'
 import routesCuratedLists from 'src/routes/routesCuratedLists'
-import routesWikifreedia from 'src/routes/routesWikifreedia'
+import routesNostrapedia from 'src/routes/routesNostrapedia'
 import routesHelloWorld from 'src/routes/routesHelloWorld'
 import routesNostrAppsDirectory from 'src/routes/routesNostrAppsDirectory'
 import routesRelaysDirectory from 'src/routes/routesRelaysDirectory'
@@ -19,7 +19,7 @@ const routes = [
   ...routesNestedLists,
   ...routesNip51Lists,
   ...routesCuratedLists,
-  ...routesWikifreedia,
+  ...routesNostrapedia,
   ...routesHelloWorld,
   ...routesNostrAppsDirectory,
   ...routesRelaysDirectory,

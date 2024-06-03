@@ -20,8 +20,8 @@ import {
   updateKind3Event,
   processKind3Event,
 } from 'src/redux/features/profiles/slice'
+import { processKind10000Event } from '../../redux/features/profiles/slice'
 
-// TO DO: test
 const FollowersCrawlerListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const myNpub = nip19.npubEncode(myPubkey)
@@ -29,7 +29,7 @@ const FollowersCrawlerListenerMain = () => {
   const dispatch = useDispatch()
 
   const filter = {
-    kinds: [0, 3],
+    kinds: [0, 3, 10000],
   }
 
   // use ndk-react
@@ -89,6 +89,10 @@ const FollowersCrawlerListenerMain = () => {
                   dispatch(updateFollows(aFollows))
                 }
               }
+            }
+            if (event.kind == 10000) {
+              console.log('updateProfilesDatabase; kind 10000')
+              dispatch(processKind10000Event(event))
             }
           }
         } catch (e) {

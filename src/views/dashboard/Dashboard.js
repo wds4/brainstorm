@@ -13,54 +13,49 @@ import CIcon from '@coreui/icons-react'
 const Dashboard = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
-  dispatch(updateApp('home'))
-  const updateActiveApp = (newApp) => {
-    dispatch(updateApp(newApp))
-  }
   let loggedInClassName = 'hide'
   if (signedIn) {
     loggedInClassName = 'show'
   }
   return (
     <>
-      <WikiListener />
       <center>
-        <h3>Pretty Good Apps: Brainstorm</h3>
+        <h3>Pretty Good Apps: BrainSToRm</h3>
         <br />
         <br />
       </center>
       <DocsExample href="components/widgets/#cwidgetstatsf">
         <CRow xs={{ gutter: 4 }}>
           <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CCard style={{ width: '100%' }} className="mb-3 border-info" textColor="info">
+            <CCard style={{ width: '100%', height: '100%' }} className="mb-3 border-info" textColor="info">
               <CNavLink
                 style={{ display: 'inline-block' }}
-                href="#/wikifreedia"
-                onClick={() => updateActiveApp('wiki')}
+                href="#/nostrapedia"
+                onClick={() => dispatch(updateApp('wiki'))}
               >
                 <CCardHeader>
-                  <strong>Nostrapaedia</strong>
+                  <strong>Nostrapedia</strong>
                 </CCardHeader>
                 <CCardBody>
                   <CCardText>
-                  Nostrapedia? Nostrapaedia? idk. Who's in charge of these decisions?!? ...
+                    created and curated by your Grapevine!
                   </CCardText>
                 </CCardBody>
               </CNavLink>
             </CCard>
           </CCol>
           <CCol xs={12} sm={6} xl={4} xxl={3} className={loggedInClassName}>
-            <CCard style={{ width: '100%' }} className="mb-3 border-primary" textColor="primary">
+            <CCard style={{ width: '100%', height: '100%' }} className="mb-3 border-primary" textColor="primary">
               <CNavLink
                 style={{ display: 'inline-block' }}
                 href="#/grapevine"
-                onClick={() => updateActiveApp('grapevine')}
+                onClick={() => dispatch(updateApp('grapevine'))}
               >
                 <CCardHeader>
                   <strong>Grapevine</strong>
                 </CCardHeader>
                 <CCardBody>
-                  <CCardText>Web of Trust</CCardText>
+                  <CCardText>Calculation of DoS, WoT and Influence Scores</CCardText>
                 </CCardBody>
               </CNavLink>
             </CCard>
@@ -72,3 +67,5 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
+// <WikiListener />

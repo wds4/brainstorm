@@ -31,7 +31,7 @@ const routes = [
   { path: '/settings/relays', name: 'Relays', element: Relays },
   { path: '/settings/settings', name: 'Settings', element: Settings },
   { path: '/myProfile', name: 'My Profile', element: MyProfile },
-  { path: '/myProfile/editMyProfile', name: 'Edit My Profile', element: EditMyProfile },
+  { path: '/profile/editMyProfile', name: 'Edit My Profile', element: EditMyProfile },
   { path: '/myProfile/myProfile', name: 'My Profile', element: MyProfile },
   { path: '/myProfile/follows', name: 'Follows', element: Follows },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },

@@ -46,7 +46,7 @@ import { wipeTwittr } from '../../redux/features/twittr/slice'
 import sessionStorage from 'redux-persist/es/storage/session'
 import localStorage from 'redux-persist/es/storage'
 import { wipeConceptGraph } from '../../redux/features/conceptGraph/slice'
-import { wipeWikifreedia } from '../../redux/features/wikifreedia/slice'
+import { wipeNostrapedia } from '../../redux/features/nostrapedia/slice'
 import { turnListenerOff, wipeListenerManager } from '../../redux/features/listenerManager/slice'
 import { wipeProfiles } from '../../redux/features/profiles/slice'
 
@@ -63,14 +63,14 @@ const AppHeaderDropdown = () => {
     dispatch(wipeSettings())
     dispatch(wipeTwittr())
     dispatch(wipeConceptGraph())
-    dispatch(wipeWikifreedia())
+    dispatch(wipeNostrapedia())
     dispatch(wipeSiteNavigation())
     dispatch(wipeListenerManager())
     dispatch(updateDevelopmentMode('hide'))
     dispatch(turnListenerOff())
     // sessionStorage.clear()
     // localStorage.clear()
-    updateActiveApp('home')
+    dispatch(updateApp('home'))
   }
   let loggedOut = 'show'
   let loggedIn = 'hide'
@@ -79,9 +79,6 @@ const AppHeaderDropdown = () => {
     loggedOut = 'hide'
     loggedIn = 'show'
     headerAvatar = myPictureUrl
-  }
-  const updateActiveApp = (newApp) => {
-    dispatch(updateApp(newApp))
   }
 
   let dropdownHeaderClassname = 'bg-body-secondary fw-semibold mb-2'
@@ -106,7 +103,7 @@ const AppHeaderDropdown = () => {
           <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">
             Pretty Good Apps
           </CDropdownHeader>
-          <CDropdownItem href="#" onClick={() => updateActiveApp('home')}>
+          <CDropdownItem href="#" onClick={() => dispatch(updateApp('home'))}>
             <CIcon icon={cilHome} className="me-2" />
             Home
           </CDropdownItem>
@@ -114,23 +111,23 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             className={devModeClassName}
             href="#/conceptGraph"
-            onClick={() => updateActiveApp('conceptGraph')}
+            onClick={() => dispatch(updateApp('conceptGraph'))}
           >
             <CIcon icon={cilGraph} className="me-2" />
             Concept Graph
           </CDropdownItem>
           <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Apps</CDropdownHeader>
-          <CDropdownItem href="#/wikifreedia" onClick={() => updateActiveApp('wiki')}>
+          <CDropdownItem href="#/nostrapedia" onClick={() => dispatch(updateApp('wiki'))}>
             <CIcon icon={cibWikipedia} className="me-2" />
             Wiki
           </CDropdownItem>
-          <CDropdownItem href="#/grapevine" onClick={() => updateActiveApp('grapevine')}>
+          <CDropdownItem href="#/grapevine" onClick={() => dispatch(updateApp('grapevine'))}>
             <CIcon icon={cilApple} className="me-2" />
             Grapevine
           </CDropdownItem>
           <CDropdownItem
             href="#/twittr"
-            onClick={() => updateActiveApp('twittr')}
+            onClick={() => dispatch(updateApp('twittr'))}
             className={devModeClassName}
           >
             <CIcon icon={cibTwitter} className="me-2" />
@@ -142,7 +139,7 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             className={devModeClassName}
             href="#/helloWorld"
-            onClick={() => updateActiveApp('helloWorld')}
+            onClick={() => dispatch(updateApp('helloWorld'))}
           >
             <CIcon icon={cilList} className="me-2" />
             Hello World
@@ -150,7 +147,7 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             className={devModeClassName}
             href="#/nostrAppsDirectory"
-            onClick={() => updateActiveApp('nostrAppsDirectory')}
+            onClick={() => dispatch(updateApp('nostrAppsDirectory'))}
           >
             <CIcon icon={cilList} className="me-2" />
             Nostr Apps Directory
@@ -158,7 +155,7 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             className={devModeClassName}
             href="#/relaysDirectory"
-            onClick={() => updateActiveApp('relaysDirectory')}
+            onClick={() => dispatch(updateApp('relaysDirectory'))}
           >
             <CIcon icon={cilList} className="me-2" />
             Relays Directory
@@ -166,7 +163,7 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             className={devModeClassName}
             href="#/nestedLists"
-            onClick={() => updateActiveApp('nestedLists')}
+            onClick={() => dispatch(updateApp('nestedLists'))}
           >
             <CIcon icon={cilList} className="me-2" />
             Nested Lists
@@ -174,7 +171,7 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             className={devModeClassName}
             href="#/curatedLists"
-            onClick={() => updateActiveApp('curatedLists')}
+            onClick={() => dispatch(updateApp('curatedLists'))}
           >
             <CIcon icon={cilList} className="me-2" />
             Curated Lists
@@ -187,7 +184,7 @@ const AppHeaderDropdown = () => {
               href="#/profile"
               onClick={() => {
                 dispatch(updateNpub(myNpub))
-                updateActiveApp('home')
+                dispatch(updateApp('home'))
               }}
             >
               <CIcon icon={cilUser} className="me-2" />
@@ -196,7 +193,7 @@ const AppHeaderDropdown = () => {
             <CDropdownItem
               className={devModeClassName}
               href="#/notifications"
-              onClick={() => updateActiveApp('home')}
+              onClick={() => dispatch(updateApp('home'))}
             >
               <CIcon icon={cilBell} className="me-2" />
               Notifications
@@ -204,7 +201,7 @@ const AppHeaderDropdown = () => {
             <CDropdownItem
               className={devModeClassName}
               href="#/directMessages"
-              onClick={() => updateActiveApp('home')}
+              onClick={() => dispatch(updateApp('home'))}
             >
               <CIcon icon={cilEnvelopeOpen} className="me-2" />
               Messages
@@ -214,7 +211,7 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             className={devModeClassName}
             href="#/settings/settings"
-            onClick={() => updateActiveApp('settings')}
+            onClick={() => dispatch(updateApp('settings'))}
           >
             <CIcon icon={cilSettings} className="me-2" />
             Settings
@@ -231,7 +228,7 @@ const AppHeaderDropdown = () => {
           <CDropdownItem
             href="#/login"
             className={loggedOut}
-            onClick={() => updateActiveApp('home')}
+            onClick={() => dispatch(updateApp('home'))}
           >
             <CIcon icon={cilArrowThickFromLeft} className="me-2" />
             Login
@@ -239,7 +236,7 @@ const AppHeaderDropdown = () => {
           <CDropdownHeader className="bg-body-secondary fw-semibold my-2">
             Brainstorm
           </CDropdownHeader>
-          <CDropdownItem href="#/about" onClick={() => updateActiveApp('home')}>
+          <CDropdownItem href="#/about" onClick={() => dispatch(updateApp('home'))}>
             <CIcon icon={cilInfo} className="me-2" />
             About
           </CDropdownItem>

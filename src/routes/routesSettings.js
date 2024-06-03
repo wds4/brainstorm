@@ -12,7 +12,7 @@ const CuratedLists = React.lazy(() => import('src/views/settings/curatedLists/Se
 const NIP51Lists = React.lazy(() => import('src/views/settings/nip51Lists/Settings.js'))
 const Relays = React.lazy(() => import('src/views/settings/relays/Settings.js'))
 const Twittr = React.lazy(() => import('src/views/settings/twittr/Settings.js'))
-const Wiki = React.lazy(() => import('src/views/settings/wiki/Settings.js'))
+const Nostrapedia = React.lazy(() => import('src/views/settings/wiki/Settings.js'))
 const NostrAppsDirectory = React.lazy(
   () => import('src/views/settings/nostrAppsDirectory/Settings.js'),
 )
@@ -30,7 +30,7 @@ const routes = [
   { path: '/settings/nip51Lists', name: 'NIP-51 Lists', element: NIP51Lists },
   { path: '/settings/relays', name: 'Relays', element: Relays },
   { path: '/settings/twittr', name: 'Twittr', element: Twittr },
-  { path: '/settings/wiki', name: 'Wiki', element: Wiki },
+  { path: '/settings/wiki', name: 'Nostrapedia', element: Nostrapedia },
   {
     path: '/settings/nostrAppsDirectory',
     name: 'Nostr Apps Directory',
