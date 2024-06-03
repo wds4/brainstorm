@@ -141,6 +141,8 @@ const DefaultLayout = () => {
         <div className="wrapper d-flex flex-column min-vh-100">
           <AppHeader />
           <MyProfileV3Listener />
+          <MeAndMyProfilesV3Listener />
+          <AllProfilesV3Listener />
           <div className="body flex-grow-1">
             <AppContent />
           </div>
