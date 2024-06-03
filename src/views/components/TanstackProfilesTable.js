@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { CNavLink } from '@coreui/react'
+import { CFormSwitch, CNavLink } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateNpub, updateViewProfileTab } from '../../redux/features/siteNavigation/slice'
 import { noProfilePicUrl } from '../../const'
@@ -327,12 +327,29 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
 
   const totalRows = table.getPrePaginationRowModel().rows.length
 
+  const [showColsControlPanelButton, setShowColsControlPanelButton] = React.useState('hide')
+  const toggleShowColumnsControlPanel = React.useCallback(
+    (e) => {
+      if (showColsControlPanelButton == 'hide') {
+        setShowColsControlPanelButton('show')
+      }
+      if (showColsControlPanelButton == 'show') {
+        setShowColsControlPanelButton('hide')
+      }
+    },
+    [showColsControlPanelButton],
+  )
+
   return (
     <div className="p-2">
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ display: 'flex', flexGrow: '1', alignItems: 'flex-end' }}>
-          <div>{totalRows} rows displayed</div>
-        </div>
+      <div>
+        <CFormSwitch
+          onChange={(e) => toggleShowColumnsControlPanel(e)}
+          label="toggle columns"
+          id="formSwitchCheckDefault"
+        />
+      </div>
+      <div className={showColsControlPanelButton}>
         <div style={{ display: 'flex', flexGrow: 'auto' }}>
           <div className="inline-block border border-black shadow rounded">
             <div className="px-1 border-b border-black">
@@ -349,7 +366,7 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
             </div>
             {table.getAllLeafColumns().map((column) => {
               return (
-                <div key={column.id} className="px-1">
+                <div key={column.id} className="px-1" style={{ display: 'flex', flexGrow: 'auto' }}>
                   <label>
                     <input
                       {...{
@@ -366,9 +383,10 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
           </div>
         </div>
       </div>
+      <div>
+        <div>{totalRows} rows displayed</div>
+      </div>
       <div className="h-4" />
-      <br />
-
       <div style={{ direction: table.options.columnResizeDirection }}>
         <div className="h-4" />
         <div className="overflow-x-auto">

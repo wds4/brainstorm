@@ -113,22 +113,6 @@ const WikiTopic = () => {
   const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
     useState('hide') // show or hide
 
-  /*
-  const aCategories_temp = []
-  aAuthorsRef.forEach((pk, item) => {
-    console.log('aCategories_temp B')
-    const naddr = oAuthors[pk]
-    const oEvent = oEvents[naddr]
-    let category = fetchFirstByTag('c', oEvent)
-    console.log('aCategories_temp C; category: ' + category)
-    if (category) {
-      if (aCategories_temp.includes(category)) {
-        aCategories_temp.push(category)
-      }
-    }
-  })
-  */
-
   const [aAuthorsSorted, setAAuthorsSorted] = useState(aAuthorsRef)
   const mostRecentUpdate = whenTopicWasLastUpdated(oEvents, oTopicSlugs, topicSlug)
 
@@ -185,7 +169,6 @@ const WikiTopic = () => {
   const sortItems = useCallback(
     (sortByMethod) => {
       if (sortByMethod == 'chronological') {
-        console.log('chronological')
         const arraySorted = aAuthorsRef.sort(
           (a, b) => getTimeOfPublication(b) - getTimeOfPublication(a),
         )
@@ -220,7 +203,6 @@ const WikiTopic = () => {
         if (signedIn && aMyFollows.length == 0) {
           setPromptFollowForDosUtilityClassName('show')
         }
-        console.log('degreesOfSeparation')
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('show')
         setCoracleWotScoreColumnClassName('hide')
@@ -233,7 +215,6 @@ const WikiTopic = () => {
           const fooB = Number(
             getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation,
           )
-          console.log('degreesOfSeparation; fooA: ' + fooA + '; fooB: ' + fooB)
           return fooA - fooB
         })
         return arraySorted
@@ -250,7 +231,6 @@ const WikiTopic = () => {
             setPromptCalcInfluenceScoreElemClassName('show')
           }
         }
-        console.log('influenceScore')
         // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('hide')
@@ -261,13 +241,11 @@ const WikiTopic = () => {
           const fooB = getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence.influence
           const fooA = getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence.influence
           const diff = Math.round(10000 * fooB) - Math.round(10000 * fooA)
-          console.log('diff: ' + diff)
           return diff
         })
         return arraySorted
       }
       if (sortByMethod == 'category') {
-        console.log('category')
         // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('hide')
@@ -314,7 +292,6 @@ const WikiTopic = () => {
       }
     }
     updateTopicFromUrl()
-    console.log('sortBy: ' + sortBy)
     setAAuthorsSorted(sortItems(sortBy))
     updateCategoryList()
   }, [topicSlug])

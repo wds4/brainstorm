@@ -91,16 +91,18 @@ const InfluenceCalculations = () => {
         const aFollowers = JSON.parse(JSON.stringify(oProfData[pk_ratee].followers))
         aFollowers.forEach((pk_rater, item) => {
           if (oProfData[pk_rater]) {
-            const rater_influence_ = oProfData[pk_rater].influenceData.influence
-            const rating_ = followInterpretationScore_
-            let weight = attenuationFactor_ * rater_influence_ * followInterpretationConfidence_
-            if (pk_rater == myPubkey) {
-              // no attenuationFactor
-              weight = rater_influence_ * followInterpretationConfidence_
+            if (pk_rater && pk_ratee && pk_rater != pk_ratee) { // cannot rate oneself
+              const rater_influence_ = oProfData[pk_rater].influenceData.influence
+              const rating_ = followInterpretationScore_
+              let weight = attenuationFactor_ * rater_influence_ * followInterpretationConfidence_
+              if (pk_rater == myPubkey) {
+                // no attenuationFactor
+                weight = rater_influence_ * followInterpretationConfidence_
+              }
+              const product = weight * rating_
+              sumOfWeights += weight
+              sumOfProducts += product
             }
-            const product = weight * rating_
-            sumOfWeights += weight
-            sumOfProducts += product
           }
         })
 
@@ -109,16 +111,18 @@ const InfluenceCalculations = () => {
         const aMutedBy = oProfilesByNpub[oProfilesByPubkey[pk_ratee]].mutedBy
         aMutedBy.forEach((pk_rater) => {
           if (oProfData[pk_rater]) {
-            const rater_influence_ = oProfData[pk_rater].influenceData.influence
-            const rating_ = muteInterpretationScore_
-            let weight = attenuationFactor_ * rater_influence_ * muteInterpretationConfidence_
-            if (pk_rater == myPubkey) {
-              // no attenuationFactor
-              weight = rater_influence_ * muteInterpretationConfidence_
+            if (pk_rater && pk_ratee && pk_rater != pk_ratee) { // cannot rate oneself
+              const rater_influence_ = oProfData[pk_rater].influenceData.influence
+              const rating_ = muteInterpretationScore_
+              let weight = attenuationFactor_ * rater_influence_ * muteInterpretationConfidence_
+              if (pk_rater == myPubkey) {
+                // no attenuationFactor
+                weight = rater_influence_ * muteInterpretationConfidence_
+              }
+              const product = weight * rating_
+              sumOfWeights += weight
+              sumOfProducts += product
             }
-            const product = weight * rating_
-            sumOfWeights += weight
-            sumOfProducts += product
           }
         })
 

@@ -29,7 +29,6 @@ const ListenerOn = () => {
   const dispatch = useDispatch()
 
   const aPubkeys = [myPubkey]
-  // TO DO: add all pubkeys with degree of separation score less than 999
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   Object.keys(oProfilesByPubkey).forEach((pubkey, item) => {

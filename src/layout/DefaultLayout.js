@@ -22,6 +22,8 @@ import {
 } from '../redux/features/listenerManager/slice'
 import MyProfileV3Listener from '../helpers/v3Listeners/myProfileV3Listener'
 import AllConnectedProfilesV3Listener from '../helpers/v3Listeners/allConnectedProfilesListener'
+import MeAndMyProfilesV3Listener from '../helpers/v3Listeners/meAndMyFollowersV3Listener'
+import AllProfilesV3Listener from '../helpers/v3Listeners/allProfilesV3Listener'
 
 const ShowListenerManagerOrNot = () => {
   const showListenerManager = useSelector((state) => state.settings.general.showListenerManager)
@@ -139,8 +141,6 @@ const DefaultLayout = () => {
         <div className="wrapper d-flex flex-column min-vh-100">
           <AppHeader />
           <MyProfileV3Listener />
-          <AllConnectedProfilesV3Listener />
-          <ShowListenerManagerOrNot />
           <div className="body flex-grow-1">
             <AppContent />
           </div>
@@ -152,3 +152,12 @@ const DefaultLayout = () => {
 }
 
 export default DefaultLayout
+
+// need to make this more efficient
+// <MeAndMyProfilesV3Listener />
+// maybe turn off by default, but prompt users to activate if want more dos 3 and higher profiles, with warning that performance may take a hit
+// <AllProfilesV3Listener />
+
+// probably retiring:
+// <AllConnectedProfilesV3Listener />
+// <ShowListenerManagerOrNot />

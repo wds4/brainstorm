@@ -21,16 +21,14 @@ import {
 import { nip19, validateEvent } from 'nostr-tools'
 import { makeEventSerializable } from '..'
 import { processKind10000Event } from '../../redux/features/profiles/slice'
-import { getPubkeyFromNpub } from '../nip19'
 
 const ListenerOn = () => {
-  const npub = useSelector((state) => state.siteNavigation.npub)
-  const pubkey = getPubkeyFromNpub(npub)
   const myPubkey = useSelector((state) => state.profile.pubkey)
+  const myNpub = nip19.npubEncode(myPubkey)
+  const myCurrentProfileKind3CreatedAt = useSelector((state) => state.profile.kind3.created_at)
   const dispatch = useDispatch()
 
   const filter = {
-    authors: [pubkey],
     kinds: [0, 3, 10000],
   }
 
@@ -43,7 +41,7 @@ const ListenerOn = () => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
-            // console.log('updateMyProfileDatabase_kind: ' + event.kind)
+            console.log('AllProfilesV3Listener updateMyProfileDatabase_kind: ' + event.kind)
             if (event.kind == 0) {
               dispatch(updateKind0Event(event))
               if (event.pubkey == myPubkey) {
@@ -115,7 +113,7 @@ const ListenerOn = () => {
   )
 }
 
-const SingleProfileListener = () => {
+const AllProfilesV3Listener = () => {
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   const isSignedIn = useSelector((state) => state.profile.signedIn)
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -134,4 +132,4 @@ const SingleProfileListener = () => {
   )
 }
 
-export default SingleProfileListener
+export default AllProfilesV3Listener

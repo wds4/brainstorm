@@ -230,7 +230,9 @@ export const profilesSlice = createSlice({
       aTags_p.forEach((tag_p, item) => {
         if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
           const pk = tag_p[1]
-          aFollowsByPubkey.push(pk)
+          if (!aFollowsByPubkey.includes(pk)) {
+            aFollowsByPubkey.push(pk)
+          }
           const np = nip19.npubEncode(pk)
           // Any preexisting npub must have MINIMUM degree of separation of minDoS (or might already be lower)
           if (state.oProfiles.byNpub[np]) {

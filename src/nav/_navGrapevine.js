@@ -21,6 +21,10 @@ const _nav = [
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
   },
   {
+    component: CNavTitle,
+    name: 'Calculate',
+  },
+  {
     component: CNavItem,
     name: 'Calculate Influence Scores',
     to: '/grapevine/calculateInfluenceScores',
@@ -37,6 +41,10 @@ const _nav = [
     name: 'Calculate Degrees of Separation Scores',
     to: '/grapevine/calculateDosScores',
     icon: <CIcon icon={cilGraph} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'About',
   },
 ]
 

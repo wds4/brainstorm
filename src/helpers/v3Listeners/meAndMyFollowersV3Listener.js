@@ -21,16 +21,33 @@ import {
 import { nip19, validateEvent } from 'nostr-tools'
 import { makeEventSerializable } from '..'
 import { processKind10000Event } from '../../redux/features/profiles/slice'
-import { getPubkeyFromNpub } from '../nip19'
 
 const ListenerOn = () => {
-  const npub = useSelector((state) => state.siteNavigation.npub)
-  const pubkey = getPubkeyFromNpub(npub)
   const myPubkey = useSelector((state) => state.profile.pubkey)
+  const myNpub = nip19.npubEncode(myPubkey)
+  const myCurrentProfileKind3CreatedAt = useSelector((state) => state.profile.kind3.created_at)
   const dispatch = useDispatch()
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
+  const oMyProfile = oProfilesByNpub[myNpub]
+  const aMyFollows = oMyProfile.follows
+  const aPubkeys = []
+  // only try to download follows that have not already been downloaded
+  aMyFollows.forEach((pk) => {
+    const oProf = oProfilesByNpub[oProfilesByPubkey[pk]]
+    if (!oProf.kind0 || !oProf.kind3) {
+      if (!aPubkeys.includes(pk)) {
+        aPubkeys.push(pk)
+      }
+    }
+  })
+  // const aPubkeys = JSON.parse(JSON.stringify(aMyFollows))
+  if (!aPubkeys.includes(myPubkey)) {
+    aPubkeys.push(myPubkey)
+  }
 
   const filter = {
-    authors: [pubkey],
+    authors: aPubkeys,
     kinds: [0, 3, 10000],
   }
 
@@ -98,7 +115,7 @@ const ListenerOn = () => {
             }
           }
         } catch (e) {
-          console.log('updateMyProfileDatabase error: ' + e)
+          console.log('================================= updateMyProfileDatabase error: ' + e)
         }
       })
     }
@@ -115,7 +132,7 @@ const ListenerOn = () => {
   )
 }
 
-const SingleProfileListener = () => {
+const MeAndMyProfilesV3Listener = () => {
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   const isSignedIn = useSelector((state) => state.profile.signedIn)
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -134,4 +151,4 @@ const SingleProfileListener = () => {
   )
 }
 
-export default SingleProfileListener
+export default MeAndMyProfilesV3Listener

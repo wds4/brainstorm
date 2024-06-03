@@ -13,13 +13,17 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import { getProfileBrainstormFromPubkey } from '../../../helpers/brainstorm'
-import { convertInputToCertainty } from '../../../helpers/grapevine'
+import { getProfileBrainstormFromPubkey } from 'src/helpers/brainstorm'
+import { convertInputToCertainty } from 'src/helpers/grapevine'
+import { getPubkeyFromNpub } from 'src/helpers/nip19'
 
 const ShowCalculations = ({ showRawDataButton, oProfile, oProfilesByNpub }) => {
   if (showRawDataButton == 'hide') {
     return <></>
   }
+
+  const npub = useSelector((state) => state.siteNavigation.npub)
+  const pubkey = getPubkeyFromNpub(npub)
 
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const attenuationFactor_ = Number(
@@ -56,21 +60,24 @@ const ShowCalculations = ({ showRawDataButton, oProfile, oProfilesByNpub }) => {
   useEffect(() => {
     let sumOfWeights_temp = 0
     let sumOfProducts_temp = 0
-    aFollowers.forEach((pubkey, item) => {
-      const oProfileBrainstorm = getProfileBrainstormFromPubkey(pubkey, oProfilesByNpub)
-      const raterInfluence_ = oProfileBrainstorm.wotScores.baselineInfluence.influence
-      const rating_ = followInterpretationScore_
-      const ratingConfidence_ = followInterpretationConfidence_
-      let weight = (rating_ * attenuationFactor_ * raterInfluence_ * ratingConfidence_).toPrecision(
-        4,
-      )
-      if (pubkey == myPubkey) {
-        weight = (rating_ * raterInfluence_ * ratingConfidence_).toPrecision(4)
+    aFollowers.forEach((pk, item) => {
+      if (pk != pubkey) { // cannot rate oneself
+        const oProfileBrainstorm = getProfileBrainstormFromPubkey(pk, oProfilesByNpub)
+        const raterInfluence_ = oProfileBrainstorm.wotScores.baselineInfluence.influence
+        const rating_ = followInterpretationScore_
+        const ratingConfidence_ = followInterpretationConfidence_
+        let weight = (rating_ * attenuationFactor_ * raterInfluence_ * ratingConfidence_).toPrecision(
+          4,
+        )
+        if (pk == myPubkey) {
+          weight = (rating_ * raterInfluence_ * ratingConfidence_).toPrecision(4)
+        }
+        const product = weight * rating_
+        sumOfWeights_temp += Number(weight)
+        sumOfProducts_temp += Number(product)
       }
-      const product = weight * rating_
-      sumOfWeights_temp += Number(weight)
-      sumOfProducts_temp += Number(product)
     })
+    // TO DO: process mutes
     setSumOfWeights(sumOfWeights_temp)
     setSumOfProducts(sumOfProducts_temp)
     const input_temp = sumOfWeights_temp.toPrecision(4)
@@ -87,14 +94,6 @@ const ShowCalculations = ({ showRawDataButton, oProfile, oProfilesByNpub }) => {
 
   return (
     <>
-      <CRow>
-        <center>How are Influence Scores calculated?</center>
-        <code>Influence = Average Score * Certainty</code>
-        <div>
-          Average Score is a weighted average over all trust attestations. Calculations are shown in
-          the tables below.
-        </div>
-      </CRow>
       <CRow>
         <div>sumOfWeights: {sumOfWeights}</div>
         <div>sumOfProducts: {sumOfProducts}</div>
@@ -126,34 +125,36 @@ const ShowCalculations = ({ showRawDataButton, oProfile, oProfilesByNpub }) => {
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-                {aFollowers.map((pubkey, item) => {
-                  const oProfileBrainstorm = getProfileBrainstormFromPubkey(pubkey, oProfilesByNpub)
-                  const raterInfluence_ = oProfileBrainstorm.wotScores.baselineInfluence.influence
-                  const rating_ = followInterpretationScore_
-                  const ratingConfidence_ = followInterpretationConfidence_
-                  let weight = (
-                    rating_ *
-                    attenuationFactor_ *
-                    raterInfluence_ *
-                    ratingConfidence_
-                  ).toPrecision(4)
-                  if (pubkey == myPubkey) {
-                    weight = (rating_ * raterInfluence_ * ratingConfidence_).toPrecision(4)
+                {aFollowers.map((pk, item) => {
+                  if (pk != pubkey) { // cannot rate oneself
+                    const oProfileBrainstorm = getProfileBrainstormFromPubkey(pk, oProfilesByNpub)
+                    const raterInfluence_ = oProfileBrainstorm.wotScores.baselineInfluence.influence
+                    const rating_ = followInterpretationScore_
+                    const ratingConfidence_ = followInterpretationConfidence_
+                    let weight = (
+                      rating_ *
+                      attenuationFactor_ *
+                      raterInfluence_ *
+                      ratingConfidence_
+                    ).toPrecision(4)
+                    if (pk == myPubkey) {
+                      weight = (rating_ * raterInfluence_ * ratingConfidence_).toPrecision(4)
+                    }
+                    const product = weight * rating_
+                    return (
+                      <CTableRow key={item}>
+                        <CTableDataCell>{oProfileBrainstorm.brainstormDisplayName}</CTableDataCell>
+                        <CTableDataCell>{product}</CTableDataCell>
+                        <CTableDataCell>{rating_}</CTableDataCell>
+                        <CTableDataCell>{weight}</CTableDataCell>
+                        <CTableDataCell></CTableDataCell>
+                        <CTableDataCell>{weight} =</CTableDataCell>
+                        <CTableDataCell>{raterInfluence_}</CTableDataCell>
+                        <CTableDataCell>* {ratingConfidence_}</CTableDataCell>
+                        <CTableDataCell>* {attenuationFactor_}</CTableDataCell>
+                      </CTableRow>
+                    )
                   }
-                  const product = weight * rating_
-                  return (
-                    <CTableRow key={item}>
-                      <CTableDataCell>{oProfileBrainstorm.brainstormDisplayName}</CTableDataCell>
-                      <CTableDataCell>{product}</CTableDataCell>
-                      <CTableDataCell>{rating_}</CTableDataCell>
-                      <CTableDataCell>{weight}</CTableDataCell>
-                      <CTableDataCell></CTableDataCell>
-                      <CTableDataCell>{weight} =</CTableDataCell>
-                      <CTableDataCell>{raterInfluence_}</CTableDataCell>
-                      <CTableDataCell>* {ratingConfidence_}</CTableDataCell>
-                      <CTableDataCell>* {attenuationFactor_}</CTableDataCell>
-                    </CTableRow>
-                  )
                 })}
               </CTableBody>
             </CTable>
@@ -226,6 +227,12 @@ const InfluenceScores = ({ oProfile, oProfilesByNpub }) => {
             </CTable>
           </CCol>
         </CRow>
+        <br />
+        <center>Interpretation:</center>
+        <br />
+        <li>Influence = 1: probably a human being</li>
+        <li>Influence = 0: might be a bot</li>
+        <li>COMING SOON: Influence above 1: worthy of more attention than most people (contextual)</li>
         <br />
         <center>Notes on the calculation of Influence Scores:</center>
         <br />
