@@ -113,10 +113,7 @@ export const ListEvent = ({ pubkey, oEvent, naddr }) => {
         </div>
         <div className="col-auto" style={{ display: 'flex', alignItems: 'center' }}>
           <CButton color="primary">
-            <CNavLink
-              href="#/nostrapedia/article"
-              onClick={() => processViewArticleClick(naddr)}
-            >
+            <CNavLink href="#/nostrapedia/article" onClick={() => processViewArticleClick(naddr)}>
               View Article
             </CNavLink>
           </CButton>
