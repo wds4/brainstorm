@@ -79,12 +79,14 @@ const ListenerOn = () => {
                   // update follows in my profile
                   let aTags_p = event.tags.filter(([k, v]) => k === 'p' && v && v !== '')
                   const aFollows = []
-                  aTags_p.forEach((tag_p, item) => {
-                    if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
-                      const pk = tag_p[1]
-                      aFollows.push(pk)
-                    }
-                  })
+                  if (aTags_p) {
+                    aTags_p.forEach((tag_p, item) => {
+                      if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
+                        const pk = tag_p[1]
+                        aFollows.push(pk)
+                      }
+                    })
+                  }
                   dispatch(updateKind3CreatedAt(createdAt))
                   dispatch(updateRelays(oRelays))
                   dispatch(updateFollows(aFollows))

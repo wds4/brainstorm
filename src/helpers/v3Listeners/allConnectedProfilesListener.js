@@ -31,20 +31,22 @@ const ListenerOn = () => {
   const aPubkeys = [myPubkey]
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
+  if (oProfilesByPubkey) {
   Object.keys(oProfilesByPubkey).forEach((pubkey, item) => {
     const npub = oProfilesByPubkey[pubkey]
     if (
-      npub &&
-      oProfilesByNpub[npub] &&
-      oProfilesByNpub[npub].wotScores &&
-      oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
-    ) {
-      const dosScore = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
-      if (dosScore < 999) {
-        aPubkeys.push(pubkey)
+        npub &&
+        oProfilesByNpub[npub] &&
+        oProfilesByNpub[npub].wotScores &&
+        oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+      ) {
+        const dosScore = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+        if (dosScore < 999) {
+          aPubkeys.push(pubkey)
+        }
       }
-    }
-  })
+    })
+  }
 
   const filter = {
     authors: aPubkeys,

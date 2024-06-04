@@ -33,14 +33,23 @@ const ListenerOn = () => {
   const aMyFollows = oMyProfile.follows
   const aPubkeys = []
   // only try to download follows that have not already been downloaded
-  aMyFollows.forEach((pk) => {
-    const oProf = oProfilesByNpub[oProfilesByPubkey[pk]]
-    if (!oProf.kind0 || !oProf.kind3) {
-      if (!aPubkeys.includes(pk)) {
-        aPubkeys.push(pk)
+  if (aMyFollows) {
+    aMyFollows.forEach((pk) => {
+      if (
+        pk &&
+        oProfilesByPubkey &&
+        oProfilesByPubkey[pk] &&
+        oProfilesByNpub[oProfilesByPubkey[pk]]
+      ) {
+        const oProf = oProfilesByNpub[oProfilesByPubkey[pk]]
+        if (!oProf.kind0 || !oProf.kind3) {
+          if (!aPubkeys.includes(pk)) {
+            aPubkeys.push(pk)
+          }
+        }
       }
-    }
-  })
+    })
+  }
   // const aPubkeys = JSON.parse(JSON.stringify(aMyFollows))
   if (!aPubkeys.includes(myPubkey)) {
     aPubkeys.push(myPubkey)
@@ -97,12 +106,14 @@ const ListenerOn = () => {
                   // update follows in my profile
                   let aTags_p = event.tags.filter(([k, v]) => k === 'p' && v && v !== '')
                   const aFollows = []
-                  aTags_p.forEach((tag_p, item) => {
-                    if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
-                      const pk = tag_p[1]
-                      aFollows.push(pk)
-                    }
-                  })
+                  if (aTags_p) {
+                    aTags_p.forEach((tag_p, item) => {
+                      if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
+                        const pk = tag_p[1]
+                        aFollows.push(pk)
+                      }
+                    })
+                  }
                   dispatch(updateKind3CreatedAt(createdAt))
                   dispatch(updateRelays(oRelays))
                   dispatch(updateFollows(aFollows))
