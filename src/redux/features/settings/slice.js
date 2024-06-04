@@ -9,7 +9,8 @@ export const settingsSlice = createSlice({
   initialState: {
     general: {
       listenerMethod: 'individualListeners', // 'v3Listeners' (soon to be option 1) vs 'individualListeners' (option 2) vs 'oneMainListener' (option 3)
-      listeners: { // toggle individual listeners on and off
+      listeners: {
+        // toggle individual listeners on and off
         listener1: 'hide',
         listener2: 'hide',
         listener3: 'hide',
@@ -23,7 +24,8 @@ export const settingsSlice = createSlice({
       loginRelayUrl: '', // the relay entered by the user at login; if empty, aDefaultRelays will be used; otheriwse loginRelayUrl will be used
     },
     grapevine: {
-      scoreUpdates: { // record when various wotScores were updated and how many profiles were in the database at the time of the calculation. Prompt user to repeat calculation when lots of new profiles are downloaded.
+      scoreUpdates: {
+        // record when various wotScores were updated and how many profiles were in the database at the time of the calculation. Prompt user to repeat calculation when lots of new profiles are downloaded.
         degreesOfSeparation: {
           numProfiles: 0,
           timestamp: 0,
@@ -36,7 +38,7 @@ export const settingsSlice = createSlice({
           numProfiles: 0,
           timestamp: 0,
         },
-      }
+      },
     },
     conceptGraph: {
       conceptGraphSettingsEvent: {}, // this is the entire kind 39902 event, of word type: conceptGraphSettings
@@ -45,10 +47,20 @@ export const settingsSlice = createSlice({
     twittr: {},
   },
   reducers: {
-    toggleIndividualListeners: (state, action) => {
-      const listNum = 1
-      const whichListener = 'listener_' + listNum
-      state.general.listeners[whichListener] = action.payload // 'show' or 'hide'
+    toggleIndividualListener: (state, action) => {
+      console.log('toggleIndividualListener')
+      const { newState, num } = action.payload
+      console.log('toggleIndividualListener; num: ' + num)
+      const whichListener = 'listener' + num
+      if (!state.general.listeners) {
+        state.general.listeners = {}
+        state.general.listeners.listener1 = 'hide'
+        state.general.listeners.listener2 = 'hide'
+        state.general.listeners.listener3 = 'hide'
+        state.general.listeners.listener4 = 'hide'
+        state.general.listeners.listener5 = 'hide'
+      }
+      state.general.listeners[whichListener] = newState // 'show' or 'hide'
     },
     updateGrapevineScores: (state, action) => {
       const { scoreType, numProfiles } = action.payload
@@ -110,7 +122,7 @@ export const settingsSlice = createSlice({
 })
 
 export const {
-  toggleIndividualListeners,
+  toggleIndividualListener,
   updateGrapevineScores,
   updateListenerMethod,
   updateDevelopmentMode,

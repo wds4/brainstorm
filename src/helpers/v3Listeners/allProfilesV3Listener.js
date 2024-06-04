@@ -105,11 +105,11 @@ const ListenerOn = () => {
     updateMyProfileDatabase()
   }, [fetchEvents(filter)])
 
-  return <></>
+  // return <></>
   return (
     <>
       <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>
-        My Profile Listener: On
+        AllProfilesV3Listener: On
       </div>
     </>
   )
@@ -120,7 +120,13 @@ const AllProfilesV3Listener = () => {
   const isSignedIn = useSelector((state) => state.profile.signedIn)
   const myPubkey = useSelector((state) => state.profile.pubkey)
 
-  if (myPubkey && isSignedIn) {
+  const generalSettings = useSelector((state) => state.settings.general)
+  let currentListenerMode4 = 'hide'
+  if (generalSettings && generalSettings.listeners && generalSettings.listeners) {
+    currentListenerMode4 = generalSettings.listeners.listener4
+  }
+
+  if (myPubkey && isSignedIn && currentListenerMode4 == 'show') {
     return <ListenerOn />
   }
 

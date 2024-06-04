@@ -144,6 +144,7 @@ const DefaultLayout = () => {
           <AppHeader />
           <MyProfileV3Listener />
           <MeAndMyFollowersV3Listener />
+          <AllProfilesV3Listener />
           <div className="body flex-grow-1">
             <AppContent />
           </div>
