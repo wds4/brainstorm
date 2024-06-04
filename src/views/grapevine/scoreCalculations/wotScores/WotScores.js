@@ -84,7 +84,6 @@ const WotScores = () => {
         <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
         <div> {numProfiles} profiles when WoT Scores were last calculated {howLongAgo}</div>
         <div>Since then, {profilesAdded} profiles have been added.</div>
-        <div>WORK IN PROGRESS (not yet functional)</div>
       </center>
       <div
         style={{

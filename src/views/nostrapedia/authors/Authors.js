@@ -71,7 +71,7 @@ const WikiAuthors = () => {
   const myNpub = useSelector((state) => state.profile.npub)
   let aMyFollows = []
   if (myNpub && oProfilesByNpub && oProfilesByNpub[myNpub]) {
-    aMyFollows = useSelector((state) => oProfilesByNpub[myNpub].follows)
+    aMyFollows = oProfilesByNpub[myNpub].follows
   }
 
   const [promptLoginElemClassName, setPromptLoginElemClassName] = useState('hide') // show or hide

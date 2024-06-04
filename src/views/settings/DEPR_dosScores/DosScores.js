@@ -79,7 +79,7 @@ const DosScores = () => {
   return (
     <>
       <center>
-        <h4>Degrees of Separation (dos) Scores</h4>
+        <h4>Degrees of Separation (DoS) Scores</h4>
         <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
         <div>
           {numProfiles} profiles when DoS Scores were last
