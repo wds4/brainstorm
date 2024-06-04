@@ -43,7 +43,7 @@ const ListenerOn = () => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
-            // console.log('updateMyProfileDatabase_kind: ' + event.kind)
+            console.log('updateMyProfileDatabase; event: ' + JSON.stringify(event, null, 4))
             if (event.kind == 0) {
               dispatch(updateKind0Event(event))
               if (event.pubkey == myPubkey) {
@@ -118,6 +118,8 @@ const ListenerOn = () => {
 }
 
 const SingleProfileListener = () => {
+  return <ListenerOn />
+  /*
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   const isSignedIn = useSelector((state) => state.profile.signedIn)
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -134,6 +136,7 @@ const SingleProfileListener = () => {
       </div>
     </>
   )
+  */
 }
 
 export default SingleProfileListener
