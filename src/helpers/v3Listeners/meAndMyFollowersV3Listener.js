@@ -31,9 +31,11 @@ const ListenerOn = () => {
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   const oMyProfile = oProfilesByNpub[myNpub]
   const aMyFollows = oMyProfile.follows
+  /*
   const aPubkeys = []
   // only try to download follows that have not already been downloaded
   if (aMyFollows) {
+    console.log('aMyFollows YES!')
     aMyFollows.forEach((pk) => {
       if (
         pk &&
@@ -42,21 +44,26 @@ const ListenerOn = () => {
         oProfilesByNpub[oProfilesByPubkey[pk]]
       ) {
         const oProf = oProfilesByNpub[oProfilesByPubkey[pk]]
+        console.log('aMyFollows YES!!!!!!!')
         if (!oProf.kind0 || !oProf.kind3) {
           if (!aPubkeys.includes(pk)) {
             aPubkeys.push(pk)
+            console.log('aPubkeys PUSH!')
           }
         }
       }
     })
   }
+
   // const aPubkeys = JSON.parse(JSON.stringify(aMyFollows))
   if (!aPubkeys.includes(myPubkey)) {
     aPubkeys.push(myPubkey)
   }
+  */
 
+  console.log('MeAndMyFollowersV3Listener')
   const filter = {
-    authors: aPubkeys,
+    authors: aMyFollows,
     kinds: [0, 3, 10000],
   }
 
