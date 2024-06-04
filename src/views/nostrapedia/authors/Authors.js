@@ -448,7 +448,6 @@ const WikiAuthors = () => {
                   <CButton color="primary" href="#/grapevine/calculateInfluenceScores">
                     this page
                   </CButton>
-                  . (to do: or click _this button_)
                 </div>
                 <CTable striped small hover>
                   <CTableHead color="light">

@@ -421,10 +421,7 @@ const WikiTopic = () => {
                   <CButton color="primary" href="#/grapevine/calculateInfluenceScores">
                     this page
                   </CButton>
-                  . (to do: or click _this button_)
                 </div>
-
-
               </div>
             </CCardHeader>
             <CCardBody>

@@ -82,7 +82,6 @@ const GeneralSettings = () => {
     <>
       <center>
         <h4>General Settings</h4>
-        <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
       </center>
     </>
   )
