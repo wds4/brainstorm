@@ -43,7 +43,7 @@ const ListenerOn = () => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
-            console.log('updateMyProfileDatabase; event: ' + JSON.stringify(event, null, 4))
+            // console.log('updateMyProfileDatabase; event: ' + JSON.stringify(event, null, 4))
             if (event.kind == 0) {
               dispatch(updateKind0Event(event))
               if (event.pubkey == myPubkey) {

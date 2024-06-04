@@ -400,6 +400,7 @@ const WikiTopic = () => {
                     padding: '10px',
                     borderRadius: '5px',
                     marginBottom: '10px',
+                    marginTop: '10px',
                   }}
                   className={promptLoginElemClassName}
                 >
@@ -412,6 +413,7 @@ const WikiTopic = () => {
                     padding: '10px',
                     borderRadius: '5px',
                     marginBottom: '10px',
+                    marginTop: '10px',
                   }}
                   className={promptCalcInfluenceScoreElemClassName}
                 >
