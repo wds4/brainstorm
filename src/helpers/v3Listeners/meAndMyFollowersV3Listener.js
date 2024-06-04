@@ -30,7 +30,10 @@ const ListenerOn = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   const oMyProfile = oProfilesByNpub[myNpub]
-  const aMyFollows = oMyProfile.follows
+  let aMyFollows = []
+  if (oMyProfile) {
+    aMyFollows = oMyProfile.follows
+  }
   /*
   const aPubkeys = []
   // only try to download follows that have not already been downloaded

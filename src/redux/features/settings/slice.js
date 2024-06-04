@@ -9,6 +9,13 @@ export const settingsSlice = createSlice({
   initialState: {
     general: {
       listenerMethod: 'individualListeners', // 'v3Listeners' (soon to be option 1) vs 'individualListeners' (option 2) vs 'oneMainListener' (option 3)
+      listeners: { // toggle individual listeners on and off
+        listener1: 'hide',
+        listener2: 'hide',
+        listener3: 'hide',
+        listener4: 'hide',
+        listener5: 'hide',
+      },
       developmentMode: 'hide', // 'show' or 'hide';  features that are under development
       showListenerManager: 'hide', // show or hide
       aActiveRelays: aDefaultRelays, // aDefaultRelays,
@@ -38,6 +45,11 @@ export const settingsSlice = createSlice({
     twittr: {},
   },
   reducers: {
+    toggleIndividualListeners: (state, action) => {
+      const listNum = 1
+      const whichListener = 'listener_' + listNum
+      state.general.listeners[whichListener] = action.payload // 'show' or 'hide'
+    },
     updateGrapevineScores: (state, action) => {
       const { scoreType, numProfiles } = action.payload
       const currentTime = Math.floor(Date.now() / 1000)
@@ -98,6 +110,7 @@ export const settingsSlice = createSlice({
 })
 
 export const {
+  toggleIndividualListeners,
   updateGrapevineScores,
   updateListenerMethod,
   updateDevelopmentMode,

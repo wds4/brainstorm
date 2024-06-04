@@ -1,88 +1,53 @@
 import React, { useCallback, useState } from 'react'
-import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
+import { CCol, CFormSwitch, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
 import { cilBolt, cilBoltCircle, cilCircle, cilGraph, cilThumbUp } from '@coreui/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const GeneralSettings = () => {
-  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
+  const dispatch = useDispatch
 
-  let numInfluenceScoreProfiles = 0
-  let numDosScoreProfiles = 0
-  let numWotScoreProfiles = 0
-  let influenceScoreTimestamp = 0
-  let wotScoreTimestamp = 0
-  let dosScoreTimestamp = 0
-  if (oScoreUpdates) {
-    if (oScoreUpdates.influenceScore) {
-      numInfluenceScoreProfiles = oScoreUpdates.influenceScore.numProfiles
-      influenceScoreTimestamp = oScoreUpdates.influenceScore.timestamp
-    }
-    if (oScoreUpdates.wotScore) {
-      numWotScoreProfiles = oScoreUpdates.wotScore.numProfiles
-      wotScoreTimestamp = oScoreUpdates.wotScore.timestamp
-    }
-    if (oScoreUpdates.degreesOfSeparation) {
-      numDosScoreProfiles = oScoreUpdates.degreesOfSeparation.numProfiles
-      dosScoreTimestamp = oScoreUpdates.degreesOfSeparation.timestamp
-    }
+  const generalSettings = useSelector((state) => state.settings.general)
+  let currentListenerMode1 = 'hide'
+  if (generalSettings && generalSettings.listeners && generalSettings.listeners.listener1) {
+    currentListenerMode1 = generalSettings.listeners.listener1
   }
-  const influenceScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numInfluenceScoreProfiles
-  const wotScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numWotScoreProfiles
-  const dosScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numDosScoreProfiles
+  const [isListenerActive1, setIsListenerActive1] = useState(currentListenerMode1 == 'show')
 
-  let influenceScores_value = ''
-  let influenceScores_title = ''
-  if (!influenceScoreTimestamp || !numInfluenceScoreProfiles) {
-    influenceScores_value = 'Calculate Influence Scores'
-    influenceScores_title = 'never calculated '
-  }
-  if (influenceScoreProfilesToAdd > 0) {
-    influenceScores_value = 'recalculate Influence Scores'
-    influenceScores_title = 'need to calculate for ' + influenceScoreProfilesToAdd + " profiles"
-  }
-  if (influenceScoreProfilesToAdd == 0) {
-    influenceScores_value = 'recalculate Influence Scores'
-    influenceScores_title = 'no new profiles'
-  }
-
-  let wotScores_value = ''
-  let wotScores_title = ''
-  if (!wotScoreTimestamp || !numWotScoreProfiles) {
-    wotScores_value = 'Calculate WoT Scores'
-    wotScores_title = 'never calculated '
-  }
-  if (wotScoreProfilesToAdd > 0) {
-    wotScores_value = 'recalculate WoT Scores'
-    wotScores_title = 'need to calculate for ' + wotScoreProfilesToAdd + " profiles"
-  }
-  if (wotScoreProfilesToAdd == 0) {
-    wotScores_value = 'recalculate WoT Scores'
-    wotScores_title = 'no new profiles'
-  }
-
-  let dosScores_value = ''
-  let dosScores_title = ''
-  if (!dosScoreTimestamp || !numDosScoreProfiles) {
-    dosScores_value = 'Calculate DoS Scores'
-    dosScores_title = 'never calculated'
-  }
-  if (dosScoreProfilesToAdd > 0) {
-    dosScores_value = 'recalculate DoS Scores'
-    dosScores_title = 'need to calculate for ' + dosScoreProfilesToAdd + " profiles"
-  }
-  if (dosScoreProfilesToAdd == 0) {
-    dosScores_value = 'recalculate DoS Scores'
-    dosScores_title = 'no new profiles'
-  }
-
+  const toggleListener = React.useCallback((e) => {
+    console.log('toggleListener')
+  }, [])
   return (
     <>
       <center>
         <h4>General Settings</h4>
       </center>
+      <br />
+      <div>
+        <strong>For more informative DoS, WoT, and Influence Scores *</strong>, (to extend your web of trust past 2 hops),
+        turn listeners <strong>on</strong>.
+      </div>
+      <div>
+        <strong>For improved site performance</strong>, turn profile listeners <strong>off</strong>.
+      </div>
+      <br />
+      <div>toggle switches not yet functional</div>
+      <div>download/store kind 0, kind 3, and kind 10000 events for:</div>
+      <br />
+      <CFormSwitch checked={isListenerActive1} onChange={(e) => toggleListener(e)} label="me" id="formSwitchCheckDefault" />
+      <br />
+      <CFormSwitch checked={isListenerActive1} onChange={(e) => toggleListener(e)} label="my follows" id="formSwitchCheckDefault" />
+      <br />
+      <CFormSwitch checked={isListenerActive1} onChange={(e) => toggleListener(e)} label="the profile being viewed" id="formSwitchCheckDefault" />
+      <br />
+      <CFormSwitch checked={isListenerActive1} onChange={(e) => toggleListener(e)} label="all profiles" id="formSwitchCheckDefault" />
+      <br />
+      <CFormSwitch checked={isListenerActive1} onChange={(e) => toggleListener(e)} label="authors" id="formSwitchCheckDefault" />
+      <br />
+      <div>
+        * To calculate scores, profile follows and mutes are downloaded and stored locally. Data is cleared upon logout.
+      </div>
     </>
   )
 }
