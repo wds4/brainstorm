@@ -1,6 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchFirstByTag } from 'src/helpers'
-import { aDefaultRelays } from 'src/const'
+import {
+  aDefaultRelays,
+  defListener1,
+  defListener2,
+  defListener3,
+  defListener4,
+  defListener5,
+  defListener6,
+  defListener7,
+  defListener8,
+  defListener9,
+  defListener10,
+} from 'src/const'
 
 const aMyPersonalTestRelay = ['ws://umbrel.local:4848']
 
@@ -8,14 +20,19 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
     general: {
-      listenerMethod: 'individualListeners', // 'v3Listeners' (soon to be option 1) vs 'individualListeners' (option 2) vs 'oneMainListener' (option 3)
+      listenerMethod: 'individualListeners', // 'profilesListeners' (soon to be option 1) vs 'individualListeners' (option 2) vs 'oneMainListener' (option 3)
       listeners: {
         // toggle individual listeners on and off
-        listener1: 'hide',
-        listener2: 'hide',
-        listener3: 'hide',
-        listener4: 'hide',
-        listener5: 'hide',
+        listener1: defListener1,
+        listener2: defListener2,
+        listener3: defListener3,
+        listener4: defListener4,
+        listener5: defListener5,
+        listener6: defListener6,
+        listener7: defListener7,
+        listener8: defListener8,
+        listener9: defListener9,
+        listener10: defListener10,
       },
       developmentMode: 'hide', // 'show' or 'hide';  features that are under development
       showListenerManager: 'hide', // show or hide
@@ -54,11 +71,16 @@ export const settingsSlice = createSlice({
       const whichListener = 'listener' + num
       if (!state.general.listeners) {
         state.general.listeners = {}
-        state.general.listeners.listener1 = 'hide'
-        state.general.listeners.listener2 = 'hide'
-        state.general.listeners.listener3 = 'hide'
-        state.general.listeners.listener4 = 'hide'
-        state.general.listeners.listener5 = 'hide'
+        state.general.listeners.listener1 = defListener1
+        state.general.listeners.listener2 = defListener2
+        state.general.listeners.listener3 = defListener3
+        state.general.listeners.listener4 = defListener4
+        state.general.listeners.listener5 = defListener5
+        state.general.listeners.listener6 = defListener6
+        state.general.listeners.listener7 = defListener7
+        state.general.listeners.listener8 = defListener8
+        state.general.listeners.listener9 = defListener9
+        state.general.listeners.listener10 = defListener10
       }
       state.general.listeners[whichListener] = newState // 'show' or 'hide'
     },

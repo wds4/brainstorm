@@ -13,15 +13,10 @@ import {
   updateFilter,
   updateListenerApplication,
 } from '../../redux/features/listenerManager/slice'
-import ProfilesDataListener from '../../helpers/listeners/ProfilesDataListener'
-import {
-  getProfileBrainstormFromNpub,
-  returnWoTScore,
-  returnDegreesOfSeparation,
-} from '../../helpers/brainstorm'
+import { getProfileBrainstormFromNpub, returnDegreesOfSeparation } from '../../helpers/brainstorm'
 import { updateDegreesOfSeparationFromMe } from '../../redux/features/profiles/slice'
 import TabsContent from './tabsContent'
-import SingleProfileListener from '../../helpers/v3Listeners/singleProfileListener'
+import SingleProfileListener from '../../helpers/profilesListeners/singleProfileListener'
 
 const EditMyProfileButton = () => {
   const npubBeingObserved = useSelector((state) => state.siteNavigation.npub)
@@ -196,12 +191,6 @@ const Profile = () => {
     updateEvents()
   }, [oProfilesByNpub, npub])
 
-  /*
-  useEffect(() => {
-    setWhichTab('about')
-  }, [npub])
-  */
-
   const copyNpubToClipboard = (np) => {
     navigator.clipboard.writeText(np)
     alert('user npub copied to clipboard: \n ' + np)
@@ -211,60 +200,6 @@ const Profile = () => {
     setWhichTab(newTab)
     dispatch(updateViewProfileTab(newTab))
   }
-
-  /*
-  // * manage listener part 2
-  if (listenerMethod != 'off') {
-    // if kind0 and kind3 have already been downloaded, then switch to listening for follows info
-    // but not if on wikis or twitter tabs, in which case need to download those things
-    if (whichTab != 'wikis' && whichTab != 'notes') {
-      if (oProfileBrainstorm && aFollowPubkeys && aFollowPubkeys.length > 0) {
-        const filter = {
-          kinds: [0, 3],
-          authors: aFollowPubkeys,
-        }
-        // dispatch(updateApp('home'))
-        dispatch(updateFilter(filter))
-        dispatch(turnListenerOn())
-        dispatch(updateListenerApplication('home'))
-      }
-    }
-    if (whichTab == 'notes') {
-      const filter = {
-        kinds: [1],
-        authors: [pubkey],
-      }
-      // dispatch(updateApp('home'))
-      dispatch(updateFilter(filter))
-      dispatch(turnListenerOn())
-      dispatch(updateListenerApplication('home'))
-    }
-    if (whichTab == 'follows') {
-      // if main profile kind3 events have been downloaded, then switch listener to follower profiles
-      if (aFollowPubkeys && aFollowPubkeys.length > 0) {
-        const filter = {
-          kinds: [0, 3],
-          authors: aFollowPubkeys,
-        }
-        dispatch(updateApp('home'))
-        dispatch(updateFilter(filter))
-        dispatch(turnListenerOn())
-        dispatch(updateListenerApplication('home'))
-      }
-    }
-    // if profile info is not available, that takes precedence, but don't forget about wikis and follows
-    if (oProfileBrainstorm.lastUpdated == 0) {
-      const filter = {
-        kinds: [0, 3],
-        authors: [pubkey],
-      }
-      dispatch(updateApp('home'))
-      dispatch(updateFilter(filter))
-      dispatch(turnListenerOn())
-      dispatch(updateListenerApplication('home'))
-    }
-  }
-  */
 
   return (
     <>
@@ -309,27 +244,27 @@ const Profile = () => {
               {npub}{' '}
               <CIcon icon={cilClone} className="me-2" onClick={() => copyNpubToClipboard(npub)} />
             </div>
-            <div className="d-flex gap-3">
+            <div className="d-flex flex-column flex-sm-row gap-5">
               <div
                 onClick={() => {
                   updateWhichTab('follows')
                 }}
-                style={{ display: 'inline-block' }}
+                style={{ display: 'inline-block', textAlign: 'center' }}
               >
                 {aFollowPubkeysB.length} Follows
               </div>
-              <div style={{ display: 'inline-block' }}>
+              <div style={{ display: 'inline-block', textAlign: 'center' }}>
                 {oProfileBrainstorm.followers.length} Followers
               </div>
-              <div style={{ display: 'inline-block' }}>mutes {oProfileBrainstorm.mutes.length}</div>
-              <div style={{ display: 'inline-block' }}>
-                muted by {oProfileBrainstorm.mutedBy.length}
+              <div style={{ display: 'inline-block', textAlign: 'center' }}>{oProfileBrainstorm.mutes.length} Mutes</div>
+              <div style={{ display: 'inline-block', textAlign: 'center' }}>
+                Muted by {oProfileBrainstorm.mutedBy.length}
               </div>
-              <div style={{ display: 'inline-block' }}>
-                {oProfileBrainstorm.wotScores.coracle} WoT Score
+              <div style={{ display: 'inline-block', textAlign: 'center' }}>
+                WoT Score: {oProfileBrainstorm.wotScores.coracle}
               </div>
-              <div style={{ display: 'inline-block' }}>{degreesOfSeparationFromMeText}</div>
-              <div style={{ display: 'inline-block' }}>
+              <div style={{ display: 'inline-block', textAlign: 'center' }}>{degreesOfSeparationFromMeText}</div>
+              <div style={{ display: 'inline-block', textAlign: 'center' }}>
                 Influence score: {oProfileBrainstorm.wotScores.baselineInfluence.influence}
               </div>
             </div>
@@ -368,5 +303,3 @@ const Profile = () => {
 }
 
 export default Profile
-
-// <ProfilesDataListener pubkey={pubkey} aPubkeys={aFollowPubkeys} />

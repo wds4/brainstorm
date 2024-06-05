@@ -1,31 +1,20 @@
 import { useNDK } from '@nostr-dev-kit/ndk-react'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  updateAbout,
-  updateBanner,
-  updateDisplayName,
-  updateFollows,
-  updateKind3CreatedAt,
-  updateName,
-  updateNip05,
-  updatePicture,
-  updateRelays,
-} from 'src/redux/features/profile/slice'
 import {
   updateDegreesOfSeparationFromMe,
   updateKind0Event,
-  updateKind3Event,
   processKind3Event,
 } from 'src/redux/features/profiles/slice'
 import { nip19, validateEvent } from 'nostr-tools'
 import { makeEventSerializable } from '..'
 import { processKind10000Event } from '../../redux/features/profiles/slice'
+import { processMyKind3Event, updateMyProfile } from '../../redux/features/profile/slice'
+import { defListener4 } from 'src/const'
 
 const ListenerOn = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const myNpub = nip19.npubEncode(myPubkey)
-  const myCurrentProfileKind3CreatedAt = useSelector((state) => state.profile.kind3.created_at)
   const dispatch = useDispatch()
 
   const filter = {
@@ -41,23 +30,11 @@ const ListenerOn = () => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
-            console.log('AllProfilesV3Listener updateMyProfileDatabase_kind: ' + event.kind)
             if (event.kind == 0) {
               dispatch(updateKind0Event(event))
               if (event.pubkey == myPubkey) {
-                // console.log('updateMyProfileDatabase; my pubkey! myPubkey: ' + myPubkey)
                 const oMyProfile = JSON.parse(event.content)
-                dispatch(updateDisplayName(oMyProfile?.displayName))
-                dispatch(updateName(oMyProfile?.name))
-                dispatch(updateAbout(oMyProfile?.about))
-                dispatch(updateBanner(oMyProfile?.banner))
-                if (oMyProfile?.image) {
-                  dispatch(updatePicture(oMyProfile?.image))
-                }
-                if (oMyProfile?.picture) {
-                  dispatch(updatePicture(oMyProfile?.picture))
-                }
-                dispatch(updateNip05(oMyProfile?.nip05))
+                dispatch(updateMyProfile(oMyProfile))
                 const npub_toUpdate = myNpub
                 const degreesOfSeparationFromMe_new = 0
                 dispatch(
@@ -66,39 +43,17 @@ const ListenerOn = () => {
               }
             }
             if (event.kind == 3) {
-              // dispatch(updateKind3Event(event))
               dispatch(processKind3Event(event))
               if (event.pubkey == myPubkey) {
-                const createdAt = event.created_at
-                if (createdAt > myCurrentProfileKind3CreatedAt) {
-                  // update relays in my profile
-                  const content = event.content
-                  const oRelays = JSON.parse(content)
-
-                  // update follows in my profile
-                  let aTags_p = event.tags.filter(([k, v]) => k === 'p' && v && v !== '')
-                  const aFollows = []
-                  if (aTags_p) {
-                    aTags_p.forEach((tag_p, item) => {
-                      if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
-                        const pk = tag_p[1]
-                        aFollows.push(pk)
-                      }
-                    })
-                  }
-                  dispatch(updateKind3CreatedAt(createdAt))
-                  dispatch(updateRelays(oRelays))
-                  dispatch(updateFollows(aFollows))
-                }
+                dispatch(processMyKind3Event(event))
               }
             }
             if (event.kind == 10000) {
-              // console.log('updateMyProfileDatabase, myProfile; kind 10000')
               dispatch(processKind10000Event(event))
             }
           }
         } catch (e) {
-          console.log('updateMyProfileDatabase error: ' + e)
+          console.log('AllProfilesListener error: ' + e)
         }
       })
     }
@@ -109,19 +64,18 @@ const ListenerOn = () => {
   return (
     <>
       <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>
-        AllProfilesV3Listener: On
+        AllProfilesListener: On
       </div>
     </>
   )
 }
 
-const AllProfilesV3Listener = () => {
-  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
+const AllProfilesListener = () => {
   const isSignedIn = useSelector((state) => state.profile.signedIn)
   const myPubkey = useSelector((state) => state.profile.pubkey)
 
   const generalSettings = useSelector((state) => state.settings.general)
-  let currentListenerMode4 = 'hide'
+  let currentListenerMode4 = defListener4
   if (generalSettings && generalSettings.listeners && generalSettings.listeners) {
     currentListenerMode4 = generalSettings.listeners.listener4
   }
@@ -140,4 +94,4 @@ const AllProfilesV3Listener = () => {
   )
 }
 
-export default AllProfilesV3Listener
+export default AllProfilesListener

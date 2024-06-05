@@ -58,8 +58,3 @@ const Follows = ({
 }
 
 export default Follows
-
-// <FollowsCoreuiTable aFollows={aFollowPubkeys} />
-// redundant to have this here and on the main profile page
-// <ProfilesDataListener aPubkeys={aFollowPubkeys} />
-// <ShowTableWhenReady readyToDisplayTable={readyToDisplayTable} aNpubsToDisplay={aNpubsToDisplay} oProfilesByNpub={oProfilesByNpub} />

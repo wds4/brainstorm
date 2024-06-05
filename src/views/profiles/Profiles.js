@@ -1,10 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-// import TanstackReactTable from './TanstackReactTable'
-
 import TanstackProfilesTable from '../components/TanstackProfilesTable'
-import FollowersCrawlerListener from '../../helpers/listeners/FollowersCrawlerListener'
-// import CalculateDegreesOfSeparation from './calculateDegreesOfSeparation'
 
 const Profiles = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
@@ -30,7 +26,3 @@ const Profiles = () => {
 }
 
 export default Profiles
-
-// <FollowersCrawlerListener />
-
-// <CalculateDegreesOfSeparation />

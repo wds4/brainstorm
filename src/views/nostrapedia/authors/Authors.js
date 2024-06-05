@@ -7,7 +7,6 @@ import {
   CCardHeader,
   CCol,
   CContainer,
-  CNavLink,
   CRow,
   CTable,
   CTableBody,
@@ -16,9 +15,7 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import { updateNpub } from 'src/redux/features/siteNavigation/slice'
 import { nip19 } from 'nostr-tools'
-import { ShowAuthor } from '../components/ShowAuthor'
 import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
 import SortAndFilter from './sortAndFilter'
@@ -26,18 +23,8 @@ import {
   getProfileBrainstormFromNpub,
   getProfileBrainstormFromPubkey,
 } from '../../../helpers/brainstorm'
-import { ShowAuthorBrainstormProfile } from '../components/ShowAuthorBrainstormProfile'
-import { updateApp } from '../../../redux/features/siteNavigation/slice'
-import {
-  turnListenerOff,
-  turnListenerOn,
-  updateFilter,
-  updateFilterAuthors,
-  updateListenerApplication,
-} from '../../../redux/features/listenerManager/slice'
 import { whenTopicWasLastUpdated } from '../topic/Topic'
 import { secsToTime } from '../../../helpers'
-import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
 import WikiListener from '../../../helpers/listeners/WikiListener'
 import { addNewPubkey } from '../../../redux/features/profiles/slice'
@@ -375,7 +362,6 @@ const WikiAuthors = () => {
                     border: '1px solid red',
                     padding: '10px',
                     borderRadius: '5px',
-                    marginTop: '10px',
                     marginBottom: '10px',
                     textAlign: 'center',
                   }}
@@ -392,7 +378,6 @@ const WikiAuthors = () => {
                     border: '1px solid red',
                     padding: '10px',
                     borderRadius: '5px',
-                    marginTop: '10px',
                     marginBottom: '10px',
                     textAlign: 'center',
                   }}
@@ -409,7 +394,6 @@ const WikiAuthors = () => {
                     border: '1px solid red',
                     padding: '10px',
                     borderRadius: '5px',
-                    marginTop: '10px',
                     marginBottom: '10px',
                     textAlign: 'center',
                   }}
@@ -427,7 +411,6 @@ const WikiAuthors = () => {
                     padding: '10px',
                     borderRadius: '5px',
                     marginBottom: '10px',
-                    marginTop: '10px',
                   }}
                   className={promptLoginElemClassName}
                 >
@@ -440,7 +423,6 @@ const WikiAuthors = () => {
                     padding: '10px',
                     borderRadius: '5px',
                     marginBottom: '10px',
-                    marginTop: '10px',
                   }}
                   className={promptCalcInfluenceScoreElemClassName}
                 >

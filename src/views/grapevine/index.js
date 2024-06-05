@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
-import { cilBolt, cilBoltCircle, cilCircle, cilGraph, cilThumbUp } from '@coreui/icons'
+import { cilGraph, cilThumbUp } from '@coreui/icons'
 import { useSelector } from 'react-redux'
 
 const GrapevineCalculations = () => {
@@ -40,12 +40,13 @@ const GrapevineCalculations = () => {
     influenceScores_value = 'Calculate Influence Scores'
     influenceScores_title = 'never calculated '
   }
-  if (influenceScoreProfilesToAdd > 0) {
+  if (numInfluenceScoreProfiles > 0) {
     influenceScores_value = 'recalculate Influence Scores'
+  }
+  if (influenceScoreProfilesToAdd > 0) {
     influenceScores_title = 'need to calculate for ' + influenceScoreProfilesToAdd + ' profiles'
   }
   if (influenceScoreProfilesToAdd == 0) {
-    influenceScores_value = 'recalculate Influence Scores'
     influenceScores_title = 'no new profiles'
   }
 
@@ -55,12 +56,13 @@ const GrapevineCalculations = () => {
     wotScores_value = 'Calculate WoT Scores'
     wotScores_title = 'never calculated '
   }
-  if (wotScoreProfilesToAdd > 0) {
+  if (numWotScoreProfiles > 0) {
     wotScores_value = 'recalculate WoT Scores'
+  }
+  if (wotScoreProfilesToAdd > 0) {
     wotScores_title = 'need to calculate for ' + wotScoreProfilesToAdd + ' profiles'
   }
   if (wotScoreProfilesToAdd == 0) {
-    wotScores_value = 'recalculate WoT Scores'
     wotScores_title = 'no new profiles'
   }
 
@@ -70,13 +72,26 @@ const GrapevineCalculations = () => {
     dosScores_value = 'Calculate DoS Scores'
     dosScores_title = 'never calculated'
   }
-  if (dosScoreProfilesToAdd > 0) {
+  if (numDosScoreProfiles > 0) {
     dosScores_value = 'recalculate DoS Scores'
+  }
+  if (dosScoreProfilesToAdd > 0) {
     dosScores_title = 'need to calculate for ' + dosScoreProfilesToAdd + ' profiles'
   }
   if (dosScoreProfilesToAdd == 0) {
-    dosScores_value = 'recalculate DoS Scores'
     dosScores_title = 'no new profiles'
+  }
+
+  const aProfilesWithKnownFollows = []
+  Object.keys(oProfilesByNpub).forEach((np) => {
+    if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
+      aProfilesWithKnownFollows.push(np)
+    }
+  })
+
+  let numFollowsText = aProfilesWithKnownFollows.length + ' profiles'
+  if (aProfilesWithKnownFollows.length == 1) {
+    numFollowsText = aProfilesWithKnownFollows.length + ' profile'
   }
 
   return (
@@ -88,9 +103,10 @@ const GrapevineCalculations = () => {
       <div>
         Using follows and mutes, the Grapevine offers three scoring methods to stratify content on
         Nostrapedia: degrees of separation (DoS), web of trust (WoT), and Influence Scores. You can
-        use this page to recalculate each of these scores from scratch.
+        use this page to calculate each of these scores from scratch.
       </div>
       <br />
+      <div>Follows data has been downloaded for {numFollowsText}. To download more, go to settings.</div>
       <DocsExample href="components/widgets/#cwidgetstatsf">
         <CRow xs={{ gutter: 4 }}>
           <CCol xs={12} sm={6} xl={4} xxl={3}>

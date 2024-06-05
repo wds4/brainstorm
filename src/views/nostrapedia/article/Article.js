@@ -16,6 +16,7 @@ import { updateViewNostrapediaTopic } from 'src/redux/features/siteNavigation/sl
 import { processWikiMarkdownLinks } from 'src/helpers/contentFilters'
 import { ShowAuthor } from '../components/ShowAuthor'
 import { nip19 } from 'nostr-tools'
+import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
 
 const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   if (showRawDataButton == 'hide') {
@@ -116,7 +117,7 @@ const WikiArticle = () => {
               <DisplayCategory oEvent={oEvent} />
               <CRow style={{ display: 'flex', alignItems: 'center' }}>
                 <CCol xs="auto" className="me-auto">
-                  <ShowAuthor npub={npub} />
+                  <ShowAuthorBrainstormProfileImageOnly npub={npub} />
                 </CCol>
                 <CCol xs="auto" className="align-self-center" style={{ color: 'grey' }}>
                   {displayTime}

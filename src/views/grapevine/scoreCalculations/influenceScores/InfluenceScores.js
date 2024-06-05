@@ -45,6 +45,21 @@ const InfluenceScoreButton = ({ calculate, processButtonClick }) => {
   return <></>
 }
 
+const RecalculationIndicator = ({profilesAdded}) => {
+  if (profilesAdded > 0) {
+    return (
+      <>
+        <div style={{ color: 'orange', margin: '20px' }}>
+          {profilesAdded} PROFILES ADDED SINCE LAST TIME SCORES WERE CALCULATED.
+          <br />
+          YOU SHOULD RECALCULATE THEM.
+        </div>
+      </>
+    )
+  }
+  return <></>
+}
+
 const InfluenceScores = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
@@ -81,12 +96,12 @@ const InfluenceScores = () => {
     <>
       <center>
         <h4>Influence Scores</h4>
-        <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
-        <div>
-          {numProfiles} profiles when Influence Scores were last
-          calculated {howLongAgo}
-        </div>
-        <div>Since then, {profilesAdded} profiles have been added.</div>
+        <br />
+        <div>Influence Score: 1 = person, 0 = bot, more than 1 = worthy of special attention</div>
+        <br />
+        <RecalculationIndicator profilesAdded={profilesAdded} />
+        <br />
+        <InfluenceScoreButton calculate={calculate} processButtonClick={processButtonClick} />
       </center>
       <div
         style={{
@@ -104,7 +119,6 @@ const InfluenceScores = () => {
         FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW ONE OR MORE PROFILES.
       </div>
       <br />
-      <InfluenceScoreButton calculate={calculate} processButtonClick={processButtonClick} />
       <br />
       <CalculatingIndicator calculatingIndicator={calculatingIndicator} />
       <DoCalculation calculate={calculate} />
@@ -113,3 +127,12 @@ const InfluenceScores = () => {
 }
 
 export default InfluenceScores
+
+/*
+<div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
+<div>
+  {numProfiles} profiles when Influence Scores were last
+  calculated {howLongAgo}
+</div>
+<div>Since then, {profilesAdded} profiles have been added.</div>
+*/

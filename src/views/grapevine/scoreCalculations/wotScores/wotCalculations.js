@@ -43,11 +43,11 @@ const WotCalculations = () => {
     let oProfiles = initializeProfileData(aAllProfilesByPubkey) // aMyFollows, aNearbyProfilesByPubkey, aAllProfilesByPubkey
     // cycle through everyone with DoS score below 3 and calculate WoT score
     Object.keys(oProfiles).forEach((pk) => {
-      if (oProfilesByNpub[oProfilesByPubkey[pk]].wotScores.degreesOfSeparationFromMe < 999) {
+      // if (oProfilesByNpub[oProfilesByPubkey[pk]].wotScores.degreesOfSeparationFromMe < 999) {
         const npub_subject = oProfilesByPubkey[pk]
         const wotScore = returnWoTScore(myNpub, npub_subject, oProfilesByNpub)
         oProfiles[pk].wotScoreData.score = wotScore
-      }
+      // }
     })
 
     // update scores in redux store

@@ -45,6 +45,21 @@ const CalculateScoresButton = ({ calculate, processButtonClick }) => {
   return <></>
 }
 
+const RecalculationIndicator = ({profilesAdded}) => {
+  if (profilesAdded > 0) {
+    return (
+      <>
+        <div style={{ color: 'orange', margin: '20px' }}>
+          {profilesAdded} PROFILES ADDED SINCE LAST TIME SCORES WERE CALCULATED.
+          <br />
+          YOU SHOULD RECALCULATE THEM.
+        </div>
+      </>
+    )
+  }
+  return <></>
+}
+
 const DosScores = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
@@ -80,13 +95,13 @@ const DosScores = () => {
   return (
     <>
       <center>
-        <h4>Degrees of Separation (dos) Scores</h4>
-        <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
-        <div>
-          {numProfiles} profiles when DoS Scores were last
-          calculated {howLongAgo}
-        </div>
-        <div>Since then, {profilesAdded} profiles have been added.</div>
+        <h4>Degrees of Separation (DoS) Scores</h4>
+        <br />
+        <div>DoS Score: how many hops away from you on the social graph (via follows)</div>
+        <br />
+        <RecalculationIndicator profilesAdded={profilesAdded} />
+        <br />
+        <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
       </center>
       <div
         style={{
@@ -100,11 +115,11 @@ const DosScores = () => {
         className={noFollowsWarning}
       >
         YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S DoS SCORE WILL BE ZERO.
-        <br/><br/>
+        <br />
+        <br />
         FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW ONE OR MORE PROFILES.
       </div>
       <br />
-      <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
       <br />
       <CalculatingIndicator calculatingIndicator={calculatingIndicator} />
       <DoCalculation calculate={calculate} />
@@ -113,3 +128,12 @@ const DosScores = () => {
 }
 
 export default DosScores
+
+/*
+<div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
+<div>
+  {numProfiles} profiles when DoS Scores were last
+  calculated {howLongAgo}
+</div>
+<div>Since then, {profilesAdded} profiles have been added.</div>
+*/

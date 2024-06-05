@@ -45,6 +45,21 @@ const CalculateScoresButton = ({ calculate, processButtonClick }) => {
   return <></>
 }
 
+const RecalculationIndicator = ({profilesAdded}) => {
+  if (profilesAdded > 0) {
+    return (
+      <>
+        <div style={{ color: 'orange', margin: '20px' }}>
+          {profilesAdded} PROFILES ADDED SINCE LAST TIME SCORES WERE CALCULATED.
+          <br />
+          YOU SHOULD RECALCULATE THEM.
+        </div>
+      </>
+    )
+  }
+  return <></>
+}
+
 const WotScores = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
@@ -81,9 +96,12 @@ const WotScores = () => {
     <>
       <center>
         <h4>Web of Trust (WoT) Scores</h4>
-        <div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
-        <div> {numProfiles} profiles when WoT Scores were last calculated {howLongAgo}</div>
-        <div>Since then, {profilesAdded} profiles have been added.</div>
+        <br />
+        <div>WoT Score: of your follows, how many of them follow this profile</div>
+        <br/>
+        <RecalculationIndicator profilesAdded={profilesAdded} />
+        <br />
+        <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
       </center>
       <div
         style={{
@@ -101,7 +119,6 @@ const WotScores = () => {
         FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
       </div>
       <br />
-      <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
       <br />
       <CalculatingIndicator calculatingIndicator={calculatingIndicator} />
       <DoCalculation calculate={calculate} />
@@ -110,3 +127,9 @@ const WotScores = () => {
 }
 
 export default WotScores
+
+/*
+<div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
+<div> {numProfiles} profiles when WoT Scores were last calculated {howLongAgo}</div>
+<div>Since then, {profilesAdded} profiles have been added.</div>
+*/

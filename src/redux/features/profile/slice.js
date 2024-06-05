@@ -31,6 +31,47 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState: initState,
   reducers: {
+    processMyKind3Event: (state, action) => {
+      const event = action.payload
+      const createdAt = event.created_at
+      let myCurrentProfileKind3CreatedAt = 0
+      if (state.kind3) {
+        myCurrentProfileKind3CreatedAt = state.kind3.created_at
+      }
+      if (createdAt > myCurrentProfileKind3CreatedAt) {
+        // update relays in my profile
+        const content = event.content
+        const oRelays = JSON.parse(content)
+        // update follows in my profile
+        let aTags_p = event.tags.filter(([k, v]) => k === 'p' && v && v !== '')
+        const aFollows = []
+        if (aTags_p) {
+          aTags_p.forEach((tag_p, item) => {
+            if (tag_p && typeof tag_p == 'object' && tag_p.length > 1) {
+              const pk = tag_p[1]
+              aFollows.push(pk)
+            }
+          })
+        }
+        state.kind3.created_at = createdAt
+        state.kind3.relays = oRelays
+        state.kind3.follows = aFollows
+      }
+    },
+    updateMyProfile: (state, action) => {
+      const oMyProfile = action.payload
+      state.display_name = oMyProfile?.displayName
+      state.name = oMyProfile?.name
+      state.about = oMyProfile?.about
+      state.banner = oMyProfile?.banner
+      if (oMyProfile?.image) {
+        state.picture = oMyProfile?.image
+      }
+      if (oMyProfile?.picture) {
+        state.picture = oMyProfile?.picture
+      }
+      state.nip05 = oMyProfile?.nip05
+    },
     updateSignedIn: (state, action) => {
       state.signedIn = action.payload
     },
@@ -114,6 +155,8 @@ export const profileSlice = createSlice({
 })
 
 export const {
+  processMyKind3Event,
+  updateMyProfile,
   updateSignedIn,
   updateSignInMethod,
   updateNsec,

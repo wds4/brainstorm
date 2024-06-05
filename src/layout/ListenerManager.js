@@ -21,6 +21,7 @@ import {
   updateDisplayName,
   updateFollows,
   updateKind3CreatedAt,
+  updateMyProfile,
   updateName,
   updateNip05,
   updatePicture,
@@ -56,6 +57,8 @@ const RunningListener = ({ oListenerManager }) => {
               dispatch(updateKind0Event(event))
               if (event.pubkey == myPubkey) {
                 const oMyProfile = JSON.parse(event.content)
+                dispatch(updateMyProfile(oMyProfile))
+                /*
                 dispatch(updateDisplayName(oMyProfile?.displayName))
                 dispatch(updateName(oMyProfile?.name))
                 dispatch(updateAbout(oMyProfile?.about))
@@ -67,6 +70,7 @@ const RunningListener = ({ oListenerManager }) => {
                   dispatch(updatePicture(oMyProfile?.picture))
                 }
                 dispatch(updateNip05(oMyProfile?.nip05))
+                */
                 const npub_toUpdate = myNpub
                 const degreesOfSeparationFromMe_new = 0
                 dispatch(
