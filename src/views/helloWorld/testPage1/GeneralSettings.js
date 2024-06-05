@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { CButton, CFormSwitch } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleIndividualListener } from '../../../redux/features/settings/slice'
+import { toggleIndividualListener } from 'src/redux/features/settings/slice'
 import {
   defListener1,
   defListener2,
@@ -281,9 +281,106 @@ const GeneralSettings = () => {
       <br />
       <br />
       <div>
-        For performance, we recommend you turn off all of the above downloads before navigating away
-        from this page.
+        For performance, we recommend you turn off all of the above downloads before navigating back to Nostrapedia.
       </div>
+      <br />
+      <div>Moving or deprecating what's below.</div>
+
+
+      <div>Follows data has been downloaded for {numFollowsText}.</div>
+      <div className={promptNeedMoreFollowsDataClassName}>
+        <div
+          style={{
+            border: '2px solid purple',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            textAlign: 'center',
+          }}
+        >
+          <div style={{ display: 'inline-block', textAlign: 'left' }}>
+            You have follows data on only {numFollowsText}. Trust scores will be more informative
+            after loading more follows data.
+          </div>
+          <br />
+          <div style={{ display: 'inline-block', textAlign: 'left' }}>
+            <li>Below, turn on the "my follows" listener.</li>
+            <li>
+              Allow time for follows and mutes data to download, perhaps a minute or a few minutes.
+            </li>
+            <li>Wait for more follows data to be downloaded, as indicated above.</li>
+            <li>For better website performance, turn extra listeners back off.</li>
+            <li>
+              <div style={{ display: 'inline-block' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  Calculate WoT, DoS and Influence scores using the{' '}
+                  <CButton href="#/grapevine" color="primary" style={{ marginLeft: '5px' }}>
+                    Grapevine
+                  </CButton>
+                  .
+                </div>
+              </div>
+            </li>
+            <li>Go back to Nostrapedia and use scores to sort content!</li>
+            <li>You can come back to download more follows data.</li>
+          </div>
+        </div>
+      </div>
+      <br />
+      <hr />
+      <br />
+      <div>Download/store kind 0, kind 3, and kind 10000 events in the background for:</div>
+      <br />
+      <CFormSwitch
+        checked={isListenerMode1}
+        onChange={(e) => toggleListener('1')}
+        label="my profile"
+      />
+      <br />
+      <CFormSwitch
+        checked={isListenerMode2}
+        onChange={(e) => toggleListener('2')}
+        label="profiles of me and my follows"
+      />
+      <br />
+      <CFormSwitch
+        checked={isListenerMode3}
+        onChange={(e) => toggleListener('3')}
+        label="the profile being viewed"
+      />
+      <br />
+      <CFormSwitch
+        checked={isListenerMode4}
+        onChange={(e) => toggleListener('4')}
+        label="all profiles"
+      />
+      <br />
+      <CFormSwitch
+        checked={isListenerMode5}
+        onChange={(e) => toggleListener('5')}
+        label="nostrapedia authors"
+      />
+      <br />
+      <div>download content in app-specific pages:</div>
+      <br />
+      <CFormSwitch
+        checked={isListenerMode6}
+        onChange={(e) => toggleListener('6')}
+        label="nostrapedia content (kind 30818)"
+        disabled
+      />
+      <br />
+      <CFormSwitch
+        checked={isListenerMode6}
+        onChange={(e) => toggleListener('7')}
+        label="concept graph content (kinds 9902, 39902)"
+        disabled
+      />
       <br />
     </>
   )
