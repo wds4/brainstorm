@@ -4,6 +4,7 @@ import { convertInputToCertainty } from 'src/helpers/grapevine'
 import { defRigor } from 'src/const'
 import { updateAllBaselineInfluenceScores } from 'src/redux/features/profiles/slice'
 import { updateGrapevineScores } from 'src/redux/features/settings/slice'
+import { CButton } from '@coreui/react'
 
 const oDefaultData = {
   follows: [],
@@ -91,7 +92,8 @@ const InfluenceCalculations = () => {
         const aFollowers = JSON.parse(JSON.stringify(oProfData[pk_ratee].followers))
         aFollowers.forEach((pk_rater, item) => {
           if (oProfData[pk_rater]) {
-            if (pk_rater && pk_ratee && pk_rater != pk_ratee) { // cannot rate oneself
+            if (pk_rater && pk_ratee && pk_rater != pk_ratee) {
+              // cannot rate oneself
               const rater_influence_ = oProfData[pk_rater].influenceData.influence
               const rating_ = followInterpretationScore_
               let weight = attenuationFactor_ * rater_influence_ * followInterpretationConfidence_
@@ -111,7 +113,8 @@ const InfluenceCalculations = () => {
         const aMutedBy = oProfilesByNpub[oProfilesByPubkey[pk_ratee]].mutedBy
         aMutedBy.forEach((pk_rater) => {
           if (oProfData[pk_rater]) {
-            if (pk_rater && pk_ratee && pk_rater != pk_ratee) { // cannot rate oneself
+            if (pk_rater && pk_ratee && pk_rater != pk_ratee) {
+              // cannot rate oneself
               const rater_influence_ = oProfData[pk_rater].influenceData.influence
               const rating_ = muteInterpretationScore_
               let weight = attenuationFactor_ * rater_influence_ * muteInterpretationConfidence_
@@ -184,10 +187,10 @@ const InfluenceCalculations = () => {
     })
     // initialize my entry and overwrite if already initialized above
     oObj[myPubkey] = oDefaultData
-    oObj[myPubkey].influenceData.influence = 1.000
-    oObj[myPubkey].influenceData.averageScore = 1.000
+    oObj[myPubkey].influenceData.influence = 1.0
+    oObj[myPubkey].influenceData.averageScore = 1.0
     oObj[myPubkey].influenceData.input = 9999
-    oObj[myPubkey].influenceData.certainty = 1.000
+    oObj[myPubkey].influenceData.certainty = 1.0
     oObj[myPubkey].follows = oMyProfile.follows
     oObj[myPubkey].followers = oMyProfile.followers
 
@@ -201,7 +204,7 @@ const InfluenceCalculations = () => {
     setOProfileData(oObj)
     return oObj
   }
-  const [progressIndicator, setProgressIndicator] = useState(' ... calculating ... ')
+  const [progressIndicator, setProgressIndicator] = useState('calculating')
   useEffect(() => {
     // initialize with my profile data
     const oResult = initializeProfileData(aAllProfilesByPubkey) // aMyFollows, aNearbyProfilesByPubkey, aAllProfilesByPubkey
@@ -219,10 +222,33 @@ const InfluenceCalculations = () => {
     oFoo.scoreType = 'influenceScore'
     oFoo.numProfiles = Object.keys(oProfilesByNpub).length
     dispatch(updateGrapevineScores(oFoo))
-    setProgressIndicator('Calculations complete.')
+    setProgressIndicator('complete')
   }, [])
 
-  return <div>{progressIndicator}</div>
+  if (progressIndicator == 'calculating') {
+    return (
+      <center>
+        <div>... calculating ...</div>
+      </center>
+    )
+  }
+  if (progressIndicator == 'complete') {
+    return (
+      <>
+        <center>
+          <div style={{ fontSize: '24px' }}>Calculations complete!</div>
+          <br />
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            Use Influence Scores to sort content on{' '}
+            <CButton color="primary" href="#/nostrapedia" style={{ marginLeft: '5px' }}>
+              Nostrapedia
+            </CButton>!
+          </div>
+        </center>
+      </>
+    )
+  }
+  return <></>
 }
 
 export default InfluenceCalculations

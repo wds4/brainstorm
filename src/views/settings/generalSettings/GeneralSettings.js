@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { CFormSwitch } from '@coreui/react'
+import { CButton, CFormSwitch } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleIndividualListener } from '../../../redux/features/settings/slice'
 import {
@@ -14,10 +14,40 @@ import {
   defListener9,
   defListener10,
 } from 'src/const'
+import { nip19 } from 'nostr-tools'
 
 const GeneralSettings = () => {
   console.log('GeneralSettings')
+
   const dispatch = useDispatch()
+
+  const myPubkey = useSelector((state) => state.profile.pubkey)
+  const myNpub = nip19.npubEncode(myPubkey)
+
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oMyProfile = oProfilesByNpub[myNpub]
+  let aMyFollows = []
+  if (oMyProfile) {
+    aMyFollows = oMyProfile.follows
+  }
+
+  const aProfilesWithKnownFollows = []
+  Object.keys(oProfilesByNpub).forEach((np) => {
+    if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
+      aProfilesWithKnownFollows.push(np)
+    }
+  })
+
+  let numFollowsText = aProfilesWithKnownFollows.length + ' profiles'
+  if (aProfilesWithKnownFollows.length == 1) {
+    numFollowsText = aProfilesWithKnownFollows.length + ' profile'
+  }
+  let promptClassName = 'hide'
+  if (aProfilesWithKnownFollows.length < 10) {
+    promptClassName = 'show'
+  }
+  const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
+    useState(promptClassName)
 
   const generalSettings = useSelector((state) => state.settings.general)
 
@@ -172,33 +202,105 @@ const GeneralSettings = () => {
     ],
   )
 
-  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  const aProfilesWithKnownFollows = []
-  Object.keys(oProfilesByNpub).forEach((np) => {
-    if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
-      aProfilesWithKnownFollows.push(np)
-    }
-  })
-
-  let numFollowsText = aProfilesWithKnownFollows.length + ' profiles'
-  if (aProfilesWithKnownFollows.length == 1) {
-    numFollowsText = aProfilesWithKnownFollows.length + ' profile'
-  }
   return (
     <>
       <center>
         <h4>General Settings</h4>
       </center>
       <br />
-      <div>
-        <strong>For more informative DoS, WoT, and Influence Scores</strong>, you need follows data.
+      <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
+        <strong>one hop</strong>
+        <div style={{ display: 'inline-block', float: 'right' }}>{aMyFollows.length} profiles one hop away</div>
       </div>
+      <div style={{ marginLeft: '20px' }}>
+        <CFormSwitch
+          checked={isListenerMode1}
+          onChange={(e) => toggleListener('1')}
+          label="Download my follows in background."
+        />
+        <div>
+          Probably doesn't impact website performance, but you can turn it off if necessary.
+        </div>
+      </div>
+      <br />
+      <br />
+      <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
+        <strong>two hops</strong>
+        <div style={{ display: 'inline-block', float: 'right' }}>----- profiles two hops away</div>
+      </div>
+      <div style={{ marginLeft: '20px' }}>
+        <CFormSwitch
+          checked={isListenerMode2}
+          onChange={(e) => toggleListener('2')}
+          label="Download follows of my follows in background."
+        />
+        <div>This may impact website performance.</div>
+      </div>
+      <br />
+      <br />
+      <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
+        <strong>more hops</strong>
+        <div style={{ display: 'inline-block', float: 'right' }}>----- profiles over two hops away</div>
+      </div>
+      <div style={{ marginLeft: '20px' }}>
+        <CFormSwitch
+          checked={isListenerMode5}
+          onChange={(e) => toggleListener('5')}
+          label="Download follows of Nostrapedia authors in the background."
+        />
+        <CFormSwitch
+          checked={isListenerMode4}
+          onChange={(e) => toggleListener('4')}
+          label="Download follows of all profiles in background."
+        />
+        <div>This may impact website performance.</div>
+      </div>
+      <br />
+      <br />
+      <div>Moving or deprecating what's below.</div>
       <div>Follows data has been downloaded for {numFollowsText}.</div>
-      <div>
-        For more follows data, turn listeners <strong>ON</strong>. Recalculate WoT, DoS and Influence Scores after downloading new follows data.
-      </div>
-      <div>
-        <strong>For improved site performance</strong>, turn profile listeners <strong>OFF</strong>.
+      <div className={promptNeedMoreFollowsDataClassName}>
+        <div
+          style={{
+            border: '2px solid purple',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            textAlign: 'center',
+          }}
+        >
+          <div style={{ display: 'inline-block', textAlign: 'left' }}>
+            You have follows data on only {numFollowsText}. Trust scores will be more informative
+            after loading more follows data.
+          </div>
+          <br />
+          <div style={{ display: 'inline-block', textAlign: 'left' }}>
+            <li>Below, turn on the "my follows" listener.</li>
+            <li>
+              Allow time for follows and mutes data to download, perhaps a minute or a few minutes.
+            </li>
+            <li>Wait for more follows data to be downloaded, as indicated above.</li>
+            <li>For better website performance, turn extra listeners back off.</li>
+            <li>
+              <div style={{ display: 'inline-block' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  Calculate WoT, DoS and Influence scores using the{' '}
+                  <CButton href="#/grapevine" color="primary" style={{ marginLeft: '5px' }}>
+                    Grapevine
+                  </CButton>
+                  .
+                </div>
+              </div>
+            </li>
+            <li>Go back to Nostrapedia and use scores to sort content!</li>
+            <li>You can come back to download more follows data.</li>
+          </div>
+        </div>
       </div>
       <br />
       <hr />

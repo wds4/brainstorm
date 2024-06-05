@@ -9,11 +9,9 @@ const DoCalculation = ({ calculate }) => {
   if (calculate == 'no') {
     return (
       <>
-        <div>
-          This will calculate the influence scores on all {Object.keys(oProfilesByNpub).length}{' '}
-          profiles stored locally.
-        </div>
-        <div>This may take a while. (Hopefully no more than 30-60 seconds).</div>
+        <center>
+          <div>This may take a while. (Hopefully no more than 30-60 seconds).</div>
+        </center>
       </>
     )
   }
@@ -24,7 +22,9 @@ const CalculatingIndicator = ({ calculatingIndicator }) => {
   if (calculatingIndicator == 'yes') {
     return (
       <>
-        <div>Calculations initiated...</div>
+        <center>
+          <div>Calculations initiated...</div>
+        </center>
         <br />
       </>
     )
@@ -45,14 +45,12 @@ const InfluenceScoreButton = ({ calculate, processButtonClick }) => {
   return <></>
 }
 
-const RecalculationIndicator = ({numProfiles, profilesAdded}) => {
+const RecalculationIndicator = ({ numProfiles, profilesAdded }) => {
   if (!numProfiles) {
     return (
       <>
         <div style={{ color: 'orange', margin: '20px' }}>
-          SCORES HAVE NOT YET BEEN CALCULATED.
-          <br />
-          YOU SHOULD CALCULATE THEM.
+          INFLUENCE SCORES HAVE NOT YET BEEN CALCULATED.
         </div>
       </>
     )
@@ -103,13 +101,55 @@ const InfluenceScores = () => {
     const foo = await timeout(10)
     setCalculate('yes')
   }
+  const aProfilesWithKnownFollows = []
+  Object.keys(oProfilesByNpub).forEach((np) => {
+    if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
+      aProfilesWithKnownFollows.push(np)
+    }
+  })
+
+  let numFollowsText = aProfilesWithKnownFollows.length + ' profiles'
+  if (aProfilesWithKnownFollows.length == 1) {
+    numFollowsText = aProfilesWithKnownFollows.length + ' profile'
+  }
+  let promptClassName = 'hide'
+  if (aProfilesWithKnownFollows.length < 10) {
+    promptClassName = 'show'
+  }
+  const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
+    useState(promptClassName)
+
   return (
     <>
       <center>
         <h4>Influence Scores</h4>
         <br />
-        <div>Influence Score interpretation: 1 = person, 0 = bot, more than 1 = worthy of special attention</div>
+        <div>
+          Influence Score interpretation: 1 = person, 0 = bot, more than 1 = worthy of special
+          attention
+        </div>
         <br />
+        <div className={promptNeedMoreFollowsDataClassName}>
+          <div
+            style={{
+              border: '2px solid purple',
+              padding: '10px',
+              borderRadius: '5px',
+              marginBottom: '10px',
+              textAlign: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            You have follows data on only {numFollowsText}. You should first load more follows data
+            under{' '}
+            <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px' }}>
+              settings
+            </CButton>
+            .
+          </div>
+        </div>
         <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />
         <InfluenceScoreButton calculate={calculate} processButtonClick={processButtonClick} />
@@ -126,7 +166,8 @@ const InfluenceScores = () => {
         className={noFollowsWarning}
       >
         YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
-        <br/><br/>
+        <br />
+        <br />
         FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW ONE OR MORE PROFILES.
       </div>
       <br />
@@ -138,12 +179,3 @@ const InfluenceScores = () => {
 }
 
 export default InfluenceScores
-
-/*
-<div>{Object.keys(oProfilesByNpub).length} profiles currently</div>
-<div>
-  {numProfiles} profiles when Influence Scores were last
-  calculated {howLongAgo}
-</div>
-<div>Since then, {profilesAdded} profiles have been added.</div>
-*/

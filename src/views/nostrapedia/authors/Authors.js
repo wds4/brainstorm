@@ -7,6 +7,7 @@ import {
   CCardHeader,
   CCol,
   CContainer,
+  CNavLink,
   CRow,
   CTable,
   CTableBody,
@@ -69,6 +70,8 @@ const WikiAuthors = () => {
   const [promptFollowForInfluenceUtilityClassName, setPromptFollowForInfluenceUtilityClassName] =
     useState('hide') // show or hide
   const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
+    useState('hide') // show or hide
+  const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
     useState('hide') // show or hide
 
   const [npubLookupFromPubkey, setNpubLookupFromPubkey] = useState({}) // show or hide
@@ -212,6 +215,9 @@ const WikiAuthors = () => {
           if (signedIn && aMyFollows.length == 0) {
             setPromptFollowForWotUtilityClassName('show')
           }
+          if (signedIn && aProfilesWithKnownFollows.length < 10) {
+            setPromptNeedMoreFollowsDataClassName('show')
+          }
           promptFollowForWotUtilityClassName
           const arraySorted = inputArray.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
           setLastUpdateColumnClassName('hide')
@@ -228,10 +234,13 @@ const WikiAuthors = () => {
           if (signedIn && aMyFollows.length == 0) {
             setPromptFollowForInfluenceUtilityClassName('show')
           }
-          if (whenInfluenceScoresUpdated == 0) {
+          if (!whenInfluenceScoresUpdated) {
             if (signedIn) {
               setPromptCalcInfluenceScoreElemClassName('show')
             }
+          }
+          if (signedIn && aProfilesWithKnownFollows.length < 10) {
+            setPromptNeedMoreFollowsDataClassName('show')
           }
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -263,6 +272,9 @@ const WikiAuthors = () => {
           }
           if (signedIn && aMyFollows.length == 0) {
             setPromptFollowForDosUtilityClassName('show')
+          }
+          if (signedIn && aProfilesWithKnownFollows.length < 10) {
+            setPromptNeedMoreFollowsDataClassName('show')
           }
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -323,6 +335,18 @@ const WikiAuthors = () => {
   if (signedIn) {
     loggedInClassName = 'show'
   }
+
+  const aProfilesWithKnownFollows = []
+  Object.keys(oProfilesByNpub).forEach((np) => {
+    if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
+      aProfilesWithKnownFollows.push(np)
+    }
+  })
+
+  let numFollowsText = aProfilesWithKnownFollows.length + ' profiles'
+  if (aProfilesWithKnownFollows.length == 1) {
+    numFollowsText = aProfilesWithKnownFollows.length + ' profile'
+  }
   return (
     <>
       <CContainer fluid>
@@ -357,6 +381,27 @@ const WikiAuthors = () => {
                   setSortBy={setSortBy}
                   sortAndFilterItems={sortAndFilterItems}
                 />
+                <div className={promptNeedMoreFollowsDataClassName}>
+                  <div
+                    style={{
+                      border: '1px solid purple',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      marginBottom: '10px',
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    You have follows data on only {numFollowsText}. Trust scores will be more
+                    informative after loading more follows data as described{' '}
+                    <CButton color="primary" style={{ marginLeft: '5px' }} href="#/grapevine">
+                      here
+                    </CButton>
+                    .
+                  </div>
+                </div>
                 <div
                   style={{
                     border: '1px solid red',
@@ -386,8 +431,6 @@ const WikiAuthors = () => {
                   YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S DoS SCORE WILL BE ZERO.
                   <br />
                   FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
-                  <br />
-                  BUT ONE IS ENOUGH! HOW ABOUT _____
                 </div>
                 <div
                   style={{
@@ -405,31 +448,52 @@ const WikiAuthors = () => {
                   <br />
                   HOW ABOUT START WITH ONE FOLLOW AND THEN CHECK OUT THE DoS AND INFLUENCE SCORES.
                 </div>
-                <div
-                  style={{
-                    border: '1px solid gold',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginBottom: '10px',
-                  }}
-                  className={promptLoginElemClassName}
-                >
-                  You must login first to sort by Degrees of Separation, Web of Trust, or Influence
-                  Scores.
+                <div className={promptLoginElemClassName}>
+                  <div
+                    style={{
+                      border: '1px solid gold',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      marginBottom: '10px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    You must{' '}
+                    <CButton
+                      color="primary"
+                      href="#/login"
+                      style={{ marginLeft: '5px', marginRight: '5px' }}
+                    >
+                      Login
+                    </CButton>{' '}
+                    first to sort by Degrees of Separation, Web of Trust, or Influence Scores.
+                  </div>
                 </div>
-                <div
-                  style={{
-                    border: '1px solid gold',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginBottom: '10px',
-                  }}
-                  className={promptCalcInfluenceScoreElemClassName}
-                >
-                  To calculate Influence Scores, go to{' '}
-                  <CButton color="primary" href="#/grapevine/calculateInfluenceScores">
-                    this page
-                  </CButton>
+                <div className={promptCalcInfluenceScoreElemClassName}>
+                  <div
+                    style={{
+                      border: '1px solid gold',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      marginBottom: '10px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    Influence Scores have not yet been calculated. To calculate Influence Scores, go
+                    to{' '}
+                    <CButton
+                      color="primary"
+                      href="#/grapevine/calculateInfluenceScores"
+                      style={{ marginLeft: '5px' }}
+                    >
+                      this page
+                    </CButton>
+                    .
+                  </div>
                 </div>
                 <CTable striped small hover>
                   <CTableHead color="light">

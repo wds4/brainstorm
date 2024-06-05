@@ -1,5 +1,5 @@
 import React from 'react'
-import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
+import { CButton, CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import CIcon from '@coreui/icons-react'
 import { cilGraph, cilThumbUp } from '@coreui/icons'
@@ -36,10 +36,6 @@ const GrapevineCalculations = () => {
 
   let influenceScores_value = ''
   let influenceScores_title = ''
-  if (!influenceScoreTimestamp || !numInfluenceScoreProfiles) {
-    influenceScores_value = 'Calculate Influence Scores'
-    influenceScores_title = 'never calculated '
-  }
   if (numInfluenceScoreProfiles > 0) {
     influenceScores_value = 'recalculate Influence Scores'
   }
@@ -49,13 +45,13 @@ const GrapevineCalculations = () => {
   if (influenceScoreProfilesToAdd == 0) {
     influenceScores_title = 'no new profiles'
   }
+  if (!influenceScoreTimestamp || !numInfluenceScoreProfiles) {
+    influenceScores_value = 'Calculate Influence Scores'
+    influenceScores_title = 'never calculated '
+  }
 
   let wotScores_value = ''
   let wotScores_title = ''
-  if (!wotScoreTimestamp || !numWotScoreProfiles) {
-    wotScores_value = 'Calculate WoT Scores'
-    wotScores_title = 'never calculated '
-  }
   if (numWotScoreProfiles > 0) {
     wotScores_value = 'recalculate WoT Scores'
   }
@@ -65,13 +61,13 @@ const GrapevineCalculations = () => {
   if (wotScoreProfilesToAdd == 0) {
     wotScores_title = 'no new profiles'
   }
+  if (!wotScoreTimestamp || !numWotScoreProfiles) {
+    wotScores_value = 'Calculate WoT Scores'
+    wotScores_title = 'never calculated '
+  }
 
   let dosScores_value = ''
   let dosScores_title = ''
-  if (!dosScoreTimestamp || !numDosScoreProfiles) {
-    dosScores_value = 'Calculate DoS Scores'
-    dosScores_title = 'never calculated'
-  }
   if (numDosScoreProfiles > 0) {
     dosScores_value = 'recalculate DoS Scores'
   }
@@ -80,6 +76,10 @@ const GrapevineCalculations = () => {
   }
   if (dosScoreProfilesToAdd == 0) {
     dosScores_title = 'no new profiles'
+  }
+  if (!dosScoreTimestamp || !numDosScoreProfiles) {
+    dosScores_value = 'Calculate DoS Scores'
+    dosScores_title = 'never calculated'
   }
 
   const aProfilesWithKnownFollows = []
@@ -92,6 +92,10 @@ const GrapevineCalculations = () => {
   let numFollowsText = aProfilesWithKnownFollows.length + ' profiles'
   if (aProfilesWithKnownFollows.length == 1) {
     numFollowsText = aProfilesWithKnownFollows.length + ' profile'
+  }
+  let promptNeedMoreFollowsDataClassName = 'hide'
+  if (aProfilesWithKnownFollows.length < 10) {
+    promptNeedMoreFollowsDataClassName = 'show'
   }
 
   return (
@@ -106,7 +110,28 @@ const GrapevineCalculations = () => {
         use this page to calculate each of these scores from scratch.
       </div>
       <br />
-      <div>Follows data has been downloaded for {numFollowsText}. To download more, go to settings.</div>
+      <div className={promptNeedMoreFollowsDataClassName}>
+        <div
+          style={{
+            border: '2px solid purple',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          You have follows data on only {numFollowsText}. Trust scores will be more informative
+          after loading more follows data under{' '}
+          <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px' }}>
+            settings
+          </CButton>
+          .
+        </div>
+      </div>
+      <br />
       <DocsExample href="components/widgets/#cwidgetstatsf">
         <CRow xs={{ gutter: 4 }}>
           <CCol xs={12} sm={6} xl={4} xxl={3}>

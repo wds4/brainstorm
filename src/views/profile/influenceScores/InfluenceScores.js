@@ -286,10 +286,13 @@ const InfluenceScores = ({ oProfile, oProfilesByNpub }) => {
         <br />
         <center>Interpretation:</center>
         <br />
-        <li>Influence = 1: probably a human being</li>
-        <li>Influence = 0: might be a bot</li>
         <li>
-          COMING SOON: Influence above 1: worthy of more attention than most people (contextual)
+          Influence = 1: worthy of attention, no more or less than anyone else (probably a human
+          being)
+        </li>
+        <li>Influence = 0: unworthy of attention (might be a bot)</li>
+        <li>
+          COMING SOON: Influence above 1: worthy of more than the usual amount of attention (in some given context)
         </li>
         <br />
         <CRow>

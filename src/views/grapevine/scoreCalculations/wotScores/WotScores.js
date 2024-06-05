@@ -9,11 +9,7 @@ const DoCalculation = ({ calculate }) => {
   if (calculate == 'no') {
     return (
       <>
-        <div>
-          This will calculate the Web of Trust scores on all {Object.keys(oProfilesByNpub).length}{' '}
-          profiles stored locally.
-        </div>
-        <div>This may take a while. (Hopefully no more than 30-60 seconds).</div>
+        <center><div>This may take a while. (Hopefully no more than 30-60 seconds).</div></center>
       </>
     )
   }
@@ -50,9 +46,7 @@ const RecalculationIndicator = ({ numProfiles, profilesAdded }) => {
     return (
       <>
         <div style={{ color: 'orange', margin: '20px' }}>
-          SCORES HAVE NOT YET BEEN CALCULATED.
-          <br />
-          YOU SHOULD CALCULATE THEM.
+          WoT SCORES HAVE NOT YET BEEN CALCULATED.
         </div>
       </>
     )

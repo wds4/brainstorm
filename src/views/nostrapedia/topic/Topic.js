@@ -238,8 +238,10 @@ const WikiTopic = () => {
         setInfluenceScoreColumnClassName('show')
         setCategoryColumnClassName('hide')
         const arraySorted = aAuthorsRef.sort((a, b) => {
-          const fooB = getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.baselineInfluence.influence
-          const fooA = getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.baselineInfluence.influence
+          const fooB = getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores
+            .baselineInfluence.influence
+          const fooA = getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores
+            .baselineInfluence.influence
           const diff = Math.round(10000 * fooB) - Math.round(10000 * fooA)
           return diff
         })
@@ -342,7 +344,6 @@ const WikiTopic = () => {
                   </div>
                 </div>
 
-
                 <div
                   style={{
                     border: '1px solid red',
@@ -374,8 +375,6 @@ const WikiTopic = () => {
                   YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S DoS SCORE WILL BE ZERO.
                   <br />
                   FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
-                  <br />
-                  BUT ONE IS ENOUGH! HOW ABOUT _____
                 </div>
                 <div
                   style={{
@@ -394,18 +393,29 @@ const WikiTopic = () => {
                   <br />
                   HOW ABOUT START WITH ONE FOLLOW AND THEN CHECK OUT THE DoS AND INFLUENCE SCORES.
                 </div>
-                <div
-                  style={{
-                    border: '1px solid gold',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginBottom: '10px',
-                    marginTop: '10px',
-                  }}
-                  className={promptLoginElemClassName}
-                >
-                  You must login first to sort by Degrees of Separation, Web of Trust, or Influence
-                  Scores.
+                <div className={promptLoginElemClassName}>
+                  <div
+                    style={{
+                      border: '1px solid gold',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      marginBottom: '10px',
+                      marginTop: '10px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    You must{' '}
+                    <CButton
+                      color="primary"
+                      href="#/login"
+                      style={{ marginLeft: '5px', marginRight: '5px' }}
+                    >
+                      Login
+                    </CButton>{' '}
+                    first to sort by Degrees of Separation, Web of Trust, or Influence Scores.
+                  </div>
                 </div>
                 <div
                   style={{

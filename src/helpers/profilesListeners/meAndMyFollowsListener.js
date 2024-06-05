@@ -71,7 +71,15 @@ const ListenerOn = () => {
   // return <></>
   return (
     <>
-      <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>
+      <div
+        style={{
+          display: 'inline-block',
+          border: '2px solid orange',
+          padding: '2px',
+          padding: '5px',
+          textAlign: 'center',
+        }}
+      >
         MeAndMyFollowsListener: ON
       </div>
     </>
