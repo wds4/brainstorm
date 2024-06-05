@@ -45,7 +45,18 @@ const InfluenceScoreButton = ({ calculate, processButtonClick }) => {
   return <></>
 }
 
-const RecalculationIndicator = ({profilesAdded}) => {
+const RecalculationIndicator = ({numProfiles, profilesAdded}) => {
+  if (!numProfiles) {
+    return (
+      <>
+        <div style={{ color: 'orange', margin: '20px' }}>
+          SCORES HAVE NOT YET BEEN CALCULATED.
+          <br />
+          YOU SHOULD CALCULATE THEM.
+        </div>
+      </>
+    )
+  }
   if (profilesAdded > 0) {
     return (
       <>
@@ -97,9 +108,9 @@ const InfluenceScores = () => {
       <center>
         <h4>Influence Scores</h4>
         <br />
-        <div>Influence Score: 1 = person, 0 = bot, more than 1 = worthy of special attention</div>
+        <div>Influence Score interpretation: 1 = person, 0 = bot, more than 1 = worthy of special attention</div>
         <br />
-        <RecalculationIndicator profilesAdded={profilesAdded} />
+        <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />
         <InfluenceScoreButton calculate={calculate} processButtonClick={processButtonClick} />
       </center>

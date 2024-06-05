@@ -45,7 +45,18 @@ const CalculateScoresButton = ({ calculate, processButtonClick }) => {
   return <></>
 }
 
-const RecalculationIndicator = ({profilesAdded}) => {
+const RecalculationIndicator = ({ numProfiles, profilesAdded }) => {
+  if (!numProfiles) {
+    return (
+      <>
+        <div style={{ color: 'orange', margin: '20px' }}>
+          SCORES HAVE NOT YET BEEN CALCULATED.
+          <br />
+          YOU SHOULD CALCULATE THEM.
+        </div>
+      </>
+    )
+  }
   if (profilesAdded > 0) {
     return (
       <>
@@ -98,8 +109,8 @@ const WotScores = () => {
         <h4>Web of Trust (WoT) Scores</h4>
         <br />
         <div>WoT Score: of your follows, how many of them follow this profile</div>
-        <br/>
-        <RecalculationIndicator profilesAdded={profilesAdded} />
+        <br />
+        <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />
         <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
       </center>
@@ -115,7 +126,8 @@ const WotScores = () => {
         className={noFollowsWarning}
       >
         YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S WoT SCORE WILL BE ZERO.
-        <br/><br/>
+        <br />
+        <br />
         FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
       </div>
       <br />

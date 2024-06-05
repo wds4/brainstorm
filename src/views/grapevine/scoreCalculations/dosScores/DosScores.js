@@ -45,7 +45,18 @@ const CalculateScoresButton = ({ calculate, processButtonClick }) => {
   return <></>
 }
 
-const RecalculationIndicator = ({profilesAdded}) => {
+const RecalculationIndicator = ({ numProfiles, profilesAdded }) => {
+  if (!numProfiles) {
+    return (
+      <>
+        <div style={{ color: 'orange', margin: '20px' }}>
+          SCORES HAVE NOT YET BEEN CALCULATED.
+          <br />
+          YOU SHOULD CALCULATE THEM.
+        </div>
+      </>
+    )
+  }
   if (profilesAdded > 0) {
     return (
       <>
@@ -99,7 +110,7 @@ const DosScores = () => {
         <br />
         <div>DoS Score: how many hops away from you on the social graph (via follows)</div>
         <br />
-        <RecalculationIndicator profilesAdded={profilesAdded} />
+        <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />
         <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
       </center>
