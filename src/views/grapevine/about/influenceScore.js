@@ -23,7 +23,7 @@ const AboutInfluenceScore = () => {
               <div>
                 <li>
                   The Influence Score can see beyond 2 hops away from you on your social graph. This
-                  is in contrast to the WoT score which cannot see past 2 hops.
+                  is in contrast to the WoT score which does not see past 2 hops.
                 </li>
                 <li>
                   The Influence Score can synthesize data from multiple sources at the same time and
