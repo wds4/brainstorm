@@ -56,29 +56,35 @@ const AboutInfluenceScore = () => {
               </div>
               <div>
                 <li>
-                  A score of 1 is probably a regular person, worthy of your attention, no more and
-                  no less than any other person.
+                  A score of 1 is probably a regular person or profile, worthy of your attention, no
+                  more and no less than any other profile.
                 </li>
                 <li>
-                  A score of 0 means that the recommendation is to ignore this profile, because it
-                  has either been shown to be a bot or spam, or has not been demonstrated to be
-                  worthy of your attention.
+                  A score of 0 means that your Grapevine recommends for you to ignore this profile,
+                  whether because it is probably a bot or spam (communicated via mutes) or it has
+                  simply not been evidenced to be a normal profile (because it is not connected to
+                  you via follows).
                 </li>
               </div>
             </div>
             <div>
               To see in detail how Influence Scores are calculated, open the Influence Scores tab of
-              any profile.
+              any profile, or see the habla blog post in the above link.
             </div>
             <div>
               <center>
                 <h4>Coming soon: CONTEXTUAL INFLUENCE SCORES</h4>
               </center>
               <div>
-                The next update will enable users to create context-specific attestations for
-                noteworthy content creators deemed worthy of above-average attention. These
-                attestations will be incorporated into contextual Influence Scores. Contextaul
-                scores higher than unity will indicate profiles worthy of your special attention.
+                Contextual Influence Scores will assist with <i>content discovery</i> on nostr.
+              </div>
+              <div>
+                The next BrainSToRm update will enable users to publish context-specific
+                attestations for noteworthy content creators deemed worthy of above-average
+                attention in some category or context of interest. These attestations will be
+                incorporated into contextual Influence Scores and will be weighted more heavily than
+                follows and mutes. Contextual Influence Scores higher than unity will indicate
+                profiles worthy of your special attention.
               </div>
             </div>
           </div>
