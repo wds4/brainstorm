@@ -1,37 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
-import { updateApp } from 'src/redux/features/siteNavigation/slice'
 import { cibWikipedia, cilPencil, cilPeople } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import {
-  turnListenerOff,
-  turnListenerOn,
-  updateFilter,
-  updateFilterAuthors,
-  updateFilterKinds,
-  updateListenerApplication,
-} from '../../redux/features/listenerManager/slice'
 import WikiListener from '../../helpers/listeners/WikiListener'
 
 const NostrapediaHome = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
-
-  /*
-  // * manage listener
-  const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
-  if (listenerMethod != 'off') {
-    const filter = {
-      kinds: [30818],
-    }
-
-    dispatch(updateApp('wiki'))
-    dispatch(updateFilter(filter))
-    dispatch(turnListenerOn())
-    dispatch(updateListenerApplication('wiki'))
-  }
-  */
 
   const oTopics = useSelector((state) => state.wikifreedia.articles.byDTag)
   const oCategories = useSelector((state) => state.wikifreedia.categories)

@@ -1,14 +1,10 @@
 import React from 'react'
-import { CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
+import { CNavLink, CRow } from '@coreui/react'
 import { DocsExample } from 'src/components'
 import { CCard, CCardBody, CCardHeader, CCardText, CCardTitle, CCol } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateApp } from '../../redux/features/siteNavigation/slice'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBrain, faBoltLightning, faBolt } from '@fortawesome/free-solid-svg-icons'
 import WikiListener from '../../helpers/listeners/WikiListener'
-import { cilThumbUp } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
 
 const Dashboard = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
@@ -62,10 +58,9 @@ const Dashboard = () => {
           </CCol>
         </CRow>
       </DocsExample>
+      <WikiListener />
     </>
   )
 }
 
 export default Dashboard
-
-// <WikiListener />
