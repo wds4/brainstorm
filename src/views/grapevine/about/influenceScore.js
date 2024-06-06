@@ -77,7 +77,7 @@ const AboutInfluenceScore = () => {
                 <h4>Coming soon: CONTEXTUAL INFLUENCE SCORES</h4>
               </center>
               <div>
-                Contextual Influence Scores will assist with <i>content discovery</i> on nostr.
+                Contextual Influence Scores will be used for <i>content discovery</i> on nostr.
               </div>
               <div>
                 The next BrainSToRm update will enable users to publish context-specific
@@ -85,7 +85,7 @@ const AboutInfluenceScore = () => {
                 attention in some category or context of interest. These attestations will be
                 incorporated into contextual Influence Scores and will be weighted more heavily than
                 follows and mutes. Contextual Influence Scores higher than unity will indicate
-                profiles worthy of your special attention.
+                profiles worthy of your special attention in that context.
               </div>
             </div>
           </div>
