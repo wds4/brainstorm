@@ -50,15 +50,15 @@ const AboutInfluenceScore = () => {
                 <h4>Influence Score interpretation</h4>
               </center>
               <div>
-                The Influence Score is proportional to how much attention it is recommended for you
-                to pay to a given profile in a given context. Currently implemented is the baseline
-                Influence Score, applicable to all contexts.
+                The Influence Score is proportional to how much attention your Grapevine
+                recommendeds for you to pay to a given profile in a given context. Currently
+                implemented is the baseline Influence Score, applicable to all contexts.
               </div>
               <div>
                 <li>
                   A score of 1 is probably a regular person or profile, worthy of your attention, no
-                  more and no less than any other profile. By definition, <i>your</i> Influence
-                  Score is always set to 1.
+                  more and no less than any other profile. By definition, <i>your</i> baseline
+                  Influence Score is always set to 1.
                 </li>
                 <li>
                   A score of 0 means that your Grapevine recommends for you to ignore this profile,
@@ -77,15 +77,15 @@ const AboutInfluenceScore = () => {
                 <h4>Coming soon: CONTEXTUAL INFLUENCE SCORES</h4>
               </center>
               <div>
-                Contextual Influence Scores will be used for <i>content discovery</i> on nostr.
-              </div>
-              <div>
                 The next BrainSToRm update will enable users to publish context-specific
                 attestations for noteworthy content creators deemed worthy of above-average
                 attention in some category or context of interest. These attestations will be
                 incorporated into contextual Influence Scores and will be weighted more heavily than
                 follows and mutes. Contextual Influence Scores higher than unity will indicate
-                profiles worthy of your special attention in that context.
+                profiles worthy of your special attention in that context. In this way,
+                <i>contextual content discovery</i> becomes possible, even when the desired profile
+                has few or no followers and/or is disconnected from you on the social (follows)
+                graph.
               </div>
             </div>
           </div>
