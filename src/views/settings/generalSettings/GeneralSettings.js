@@ -26,11 +26,12 @@ const GeneralSettings = () => {
 
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oMyProfile = oProfilesByNpub[myNpub]
-  let aMyFollows = []
+  let aOneHop = []
   let aTwoHops = []
   let aMoreHops = []
+  let aDisconnected = []
   if (oMyProfile) {
-    aMyFollows = oMyProfile.follows
+    aOneHop = oMyProfile.follows
   }
 
   const aProfilesWithKnownFollows = []
@@ -49,18 +50,19 @@ const GeneralSettings = () => {
           aTwoHops.push(np)
         }
       }
-      if (dos > 2) {
+      if (dos > 2 && dos < 100) {
         if (!aMoreHops.includes(np)) {
           aMoreHops.push(np)
+        }
+      }
+      if (dos > 100) {
+        if (!aDisconnected.includes(np)) {
+          aDisconnected.push(np)
         }
       }
     }
   })
 
-  let numFollowsText = aProfilesWithKnownFollows.length + ' profiles'
-  if (aProfilesWithKnownFollows.length == 1) {
-    numFollowsText = aProfilesWithKnownFollows.length + ' profile'
-  }
   let promptClassName = 'hide'
   if (aProfilesWithKnownFollows.length < 10) {
     promptClassName = 'show'
@@ -221,27 +223,46 @@ const GeneralSettings = () => {
     ],
   )
 
+  let promptNeedTwoHopsDataClassName = 'hide'
+  if (aOneHop.length > 0 && aTwoHops.length == 0) {
+    promptNeedTwoHopsDataClassName = 'show'
+  }
+
   return (
     <>
       <center>
         <h4>General Settings</h4>
       </center>
       <br />
+      <div className={promptNeedTwoHopsDataClassName}>
+        <div
+          style={{
+            border: '2px solid purple',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          You need more follows data to extend your Grapevine beyond just one hop. Download it
+          below.
+        </div>
+      </div>
       <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
         <strong>one hop</strong>
         <div style={{ display: 'inline-block', float: 'right' }}>
-          {aMyFollows.length} profiles one hop away
+          {aOneHop.length} profiles one hop away
         </div>
       </div>
       <div style={{ marginLeft: '20px' }}>
         <CFormSwitch
           checked={isListenerMode1}
           onChange={(e) => toggleListener('1')}
-          label="Download my follows in background."
+          label="Download my follows."
         />
-        <div>
-          This probably will not impact website performance, but you can turn it off if necessary.
-        </div>
       </div>
       <br />
       <br />
@@ -255,7 +276,7 @@ const GeneralSettings = () => {
         <CFormSwitch
           checked={isListenerMode2}
           onChange={(e) => toggleListener('2')}
-          label="Download follows of my follows in background. This may impact website performance."
+          label="Download follows of my follows."
         />
       </div>
       <br />
@@ -270,19 +291,29 @@ const GeneralSettings = () => {
         <CFormSwitch
           checked={isListenerMode5}
           onChange={(e) => toggleListener('5')}
-          label="Download follows of Nostrapedia authors in the background."
+          label="Download follows of Nostrapedia authors."
         />
+      </div>
+      <br />
+      <br />
+      <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
+        <strong>disconnected</strong>
+        <div style={{ display: 'inline-block', float: 'right' }}>
+          {aDisconnected.length} completely disconnected profiles
+        </div>
+      </div>
+      <div style={{ marginLeft: '20px' }}>
         <CFormSwitch
           checked={isListenerMode4}
           onChange={(e) => toggleListener('4')}
-          label="Download follows of all profiles in background. This will probably impact website performance."
+          label="Download follows of all profiles."
         />
       </div>
       <br />
       <br />
       <div>
-        For performance, we recommend you turn off all of the above downloads before navigating away
-        from this page.
+        For best performance, we recommend you toggle off all of the above downloads before
+        navigating away from this page.
       </div>
       <br />
     </>

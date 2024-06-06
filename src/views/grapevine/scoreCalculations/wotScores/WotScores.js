@@ -102,8 +102,6 @@ const WotScores = () => {
       <center>
         <h4>Web of Trust (WoT) Scores</h4>
         <br />
-        <div>WoT Score: of your follows, how many of them follow this profile</div>
-        <br />
         <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />
         <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />

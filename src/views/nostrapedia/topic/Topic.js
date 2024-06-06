@@ -26,6 +26,7 @@ import { updateViewNostrapediaTopic } from 'src/redux/features/siteNavigation/sl
 import { nip19, validateEvent } from 'nostr-tools'
 import { ShowAuthor } from '../components/ShowAuthor'
 import {
+  updateApp,
   updateSortTopicBy,
   updateViewNostrapediaArticle,
 } from '../../../redux/features/siteNavigation/slice'
@@ -36,6 +37,8 @@ import {
 } from '../../../helpers/brainstorm'
 import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
+import CIcon from '@coreui/icons-react'
+import { cilInfo } from '@coreui/icons'
 
 export const whenTopicWasLastUpdated = (oEvents, oTopicSlugs, topicSlug) => {
   if (!topicSlug) {
@@ -112,6 +115,8 @@ const WikiTopic = () => {
     useState('hide') // show or hide
   const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
     useState('hide') // show or hide
+  const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
+    useState('hide') // show or hide
 
   const [aAuthorsSorted, setAAuthorsSorted] = useState(aAuthorsRef)
   const mostRecentUpdate = whenTopicWasLastUpdated(oEvents, oTopicSlugs, topicSlug)
@@ -186,6 +191,9 @@ const WikiTopic = () => {
         if (signedIn && aMyFollows.length == 0) {
           setPromptFollowForWotUtilityClassName('show')
         }
+        if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
+          setPromptNeedMoreFollowsDataClassName('show')
+        }
         const arraySorted = aAuthorsRef.sort((a, b) => {
           return coracleWotScore[b] - coracleWotScore[a]
         })
@@ -202,6 +210,9 @@ const WikiTopic = () => {
         }
         if (signedIn && aMyFollows.length == 0) {
           setPromptFollowForDosUtilityClassName('show')
+        }
+        if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
+          setPromptNeedMoreFollowsDataClassName('show')
         }
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('show')
@@ -230,6 +241,9 @@ const WikiTopic = () => {
           if (signedIn) {
             setPromptCalcInfluenceScoreElemClassName('show')
           }
+        }
+        if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
+          setPromptNeedMoreFollowsDataClassName('show')
         }
         // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
         setLastUpdateColumnClassName('hide')
@@ -315,6 +329,44 @@ const WikiTopic = () => {
     aOptions.push(oEntry)
   })
 
+  const oMyProfile = oProfilesByNpub[myNpub]
+  let aOneHop = []
+  let aTwoHops = []
+  let aMoreHops = []
+  let aDisconnected = []
+  if (oMyProfile) {
+    aOneHop = oMyProfile.follows
+  }
+
+  const aProfilesWithKnownFollows = []
+  Object.keys(oProfilesByNpub).forEach((np) => {
+    if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
+      aProfilesWithKnownFollows.push(np)
+    }
+    if (
+      oProfilesByNpub[np] &&
+      oProfilesByNpub[np].wotScores &&
+      oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+    ) {
+      const dos = oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+      if (dos == 2) {
+        if (!aTwoHops.includes(np)) {
+          aTwoHops.push(np)
+        }
+      }
+      if (dos > 2 && dos < 100) {
+        if (!aMoreHops.includes(np)) {
+          aMoreHops.push(np)
+        }
+      }
+      if (dos > 100) {
+        if (!aDisconnected.includes(np)) {
+          aDisconnected.push(np)
+        }
+      }
+    }
+  })
+
   return (
     <>
       <center>
@@ -343,7 +395,32 @@ const WikiTopic = () => {
                     ></CFormSelect>
                   </div>
                 </div>
-
+                <div className={promptNeedMoreFollowsDataClassName}>
+                  <div
+                    style={{
+                      border: '2px solid purple',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      marginTop: '10px',
+                      marginBottom: '10px',
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    You need more follows data to extend your Grapevine beyond just one hop.
+                    Download it
+                    <CButton
+                      color="primary"
+                      style={{ marginLeft: '5px' }}
+                      href="#/settings/settings"
+                    >
+                      here
+                    </CButton>
+                    .
+                  </div>
+                </div>
                 <div
                   style={{
                     border: '1px solid red',
@@ -417,20 +494,30 @@ const WikiTopic = () => {
                     first to sort by Degrees of Separation, Web of Trust, or Influence Scores.
                   </div>
                 </div>
-                <div
-                  style={{
-                    border: '1px solid gold',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginBottom: '10px',
-                    marginTop: '10px',
-                  }}
-                  className={promptCalcInfluenceScoreElemClassName}
-                >
-                  To calculate Influence Scores, go to{' '}
-                  <CButton color="primary" href="#/grapevine/calculateInfluenceScores">
-                    this page
-                  </CButton>
+                <div className={promptCalcInfluenceScoreElemClassName}>
+                  <div
+                    style={{
+                      border: '1px solid gold',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      marginBottom: '10px',
+                      marginTop: '10px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    Influence Scores have not yet been calculated. To calculate Influence Scores, go
+                    to{' '}
+                    <CButton
+                      color="primary"
+                      href="#/grapevine/calculateInfluenceScores"
+                      style={{ marginLeft: '5px' }}
+                    >
+                      this page
+                    </CButton>
+                    .
+                  </div>
                 </div>
               </div>
             </CCardHeader>
@@ -439,7 +526,7 @@ const WikiTopic = () => {
                 <CTableHead color="light">
                   <CTableRow>
                     <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>
-                      author
+                      Author
                     </CTableHeaderCell>
                     <CTableHeaderCell
                       scope="col"
@@ -453,21 +540,75 @@ const WikiTopic = () => {
                       style={{ textAlign: 'center' }}
                       className={coracleWotScoreColumnClassName}
                     >
-                      WoT score
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        WoT score{' '}
+                        <CNavLink
+                          href="#/grapevine/wotScore"
+                          style={{ display: 'inline-block', marginLeft: '5px' }}
+                        >
+                          <CIcon
+                            icon={cilInfo}
+                            size="lg"
+                            onClick={() => dispatch(updateApp('grapevine'))}
+                          />
+                        </CNavLink>
+                      </div>
                     </CTableHeaderCell>
                     <CTableHeaderCell
                       scope="col"
                       style={{ textAlign: 'center' }}
                       className={dosScoreColumnClassName}
                     >
-                      degrees of separation
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        DoS score{' '}
+                        <CNavLink
+                          href="#/grapevine/dosScore"
+                          style={{ display: 'inline-block', marginLeft: '5px' }}
+                        >
+                          <CIcon
+                            icon={cilInfo}
+                            size="lg"
+                            onClick={() => dispatch(updateApp('grapevine'))}
+                          />
+                        </CNavLink>
+                      </div>
                     </CTableHeaderCell>
                     <CTableHeaderCell
                       scope="col"
                       style={{ textAlign: 'center' }}
                       className={influenceScoreColumnClassName}
                     >
-                      influence score
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        Influence score{' '}
+                        <CNavLink
+                          href="#/grapevine/influenceScore"
+                          style={{ display: 'inline-block', marginLeft: '5px' }}
+                        >
+                          <CIcon
+                            icon={cilInfo}
+                            size="lg"
+                            onClick={() => dispatch(updateApp('grapevine'))}
+                          />
+                        </CNavLink>
+                      </div>
                     </CTableHeaderCell>
                     <CTableHeaderCell
                       scope="col"

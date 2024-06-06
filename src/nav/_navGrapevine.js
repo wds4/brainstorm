@@ -49,6 +49,24 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Influence Score',
+    to: '/grapevine/influenceScore',
+    icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'WoT Score',
+    to: '/grapevine/wotScore',
+    icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'DoS Score',
+    to: '/grapevine/dosScore',
+    icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Score Comparisons',
     to: '/grapevine/scoreComparisons',
     icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,

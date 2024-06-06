@@ -82,10 +82,36 @@ const GrapevineCalculations = () => {
     dosScores_title = 'never calculated'
   }
 
+  const myNpub = useSelector((state) => state.profile.npub)
+  const oMyProfile = oProfilesByNpub[myNpub]
+  let aOneHop = []
+  let aTwoHops = []
+  let aMoreHops = []
+  if (oMyProfile) {
+    aOneHop = oMyProfile.follows
+  }
+
   const aProfilesWithKnownFollows = []
   Object.keys(oProfilesByNpub).forEach((np) => {
     if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
       aProfilesWithKnownFollows.push(np)
+    }
+    if (
+      oProfilesByNpub[np] &&
+      oProfilesByNpub[np].wotScores &&
+      oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+    ) {
+      const dos = oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+      if (dos == 2) {
+        if (!aTwoHops.includes(np)) {
+          aTwoHops.push(np)
+        }
+      }
+      if (dos > 2) {
+        if (!aMoreHops.includes(np)) {
+          aMoreHops.push(np)
+        }
+      }
     }
   })
 
@@ -93,9 +119,9 @@ const GrapevineCalculations = () => {
   if (aProfilesWithKnownFollows.length == 1) {
     numFollowsText = aProfilesWithKnownFollows.length + ' profile'
   }
-  let promptNeedMoreFollowsDataClassName = 'hide'
-  if (aProfilesWithKnownFollows.length < 10) {
-    promptNeedMoreFollowsDataClassName = 'show'
+  let promptNeedTwoHopsDataClassName = 'hide'
+  if (aOneHop.length > 0 && aTwoHops.length == 0) {
+    promptNeedTwoHopsDataClassName = 'show'
   }
 
   return (
@@ -110,7 +136,7 @@ const GrapevineCalculations = () => {
         use this page to calculate each of these scores from scratch.
       </div>
       <br />
-      <div className={promptNeedMoreFollowsDataClassName}>
+      <div className={promptNeedTwoHopsDataClassName}>
         <div
           style={{
             border: '2px solid purple',
@@ -123,12 +149,11 @@ const GrapevineCalculations = () => {
             alignItems: 'center',
           }}
         >
-          You have follows data on only {numFollowsText}. Trust scores will be more informative
-          after loading more follows data under{' '}
-          <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px' }}>
+          Before calculating the scores below, you need to extend your Grapevine beyond just one hop. Go to
+          <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px', marginRight: '5px' }}>
             settings
           </CButton>
-          .
+          to download more follows data.
         </div>
       </div>
       <br />

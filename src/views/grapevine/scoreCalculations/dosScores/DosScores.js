@@ -102,8 +102,6 @@ const DosScores = () => {
       <center>
         <h4>Degrees of Separation (DoS) Scores</h4>
         <br />
-        <div>DoS Score: how many hops away from you on the social graph (via follows)</div>
-        <br />
         <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />
         <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />

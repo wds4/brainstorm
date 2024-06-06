@@ -101,19 +101,46 @@ const InfluenceScores = () => {
     const foo = await timeout(10)
     setCalculate('yes')
   }
+
+  const signedIn = useSelector((state) => state.profile.signedIn)
+  const oMyProfile = oProfilesByNpub[myNpub]
+  let aOneHop = []
+  let aTwoHops = []
+  let aMoreHops = []
+  let aDisconnected = []
+  if (oMyProfile) {
+    aOneHop = oMyProfile.follows
+  }
   const aProfilesWithKnownFollows = []
   Object.keys(oProfilesByNpub).forEach((np) => {
     if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
       aProfilesWithKnownFollows.push(np)
     }
+    if (
+      oProfilesByNpub[np] &&
+      oProfilesByNpub[np].wotScores &&
+      oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+    ) {
+      const dos = oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+      if (dos == 2) {
+        if (!aTwoHops.includes(np)) {
+          aTwoHops.push(np)
+        }
+      }
+      if (dos > 2 && dos < 100) {
+        if (!aMoreHops.includes(np)) {
+          aMoreHops.push(np)
+        }
+      }
+      if (dos > 100) {
+        if (!aDisconnected.includes(np)) {
+          aDisconnected.push(np)
+        }
+      }
+    }
   })
-
-  let numFollowsText = aProfilesWithKnownFollows.length + ' profiles'
-  if (aProfilesWithKnownFollows.length == 1) {
-    numFollowsText = aProfilesWithKnownFollows.length + ' profile'
-  }
   let promptClassName = 'hide'
-  if (aProfilesWithKnownFollows.length < 10) {
+  if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
     promptClassName = 'show'
   }
   const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
@@ -123,11 +150,6 @@ const InfluenceScores = () => {
     <>
       <center>
         <h4>Influence Scores</h4>
-        <br />
-        <div>
-          Influence Score interpretation: 1 = person, 0 = bot, more than 1 = worthy of special
-          attention
-        </div>
         <br />
         <div className={promptNeedMoreFollowsDataClassName}>
           <div
@@ -142,8 +164,7 @@ const InfluenceScores = () => {
               alignItems: 'center',
             }}
           >
-            You have follows data on only {numFollowsText}. You should first load more follows data
-            under{' '}
+            You need more follows data to extend your Grapevine beyond just one hop. Download it under{' '}
             <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px' }}>
               settings
             </CButton>
