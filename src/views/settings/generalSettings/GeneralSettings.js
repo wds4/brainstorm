@@ -312,8 +312,8 @@ const GeneralSettings = () => {
       <br />
       <br />
       <div>
-        For best performance, we recommend you toggle off all of the above downloads before
-        navigating away from this page.
+        For best performance, we recommend you turn off each of the above download functions before
+        navigating away from this page. Data will persist locally until you logout.
       </div>
       <br />
     </>

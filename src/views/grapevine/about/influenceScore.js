@@ -57,7 +57,8 @@ const AboutInfluenceScore = () => {
               <div>
                 <li>
                   A score of 1 is probably a regular person or profile, worthy of your attention, no
-                  more and no less than any other profile.
+                  more and no less than any other profile. By definition, <i>your</i> Influence
+                  Score is always set to 1.
                 </li>
                 <li>
                   A score of 0 means that your Grapevine recommends for you to ignore this profile,
