@@ -6,7 +6,7 @@ const AboutInfluenceScore = () => {
     <>
       <CContainer>
         <center>
-          <h3>Influence Score</h3>
+          <h3>The Influence Score</h3>
         </center>
         <br />
         <CRow>
@@ -22,23 +22,37 @@ const AboutInfluenceScore = () => {
               </div>
               <div>
                 <li>
-                  Unlike the WoT Score, the Influence Score can see beyond 2 hops away from you on
-                  your social graph.
+                  The Influence Score can see beyond 2 hops away from you on your social graph. This
+                  is in contrast to the WoT score which cannot see past 2 hops.
                 </li>
                 <li>
-                  The Influence Score asymptotically levels out at 1.000 as follower count rises. It
-                  is therefore less of a popularity contest than the WoT Score.
+                  The Influence Score can synthesize data from multiple sources at the same time and
+                  is therefore ideally suited to incorporate explicit contextual attestations once
+                  such data becomes available.
                 </li>
-                <li>The Influence Score can synthesize data from multiple sources.</li>
+                <li>
+                  No matter how high a profile's follower count gets, the baseline Influence Score
+                  asymptotically levels out at 1. It is therefore less of a popularity contest than
+                  the WoT Score. See this{' '}
+                  <a
+                    target="_blank"
+                    href="https://habla.news/a/naddr1qqxnzdes8q6rwv3hxs6rjvpeqgs98k45ww24g26dl8yatvefx3qrkaglp2yzu6dm3hv2vcxl822lqtgrqsqqqa28kn8wur"
+                    rel="noreferrer"
+                  >
+                    habla blog post
+                  </a>{' '}
+                  for an in-depth discussion of this issue.
+                </li>
               </div>
             </div>
             <div>
               <center>
-                <h4>Influence Score interpretation:</h4>
+                <h4>Influence Score interpretation</h4>
               </center>
               <div>
                 The Influence Score is proportional to how much attention it is recommended for you
-                to pay to a given profile in a given context.
+                to pay to a given profile in a given context. Currently implemented is the baseline
+                Influence Score, applicable to all contexts.
               </div>
               <div>
                 <li>
@@ -50,12 +64,22 @@ const AboutInfluenceScore = () => {
                   has either been shown to be a bot or spam, or has not been demonstrated to be
                   worthy of your attention.
                 </li>
-                <li>COMING SOON: A score greater than 1 is deemed worthy of special attention.</li>
               </div>
             </div>
             <div>
               To see in detail how Influence Scores are calculated, open the Influence Scores tab of
               any profile.
+            </div>
+            <div>
+              <center>
+                <h4>Coming soon: CONTEXTUAL INFLUENCE SCORES</h4>
+              </center>
+              <div>
+                The next update will enable users to create context-specific attestations for
+                noteworthy content creators deemed worthy of above-average attention. These
+                attestations will be incorporated into contextual Influence Scores. Contextaul
+                scores higher than unity will indicate profiles worthy of your special attention.
+              </div>
             </div>
           </div>
         </CRow>
