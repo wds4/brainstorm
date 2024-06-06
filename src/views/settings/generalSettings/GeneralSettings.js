@@ -228,6 +228,13 @@ const GeneralSettings = () => {
     promptNeedTwoHopsDataClassName = 'show'
   }
 
+  const oAuthors = useSelector((state) => state.wikifreedia.authors)
+  const aAuthors = Object.keys(oAuthors)
+
+  const labelFoF = 'Download follows of my ' + aOneHop.length + ' follows.'
+  const labelAuthors =
+    'Download follows of each of the ' + aAuthors.length + ' known Nostrapedia authors.'
+
   return (
     <>
       <center>
@@ -276,7 +283,7 @@ const GeneralSettings = () => {
         <CFormSwitch
           checked={isListenerMode2}
           onChange={(e) => toggleListener('2')}
-          label="Download follows of my follows."
+          label={labelFoF}
         />
       </div>
       <br />
@@ -291,7 +298,7 @@ const GeneralSettings = () => {
         <CFormSwitch
           checked={isListenerMode5}
           onChange={(e) => toggleListener('5')}
-          label="Download follows of Nostrapedia authors."
+          label={labelAuthors}
         />
       </div>
       <br />
@@ -312,8 +319,14 @@ const GeneralSettings = () => {
       <br />
       <br />
       <div>
-        For best performance, we recommend you turn off each of the above download functions before
-        navigating away from this page. Data will persist locally until you logout.
+        For best performance, you may want to perform each of the above downloads one section at a
+        time. We also recommend you turn off each of the above download functions before navigating
+        away from this page. Data will persist locally until you logout.
+      </div>
+      <br />
+      <br />
+      <div>
+        Please allow some time (hopefully no more than a minute or two) for downloads to take place.
       </div>
       <br />
     </>
