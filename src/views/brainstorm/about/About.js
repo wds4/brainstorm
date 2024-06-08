@@ -43,7 +43,7 @@ const BrainstormAbout = () => {
             level of maturity.
           </p>
           <p>
-            Soon to come: calculation of a Web of Trust score according to the principles outlined
+            June 2024: calculation of the Influence Score according to the principles outlined
             in{' '}
             <a
               target="_blank"
@@ -52,7 +52,7 @@ const BrainstormAbout = () => {
             >
               this post in habla.news
             </a>
-            .
+            , with application to content stratification on Nostrapedia.
           </p>
           <p>
             <CNavLink

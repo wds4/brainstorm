@@ -69,8 +69,21 @@ const DosCalculations = () => {
   const [progressIndicator, setProgressIndicator] = useState(' ... calculating ... ')
   useEffect(() => {
     let oProfiles = initializeProfileData(aAllProfilesByPubkey) // aMyFollows, aNearbyProfilesByPubkey, aAllProfilesByPubkey
+    let oStartingData = {}
+    oStartingData[0] = 0
+    oStartingData[1] = 0
+    oStartingData[2] = 0
+    oStartingData[3] = 0
+    oStartingData[4] = 0
+    oStartingData[5] = 0
+    Object.keys(oProfiles).forEach((pubkey, item) => {
+      const dosScore = oProfiles[pubkey].dosData.score
+      oStartingData[dosScore]++
+    })
+    console.log('qwerty oStartingData 0, 1, 2, 3, 4, 5: ' + oStartingData[0] + ' ' + oStartingData[1] + ' ' + oStartingData[2] + ' ' + oStartingData[3] + ' ' + oStartingData[4] + ' ' + oStartingData[5])
     let changesMade = false
     let currentDegree = 0
+    console.log('useEffect_A; aAllProfilesByPubkey.length: ' + aAllProfilesByPubkey.length + '; Object.keys(oProfiles).length: ' + Object.keys(oProfiles).length)
     do {
       changesMade = false
       console.log('currentDegree A: ' + currentDegree)
@@ -87,6 +100,22 @@ const DosCalculations = () => {
     oFoo.numProfiles = Object.keys(aAllProfilesByPubkey).length
     dispatch(updateGrapevineScores(oFoo))
     setProgressIndicator('Calculations complete.')
+
+    let oEndingData = {}
+    oEndingData[0] = 0
+    oEndingData[1] = 0
+    oEndingData[2] = 0
+    oEndingData[3] = 0
+    oEndingData[4] = 0
+    oEndingData[5] = 0
+    Object.keys(oProfiles).forEach((pubkey, item) => {
+      const dosScore = oProfiles[pubkey].dosData.score
+      if (item < 20) {
+        console.log('pubkey: ' + pubkey + '; dosScore: ' + dosScore)
+      }
+      oEndingData[dosScore]++
+    })
+    console.log('qwerty oEndingData 0, 1, 2, 3, 4, 5: ' + oEndingData[0] + ' ' + oEndingData[1] + ' ' + oEndingData[2] + ' ' + oEndingData[3] + ' ' + oEndingData[4] + ' ' + oEndingData[5])
   }, [])
 
   return <div>{progressIndicator}</div>

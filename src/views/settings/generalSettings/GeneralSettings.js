@@ -254,12 +254,18 @@ const GeneralSettings = () => {
             alignItems: 'center',
           }}
         >
-          You need more follows data to extend your Grapevine beyond just one hop. Download it
-          below.
+          <div style={{ textAlign: 'left' }}>
+            You need more follows data to extend your Grapevine beyond just one hop. Download it by
+            activating the downloads for Steps 1 - 3 below, one step at a time, until you get more
+            than zero profiles corresponding to each step (as indicated on the right). Step 1 was
+            activated when you signed on. Each step should take no more than a minute or two to
+            download at least some profiles. (We know this seems inefficient ... we're working on
+            making it better!)
+          </div>
         </div>
       </div>
       <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
-        <strong>one hop</strong>
+        STEP 1: <strong>one hop</strong>
         <div style={{ display: 'inline-block', float: 'right' }}>
           {aOneHop.length} profiles one hop away
         </div>
@@ -274,7 +280,7 @@ const GeneralSettings = () => {
       <br />
       <br />
       <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
-        <strong>two hops</strong>
+        STEP 2: <strong>two hops</strong>
         <div style={{ display: 'inline-block', float: 'right' }}>
           {aTwoHops.length} profiles two hops away
         </div>
@@ -289,7 +295,7 @@ const GeneralSettings = () => {
       <br />
       <br />
       <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
-        <strong>more hops</strong>
+        STEP 3: <strong>more hops</strong>
         <div style={{ display: 'inline-block', float: 'right' }}>
           {aMoreHops.length} profiles over two hops away
         </div>
@@ -304,9 +310,9 @@ const GeneralSettings = () => {
       <br />
       <br />
       <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
-        <strong>disconnected</strong>
+        STEP 4 (optional): <strong>disconnected</strong>
         <div style={{ display: 'inline-block', float: 'right' }}>
-          {aDisconnected.length} completely disconnected profiles
+          {aDisconnected.length} disconnected profiles
         </div>
       </div>
       <div style={{ marginLeft: '20px' }}>
