@@ -64,7 +64,7 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
       oProfileBrainstorm.wotScores = {}
       if (oThisProfile.wotScores) {
         oProfileBrainstorm.wotScores = JSON.parse(JSON.stringify(oThisProfile.wotScores))
-        oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
+        oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparation
         oProfileBrainstorm.wotScores.coracle = oThisProfile.wotScores.coracle
       }
       oProfileBrainstorm.lastUpdated = oThisProfile.kind0.oEvent.created_at
@@ -72,7 +72,7 @@ export const getProfileBrainstormFromNpub = (npub, oProfilesByNpub) => {
     }
     if (oThisProfile.wotScores) {
       oProfileBrainstorm.wotScores = JSON.parse(JSON.stringify(oThisProfile.wotScores))
-      oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparationFromMe
+      oProfileBrainstorm.wotScores.degreesOfSeparation = oThisProfile.wotScores.degreesOfSeparation
       oProfileBrainstorm.wotScores.coracle = oThisProfile.wotScores.coracle
     }
     if (oThisProfile.followers) {
@@ -136,7 +136,7 @@ export const returnDegreesOfSeparation = (pubkey, oProfilesByNpub, oProfilesByPu
   }
   let dosCurrent = 999
   if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
-    dosCurrent = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+    dosCurrent = oProfilesByNpub[npub].wotScores.degreesOfSeparation
   }
   let dosNew = 999
   const aFollowers = getProfileBrainstormFromNpub(npub, oProfilesByNpub).followers
@@ -145,7 +145,7 @@ export const returnDegreesOfSeparation = (pubkey, oProfilesByNpub, oProfilesByPu
     const aFollows = oProfilesByNpub[np].follows
     if (aFollows.includes(pubkey)) {
       // make sure dosScore is no greater than the current dosScore of np
-      const dosFollower = oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+      const dosFollower = oProfilesByNpub[np].wotScores.degreesOfSeparation
       const dosMinimum = dosFollower + 1
       dosNew = Math.min(dosCurrent, dosMinimum)
     }

@@ -6,7 +6,7 @@ import DosCalculator from './dosCalculator'
 const returnCurrentDegreeOfSeparation = (oProfilesByNpub, npub) => {
   let cDoS = 998
   if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
-    cDoS = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+    cDoS = oProfilesByNpub[npub].wotScores.degreesOfSeparation
   }
   return cDoS
 }

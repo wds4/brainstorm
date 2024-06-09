@@ -14,10 +14,8 @@ const oDefaultData = {
 const DosCalculations = () => {
   const myNpub = useSelector((state) => state.profile.npub)
   const myPubkey = useSelector((state) => state.profile.pubkey)
-  const aMyFollows = useSelector((state) => state.profiles.oProfiles.byNpub[myNpub].follows)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
-  const oMyProfile = useSelector((state) => state.profiles.oProfiles.byNpub[myNpub])
 
   const aAllProfilesByPubkey = Object.keys(oProfilesByPubkey)
 
@@ -36,8 +34,7 @@ const DosCalculations = () => {
     oObj[myPubkey].follows = oProfilesByNpub[oProfilesByPubkey[myPubkey]].follows
     oObj[myPubkey].followers = oProfilesByNpub[oProfilesByPubkey[myPubkey]].followers
     oObj[myPubkey].dosData.score = 0
-
-    return oObj
+    return JSON.parse(JSON.stringify(oObj))
   }
 
   // currentDos = 0, then 1, then 2, etc
@@ -46,14 +43,13 @@ const DosCalculations = () => {
   // update dos score for each member in the list of followers
   // for each profile that gets updated, add that profile
   const cycleThroughArrayOfProfiles = (currentDegree, oProfilesIn) => {
-    console.log('cycleThroughArrayOfProfiles; currentDegree: ' + currentDegree)
     let changesMade = false
     let oProfilesOut = JSON.parse(JSON.stringify(oProfilesIn))
     Object.keys(oProfilesIn).forEach((pubkey_parent, item1) => {
-      const score_parent = oProfilesIn[pubkey_parent].dosData.score
+      const score_parent = Number(oProfilesIn[pubkey_parent].dosData.score)
       const follows = oProfilesIn[pubkey_parent].follows
       follows.forEach((pubkey_child, item2) => {
-        const score_child = oProfilesIn[pubkey_child].dosData.score
+        const score_child = Number(oProfilesIn[pubkey_child].dosData.score)
         if (score_child > score_parent + 1) {
           changesMade = true
           oProfilesOut[pubkey_child].dosData.score = score_parent + 1
@@ -80,18 +76,14 @@ const DosCalculations = () => {
       const dosScore = oProfiles[pubkey].dosData.score
       oStartingData[dosScore]++
     })
-    console.log('qwerty oStartingData 0, 1, 2, 3, 4, 5: ' + oStartingData[0] + ' ' + oStartingData[1] + ' ' + oStartingData[2] + ' ' + oStartingData[3] + ' ' + oStartingData[4] + ' ' + oStartingData[5])
     let changesMade = false
     let currentDegree = 0
-    console.log('useEffect_A; aAllProfilesByPubkey.length: ' + aAllProfilesByPubkey.length + '; Object.keys(oProfiles).length: ' + Object.keys(oProfiles).length)
     do {
       changesMade = false
-      console.log('currentDegree A: ' + currentDegree)
       const result = cycleThroughArrayOfProfiles(currentDegree, oProfiles)
-      const oProfilesOut = result.oProfilesOut
+      const oProfilesOut = JSON.parse(JSON.stringify(result.oProfilesOut))
       changesMade = result.changesMade
       oProfiles = JSON.parse(JSON.stringify(oProfilesOut))
-      console.log('currentDegree B: ' + currentDegree)
       currentDegree++
     } while (changesMade == true && currentDegree < 10)
     dispatch(updateAllDegreesOfSeparationScores(oProfiles))
@@ -110,12 +102,8 @@ const DosCalculations = () => {
     oEndingData[5] = 0
     Object.keys(oProfiles).forEach((pubkey, item) => {
       const dosScore = oProfiles[pubkey].dosData.score
-      if (item < 20) {
-        console.log('pubkey: ' + pubkey + '; dosScore: ' + dosScore)
-      }
       oEndingData[dosScore]++
     })
-    console.log('qwerty oEndingData 0, 1, 2, 3, 4, 5: ' + oEndingData[0] + ' ' + oEndingData[1] + ' ' + oEndingData[2] + ' ' + oEndingData[3] + ' ' + oEndingData[4] + ' ' + oEndingData[5])
   }, [])
 
   return <div>{progressIndicator}</div>

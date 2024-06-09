@@ -23,7 +23,7 @@ const columnHelper = createColumnHelper()
 const returnDegreeOfSeparation = ({ oProfilesByNpub, npub }) => {
   let doSeparation = 9999
   if (oProfilesByNpub[npub].wotScores) {
-    doSeparation = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+    doSeparation = oProfilesByNpub[npub].wotScores.degreesOfSeparation
   }
   return doSeparation
 }
@@ -202,7 +202,6 @@ function Filter({ column, table }) {
 const createData = ({
   oProfilesByPubkey,
   oProfilesByNpub,
-  aNpubsToDisplay,
   aPubkeysToDisplay,
   myNpub,
 }) => {
@@ -266,7 +265,7 @@ const createData = ({
   return aData
 }
 
-const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesByNpub }) => {
+const TanstackProfilesTable = ({ aPubkeysToDisplay, oProfilesByNpub }) => {
   // const aNpubsToDisplay = Object.keys(oProfilesByNpub)
   const myNpub = useSelector((state) => state.profile.npub)
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
@@ -274,7 +273,6 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
     ...createData({
       oProfilesByPubkey,
       oProfilesByNpub,
-      aNpubsToDisplay,
       aPubkeysToDisplay,
       myNpub,
     }),
@@ -546,19 +544,3 @@ const TanstackProfilesTable = ({ aPubkeysToDisplay, aNpubsToDisplay, oProfilesBy
 }
 
 export default TanstackProfilesTable
-
-/*
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        */

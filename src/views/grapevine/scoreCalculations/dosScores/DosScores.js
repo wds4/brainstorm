@@ -67,6 +67,7 @@ const RecalculationIndicator = ({ numProfiles, profilesAdded }) => {
 
 const DosScores = () => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
   const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
 
   const [calculatingIndicator, setCalculatingIndicator] = useState('no')
@@ -102,6 +103,7 @@ const DosScores = () => {
       <center>
         <h4>Degrees of Separation (DoS) Scores</h4>
         <br />
+        <div>oProfilesByNpub: {Object.keys(oProfilesByNpub).length}; oProfilesByPubkey: {Object.keys(oProfilesByPubkey).length}</div>
         <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />
         <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />

@@ -2,7 +2,7 @@ import { useNDK } from '@nostr-dev-kit/ndk-react'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  updateDegreesOfSeparationFromMe,
+  updateDegreesOfSeparation,
   updateKind0Event,
   processKind3Event,
 } from 'src/redux/features/profiles/slice'
@@ -40,9 +40,9 @@ const ListenerOn = () => {
                 const oMyProfile = JSON.parse(event.content)
                 dispatch(updateMyProfile(oMyProfile))
                 const npub_toUpdate = myNpub
-                const degreesOfSeparationFromMe_new = 0
+                const degreesOfSeparation_new = 0
                 dispatch(
-                  updateDegreesOfSeparationFromMe({ npub_toUpdate, degreesOfSeparationFromMe_new }),
+                  updateDegreesOfSeparation({ npub_toUpdate, degreesOfSeparation_new }),
                 )
               }
             }

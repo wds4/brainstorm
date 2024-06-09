@@ -41,9 +41,9 @@ const GeneralSettings = () => {
     if (
       oProfilesByNpub[np] &&
       oProfilesByNpub[np].wotScores &&
-      oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+      oProfilesByNpub[np].wotScores.degreesOfSeparation
     ) {
-      const dos = oProfilesByNpub[np].wotScores.degreesOfSeparationFromMe
+      const dos = oProfilesByNpub[np].wotScores.degreesOfSeparation
       if (dos == 2) {
         if (!aTwoHops.includes(np)) {
           aTwoHops.push(np)

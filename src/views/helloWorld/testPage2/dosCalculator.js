@@ -1,12 +1,12 @@
 import { nip19 } from 'nostr-tools'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateDegreesOfSeparationFromMe } from '../../../redux/features/profiles/slice'
+import { updateDegreesOfSeparation } from '../../../redux/features/profiles/slice'
 
 const returnCurrentDegreeOfSeparation = (oProfilesByNpub, npub) => {
   let cDoS = 998
   if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
-    cDoS = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+    cDoS = oProfilesByNpub[npub].wotScores.degreesOfSeparation
   }
   return cDoS
 }
@@ -75,9 +75,9 @@ const DosCalculator = ({ oProfilesByNpub, oProfilesByDoS, calculatingState }) =>
                 const currentDoS = returnCurrentDegreeOfSeparation(oProfilesByNpubRef.current, npf)
                 if (currentDoS > newMinimumDos) {
                   // console.log('currentDoS is greater than newMinimumDos')
-                  const degreesOfSeparationFromMe_new = newMinimumDos
+                  const degreesOfSeparation_new = newMinimumDos
                   const npub_toUpdate = npf
-                  dispatch(updateDegreesOfSeparationFromMe({npub_toUpdate, degreesOfSeparationFromMe_new}))
+                  dispatch(updateDegreesOfSeparation({npub_toUpdate, degreesOfSeparation_new}))
                 } else {
                   // console.log('currentDoS is NOT greater than newMinimumDos')
                 }

@@ -28,7 +28,7 @@ const InfluenceCalculations = () => {
   const aAllProfilesByPubkey = Object.keys(oProfilesByPubkey)
   const aNearbyProfilesByPubkey = []
   aAllProfilesByPubkey.forEach((pubkey) => {
-    if (oProfilesByNpub[oProfilesByPubkey[pubkey]].wotScores.degreesOfSeparationFromMe < 6)
+    if (oProfilesByNpub[oProfilesByPubkey[pubkey]].wotScores.degreesOfSeparation < 6)
     // if (oProfilesByNpub[oProfilesByPubkey[pubkey]].wotScores.coracle > 0)
       if (!aNearbyProfilesByPubkey.includes(pubkey)) {
         aNearbyProfilesByPubkey.push(pubkey)

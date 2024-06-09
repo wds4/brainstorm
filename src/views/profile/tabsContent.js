@@ -38,19 +38,7 @@ const TabsContent = ({
     )
   }
   if (whichTab == 'follows') {
-    return (
-      <Follows
-        oProfilesByNpub={oProfilesByNpub}
-        oProfileBrainstorm={oProfileBrainstorm}
-        aFollowPubkeys={aFollowPubkeys}
-        aFollowNpubs={aFollowNpubs}
-        oKind3Event={oKind3Event}
-        oProfile={oProfile}
-        npub={npub}
-        pubkey={pubkey}
-        updateWhichTab={updateWhichTab}
-      />
-    )
+    return <Follows oProfilesByNpub={oProfilesByNpub} aFollowPubkeys={aFollowPubkeys} />
   }
   if (whichTab == 'notes') {
     return <Notes oProfile={oProfile} pubkey={pubkey} />

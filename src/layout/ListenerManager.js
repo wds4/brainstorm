@@ -2,9 +2,8 @@ import { useNDK } from '@nostr-dev-kit/ndk-react'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  updateDegreesOfSeparationFromMe,
+  updateDegreesOfSeparation,
   updateKind0Event,
-  updateKind3Event,
   processKind3Event,
 } from '../redux/features/profiles/slice'
 import { addArticle, addCategory } from '../redux/features/nostrapedia/slice'
@@ -72,14 +71,13 @@ const RunningListener = ({ oListenerManager }) => {
                 dispatch(updateNip05(oMyProfile?.nip05))
                 */
                 const npub_toUpdate = myNpub
-                const degreesOfSeparationFromMe_new = 0
+                const degreesOfSeparation_new = 0
                 dispatch(
-                  updateDegreesOfSeparationFromMe({ npub_toUpdate, degreesOfSeparationFromMe_new }),
+                  updateDegreesOfSeparation({ npub_toUpdate, degreesOfSeparation_new }),
                 )
               }
             }
             if (event.kind == 3) {
-              // dispatch(updateKind3Event(event))
               dispatch(processKind3Event(event))
               if (event.pubkey == myPubkey) {
                 const createdAt = event.created_at

@@ -14,7 +14,7 @@ import {
   updateListenerApplication,
 } from '../../redux/features/listenerManager/slice'
 import { getProfileBrainstormFromNpub, returnDegreesOfSeparation } from '../../helpers/brainstorm'
-import { updateDegreesOfSeparationFromMe } from '../../redux/features/profiles/slice'
+import { updateDegreesOfSeparation } from '../../redux/features/profiles/slice'
 import TabsContent from './tabsContent'
 import SingleProfileListener from '../../helpers/profilesListeners/singleProfileListener'
 
@@ -99,28 +99,28 @@ const Profile = () => {
 
   const oProfileBrainstorm = getProfileBrainstormFromNpub(npub, oProfilesByNpub)
 
-  let degreesOfSeparationFromMe = 999
+  let degreesOfSeparation = 999
   if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
-    degreesOfSeparationFromMe = oProfilesByNpub[npub].wotScores.degreesOfSeparationFromMe
+    degreesOfSeparation = oProfilesByNpub[npub].wotScores.degreesOfSeparation
   }
 
   // let dosScore = 0
   const dosScore = returnDegreesOfSeparation(pubkey, oProfilesByNpub, oProfilesByPubkey)
-  if (degreesOfSeparationFromMe != dosScore) {
+  if (degreesOfSeparation != dosScore) {
     let oNew = {}
     oNew.npub_toUpdate = npub
-    oNew.degreesOfSeparationFromMe_new = dosScore
-    dispatch(updateDegreesOfSeparationFromMe(oNew))
+    oNew.degreesOfSeparation_new = dosScore
+    dispatch(updateDegreesOfSeparation(oNew))
   }
 
-  let degreesOfSeparationFromMeText = '? hops'
+  let degreesOfSeparationText = '? hops'
   if (oProfilesByNpub[npub] && oProfilesByNpub[npub].wotScores) {
-    degreesOfSeparationFromMeText = degreesOfSeparationFromMe + ' hops'
-    if (degreesOfSeparationFromMe == 1) {
-      degreesOfSeparationFromMeText = degreesOfSeparationFromMe + ' hop'
+    degreesOfSeparationText = degreesOfSeparation + ' hops'
+    if (degreesOfSeparation == 1) {
+      degreesOfSeparationText = degreesOfSeparation + ' hop'
     }
-    if (degreesOfSeparationFromMe == 0) {
-      degreesOfSeparationFromMeText = degreesOfSeparationFromMe + ' hops'
+    if (degreesOfSeparation == 0) {
+      degreesOfSeparationText = degreesOfSeparation + ' hops'
     }
   }
 
@@ -263,7 +263,7 @@ const Profile = () => {
               <div style={{ display: 'inline-block', textAlign: 'center' }}>
                 WoT Score: {oProfileBrainstorm.wotScores.coracle}
               </div>
-              <div style={{ display: 'inline-block', textAlign: 'center' }}>{degreesOfSeparationFromMeText}</div>
+              <div style={{ display: 'inline-block', textAlign: 'center' }}>{degreesOfSeparationText}</div>
               <div style={{ display: 'inline-block', textAlign: 'center' }}>
                 Influence score: {oProfileBrainstorm.wotScores.baselineInfluence.influence}
               </div>
