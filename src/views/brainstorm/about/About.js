@@ -28,7 +28,8 @@ const BrainstormAbout = () => {
               rel="noreferrer"
             >
               this roadmap
-            </a> to bring Web of Trust to nostr.
+            </a>{' '}
+            to bring Web of Trust to nostr.
           </p>
           <p>
             This website serves as a playground for application of the{' '}
@@ -41,18 +42,6 @@ const BrainstormAbout = () => {
           <p>
             Individual apps may be spun off into standalone websites once they reach a sufficient
             level of maturity.
-          </p>
-          <p>
-            June 2024: calculation of the Influence Score according to the principles outlined
-            in{' '}
-            <a
-              target="_blank"
-              href="https://habla.news/a/naddr1qqxnzdes8q6rwv3hxs6rjvpeqgs98k45ww24g26dl8yatvefx3qrkaglp2yzu6dm3hv2vcxl822lqtgrqsqqqa28kn8wur"
-              rel="noreferrer"
-            >
-              this post in habla.news
-            </a>
-            , with application to content stratification on Nostrapedia.
           </p>
           <p>
             <CNavLink
@@ -69,6 +58,56 @@ const BrainstormAbout = () => {
             <a href="https://github.com/wds4/brainstorm" target="_blank" rel="noopener noreferrer">
               <CIcon icon={cibGithub} size="lg" />
             </a>
+          </p>
+          <center>
+            <h4>Progress and Roadmap</h4>
+          </center>
+          <p>
+            Completed June 2024: calculation of the Influence Score according to the principles
+            outlined in{' '}
+            <a
+              target="_blank"
+              href="https://habla.news/a/naddr1qqxnzdes8q6rwv3hxs6rjvpeqgs98k45ww24g26dl8yatvefx3qrkaglp2yzu6dm3hv2vcxl822lqtgrqsqqqa28kn8wur"
+              rel="noreferrer"
+            >
+              this post in habla.news
+            </a>
+            , with application to content stratification on Nostrapedia. Currently, the Influence
+            Score is calculated using follow and mute data, with each data point interpreted as if
+            it were formatted according to the proposed{' '}
+            <a
+              target="_blank"
+              href="https://github.com/lez/nips/blob/master/77.md"
+              rel="noreferrer"
+            >
+              NIP-77
+            </a>
+            .
+          </p>
+          <p>
+            ROADMAP (tentative):
+            <li>Enable the standard nostr Follow/Mute buttons on profile page</li>
+            <li>
+              Enable <i>contextual</i> Follow/Mute buttons, with context being a preexisting
+              Category in Nostrapedia
+            </li>
+            <li>
+              Incorporate contextual Follow/Mute data to calculate contextual Influence Score and
+              demonstrate its ability to solve the needle in a haystack problem.*
+            </li>
+            <li>
+              Enable Follow/Mute buttons for <i>customized contexts</i> (not limited to wiki
+              Categories).
+            </li>
+          </p>
+          <br/>
+          <p>
+            * The challenge of content discovery in nostr can be likened to finding a needle in the
+            proverbial haystack. The goal is to enable your web of trust to bring to your attention a profile with the following characteristics:
+            <li>high quality content creator in some niche category or context of interest</li>
+            <li>few, if any, followers</li>
+            <li>not necessarily closely connected to you on the social graph</li>
+            The contextual Influence Score is ideally suited for this task.
           </p>
         </div>
       </CContainer>

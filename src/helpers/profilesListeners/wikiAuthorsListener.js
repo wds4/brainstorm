@@ -76,7 +76,7 @@ const ListenerOn = () => {
           textAlign: 'center',
         }}
       >
-        Wiki Authors Listener: ON
+        Download Follows of Wiki Authors: ON
       </div>
     </>
   )

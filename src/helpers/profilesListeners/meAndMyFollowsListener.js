@@ -80,7 +80,7 @@ const ListenerOn = () => {
           textAlign: 'center',
         }}
       >
-        My Follows Listener: ON
+        Download Follows of My Follows: ON
       </div>
     </>
   )

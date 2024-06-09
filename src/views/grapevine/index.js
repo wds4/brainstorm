@@ -133,7 +133,9 @@ const GrapevineCalculations = () => {
       <div>
         Using follows and mutes, the Grapevine offers three scoring methods to stratify content on
         Nostrapedia: degrees of separation (DoS), web of trust (WoT), and Influence Scores. You can
-        use this page to calculate each of these scores from scratch.
+        use this page to calculate each of these scores from scratch. When additional follows or
+        mutes data is downloaded, you will need to recalculate these scores to reflect the
+        additional data.
       </div>
       <br />
       <div className={promptNeedTwoHopsDataClassName}>
@@ -149,8 +151,13 @@ const GrapevineCalculations = () => {
             alignItems: 'center',
           }}
         >
-          Before calculating the scores below, you need to extend your Grapevine beyond just one hop. Go to
-          <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px', marginRight: '5px' }}>
+          Before calculating the scores below, you need to extend your Grapevine beyond just one
+          hop. Go to
+          <CButton
+            color="primary"
+            href="#/settings/settings"
+            style={{ marginLeft: '5px', marginRight: '5px' }}
+          >
             settings
           </CButton>
           to download more follows data.
@@ -171,7 +178,7 @@ const GrapevineCalculations = () => {
           </CCol>
 
           <CCol xs={12} sm={6} xl={4} xxl={3}>
-            <CNavLink href="#/grapevine/calculateWotScores">
+            <CNavLink href="#/grapevine/calculateWotScores"style={{ height: '100%' }} >
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilThumbUp} size="xl" />}
                 title={wotScores_title}

@@ -164,7 +164,8 @@ const InfluenceScores = () => {
               alignItems: 'center',
             }}
           >
-            You need more follows data to extend your Grapevine beyond just one hop. Download it under{' '}
+            You need more follows data to extend your Grapevine to two (or more, ideally) hops away.
+            Download it under{' '}
             <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px' }}>
               settings
             </CButton>
@@ -186,7 +187,8 @@ const InfluenceScores = () => {
         }}
         className={noFollowsWarning}
       >
-        EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED. EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
+        EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
+        EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
         <br />
         FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW ONE OR MORE PROFILES.
       </div>

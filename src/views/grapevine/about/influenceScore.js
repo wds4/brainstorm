@@ -17,18 +17,52 @@ const AboutInfluenceScore = () => {
             </div>
 
             <div>
+              <center>
+                <h4>Influence Score Calculation</h4>
+              </center>
+              <p>
+                At its heart, the Influence Score is a <i>weighted average</i>, with weight
+                determined primarily by the Influence Score of the source. See this{' '}
+                <a
+                  target="_blank"
+                  href="https://habla.news/a/naddr1qqxnzdes8q6rwv3hxs6rjvpeqgs98k45ww24g26dl8yatvefx3qrkaglp2yzu6dm3hv2vcxl822lqtgrqsqqqa28kn8wur"
+                  rel="noreferrer"
+                >
+                  habla blog post
+                </a>{' '}
+                for more details.
+              </p>
+              <p>
+                To see in detail how individual Influence Scores are calculated, open the Influence
+                Scores tab of any profile.
+              </p>
+            </div>
+
+            <div>
+              <center>
+                <h4>Influence Score Advantages</h4>
+              </center>
               <div>
                 Compared to the WoT Score, the Influence Score has the following advantages:
               </div>
               <div>
                 <li>
                   The Influence Score can see beyond 2 hops away from you on your social graph. This
-                  is in contrast to the WoT score which does not see past 2 hops.
+                  is in contrast to the WoT score (as usually implemented) which does not see past 2
+                  hops.
                 </li>
                 <li>
                   The Influence Score can synthesize data from multiple sources at the same time and
-                  is therefore ideally suited to incorporate explicit contextual attestations once
-                  such data becomes available.
+                  is therefore ideally suited to incorporate explicit contextual attestations, a la
+                  the proposed{' '}
+                  <a
+                    target="_blank"
+                    href="https://github.com/lez/nips/blob/master/77.md"
+                    rel="noreferrer"
+                  >
+                    NIP-77
+                  </a>
+                  , once such data becomes available.
                 </li>
                 <li>
                   No matter how high a profile's follower count gets, the baseline Influence Score
@@ -69,20 +103,16 @@ const AboutInfluenceScore = () => {
               </div>
             </div>
             <div>
-              To see in detail how Influence Scores are calculated, open the Influence Scores tab of
-              any profile, or see the habla blog post in the above link.
-            </div>
-            <div>
               <center>
                 <h4>Coming soon: CONTEXTUAL INFLUENCE SCORES</h4>
               </center>
               <div>
-                The next BrainSToRm update will enable users to publish context-specific
+                The next major BrainSToRm update will enable users to publish context-specific
                 attestations for noteworthy content creators deemed worthy of above-average
                 attention in some category or context of interest. These attestations will be
                 incorporated into contextual Influence Scores and will be weighted more heavily than
                 follows and mutes. Contextual Influence Scores higher than unity will indicate
-                profiles worthy of your special attention in that context. In this way,
+                profiles worthy of your special attention in that context. In this way,{' '}
                 <i>contextual content discovery</i> becomes possible, even when the desired profile
                 has few or no followers and/or is disconnected from you on the social (follows)
                 graph.

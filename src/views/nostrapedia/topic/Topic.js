@@ -123,10 +123,8 @@ const WikiTopic = () => {
     useState('hide') // show or hide
   const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
     useState('hide') // show or hide
-  const [promptCalcDosScoreElemClassName, setPromptCalcDosScoreElemClassName] =
-    useState('hide') // show or hide
-  const [promptCalcWotScoreElemClassName, setPromptCalcWotScoreElemClassName] =
-    useState('hide') // show or hide
+  const [promptCalcDosScoreElemClassName, setPromptCalcDosScoreElemClassName] = useState('hide') // show or hide
+  const [promptCalcWotScoreElemClassName, setPromptCalcWotScoreElemClassName] = useState('hide') // show or hide
   const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
     useState('hide') // show or hide
 
@@ -203,7 +201,7 @@ const WikiTopic = () => {
         if (signedIn && aMyFollows.length == 0) {
           setPromptFollowForWotUtilityClassName('show')
         }
-        if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
+        if (signedIn && (aOneHop.length == 0 || aTwoHops.length == 0 || aMoreHops.length == 0)) {
           setPromptNeedMoreFollowsDataClassName('show')
         } else {
           if (!whenWotScoresUpdated) {
@@ -229,7 +227,7 @@ const WikiTopic = () => {
         if (signedIn && aMyFollows.length == 0) {
           setPromptFollowForDosUtilityClassName('show')
         }
-        if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
+        if (signedIn && (aOneHop.length == 0 || aTwoHops.length == 0 || aMoreHops.length == 0)) {
           setPromptNeedMoreFollowsDataClassName('show')
         } else {
           if (!whenDosScoresUpdated) {
@@ -261,7 +259,7 @@ const WikiTopic = () => {
         if (signedIn && aMyFollows.length == 0) {
           setPromptFollowForInfluenceUtilityClassName('show')
         }
-        if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
+        if (signedIn && (aOneHop.length == 0 || aTwoHops.length == 0 || aMoreHops.length == 0)) {
           setPromptNeedMoreFollowsDataClassName('show')
         } else {
           if (!whenInfluenceScoresUpdated) {
@@ -434,14 +432,14 @@ const WikiTopic = () => {
                       alignItems: 'center',
                     }}
                   >
-                    You need more follows data to extend your Grapevine beyond just one hop.
-                    Download it
+                    You need more follows data to extend your Grapevine to two (or more, ideally)
+                    hops away. Download it under{' '}
                     <CButton
                       color="primary"
-                      style={{ marginLeft: '5px' }}
                       href="#/settings/settings"
+                      style={{ marginLeft: '5px' }}
                     >
-                      here
+                      settings
                     </CButton>
                     .
                   </div>
@@ -457,7 +455,8 @@ const WikiTopic = () => {
                   }}
                   className={promptFollowForInfluenceUtilityClassName}
                 >
-                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED. EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
+                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
+                  EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
                   <br />
                   FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
                 </div>
@@ -472,7 +471,8 @@ const WikiTopic = () => {
                   }}
                   className={promptFollowForDosUtilityClassName}
                 >
-                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED. EVERYONE'S DoS SCORE WILL BE ZERO.
+                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
+                  EVERYONE'S DoS SCORE WILL BE ZERO.
                   <br />
                   FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
                 </div>
@@ -487,7 +487,8 @@ const WikiTopic = () => {
                   }}
                   className={promptFollowForWotUtilityClassName}
                 >
-                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED. EVERYONE'S WoT SCORE WILL BE ZERO.
+                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
+                  EVERYONE'S WoT SCORE WILL BE ZERO.
                   <br />
                   FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
                 </div>
@@ -553,8 +554,8 @@ const WikiTopic = () => {
                       alignItems: 'center',
                     }}
                   >
-                    Degrees of Separation Scores have not yet been calculated. To calculate DoS Scores, go
-                    to{' '}
+                    Degrees of Separation Scores have not yet been calculated. To calculate DoS
+                    Scores, go to{' '}
                     <CButton
                       color="primary"
                       href="#/grapevine/calculateDosScores"
@@ -578,8 +579,7 @@ const WikiTopic = () => {
                       alignItems: 'center',
                     }}
                   >
-                    Web of Trust Scores have not yet been calculated. To calculate WoT Scores, go
-                    to{' '}
+                    Web of Trust Scores have not yet been calculated. To calculate WoT Scores, go to{' '}
                     <CButton
                       color="primary"
                       href="#/grapevine/calculateWotScores"
