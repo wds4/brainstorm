@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git@github.com:wds4/brainstorm.git"
   },
-  "license": "MIT",
+  "license": "GNU AGPLv3",
   "author": "wds4",
   "engines": {
     "node": "20.x"
