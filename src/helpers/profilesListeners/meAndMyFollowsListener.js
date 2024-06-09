@@ -80,7 +80,7 @@ const ListenerOn = () => {
           textAlign: 'center',
         }}
       >
-        MeAndMyFollowsListener: ON
+        My Follows Listener: ON
       </div>
     </>
   )

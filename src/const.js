@@ -43,11 +43,11 @@ export const defMuteInterpScore = 0
 export const defMuteInterpCon = 10
 
 // kinds 0, 3, 10000
-export const defListener1 = 'show' // my profile
-export const defListener2 = 'hide' // profiles of me and my follows
+export const defListener1 = 'show' // my profile (STEP 1)
+export const defListener2 = 'hide' // profiles of me and my follows (STEP 2)
 export const defListener3 = 'show' // the profile being viewed
-export const defListener4 = 'hide' // all profiles
-export const defListener5 = 'hide' // nostrapedia authors
+export const defListener4 = 'hide' // all profiles (STEP 4)
+export const defListener5 = 'hide' // nostrapedia authors (STEP 3)
 // other kinds
 export const defListener6 = 'show' // nostrapedia content (kind 30818)
 export const defListener7 = 'show' // concept graph content (kinds 9902, 39902)

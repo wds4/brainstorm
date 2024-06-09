@@ -59,7 +59,13 @@ const WotCalculations = () => {
     setProgressIndicator('Calculations complete.')
   }, [])
 
-  return <div>{progressIndicator}</div>
+  return (
+    <>
+      <center>
+        <div>{progressIndicator}</div>
+      </center>
+    </>
+  )
 }
 
 export default WotCalculations

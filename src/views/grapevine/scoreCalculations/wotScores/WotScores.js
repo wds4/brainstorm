@@ -9,7 +9,9 @@ const DoCalculation = ({ calculate }) => {
   if (calculate == 'no') {
     return (
       <>
-        <center><div>This may take a while. (Hopefully no more than 30-60 seconds).</div></center>
+        <center>
+          <div>This may take a while. (Hopefully no more than 30-60 seconds).</div>
+        </center>
       </>
     )
   }
@@ -20,7 +22,9 @@ const CalculatingIndicator = ({ calculatingIndicator }) => {
   if (calculatingIndicator == 'yes') {
     return (
       <>
-        <div>Calculations initiated...</div>
+        <center>
+          <div>Calculations initiated...</div>
+        </center>
         <br />
       </>
     )
@@ -117,8 +121,8 @@ const WotScores = () => {
         }}
         className={noFollowsWarning}
       >
-        YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S WoT SCORE WILL BE ZERO.
-        <br />
+        EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
+        EVERYONE'S WoT SCORE WILL BE ZERO.
         <br />
         FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
       </div>

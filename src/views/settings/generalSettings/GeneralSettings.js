@@ -15,6 +15,7 @@ import {
   defListener10,
 } from 'src/const'
 import { nip19 } from 'nostr-tools'
+import { updateApp } from '../../../redux/features/siteNavigation/slice'
 
 const GeneralSettings = () => {
   console.log('GeneralSettings')
@@ -62,13 +63,6 @@ const GeneralSettings = () => {
       }
     }
   })
-
-  let promptClassName = 'hide'
-  if (aProfilesWithKnownFollows.length < 10) {
-    promptClassName = 'show'
-  }
-  const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
-    useState(promptClassName)
 
   const generalSettings = useSelector((state) => state.settings.general)
 
@@ -150,34 +144,75 @@ const GeneralSettings = () => {
       if (listenerMode == 'hide') {
         if (num == 1) {
           setIsListenerMode1(true)
+          setIsListenerMode2(false)
+          setIsListenerMode4(false)
+          setIsListenerMode5(false)
           setListenerMode1('show')
+          setListenerMode2('hide')
+          setListenerMode4('hide')
+          setListenerMode5('hide')
+          dispatch(toggleIndividualListener({ newState: 'show', num: 1 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 2 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 4 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 5 }))
         }
         if (num == 2) {
+          setIsListenerMode1(false)
           setIsListenerMode2(true)
+          setIsListenerMode4(false)
+          setIsListenerMode5(false)
+          setListenerMode1('hide')
           setListenerMode2('show')
+          setListenerMode4('hide')
+          setListenerMode5('hide')
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 1 }))
+          dispatch(toggleIndividualListener({ newState: 'show', num: 2 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 4 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 5 }))
         }
         if (num == 3) {
           setIsListenerMode3(true)
           setListenerMode3('show')
+          dispatch(toggleIndividualListener({ newState: 'show', num }))
         }
         if (num == 4) {
+          setIsListenerMode1(false)
+          setIsListenerMode2(false)
           setIsListenerMode4(true)
+          setIsListenerMode5(false)
+          setListenerMode1('hide')
+          setListenerMode2('hide')
           setListenerMode4('show')
+          setListenerMode5('hide')
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 1 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 2 }))
+          dispatch(toggleIndividualListener({ newState: 'show', num: 4 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 5 }))
         }
         if (num == 5) {
+          setIsListenerMode1(false)
+          setIsListenerMode2(false)
+          setIsListenerMode4(false)
           setIsListenerMode5(true)
+          setListenerMode1('hide')
+          setListenerMode2('hide')
+          setListenerMode4('hide')
           setListenerMode5('show')
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 1 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 2 }))
+          dispatch(toggleIndividualListener({ newState: 'hide', num: 4 }))
+          dispatch(toggleIndividualListener({ newState: 'show', num: 5 }))
         }
         if (num == 6) {
           setIsListenerMode6(true)
           setListenerMode6('show')
+          dispatch(toggleIndividualListener({ newState: 'show', num }))
         }
         if (num == 7) {
           setIsListenerMode7(true)
           setListenerMode7('show')
+          dispatch(toggleIndividualListener({ newState: 'show', num }))
         }
-        // console.log('dispatch toggleIndividualListener show')
-        dispatch(toggleIndividualListener({ newState: 'show', num }))
       }
       if (listenerMode == 'show') {
         if (num == 1) {
@@ -208,7 +243,6 @@ const GeneralSettings = () => {
           setIsListenerMode7(false)
           setListenerMode7('hide')
         }
-        // console.log('dispatch toggleIndividualListener hide')
         dispatch(toggleIndividualListener({ newState: 'hide', num }))
       }
     },
@@ -235,13 +269,41 @@ const GeneralSettings = () => {
   const labelAuthors =
     'Download follows of each of the ' + aAuthors.length + ' known Nostrapedia authors.'
 
+  const instructionsA = 'Activate the toggle under STEP 1 to download your follows.'
+
+  const instructionsB =
+    'Activate the toggle under STEP 2 to download the follows of your follows. (Refresh this page if you continue to see "0 profiles two hops away" after a minute or so.)'
+
+  const instructionsC =
+    'Activate the toggle under STEP 3 to downlaod the follows of Nostrapedia authors. (Refresh this page if you continue to see "0 profiles over two hops away" after a minute or so.)'
+
+  let instructionsCurrent = 'For improved performance, turn off each of the below listeners.'
+
+  let promptNeedMoreFollowsDataClassName = 'hide'
+  let promptGoToGrapevineClassName = 'show'
+  if (aMoreHops.length == 0) {
+    instructionsCurrent = instructionsC
+    promptGoToGrapevineClassName = 'hide'
+    promptNeedMoreFollowsDataClassName = 'show'
+  }
+  if (aTwoHops.length == 0) {
+    instructionsCurrent = instructionsB
+    promptGoToGrapevineClassName = 'hide'
+    promptNeedMoreFollowsDataClassName = 'show'
+  }
+  if (aOneHop.length == 0) {
+    instructionsCurrent = instructionsA
+    promptGoToGrapevineClassName = 'hide'
+    promptNeedMoreFollowsDataClassName = 'show'
+  }
+
   return (
     <>
       <center>
         <h4>General Settings</h4>
       </center>
       <br />
-      <div className={promptNeedTwoHopsDataClassName}>
+      <div className={promptGoToGrapevineClassName}>
         <div
           style={{
             border: '2px solid purple',
@@ -255,13 +317,33 @@ const GeneralSettings = () => {
           }}
         >
           <div style={{ textAlign: 'left' }}>
-            You need more follows data to extend your Grapevine beyond just one hop. Download it by
-            activating the downloads for Steps 1 - 3 below, one step at a time, until you get more
-            than zero profiles corresponding to each step (as indicated on the right). Step 1 was
-            activated when you signed on. Each step should take no more than a minute or two to
-            download at least some profiles. (We know this seems inefficient ... we're working on
-            making it better!)
+            Once profiles one hop, two hops, and more than 2 hops away have been downloaded, go to
+            the{' '}
+            <CButton
+              onClick={() => dispatch(updateApp('grapevine'))}
+              color="primary"
+              href="#/grapevine"
+            >
+              Grapevine
+            </CButton>{' '}
+            to calculate trust scores.
           </div>
+        </div>
+      </div>
+      <div className={promptNeedMoreFollowsDataClassName}>
+        <div
+          style={{
+            border: '2px solid purple',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ textAlign: 'left' }}>{instructionsCurrent}</div>
         </div>
       </div>
       <div style={{ borderBottom: '1px solid grey', marginBottom: '5px' }}>
@@ -325,14 +407,7 @@ const GeneralSettings = () => {
       <br />
       <br />
       <div>
-        For best performance, you may want to perform each of the above downloads one section at a
-        time. We also recommend you turn off each of the above download functions before navigating
-        away from this page. Data will persist locally until you logout.
-      </div>
-      <br />
-      <br />
-      <div>
-        Please allow some time (hopefully no more than a minute or two) for downloads to take place.
+        For best performance, turn off each of the above listeners before navigating away from this page.
       </div>
       <br />
     </>

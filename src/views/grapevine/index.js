@@ -47,7 +47,7 @@ const GrapevineCalculations = () => {
   }
   if (!influenceScoreTimestamp || !numInfluenceScoreProfiles) {
     influenceScores_value = 'Calculate Influence Scores'
-    influenceScores_title = 'never calculated '
+    influenceScores_title = 'not yet calculated '
   }
 
   let wotScores_value = ''
@@ -63,7 +63,7 @@ const GrapevineCalculations = () => {
   }
   if (!wotScoreTimestamp || !numWotScoreProfiles) {
     wotScores_value = 'Calculate WoT Scores'
-    wotScores_title = 'never calculated '
+    wotScores_title = 'not yet calculated '
   }
 
   let dosScores_value = ''
@@ -79,7 +79,7 @@ const GrapevineCalculations = () => {
   }
   if (!dosScoreTimestamp || !numDosScoreProfiles) {
     dosScores_value = 'Calculate DoS Scores'
-    dosScores_title = 'never calculated'
+    dosScores_title = 'not yet calculated'
   }
 
   const myNpub = useSelector((state) => state.profile.npub)

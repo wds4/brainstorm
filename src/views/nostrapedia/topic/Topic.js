@@ -457,11 +457,9 @@ const WikiTopic = () => {
                   }}
                   className={promptFollowForInfluenceUtilityClassName}
                 >
-                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
+                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED. EVERYONE'S INFLUENCE SCORES WILL BE ZERO.
                   <br />
                   FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
-                  <br />
-                  BUT ONE IS ENOUGH! HOW ABOUT _____
                 </div>
                 <div
                   style={{
@@ -474,7 +472,7 @@ const WikiTopic = () => {
                   }}
                   className={promptFollowForDosUtilityClassName}
                 >
-                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S DoS SCORE WILL BE ZERO.
+                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED. EVERYONE'S DoS SCORE WILL BE ZERO.
                   <br />
                   FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
                 </div>
@@ -489,11 +487,9 @@ const WikiTopic = () => {
                   }}
                   className={promptFollowForWotUtilityClassName}
                 >
-                  YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S WoT SCORE WILL BE ZERO.
+                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED. EVERYONE'S WoT SCORE WILL BE ZERO.
                   <br />
                   FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
-                  <br />
-                  HOW ABOUT START WITH ONE FOLLOW AND THEN CHECK OUT THE DoS AND INFLUENCE SCORES.
                 </div>
                 <div className={promptLoginElemClassName}>
                   <div

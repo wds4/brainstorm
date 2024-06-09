@@ -106,7 +106,13 @@ const DosCalculations = () => {
     })
   }, [])
 
-  return <div>{progressIndicator}</div>
+  return (
+    <>
+      <center>
+        <div>{progressIndicator}</div>
+      </center>
+    </>
+  )
 }
 
 export default DosCalculations

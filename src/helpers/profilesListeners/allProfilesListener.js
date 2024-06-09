@@ -72,7 +72,7 @@ const ListenerOn = () => {
           textAlign: 'center',
         }}
       >
-        AllProfilesListener: On
+        All Profiles Listener: On
       </div>
     </>
   )

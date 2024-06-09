@@ -9,7 +9,9 @@ const DoCalculation = ({ calculate }) => {
   if (calculate == 'no') {
     return (
       <>
-        <center><div>This may take a while. (Hopefully no more than 30-60 seconds).</div></center>
+        <center>
+          <div>This may take a while. (Hopefully no more than 30-60 seconds).</div>
+        </center>
       </>
     )
   }
@@ -20,7 +22,9 @@ const CalculatingIndicator = ({ calculatingIndicator }) => {
   if (calculatingIndicator == 'yes') {
     return (
       <>
-        <div>Calculations initiated...</div>
+        <center>
+          <div>Calculations initiated...</div>
+        </center>
         <br />
       </>
     )
@@ -103,7 +107,6 @@ const DosScores = () => {
       <center>
         <h4>Degrees of Separation (DoS) Scores</h4>
         <br />
-        <div>oProfilesByNpub: {Object.keys(oProfilesByNpub).length}; oProfilesByPubkey: {Object.keys(oProfilesByPubkey).length}</div>
         <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />
         <CalculateScoresButton calculate={calculate} processButtonClick={processButtonClick} />
@@ -119,8 +122,8 @@ const DosScores = () => {
         }}
         className={noFollowsWarning}
       >
-        YOU'RE NOT FOLLOWING ANYBODY. EVERYONE'S DoS SCORE WILL BE ZERO.
-        <br />
+        EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
+        EVERYONE'S DoS SCORE WILL BE ZERO.
         <br />
         FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW ONE OR MORE PROFILES.
       </div>
