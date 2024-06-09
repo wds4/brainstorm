@@ -5,6 +5,7 @@ import { defRigor } from 'src/const'
 import { updateAllBaselineInfluenceScores } from 'src/redux/features/profiles/slice'
 import { updateGrapevineScores } from 'src/redux/features/settings/slice'
 import { CButton } from '@coreui/react'
+import { updateApp } from '../../../../redux/features/siteNavigation/slice'
 
 const oDefaultData = {
   follows: [],
@@ -240,9 +241,15 @@ const InfluenceCalculations = () => {
           <br />
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             Use Influence Scores to sort content on{' '}
-            <CButton color="primary" href="#/nostrapedia" style={{ marginLeft: '5px' }}>
+            <CButton
+              onClick={() => dispatch(updateApp('wiki'))}
+              color="primary"
+              href="#/nostrapedia"
+              style={{ marginLeft: '5px' }}
+            >
               Nostrapedia
-            </CButton>!
+            </CButton>
+            !
           </div>
         </center>
       </>

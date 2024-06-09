@@ -56,6 +56,14 @@ const WikiAuthors = () => {
   if (oScoreUpdates && oScoreUpdates.influenceScore) {
     whenInfluenceScoresUpdated = oScoreUpdates.influenceScore.timestamp
   }
+  let whenWotScoresUpdated = 0
+  if (oScoreUpdates && oScoreUpdates.wotScore) {
+    whenWotScoresUpdated = oScoreUpdates.wotScore.timestamp
+  }
+  let whenDosScoresUpdated = 0
+  if (oScoreUpdates && oScoreUpdates.degreesOfSeparation) {
+    whenDosScoresUpdated = oScoreUpdates.degreesOfSeparation.timestamp
+  }
 
   const myNpub = useSelector((state) => state.profile.npub)
   let aMyFollows = []
@@ -71,6 +79,10 @@ const WikiAuthors = () => {
   const [promptFollowForInfluenceUtilityClassName, setPromptFollowForInfluenceUtilityClassName] =
     useState('hide') // show or hide
   const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
+    useState('hide') // show or hide
+  const [promptCalcDosScoreElemClassName, setPromptCalcDosScoreElemClassName] =
+    useState('hide') // show or hide
+  const [promptCalcWotScoreElemClassName, setPromptCalcWotScoreElemClassName] =
     useState('hide') // show or hide
   const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
     useState('hide') // show or hide
@@ -218,6 +230,12 @@ const WikiAuthors = () => {
           }
           if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
             setPromptNeedMoreFollowsDataClassName('show')
+          } else {
+            if (!whenWotScoresUpdated) {
+              if (signedIn) {
+                // setPromptCalcWotScoreElemClassName('show')
+              }
+            }
           }
           promptFollowForWotUtilityClassName
           const arraySorted = inputArray.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
@@ -235,13 +253,14 @@ const WikiAuthors = () => {
           if (signedIn && aMyFollows.length == 0) {
             setPromptFollowForInfluenceUtilityClassName('show')
           }
-          if (!whenInfluenceScoresUpdated) {
-            if (signedIn) {
-              setPromptCalcInfluenceScoreElemClassName('show')
-            }
-          }
           if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
             setPromptNeedMoreFollowsDataClassName('show')
+          } else {
+            if (!whenInfluenceScoresUpdated) {
+              if (signedIn) {
+                setPromptCalcInfluenceScoreElemClassName('show')
+              }
+            }
           }
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -276,6 +295,12 @@ const WikiAuthors = () => {
           }
           if (signedIn && aOneHop.length > 0 && aTwoHops == 0) {
             setPromptNeedMoreFollowsDataClassName('show')
+          } else {
+            if (!whenDosScoresUpdated) {
+              if (signedIn) {
+                setPromptCalcDosScoreElemClassName('show')
+              }
+            }
           }
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -524,6 +549,56 @@ const WikiAuthors = () => {
                     <CButton
                       color="primary"
                       href="#/grapevine/calculateInfluenceScores"
+                      style={{ marginLeft: '5px' }}
+                    >
+                      this page
+                    </CButton>
+                    .
+                  </div>
+                </div>
+                <div className={promptCalcDosScoreElemClassName}>
+                  <div
+                    style={{
+                      border: '1px solid gold',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      marginBottom: '10px',
+                      marginTop: '10px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    Degrees of Separation Scores have not yet been calculated. To calculate DoS Scores, go
+                    to{' '}
+                    <CButton
+                      color="primary"
+                      href="#/grapevine/calculateDosScores"
+                      style={{ marginLeft: '5px' }}
+                    >
+                      this page
+                    </CButton>
+                    .
+                  </div>
+                </div>
+                <div className={promptCalcWotScoreElemClassName}>
+                  <div
+                    style={{
+                      border: '1px solid gold',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      marginBottom: '10px',
+                      marginTop: '10px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    Web of Trust Scores have not yet been calculated. To calculate WoT Scores, go
+                    to{' '}
+                    <CButton
+                      color="primary"
+                      href="#/grapevine/calculateWotScores"
                       style={{ marginLeft: '5px' }}
                     >
                       this page
