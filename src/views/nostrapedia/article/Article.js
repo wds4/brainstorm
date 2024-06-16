@@ -8,6 +8,7 @@ import {
   CFormSwitch,
   CButton,
   CNavLink,
+  CPopover,
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import Markdown from 'react-markdown'
@@ -17,6 +18,9 @@ import { processWikiMarkdownLinks } from 'src/helpers/contentFilters'
 import { ShowAuthor } from '../components/ShowAuthor'
 import { nip19 } from 'nostr-tools'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
+import CIcon from '@coreui/icons-react'
+import { cilInfo } from '@coreui/icons'
+import WikiLikesListener from '../../../helpers/listeners/WikiLikesListener'
 
 const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   if (showRawDataButton == 'hide') {
@@ -37,16 +41,84 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   )
 }
 
+const ThreeOptionsRating = () => {
+  const [muteButtonColor, setMuteButtonColor] = useState('secondary')
+  const [followButtonColor, setFollowButtonColor] = useState('secondary')
+  const [superfollowButtonColor, setSuperfollowButtonColor] = useState('secondary')
+
+  const processMuteButtonClick = useCallback(async () => {
+    // updateScore('0')
+    setFollowButtonColor('secondary')
+    setMuteButtonColor('danger')
+    setSuperfollowButtonColor('secondary')
+  }, [])
+  const processFollowButtonClick = useCallback(async () => {
+    // updateScore('100')
+    setFollowButtonColor('success')
+    setMuteButtonColor('secondary')
+    setSuperfollowButtonColor('secondary')
+    console.log('processFollowButtonClick B')
+  }, [])
+
+  const processSuperfollowButtonClick = useCallback(async () => {
+    // updateScore('0')
+    setFollowButtonColor('secondary')
+    setMuteButtonColor('secondary')
+    setSuperfollowButtonColor('primary')
+  }, [])
+  return (
+    <>
+      <div style={{ textAlign: 'center' }}>
+        <CButton type="button" color={muteButtonColor} onClick={processMuteButtonClick}>
+          👎
+        </CButton>
+        <CButton
+          type="button"
+          color={followButtonColor}
+          onClick={processFollowButtonClick}
+          style={{ marginLeft: '5px' }}
+        >
+          👍
+        </CButton>
+        <CButton
+          type="button"
+          color={superfollowButtonColor}
+          onClick={processSuperfollowButtonClick}
+          style={{ marginLeft: '5px' }}
+        >
+          🔥
+        </CButton>
+        <span style={{ color: 'grey', marginLeft: '5px' }}>
+          <CPopover
+            content="rate this author in this category"
+            placement="left"
+            trigger={['hover', 'focus']}
+          >
+            <CIcon icon={cilInfo} size="lg" />
+          </CPopover>
+        </span>
+      </div>
+    </>
+  )
+}
+
 const DisplayCategory = ({ oEvent }) => {
   let category = fetchFirstByTag('c', oEvent)
   if (!category) {
     return <></>
   }
   return (
-    <div style={{ textAlign: 'right' }}>
-      <span style={{ color: 'grey' }}>category: </span>
-      <span>{category}</span>
-    </div>
+    <>
+      <div className="d-flex justify-content-between align-items-right">
+        <div style={{ display: 'flex' }}>
+          <span style={{ color: 'grey' }}>category: </span>
+          <span style={{ marginLeft: '5px' }}>{category}</span>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <ThreeOptionsRating />
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -107,9 +179,13 @@ const WikiArticle = () => {
     <>
       <center>
         <h1>
-          <strong>{titleShow}</strong>
+          <div style={{ display: 'inline-block' }}>{titleShow}</div>{' '}
+          <div style={{ display: 'inline-block' }}>
+            <ThreeOptionsRating />
+          </div>
         </h1>
       </center>
+      <WikiLikesListener eventId={oEvent?.id} />
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
@@ -118,6 +194,11 @@ const WikiArticle = () => {
               <CRow style={{ display: 'flex', alignItems: 'center' }}>
                 <CCol xs="auto" className="me-auto">
                   <ShowAuthorBrainstormProfileImageOnly npub={npub} />
+                </CCol>
+                <CCol>
+                  <div style={{ textAlign: 'center' }}>
+                    <ThreeOptionsRating />
+                  </div>
                 </CCol>
                 <CCol xs="auto" className="align-self-center" style={{ color: 'grey' }}>
                   {displayTime}

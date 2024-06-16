@@ -1,14 +1,18 @@
 import React from 'react'
-import PublishNote from './PublishNote'
+import PublishNoteNostrReact from './PublishNoteNostrReact'
+import PublishNoteNdk from './PublishNoteNdk'
 
 const TestPage4 = () => {
   return (
     <>
       <center>
         <h3>Test Page 4</h3>
-        <div>Publish a note using ndk-react rather than nostr-react.</div>
+        <h4>goal: publish a note using ndk or ndk-react rather than nostr-react.</h4>
       </center>
-      <PublishNote />
+      <br/>
+      <PublishNoteNdk />
+      <hr />
+      <PublishNoteNostrReact />
     </>
   )
 }

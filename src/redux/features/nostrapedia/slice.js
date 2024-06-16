@@ -6,7 +6,7 @@ export const wikifreediaSlice = createSlice({
   name: 'wikifreedia',
   initialState: {
     articles: {
-      byEventId: {}, // used as a lookup to avid repeat processing of the same event multiple times
+      byEventId: {}, // used as a lookup to avoid repeat processing of the same event multiple times
       byNaddr: {},
       byDTag: {},
     },
