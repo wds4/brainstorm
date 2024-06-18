@@ -319,7 +319,6 @@ const WikiTopic = () => {
             }
           }
         }
-        // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('hide')
@@ -338,7 +337,6 @@ const WikiTopic = () => {
         return arraySorted
       }
       if (sortByMethod == 'category') {
-        // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('hide')
@@ -349,14 +347,10 @@ const WikiTopic = () => {
         const arraySorted = JSON.parse(JSON.stringify(aAuthorsRef))
         return arraySorted
       }
-
       if (sortByMethod == 'articleNumberOfLikes') {
-        // make a function: numberOfLikesMinusDislikes[a] which will call and make use of this function:
-        // const { numLikes, numDislikes, weightLikes, weightDislikes } = returnKind7Results(oNostrapedia, articleEventId, oProfilesByNpub)
         const arraySorted = aAuthorsRef.sort(
           (a, b) => numberOfLikesMinusDislikes[b] - numberOfLikesMinusDislikes[a],
         )
-        // const arraySorted = JSON.parse(JSON.stringify(aAuthorsRef))
         setLastUpdateColumnClassName('hide')
         setDosScoreColumnClassName('hide')
         setCoracleWotScoreColumnClassName('hide')
@@ -367,7 +361,21 @@ const WikiTopic = () => {
         return arraySorted
       }
       if (sortByMethod == 'articleWeightOfLikes') {
-        // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
+        if (!signedIn) {
+          setPromptLoginElemClassName('show')
+        }
+        if (signedIn && aMyFollows.length == 0) {
+          setPromptFollowForInfluenceUtilityClassName('show')
+        }
+        if (signedIn && (aOneHop.length == 0 || aTwoHops.length == 0 || aMoreHops.length == 0)) {
+          setPromptNeedMoreFollowsDataClassName('show')
+        } else {
+          if (!whenInfluenceScoresUpdated) {
+            if (signedIn) {
+              setPromptCalcInfluenceScoreElemClassName('show')
+            }
+          }
+        }
         const arraySorted = aAuthorsRef.sort(
           (a, b) => weightOfLikesMinusDislikes[b] - weightOfLikesMinusDislikes[a],
         )

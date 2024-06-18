@@ -178,6 +178,8 @@ const WikiArticlesAlphabetical = () => {
                       { label: 'reverse alphabetical', value: 'reverseAlphabetical' },
                       { label: '# of versions', value: 'numerical' },
                       { label: 'most recent', value: 'chronological' },
+                      { label: 'popularity', value: 'popularity', disabled:true }, // weighted sum of all kind 7 reactions; aka attention, reviews
+                      { label: 'controversy indicator', value: 'controversy', disabled:true }, // weighted sum of negative kind 7 reactions
                     ]}
                   ></CFormSelect>
                 </div>

@@ -18,6 +18,50 @@ export const nostrapediaSlice = createSlice({
     categories: {},
   },
   reducers: {
+    removeKind7EventId: (state, action) => {
+      const kind7EventId = action.payload
+      console.log('NEED TO REMOVE!! kind7EventId: ' + kind7EventId)
+      if (state.kind7Ratings.byKind7EventId[kind7EventId]) {
+        console.log('removeKind7EventId EVENT FOUND')
+        const oKind7Event = state.kind7Ratings.byKind7EventId[kind7EventId]
+        delete state.kind7Ratings.byKind7EventId[kind7EventId]
+        const content = oKind7Event.content
+        const tag_e = fetchFirstByTag('e', oKind7Event)
+        if (state.kind7Ratings.byArticleEventId[tag_e]) {
+          if (content == '+') {
+            if (state.kind7Ratings.byArticleEventId[tag_e].likes.includes(kind7EventId)) {
+              console.log('NEED TO REMOVE FROM LIKES!! kind7EventId: ' + kind7EventId)
+              const aOld = JSON.parse(
+                JSON.stringify(state.kind7Ratings.byArticleEventId[tag_e].likes),
+              )
+              const aUpdated = []
+              aOld.forEach((eid) => {
+                if (eid != kind7EventId) {
+                  aUpdated.push(eid)
+                }
+              })
+              state.kind7Ratings.byArticleEventId[tag_e].likes = aUpdated
+            }
+          }
+          if (content == '-') {
+            if (state.kind7Ratings.byArticleEventId[tag_e].dislikes.includes(kind7EventId)) {
+              console.log('NEED TO REMOVE FROM DISLIKES!! kind7EventId: ' + kind7EventId)
+              const aOld = JSON.parse(
+                JSON.stringify(state.kind7Ratings.byArticleEventId[tag_e].dislikes),
+              )
+              const aUpdated = []
+              aOld.forEach((eid) => {
+                if (eid != kind7EventId) {
+                  aUpdated.push(eid)
+                }
+              })
+              state.kind7Ratings.byArticleEventId[tag_e].dislikes = aUpdated
+            }
+          }
+          // TO DO: process emojis like thumbUp, thumbDown, etc
+        }
+      }
+    },
     addArticle: (state, action) => {
       const oEvent = action.payload
       if (!Object.keys(state.articles.byEventId).includes(oEvent.id)) {
@@ -100,12 +144,13 @@ export const nostrapediaSlice = createSlice({
           state.kind7Ratings.byArticleEventId[tag_e].likes = []
           state.kind7Ratings.byArticleEventId[tag_e].dislikes = []
         }
-        if (content == '+') {
+        // TO DO: accomodate emojis, e.g. if content == 💯 💜 🧡 👀 😂 🤙 ❤️ 🚀  🫂 🔥 🙏🏼 ♥️ ❤️‍🔥
+        if (content == '+' || content == '👍') {
           if (!state.kind7Ratings.byArticleEventId[tag_e].likes.includes(oEvent.id)) {
             state.kind7Ratings.byArticleEventId[tag_e].likes.push(oEvent.id)
           }
         }
-        if (content == '-') {
+        if (content == '-' || content == '👎') {
           if (!state.kind7Ratings.byArticleEventId[tag_e].dislikes.includes(oEvent.id)) {
             state.kind7Ratings.byArticleEventId[tag_e].dislikes.push(oEvent.id)
           }
@@ -139,6 +184,7 @@ export const nostrapediaSlice = createSlice({
   },
 })
 
-export const { addArticle, addCategory, addKind7Rating, wipeNostrapedia } = nostrapediaSlice.actions
+export const { removeKind7EventId, addArticle, addCategory, addKind7Rating, wipeNostrapedia } =
+  nostrapediaSlice.actions
 
 export default nostrapediaSlice.reducer
