@@ -612,7 +612,7 @@ const WikiTopic = () => {
                     >
                       Login
                     </CButton>{' '}
-                    first to sort by Degrees of Separation, Web of Trust, or Influence Scores.
+                    first to sort by Degrees of Separation, Web of Trust, Influence Score, or the Weighted Reaction Score.
                   </div>
                 </div>
                 <div className={promptCalcInfluenceScoreElemClassName}>
