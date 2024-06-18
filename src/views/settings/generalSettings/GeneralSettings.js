@@ -262,7 +262,7 @@ const GeneralSettings = () => {
     promptNeedTwoHopsDataClassName = 'show'
   }
 
-  const oAuthors = useSelector((state) => state.wikifreedia.authors)
+  const oAuthors = useSelector((state) => state.nostrapedia.authors)
   const aAuthors = Object.keys(oAuthors)
 
   const labelFoF = 'Download follows of my ' + aOneHop.length + ' follows.'
@@ -275,7 +275,7 @@ const GeneralSettings = () => {
     'Activate the toggle under STEP 2 to download the follows of your follows. (Refresh this page if you continue to see "0 profiles two hops away" after a minute or so.)'
 
   const instructionsC =
-    'Activate the toggle under STEP 3 to downlaod the follows of Nostrapedia authors. (Refresh this page if you continue to see "0 profiles over two hops away" after a minute or so.)'
+    'Activate the toggle under STEP 3 to download the follows of Nostrapedia authors. (Refresh this page if you continue to see "0 profiles over two hops away" after a minute or so.)'
 
   let instructionsCurrent = 'For improved performance, turn off each of the below listeners.'
 

@@ -7,7 +7,7 @@ import grapevineReducer from './features/grapevine/slice'
 import settingsReducer from './features/settings/slice'
 import twittrReducer from './features/twittr/slice'
 import conceptGraphReducer from './features/conceptGraph/slice'
-import wikifreediaReducer from './features/nostrapedia/slice'
+import nostrapediaReducer from './features/nostrapedia/slice'
 import listenerManagerReducer from './features/listenerManager/slice'
 import storage from 'redux-persist/lib/storage'
 import localforage from 'localforage'
@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
   settings: settingsReducer,
   twittr: twittrReducer,
   conceptGraph: conceptGraphReducer,
-  wikifreedia: wikifreediaReducer,
+  nostrapedia: nostrapediaReducer,
   listenerManager: listenerManagerReducer,
 })
 

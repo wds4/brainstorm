@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { CFormSelect } from '@coreui/react'
 import { useSelector } from 'react-redux'
+import { fetchFirstByTag } from 'src/helpers'
 
 // eslint-disable-next-line react/prop-types
 const ContextSelector = ({ updateSelectedContext }) => {
   const [selectedDescription, setSelectedDescription] = useState('')
   const oContexts = useSelector((state) => state.grapevine.contexts)
-  const oWikiCategories = useSelector((state) => state.nostrapedia.categories)
-  const updateCategory = (e) => {
+  const updateContext = (e) => {
     setSelectedDescription(e.target.selectedOptions[0].dataset.description)
     updateSelectedContext(e.target.value)
   }
@@ -15,16 +15,19 @@ const ContextSelector = ({ updateSelectedContext }) => {
     <>
       <CFormSelect
         onChange={(e) => {
-          updateCategory(e)
+          updateContext(e)
         }}
       >
         <option value="unselected" selected disabled data-description="">
-          select a category
+          select context
         </option>
-        {Object.keys(oWikiCategories).map((categoryName, item) => {
+        {Object.keys(oContexts).map((key) => {
+          const event = oContexts[key]
+          const name = fetchFirstByTag('name', event)
+          const description = fetchFirstByTag('description', event)
           return (
-            <option key={item} value={categoryName} description={categoryName}>
-              {categoryName}
+            <option key={key} value={key} data-description={description}>
+              {name}
             </option>
           )
         })}

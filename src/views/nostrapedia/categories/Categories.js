@@ -23,7 +23,7 @@ import { cilPencil } from '@coreui/icons'
 
 const NostrapediaCategories = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
-  const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
+  const oWikiCategories = useSelector((state) => state.nostrapedia.categories)
   const aWikiCategories = Object.keys(oWikiCategories)
 
   const dispatch = useDispatch()

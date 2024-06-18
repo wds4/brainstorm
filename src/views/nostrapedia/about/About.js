@@ -28,7 +28,7 @@ const NostrapediaAbout = () => {
             NIP-54
           </a>{' '}
           with a focus on bringing web of trust to nostr. See also{' '}
-          <a target="_blank" href="https://wikifreedia.lol" rel="noreferrer">
+          <a target="_blank" href="https://wikifreedia.xyz" rel="noreferrer">
             Wikifreedia
           </a>{' '}
           and{' '}
@@ -59,7 +59,7 @@ export default NostrapediaAbout
       Coracle
     </a>{' '}
     and{' '}
-    <a target="_blank" href="https://wikifreedia.lol" rel="noreferrer">
+    <a target="_blank" href="https://wikifreedia.xyz" rel="noreferrer">
       Wikifreedia
     </a>
     , with the caveat that Nostrapedia does not (yet) adjust the score downwards slightly

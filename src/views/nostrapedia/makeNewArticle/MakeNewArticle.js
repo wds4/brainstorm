@@ -101,14 +101,14 @@ const MakeNewWikiArticle2 = () => {
   const [showWikiPreviewButton, setShowWikiPreviewButton] = useState('hide')
   const [publishWikiButtonClassName, setPublishWikiButtonClassName] = useState('mt-3')
   const [publishAnotherWikiClassName, setPublishAnotherWikiClassName] = useState('hide')
-  const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
+  const oWikiCategories = useSelector((state) => state.nostrapedia.categories)
   const aWikiCategories = Object.keys(oWikiCategories)
   const oProfile = useSelector((state) => state.profile)
   const myPubkey = useSelector((state) => state.profile.pubkey)
 
   const [searchParams, setSearchParams] = useSearchParams()
   const naddrFromUrl = searchParams.get('naddr')
-  const oWikiArticlesByNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
+  const oWikiArticlesByNaddr = useSelector((state) => state.nostrapedia.articles.byNaddr)
 
   useEffect(() => {
     function updateFromPreviousArticle() {

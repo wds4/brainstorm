@@ -9,9 +9,9 @@ const NostrapediaHome = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)
   const dispatch = useDispatch()
 
-  const oTopics = useSelector((state) => state.wikifreedia.articles.byDTag)
-  const oCategories = useSelector((state) => state.wikifreedia.categories)
-  const oAuthors = useSelector((state) => state.wikifreedia.authors)
+  const oTopics = useSelector((state) => state.nostrapedia.articles.byDTag)
+  const oCategories = useSelector((state) => state.nostrapedia.categories)
+  const oAuthors = useSelector((state) => state.nostrapedia.authors)
   const myPubkey = useSelector((state) => state.profile.pubkey)
 
   let loggedInClassName = 'hide'

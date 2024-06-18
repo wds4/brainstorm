@@ -1,47 +1,27 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateCoracleWoT } from '../../../redux/features/profiles/slice'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import RawDataNostrEvent from './RawDataNostrEvent'
 
 const TestPage5 = () => {
-  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  const myFollows = useSelector((state) => state.profile.kind3.follows)
-  const myNpub = useSelector((state) => state.profile.npub)
-  const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
+  const oKind7Ratings_byKind7EventId = useSelector((state) => state.nostrapedia.kind7Ratings.byKind7EventId)
 
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    function calculateWoTScores() {
-      Object.keys(oProfilesByNpub).forEach((npub, item) => {
-        /*
-        let wotScore = 0
-        let refFollowers = []
-        if (oProfilesByNpub[npub] && oProfilesByNpub[npub].followers) {
-          refFollowers = oProfilesByNpub[npub].followers
-        }
-        refFollowers.forEach((refPubkey, item) => {
-          if (myFollows.includes(refPubkey)) {
-            wotScore++
-          }
-        })
-        */
-        if (item < 5000) {
-          let oData = {}
-          oData.myNpub = myNpub
-          oData.refNpub = npub
-          oData.myFollows = myFollows
-          dispatch(updateCoracleWoT(oData))
-        }
-      })
-    }
-    calculateWoTScores()
-  }, [])
   return (
     <>
       <center>
         <h3>Test Page 5</h3>
-        <div>Calculate WoT Score and store to redux store</div>
+        <div>Explore kind 7 events stored in redux store</div>
       </center>
+      <div>{Object.keys(oKind7Ratings_byKind7EventId).length} kind 7 events in redux store</div>
+      <div>
+        {Object.keys(oKind7Ratings_byKind7EventId).map((kind7EventId, item) => {
+          const oEvent = oKind7Ratings_byKind7EventId[kind7EventId]
+          return (
+            <>
+              <RawDataNostrEvent oEvent={oEvent} item={item} />
+            </>
+          )
+        })}
+      </div>
     </>
   )
 }

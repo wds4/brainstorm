@@ -24,11 +24,11 @@ import { whenTopicWasLastUpdated } from '../topic/Topic'
 import { secsToTime } from '../../../helpers'
 
 const WikiArticlesAlphabetical = () => {
-  const currentSortTopicsBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicsBy)
+  const currentSortTopicsBy = useSelector((state) => state.siteNavigation.nostrapedia.sortTopicsBy)
   const [searchField, setSearchField] = useState('')
   const [sortBy, setSortBy] = useState('numerical')
-  const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
-  const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
+  const oWikiArticles_byNaddr = useSelector((state) => state.nostrapedia.articles.byNaddr)
+  const oWikiArticles_byDTag = useSelector((state) => state.nostrapedia.articles.byDTag)
   let aTopicsRef = []
   if (Object.keys(oWikiArticles_byDTag)) {
     aTopicsRef = Object.keys(oWikiArticles_byDTag).sort()
@@ -178,6 +178,8 @@ const WikiArticlesAlphabetical = () => {
                       { label: 'reverse alphabetical', value: 'reverseAlphabetical' },
                       { label: '# of versions', value: 'numerical' },
                       { label: 'most recent', value: 'chronological' },
+                      { label: 'popularity', value: 'popularity', disabled:true }, // weighted sum of all kind 7 reactions; aka attention, reviews
+                      { label: 'controversy indicator', value: 'controversy', disabled:true }, // weighted sum of negative kind 7 reactions
                     ]}
                   ></CFormSelect>
                 </div>

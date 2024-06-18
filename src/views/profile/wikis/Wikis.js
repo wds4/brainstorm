@@ -23,9 +23,9 @@ import {
 
 const Wikis = ({ oProfile, npub, pubkey }) => {
   const [searchField, setSearchField] = useState('')
-  const oWikiArticles_byNaddr = useSelector((state) => state.wikifreedia.articles.byNaddr)
-  const oWikiArticles_byDTag = useSelector((state) => state.wikifreedia.articles.byDTag)
-  const oAuthors = useSelector((state) => state.wikifreedia.authors)
+  const oWikiArticles_byNaddr = useSelector((state) => state.nostrapedia.articles.byNaddr)
+  const oWikiArticles_byDTag = useSelector((state) => state.nostrapedia.articles.byDTag)
+  const oAuthors = useSelector((state) => state.nostrapedia.authors)
 
   let aTopicsRef = []
   if (oAuthors[pubkey]) {

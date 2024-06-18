@@ -15,8 +15,30 @@ import { signEventPGA } from 'src/helpers/signers'
 import { useSelector } from 'react-redux'
 import { useNostr } from 'nostr-react'
 import RawData from './RawData'
+///////////////
+import NDK, { NDKEvent, NDKNip07Signer } from '@nostr-dev-kit/ndk'
+import { aDefaultRelays } from 'src/const'
 
-const PublishNote = () => {
+const PublishNoteNdk = () => {
+
+  const nip07signer = new NDKNip07Signer()
+  const ndk = new NDK({ signer: nip07signer, explicitRelayUrls: aDefaultRelays })
+  nip07signer.user().then(async (user) => {
+    if (!!user.npub) {
+      console.log('Permission granted to read their public key:', user.npub)
+    }
+  })
+  const asyncConnect = async () => {
+    await ndk.connect()
+  }
+  asyncConnect()
+
+  const ndkEvent = new NDKEvent(ndk)
+  ndkEvent.kind = 1
+  ndkEvent.content = 'Web of Trust fixes this. ™️'
+  // This seems to work:
+  // ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
+
   const signedIn = useSelector((state) => state.profile.signedIn)
   const oProfile = useSelector((state) => state.profile)
   const [content, setContent] = useState('')
@@ -55,7 +77,7 @@ const PublishNote = () => {
     note.tags = []
     note.created_at = Math.floor(Date.now() / 1000)
     const note_signed = await signEventPGA(oProfile, note)
-    publish(note_signed)
+    // publish(note_signed)
     setOEvent(note_signed)
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
@@ -87,7 +109,7 @@ const PublishNote = () => {
   return (
     <>
       <center>
-        <h3>Publish kind 1 Note</h3>
+        <h3>Publish kind 1 Note: NDK (not yet working)</h3>
       </center>
       <CRow>
         <CCol xs={12}>
@@ -135,4 +157,4 @@ const PublishNote = () => {
   )
 }
 
-export default PublishNote
+export default PublishNoteNdk

@@ -4,7 +4,7 @@ export const siteNavigationSlice = createSlice({
   name: 'siteNavigation',
   initialState: {
     loginTime: 0,
-    app: 'home', // home, conceptGraph, grapevine, curatedLists, wikifreedia, twittr
+    app: 'home', // home, conceptGraph, grapevine, curatedLists, nostrapedia, twittr
     npub: '', // which npub is being viewed on the profile page
     viewContextId: '', // which context is being viewed on the view single context page; is either an event id (if kind 9902) or an naddr (if kind 39902)
     profile: { // ought to move npub here
@@ -21,7 +21,7 @@ export const siteNavigationSlice = createSlice({
       viewConceptGraph: '',
       viewConcept: '',
     },
-    wikifreedia: {
+    nostrapedia: {
       viewTopic: '', // string, human readable
       viewArticle: '', // naddr
       viewCategory: '', // human readable string
@@ -61,29 +61,29 @@ export const siteNavigationSlice = createSlice({
       state.conceptGraph.viewRelationshipType = action.payload
     },
     updateViewNostrapediaTopic: (state, action) => {
-      state.wikifreedia.viewTopic = action.payload
+      state.nostrapedia.viewTopic = action.payload
     },
     updateViewNostrapediaArticle: (state, action) => {
-      state.wikifreedia.viewArticle = action.payload
+      state.nostrapedia.viewArticle = action.payload
     },
     updateViewNostrapediaCategory: (state, action) => {
-      state.wikifreedia.viewCategory = action.payload
+      state.nostrapedia.viewCategory = action.payload
     },
     updateSortWikiTopicsBy: (state, action) => {
-      state.wikifreedia.sortTopicsBy = action.payload
+      state.nostrapedia.sortTopicsBy = action.payload
     },
     updateSortTopicBy: (state, action) => {
-      state.wikifreedia.sortTopicBy = action.payload
+      state.nostrapedia.sortTopicBy = action.payload
     },
     updateSortWikiAuthorsBy: (state, action) => {
-      state.wikifreedia.sortAuthorsBy = action.payload
+      state.nostrapedia.sortAuthorsBy = action.payload
     },
     wipeSiteNavigation: (state, action) => {
       console.log('wipeSiteNavigation ... currently inactive')
       // state.siteNavigation = {}
       state.siteNavigation = {
         loginTime: 0,
-        app: 'home', // home, conceptGraph, grapevine, curatedLists, wikifreedia, twittr
+        app: 'home', // home, conceptGraph, grapevine, curatedLists, nostrapedia, twittr
         npub: '', // which npub is being viewed on the profile page
         viewContextId: '', // which context is being viewed on the view single context page; is either an event id (if kind 9902) or an naddr (if kind 39902)
         profile: { // ought to move npub here
@@ -100,7 +100,7 @@ export const siteNavigationSlice = createSlice({
           viewConceptGraph: '',
           viewConcept: '',
         },
-        wikifreedia: {
+        nostrapedia: {
           viewTopic: '', // string, human readable
           viewArticle: '', // naddr
           viewCategory: '', // human readable string

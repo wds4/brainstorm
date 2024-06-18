@@ -19,7 +19,7 @@ import { useSelector } from 'react-redux'
 import { nip19 } from 'nostr-tools'
 import { useNostr } from 'nostr-react'
 import ContextSelector from './contextSelector'
-import { cilFire, cilStar, cilThumbDown, cilThumbUp } from '@coreui/icons'
+import { cilThumbDown, cilThumbUp } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const ShowExistingAttestation = ({
@@ -119,7 +119,6 @@ async function makeWord(
   }
   const contextEvent = oContexts[selectedContext]
   let contextName = fetchFirstByTag('name', contextEvent)
-  contextName = selectedContext
   if (selectedContext == 'unselected') {
     contextName = ''
   }
@@ -144,8 +143,15 @@ async function makeWord(
         pubkey: pubkey,
         npub: rateeNpub,
       },
-      context: contextName,
       score: score,
+      confidence: confidence,
+      comments: comments,
+      context: {
+        eventId: contextEvent?.id,
+        naddr: contextNaddr,
+        name: contextName,
+        transitive: transitive,
+      },
     },
   }
   if (contextEvent && contextEvent.kind >= 30000 && contextEvent.kind < 40000) {
@@ -163,7 +169,9 @@ async function makeWord(
     ['d', pubkey + '/' + selectedContext],
     ['p', pubkey],
     ['c', selectedContext],
+    ['transitive', transitive],
     ['score', score],
+    ['confidence', confidence],
   ]
   oEvent.tags = tags
   oEvent.created_at = Math.floor(Date.now() / 1000)
@@ -191,7 +199,6 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
 
   const [endorseButtonColor, setEndorseButtonColor] = useState('secondary')
   const [blockButtonColor, setBlockButtonColor] = useState('secondary')
-  const [superfollowButtonColor, setSuperfollowButtonColor] = useState('secondary')
   const [isTransitive, setIsTransitive] = useState(true)
 
   const { publish } = useNostr()
@@ -305,27 +312,18 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
     },
     [score, confidence, selectedContext, comments, transitivity],
   )
-  // 🔥 👎 👍 🚀 ⭐
   const processEndorseButtonClick = useCallback(async () => {
-    updateScore('👍')
+    updateScore('100')
     setEndorseButtonColor('success')
     setBlockButtonColor('secondary')
-    setSuperfollowButtonColor('secondary')
   }, [score, confidence, selectedContext, comments])
   const processBlockButtonClick = useCallback(async () => {
-    updateScore('👎')
+    updateScore('0')
     setEndorseButtonColor('secondary')
     setBlockButtonColor('danger')
-    setSuperfollowButtonColor('secondary')
-  }, [score, confidence, selectedContext, comments])
-  const processSuperfollowButtonClick = useCallback(async () => {
-    updateScore('🔥')
-    setEndorseButtonColor('secondary')
-    setBlockButtonColor('secondary')
-    setSuperfollowButtonColor('primary')
   }, [score, confidence, selectedContext, comments])
   let isSubmitAttestationButtonDisabled = true
-  if (selectedContext && score) {
+  if (selectedContext && (score == '0' || score == '100')) {
     isSubmitAttestationButtonDisabled = false
   }
   return (
@@ -333,39 +331,44 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>Category-specific</strong>
+            <strong>Leave a Trust Attestation for this user.</strong>
           </CCardHeader>
           <CCardBody>
             <CForm>
               <div className="d-grid gap-2 col-12  mx-auto">
                 <ContextSelector updateSelectedContext={updateSelectedContext} />
-
-                <CPopover
-                  content="better than follow"
-                  placement="right"
-                  trigger={['hover', 'focus']}
-                >
-                  <CButton
-                    type="button"
-                    color={superfollowButtonColor}
-                    onClick={processSuperfollowButtonClick}
-                  >
-                    🔥
-                  </CButton>
-                </CPopover>
-
                 <CButton
                   type="button"
                   color={endorseButtonColor}
                   onClick={processEndorseButtonClick}
                 >
-                  👍
+                  <CIcon icon={cilThumbUp} /> Endorse
                 </CButton>
-
                 <CButton type="button" color={blockButtonColor} onClick={processBlockButtonClick}>
-                  👎
+                  <CIcon icon={cilThumbDown} /> Block
                 </CButton>
-
+                <CPopover
+                  content="Transitivity indicates whether your trust attestation includes trust in this user to leave trust attestations to other users in this same context."
+                  placement="right"
+                  trigger={['hover', 'focus']}
+                >
+                  <span className="d-inline-block" tabIndex={0}>
+                    <CFormSwitch
+                      size="xl"
+                      onChange={(e) => toggleTransitivity(e)}
+                      label="Transitive"
+                      checked={isTransitive}
+                    />
+                  </span>
+                </CPopover>
+                <CFormTextarea
+                  type="text"
+                  id="comments"
+                  rows={3}
+                  placeholder="leave comments (optional)"
+                  value={comments}
+                  onChange={handleCommentsChange}
+                />
                 <CButton
                   color="primary"
                   className={submitEventButtonClassName}

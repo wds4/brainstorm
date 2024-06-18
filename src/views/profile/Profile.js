@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CButton, CNavLink, CRow } from '@coreui/react'
 import TabsNavigation from './tabsNavigation'
-import ContextualFollowBlockButtons from './contextualFollowBlockButtons/contextualFollowBlockButtons'
+// import ContextualFollowBlockButtons from './contextualFollowBlockButtons/contextualFollowBlockButtons'
+import ContextualAttestation from './contextualAttestation/contextualAttestation'
 import CIcon from '@coreui/icons-react'
 import { cilClone } from '@coreui/icons'
 import { getPubkeyFromNpub } from '../../helpers/nip19'
@@ -269,7 +270,7 @@ const Profile = () => {
               </div>
             </div>
             <div className={currentDevelopmentMode} style={{ marginTop: '10px' }}>
-              <ContextualFollowBlockButtons rateeNpub={npub} />
+              <ContextualAttestation rateeNpub={npub} />
             </div>
           </div>
         </div>

@@ -17,7 +17,7 @@ const ListenerOn = () => {
   const myNpub = nip19.npubEncode(myPubkey)
   const dispatch = useDispatch()
 
-  const oAuthors = useSelector((state) => state.wikifreedia.authors)
+  const oAuthors = useSelector((state) => state.nostrapedia.authors)
   const aAuthors = Object.keys(oAuthors)
 
   const filter = {
