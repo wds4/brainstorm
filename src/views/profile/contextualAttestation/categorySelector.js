@@ -7,7 +7,7 @@ import { fetchFirstByTag } from 'src/helpers'
 const ContextSelector = ({ updateSelectedContext }) => {
   const [selectedDescription, setSelectedDescription] = useState('')
   const oContexts = useSelector((state) => state.grapevine.contexts)
-  const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
+  const oWikiCategories = useSelector((state) => state.nostrapedia.categories)
   const updateContext = (e) => {
     setSelectedDescription(e.target.selectedOptions[0].dataset.description)
     updateSelectedContext(e.target.value)

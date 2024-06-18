@@ -42,3 +42,23 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.profileAvatarContainerTiny {
+  display:inline-block;
+  position:relative;
+  width:30px;
+  height:30px;
+}
+.profileAvatarTiny {
+  display:inline-block;
+  background-color:blue;
+  border:1px solid black;
+  border-radius:30px;
+  width:95%;
+  height:95%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -2,9 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 import { nip19 } from 'nostr-tools'
 import { fetchFirstByTag } from 'src/helpers'
 
-export const wikifreediaSlice = createSlice({
-  name: 'wikifreedia',
+export const nostrapediaSlice = createSlice({
+  name: 'nostrapedia',
   initialState: {
+    kind7Ratings: {
+      byKind7EventId: {},
+      byArticleEventId: {},
+    }, // likes and dislikes
     articles: {
       byEventId: {}, // used as a lookup to avoid repeat processing of the same event multiple times
       byNaddr: {},
@@ -77,7 +81,54 @@ export const wikifreediaSlice = createSlice({
       const oEvent = action.payload.oEvent
       state.categories[oEvent.id] = oEvent
     },
+    addKind7Rating: (state, action) => {
+      const oEvent = action.payload
+      if (!state.kind7Ratings) {
+        state.kind7Ratings = {}
+        state.kind7Ratings.byKind7EventId = {}
+        state.kind7Ratings.byArticleEventId = {}
+      }
+      if (!state.kind7Ratings.byKind7EventId[oEvent.id]) {
+        state.kind7Ratings.byKind7EventId[oEvent.id] = oEvent
+        const content = oEvent.content
+        const tag_a = fetchFirstByTag('a', oEvent)
+        const tag_e = fetchFirstByTag('e', oEvent)
+        const tag_p = fetchFirstByTag('p', oEvent)
+        const tag_client = fetchFirstByTag('client', oEvent)
+        if (!state.kind7Ratings.byArticleEventId[tag_e]) {
+          state.kind7Ratings.byArticleEventId[tag_e] = {}
+          state.kind7Ratings.byArticleEventId[tag_e].likes = []
+          state.kind7Ratings.byArticleEventId[tag_e].dislikes = []
+        }
+        if (content == '+') {
+          if (!state.kind7Ratings.byArticleEventId[tag_e].likes.includes(oEvent.id)) {
+            state.kind7Ratings.byArticleEventId[tag_e].likes.push(oEvent.id)
+          }
+        }
+        if (content == '-') {
+          if (!state.kind7Ratings.byArticleEventId[tag_e].dislikes.includes(oEvent.id)) {
+            state.kind7Ratings.byArticleEventId[tag_e].dislikes.push(oEvent.id)
+          }
+        }
+      }
+      /*
+      kind7Ratings: {
+        byKind7EventId: {
+          <kind7EventId>: oEvent
+        },
+        byArticleEventId: {
+          <articleEventId>: {
+            likes: [<kind7EventId1>, <kind7EventId2>, ...],
+            dislikes: [<kind7EventId1>, <kind7EventId2>, ...],
+          }
+        },
+      }
+      */
+    },
     wipeNostrapedia: (state, action) => {
+      state.kind7Ratings = {}
+      state.kind7Ratings.byKind7EventId = {}
+      state.kind7Ratings.byArticleEventId = {}
       state.articles = {}
       state.articles.byEventId = {}
       state.articles.byNaddr = {}
@@ -88,6 +139,6 @@ export const wikifreediaSlice = createSlice({
   },
 })
 
-export const { addArticle, addCategory, wipeNostrapedia } = wikifreediaSlice.actions
+export const { addArticle, addCategory, addKind7Rating, wipeNostrapedia } = nostrapediaSlice.actions
 
-export default wikifreediaSlice.reducer
+export default nostrapediaSlice.reducer

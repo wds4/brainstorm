@@ -2,17 +2,16 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
-import { addArticle } from '../../redux/features/nostrapedia/slice'
+import { addArticle, addKind7Rating } from '../../redux/features/nostrapedia/slice'
 import { makeEventSerializable } from '..'
 import { addNewPubkey } from '../../redux/features/profiles/slice'
 
-const WikiLikesListenerMain = ({ eventId }) => {
-  const oArticles = useSelector((state) => state.wikifreedia.articles.byEventId)
+const WikiLikesListenerMain = () => {
+  const oArticles = useSelector((state) => state.nostrapedia.articles.byEventId)
   let aArticleIds = []
   if (oArticles) {
     aArticleIds = Object.keys(oArticles)
   }
-  const myPubkey = useSelector((state) => state.profile.pubkey)
   const dispatch = useDispatch()
 
   const filter = {
@@ -25,15 +24,14 @@ const WikiLikesListenerMain = ({ eventId }) => {
   useEffect(() => {
     async function updateWikiDatabase() {
       const events = await fetchEvents(filter)
-
       events.forEach((eventNS, item) => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
             const pubkey = event.pubkey
-            console.log('WikiLikesListenerMain; event: ' + JSON.stringify(event, null, 4))
-            // dispatch(addNewPubkey(pubkey))
-            // dispatch(addArticle(event))
+            // console.log('WikiLikesListenerMain; event: ' + JSON.stringify(event, null, 4))
+            dispatch(addNewPubkey(pubkey))
+            dispatch(addKind7Rating(event))
           }
         } catch (e) {
           console.log('updateWikiLikesDatabase error: ' + e)
@@ -43,6 +41,8 @@ const WikiLikesListenerMain = ({ eventId }) => {
     updateWikiDatabase()
   }, [fetchEvents(filter)])
 
+  return <></>
+
   return (
     <>
       <div>Wiki Likes Listener</div>
@@ -51,7 +51,7 @@ const WikiLikesListenerMain = ({ eventId }) => {
   )
 }
 
-const WikiLikesListener = ({ eventId }) => {
+const WikiLikesListener = () => {
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod == 'off') {
     return <></>
@@ -60,7 +60,7 @@ const WikiLikesListener = ({ eventId }) => {
     return <></>
   }
   if (listenerMethod == 'individualListeners') {
-    return <WikiLikesListenerMain eventId={eventId} />
+    return <WikiLikesListenerMain />
   }
   return <></>
 }

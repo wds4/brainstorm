@@ -16,6 +16,7 @@ import {
   CButton,
   CNavLink,
   CFormSelect,
+  CPopover,
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ListEvent } from './ListEvent'
@@ -39,6 +40,7 @@ import { ShowAuthorImageOnly } from '../components/ShowAuthorImageOnly'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
 import CIcon from '@coreui/icons-react'
 import { cilInfo } from '@coreui/icons'
+import { returnKind7Results } from '../../../helpers/nostrapedia'
 
 export const whenTopicWasLastUpdated = (oEvents, oTopicSlugs, topicSlug) => {
   if (!topicSlug) {
@@ -78,15 +80,17 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
 }
 
 const WikiTopic = () => {
+  const oNostrapedia = useSelector((state) => state.nostrapedia)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  const currentSortTopicBy = useSelector((state) => state.siteNavigation.wikifreedia.sortTopicBy)
-  const [sortBy, setSortBy] = useState('category')
+  const currentSortTopicBy = useSelector((state) => state.siteNavigation.nostrapedia.sortTopicBy)
+  // const [sortBy, setSortBy] = useState('category')
+  const [sortBy, setSortBy] = useState(currentSortTopicBy)
   const signedIn = useSelector((state) => state.profile.signedIn)
   const [searchParams, setSearchParams] = useSearchParams()
-  const viewTopic = useSelector((state) => state.siteNavigation.wikifreedia.viewTopic)
+  const viewTopic = useSelector((state) => state.siteNavigation.nostrapedia.viewTopic)
   const [topicSlug, setTopicSlug] = useState(viewTopic)
-  const oTopicSlugs = useSelector((state) => state.wikifreedia.articles.byDTag)
-  const oEvents = useSelector((state) => state.wikifreedia.articles.byNaddr)
+  const oTopicSlugs = useSelector((state) => state.nostrapedia.articles.byDTag)
+  const oEvents = useSelector((state) => state.nostrapedia.articles.byNaddr)
   let oAuthors = {}
   let aAuthorsRef = []
   if (oTopicSlugs[topicSlug]) {
@@ -138,6 +142,10 @@ const WikiTopic = () => {
   const [coracleWotScoreColumnClassName, setCoracleWotScoreColumnClassName] = useState('show') // show or hide
   const [influenceScoreColumnClassName, setInfluenceScoreColumnClassName] = useState('show') // show or hide
   const [categoryColumnClassName, setCategoryColumnClassName] = useState('show') // show or hide
+  const [articleNumberOfLikesColumnClassName, setArticleNumberOfLikesColumnClassName] =
+    useState('show') // show or hide
+  const [articleWeightOfLikesColumnClassName, setArticleWeightOfLikesColumnClassName] =
+    useState('show') // show or hide
 
   const dispatch = useDispatch()
 
@@ -160,7 +168,44 @@ const WikiTopic = () => {
     return oWotScoresLookup
   }
 
+  const calculateNumLikesMinusDislikes = () => {
+    const oNumLikesMinusDislikes = {}
+    aAuthorsRef.forEach((pk) => {
+      const naddr = oAuthors[pk]
+      const oEvent = oEvents[naddr]
+      const articleEventId = oEvent.id
+      const { numLikes, numDislikes, weightLikes, weightDislikes } = returnKind7Results(
+        oNostrapedia,
+        articleEventId,
+        oProfilesByNpub,
+      )
+      const numLikesMinusDislikes = numLikes - numDislikes
+      oNumLikesMinusDislikes[pk] = numLikesMinusDislikes
+    })
+    return oNumLikesMinusDislikes
+  }
+
+  const calculateWeightLikesMinusDislikes = () => {
+    const oWeightLikesMinusDislikes = {}
+    aAuthorsRef.forEach((pk) => {
+      const naddr = oAuthors[pk]
+      const oEvent = oEvents[naddr]
+      const articleEventId = oEvent.id
+      const { numLikes, numDislikes, weightLikes, weightDislikes } = returnKind7Results(
+        oNostrapedia,
+        articleEventId,
+        oProfilesByNpub,
+      )
+      const weightLikesMinusDislikes = weightLikes - weightDislikes
+      oWeightLikesMinusDislikes[pk] = weightLikesMinusDislikes
+    })
+    return oWeightLikesMinusDislikes
+  }
+
   const coracleWotScore = calculateWotScores()
+
+  const numberOfLikesMinusDislikes = calculateNumLikesMinusDislikes()
+  const weightOfLikesMinusDislikes = calculateWeightLikesMinusDislikes()
 
   let showVersions = 'There are ' + aAuthorsRef.length + ' versions of this article.'
   if (aAuthorsRef.length == 1) {
@@ -192,6 +237,8 @@ const WikiTopic = () => {
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('hide')
         setCategoryColumnClassName('hide')
+        setArticleNumberOfLikesColumnClassName('hide')
+        setArticleWeightOfLikesColumnClassName('hide')
         return arraySorted
       }
       if (sortByMethod == 'wotScore') {
@@ -218,6 +265,8 @@ const WikiTopic = () => {
         setCoracleWotScoreColumnClassName('show')
         setInfluenceScoreColumnClassName('hide')
         setCategoryColumnClassName('hide')
+        setArticleNumberOfLikesColumnClassName('hide')
+        setArticleWeightOfLikesColumnClassName('hide')
         return arraySorted
       }
       if (sortByMethod == 'degreesOfSeparation') {
@@ -241,14 +290,16 @@ const WikiTopic = () => {
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('hide')
         setCategoryColumnClassName('hide')
+        setArticleNumberOfLikesColumnClassName('hide')
+        setArticleWeightOfLikesColumnClassName('hide')
         const arraySorted = aAuthorsRef.sort((a, b) => {
-          const fooA = Number(
+          const dosScoreA = Number(
             getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores.degreesOfSeparation,
           )
-          const fooB = Number(
+          const dosScoreB = Number(
             getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores.degreesOfSeparation,
           )
-          return fooA - fooB
+          return dosScoreA - dosScoreB
         })
         return arraySorted
       }
@@ -274,12 +325,14 @@ const WikiTopic = () => {
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('show')
         setCategoryColumnClassName('hide')
+        setArticleNumberOfLikesColumnClassName('hide')
+        setArticleWeightOfLikesColumnClassName('hide')
         const arraySorted = aAuthorsRef.sort((a, b) => {
-          const fooB = getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores
+          const influenceScoreB = getProfileBrainstormFromPubkey(b, oProfilesByNpub).wotScores
             .baselineInfluence.influence
-          const fooA = getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores
+          const influenceScoreA = getProfileBrainstormFromPubkey(a, oProfilesByNpub).wotScores
             .baselineInfluence.influence
-          const diff = Math.round(10000 * fooB) - Math.round(10000 * fooA)
+          const diff = Math.round(10000 * influenceScoreB) - Math.round(10000 * influenceScoreA)
           return diff
         })
         return arraySorted
@@ -291,7 +344,40 @@ const WikiTopic = () => {
         setCoracleWotScoreColumnClassName('hide')
         setInfluenceScoreColumnClassName('hide')
         setCategoryColumnClassName('show)')
+        setArticleNumberOfLikesColumnClassName('hide')
+        setArticleWeightOfLikesColumnClassName('hide')
         const arraySorted = JSON.parse(JSON.stringify(aAuthorsRef))
+        return arraySorted
+      }
+
+      if (sortByMethod == 'articleNumberOfLikes') {
+        // make a function: numberOfLikesMinusDislikes[a] which will call and make use of this function:
+        // const { numLikes, numDislikes, weightLikes, weightDislikes } = returnKind7Results(oNostrapedia, articleEventId, oProfilesByNpub)
+        const arraySorted = aAuthorsRef.sort(
+          (a, b) => numberOfLikesMinusDislikes[b] - numberOfLikesMinusDislikes[a],
+        )
+        // const arraySorted = JSON.parse(JSON.stringify(aAuthorsRef))
+        setLastUpdateColumnClassName('hide')
+        setDosScoreColumnClassName('hide')
+        setCoracleWotScoreColumnClassName('hide')
+        setInfluenceScoreColumnClassName('hide')
+        setCategoryColumnClassName('hide')
+        setArticleNumberOfLikesColumnClassName('show')
+        setArticleWeightOfLikesColumnClassName('hide')
+        return arraySorted
+      }
+      if (sortByMethod == 'articleWeightOfLikes') {
+        // const arraySorted = aAuthorsRef.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
+        const arraySorted = aAuthorsRef.sort(
+          (a, b) => weightOfLikesMinusDislikes[b] - weightOfLikesMinusDislikes[a],
+        )
+        setLastUpdateColumnClassName('hide')
+        setDosScoreColumnClassName('hide')
+        setCoracleWotScoreColumnClassName('hide')
+        setInfluenceScoreColumnClassName('hide')
+        setCategoryColumnClassName('hide')
+        setArticleNumberOfLikesColumnClassName('hide')
+        setArticleWeightOfLikesColumnClassName('show')
         return arraySorted
       }
     },
@@ -338,12 +424,12 @@ const WikiTopic = () => {
   const aOptions = [
     { label: 'category', value: 'category' },
     { label: 'most recent', value: 'chronological' },
-    { label: 'degrees of separation', value: 'degreesOfSeparation' },
-    { label: 'WoT score', value: 'wotScore' },
-    { label: 'Influence Score', value: 'influenceScore' },
+    { label: 'author: degrees of separation', value: 'degreesOfSeparation' },
+    { label: 'author: WoT score', value: 'wotScore' },
+    { label: 'author: Influence Score', value: 'influenceScore' },
   ]
   aCategories.forEach((cat, item) => {
-    const label = 'Influence Score (for category: ' + cat + ')'
+    const label = 'author: Influence Score (for category: ' + cat + ')'
     const oEntry = {
       label,
       value: 'influenceScoreByCategory',
@@ -351,6 +437,8 @@ const WikiTopic = () => {
     }
     aOptions.push(oEntry)
   })
+  aOptions.push({ label: 'Reaction Score', value: 'articleNumberOfLikes' })
+  aOptions.push({ label: 'Weighted Reaction Score', value: 'articleWeightOfLikes' })
 
   const oMyProfile = oProfilesByNpub[myNpub]
   let aOneHop = []
@@ -389,6 +477,9 @@ const WikiTopic = () => {
       }
     }
   })
+
+  // const articleNumberOfLikes = 0
+  const articleWeightOfLikes = 0
 
   return (
     <>
@@ -688,6 +779,38 @@ const WikiTopic = () => {
                     >
                       category
                     </CTableHeaderCell>
+                    <CTableHeaderCell
+                      scope="col"
+                      style={{ textAlign: 'center' }}
+                      className={articleNumberOfLikesColumnClassName}
+                    >
+                      Reaction Score
+                      <span style={{ color: 'grey', marginLeft: '5px' }}>
+                        <CPopover
+                          content="number of likes minus number of dislikes"
+                          placement="left"
+                          trigger={['hover', 'focus']}
+                        >
+                          <CIcon icon={cilInfo} size="lg" />
+                        </CPopover>
+                      </span>
+                    </CTableHeaderCell>
+                    <CTableHeaderCell
+                      scope="col"
+                      style={{ textAlign: 'center' }}
+                      className={articleWeightOfLikesColumnClassName}
+                    >
+                      Weighted Reaction Score
+                      <span style={{ color: 'grey', marginLeft: '5px' }}>
+                        <CPopover
+                          content="the Weighted Reaction Score: likes minus dislikes, each of which is weighted by the Influence Score of the reactor"
+                          placement="left"
+                          trigger={['hover', 'focus']}
+                        >
+                          <CIcon icon={cilInfo} size="lg" />
+                        </CPopover>
+                      </span>
+                    </CTableHeaderCell>
                     <CTableHeaderCell scope="col" style={{ textAlign: 'center' }}>
                       link
                     </CTableHeaderCell>
@@ -702,6 +825,9 @@ const WikiTopic = () => {
                     if (!oEvent || !validateEvent(oEvent)) {
                       return <></>
                     }
+                    const articleEventId = oEvent.id
+                    const { numLikes, numDislikes, weightLikes, weightDislikes } =
+                      returnKind7Results(oNostrapedia, articleEventId, oProfilesByNpub)
                     let category = fetchFirstByTag('c', oEvent)
                     if (!category) {
                       category = ''
@@ -751,6 +877,19 @@ const WikiTopic = () => {
                           className={categoryColumnClassName}
                         >
                           {category}
+                        </CTableDataCell>
+
+                        <CTableDataCell
+                          style={{ textAlign: 'center' }}
+                          className={articleNumberOfLikesColumnClassName}
+                        >
+                          {numLikes - numDislikes}
+                        </CTableDataCell>
+                        <CTableDataCell
+                          style={{ textAlign: 'center' }}
+                          className={articleWeightOfLikesColumnClassName}
+                        >
+                          {(weightLikes - weightDislikes).toPrecision(4)}
                         </CTableDataCell>
                         <CTableDataCell style={{ textAlign: 'center' }}>
                           <CButton color="primary">

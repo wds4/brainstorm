@@ -18,9 +18,9 @@ import { updateViewNostrapediaTopic } from '../../../redux/features/siteNavigati
 
 const WikiCategory = () => {
   // const [aTopics, setATopics] = useState([])
-  const oEvents = useSelector((state) => state.wikifreedia.articles.byNaddr)
-  const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
-  const categoryName = useSelector((state) => state.siteNavigation.wikifreedia.viewCategory)
+  const oEvents = useSelector((state) => state.nostrapedia.articles.byNaddr)
+  const oWikiCategories = useSelector((state) => state.nostrapedia.categories)
+  const categoryName = useSelector((state) => state.siteNavigation.nostrapedia.viewCategory)
   const oTopics = oWikiCategories[categoryName]
   let aTopics = []
   if (oTopics) {

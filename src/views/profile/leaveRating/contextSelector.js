@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 const ContextSelector = ({ updateSelectedContext }) => {
   const [selectedDescription, setSelectedDescription] = useState('')
   const oContexts = useSelector((state) => state.grapevine.contexts)
-  const oWikiCategories = useSelector((state) => state.wikifreedia.categories)
+  const oWikiCategories = useSelector((state) => state.nostrapedia.categories)
   const updateCategory = (e) => {
     setSelectedDescription(e.target.selectedOptions[0].dataset.description)
     updateSelectedContext(e.target.value)

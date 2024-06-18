@@ -209,7 +209,7 @@ const RunningListener = ({ oListenerManager }) => {
 
 const StatusReports = ({ oListenerManager }) => {
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
-  const oWikisByEventId = useSelector((state) => state.wikifreedia.articles.byEventId)
+  const oWikisByEventId = useSelector((state) => state.nostrapedia.articles.byEventId)
   const oTweets = useSelector((state) => state.twittr.mainFeed.events)
   const siteNavApp = useSelector((state) => state.siteNavigation.app)
   const oWordsByCid = useSelector((state) => state.conceptGraph.words)

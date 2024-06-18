@@ -14,6 +14,7 @@ import MyProfileListener from '../helpers/profilesListeners/myProfileListener'
 import MeAndMyFollowsListener from '../helpers/profilesListeners/meAndMyFollowsListener'
 import AllProfilesListener from '../helpers/profilesListeners/allProfilesListener'
 import WikiAuthorsListener from '../helpers/profilesListeners/wikiAuthorsListener'
+import WikiLikesListener from '../helpers/listeners/WikiLikesListener'
 
 const DefaultLayout = () => {
   const dispatch = useDispatch()
@@ -55,6 +56,7 @@ const DefaultLayout = () => {
           <MeAndMyFollowsListener />
           <AllProfilesListener />
           <WikiAuthorsListener />
+          <WikiLikesListener />
           <div className="body flex-grow-1">
             <AppContent />
           </div>

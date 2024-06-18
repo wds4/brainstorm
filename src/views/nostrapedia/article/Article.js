@@ -9,6 +9,7 @@ import {
   CButton,
   CNavLink,
   CPopover,
+  CContainer,
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import Markdown from 'react-markdown'
@@ -18,9 +19,10 @@ import { processWikiMarkdownLinks } from 'src/helpers/contentFilters'
 import { ShowAuthor } from '../components/ShowAuthor'
 import { nip19 } from 'nostr-tools'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
+import { ShowTinyAuthorBrainstormProfileImageOnly } from '../components/ShowTinyAuthorBrainstormProfileImageOnly'
 import CIcon from '@coreui/icons-react'
-import { cilInfo } from '@coreui/icons'
-import WikiLikesListener from '../../../helpers/listeners/WikiLikesListener'
+import { cilFire, cilInfo, cilThumbDown, cilThumbUp } from '@coreui/icons'
+import { returnKind7Results } from '../../../helpers/nostrapedia'
 
 const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   if (showRawDataButton == 'hide') {
@@ -42,35 +44,82 @@ const RawData = ({ showRawDataButton, oEvent, naddr }) => {
 }
 
 const ThreeOptionsRating = () => {
-  const [muteButtonColor, setMuteButtonColor] = useState('secondary')
-  const [followButtonColor, setFollowButtonColor] = useState('secondary')
-  const [superfollowButtonColor, setSuperfollowButtonColor] = useState('secondary')
+  const [muteButtonColor, setMuteButtonColor] = useState('light')
+  const [followButtonColor, setFollowButtonColor] = useState('light')
+  const [superfollowButtonColor, setSuperfollowButtonColor] = useState('light')
 
   const processMuteButtonClick = useCallback(async () => {
     // updateScore('0')
-    setFollowButtonColor('secondary')
+    setFollowButtonColor('light')
     setMuteButtonColor('danger')
-    setSuperfollowButtonColor('secondary')
+    setSuperfollowButtonColor('light')
   }, [])
   const processFollowButtonClick = useCallback(async () => {
     // updateScore('100')
     setFollowButtonColor('success')
-    setMuteButtonColor('secondary')
-    setSuperfollowButtonColor('secondary')
-    console.log('processFollowButtonClick B')
+    setMuteButtonColor('light')
+    setSuperfollowButtonColor('light')
   }, [])
 
   const processSuperfollowButtonClick = useCallback(async () => {
     // updateScore('0')
-    setFollowButtonColor('secondary')
-    setMuteButtonColor('secondary')
+    setFollowButtonColor('light')
+    setMuteButtonColor('light')
     setSuperfollowButtonColor('primary')
   }, [])
+
+  const MuteButton = ({ muteButtonColor }) => {
+    if (muteButtonColor == 'light') {
+      return (
+        <>
+          <CIcon icon={cilThumbDown} size="lg" />
+        </>
+      )
+    }
+    if (muteButtonColor == 'danger') {
+      return <>👎</>
+    }
+    return <></>
+  }
+
+  const FollowButton = ({ followButtonColor }) => {
+    if (followButtonColor == 'light') {
+      return (
+        <>
+          <CIcon icon={cilThumbUp} size="lg" />
+        </>
+      )
+    }
+    if (followButtonColor == 'success') {
+      return <>👍</>
+    }
+    return <></>
+  }
+
+  const SuperfollowButton = ({ superfollowButtonColor }) => {
+    if (superfollowButtonColor == 'light') {
+      return (
+        <>
+          <CIcon icon={cilFire} size="lg" />
+        </>
+      )
+    }
+    if (superfollowButtonColor == 'primary') {
+      return <>🔥</>
+    }
+    return <></>
+  }
   return (
     <>
-      <div style={{ textAlign: 'center' }}>
-        <CButton type="button" color={muteButtonColor} onClick={processMuteButtonClick}>
-          👎
+      <div>
+        <span>Do you like this article? </span>
+        <CButton
+          id="muteButtonElem"
+          type="button"
+          color={muteButtonColor}
+          onClick={processMuteButtonClick}
+        >
+          <MuteButton muteButtonColor={muteButtonColor} />
         </CButton>
         <CButton
           type="button"
@@ -78,7 +127,7 @@ const ThreeOptionsRating = () => {
           onClick={processFollowButtonClick}
           style={{ marginLeft: '5px' }}
         >
-          👍
+          <FollowButton followButtonColor={followButtonColor} />
         </CButton>
         <CButton
           type="button"
@@ -86,7 +135,7 @@ const ThreeOptionsRating = () => {
           onClick={processSuperfollowButtonClick}
           style={{ marginLeft: '5px' }}
         >
-          🔥
+          <SuperfollowButton superfollowButtonColor={superfollowButtonColor} />
         </CButton>
         <span style={{ color: 'grey', marginLeft: '5px' }}>
           <CPopover
@@ -97,6 +146,97 @@ const ThreeOptionsRating = () => {
             <CIcon icon={cilInfo} size="lg" />
           </CPopover>
         </span>
+      </div>
+    </>
+  )
+}
+
+const TwoOptionsRating = () => {
+  const [muteButtonColor, setMuteButtonColor] = useState('light')
+  const [followButtonColor, setFollowButtonColor] = useState('light')
+
+  const processMuteButtonClick = useCallback(async () => {
+    if (muteButtonColor == 'danger') {
+      setFollowButtonColor('light')
+      setMuteButtonColor('light')
+    }
+    if (muteButtonColor == 'light') {
+      setFollowButtonColor('light')
+      setMuteButtonColor('danger')
+    }
+  }, [muteButtonColor])
+  const processFollowButtonClick = useCallback(async () => {
+    if (followButtonColor == 'success') {
+      setFollowButtonColor('light')
+      setMuteButtonColor('light')
+    }
+    if (followButtonColor == 'light') {
+      setFollowButtonColor('success')
+      setMuteButtonColor('light')
+    }
+  }, [followButtonColor])
+
+  const MuteButton = ({ muteButtonColor }) => {
+    if (muteButtonColor == 'light') {
+      return (
+        <>
+          <CIcon icon={cilThumbDown} size="lg" />
+        </>
+      )
+    }
+    if (muteButtonColor == 'danger') {
+      return <>👎</>
+    }
+    return <></>
+  }
+
+  const FollowButton = ({ followButtonColor }) => {
+    if (followButtonColor == 'light') {
+      return (
+        <>
+          <CIcon icon={cilThumbUp} size="lg" />
+        </>
+      )
+    }
+    if (followButtonColor == 'success') {
+      return <>👍</>
+    }
+    return <></>
+  }
+
+  const SuperfollowButton = ({ superfollowButtonColor }) => {
+    if (superfollowButtonColor == 'light') {
+      return (
+        <>
+          <CIcon icon={cilFire} size="lg" />
+        </>
+      )
+    }
+    if (superfollowButtonColor == 'primary') {
+      return <>🔥</>
+    }
+    return <></>
+  }
+  return (
+    <>
+      <div>
+        <span>Do you like this article? </span>
+        <CButton
+          id="muteButtonElem"
+          type="button"
+          color={muteButtonColor}
+          onClick={processMuteButtonClick}
+        >
+          <MuteButton muteButtonColor={muteButtonColor} />
+        </CButton>
+        <CButton
+          type="button"
+          color={followButtonColor}
+          onClick={processFollowButtonClick}
+          style={{ marginLeft: '5px' }}
+        >
+          <FollowButton followButtonColor={followButtonColor} />
+        </CButton>
       </div>
     </>
   )
@@ -114,8 +254,57 @@ const DisplayCategory = ({ oEvent }) => {
           <span style={{ color: 'grey' }}>category: </span>
           <span style={{ marginLeft: '5px' }}>{category}</span>
         </div>
-        <div style={{ textAlign: 'center' }}>
-          <ThreeOptionsRating />
+      </div>
+    </>
+  )
+}
+
+const ReactionPanel = ({ oKind7Results }) => {
+  return (
+    <>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '30px',
+          alignItems: 'center',
+        }}
+      >
+        <div className="col-auto">
+          <span style={{ marginRight: '5px', fontSize: '24px', color: '#6261cc' }}>
+            {(oKind7Results.weightLikes - oKind7Results.weightDislikes).toPrecision(4)}
+          </span>
+          <CPopover
+            content="the Weighted Reaction Score: likes minus dislikes, each of which is weighted by the Influence Score of the reactor"
+            placement="right"
+            trigger={['hover', 'focus']}
+          >
+            <span style={{ color: 'grey' }}>
+              <CIcon icon={cilInfo} />
+            </span>
+          </CPopover>
+        </div>
+        <div className="col-auto">
+          <CIcon icon={cilThumbUp} size="lg" style={{ marginRight: '5px' }} />
+          {oKind7Results.aLikesByPubkey.map((pk, item) => {
+            const npub = nip19.npubEncode(pk)
+            return (
+              <span key={item}>
+                <ShowTinyAuthorBrainstormProfileImageOnly npub={npub} />
+              </span>
+            )
+          })}
+        </div>
+        <div className="col-auto">
+          <CIcon icon={cilThumbDown} size="lg" style={{ marginRight: '5px' }} />
+          {oKind7Results.aDislikesByPubkey.map((pk, item) => {
+            const npub = nip19.npubEncode(pk)
+            return (
+              <span key={item}>
+                <ShowTinyAuthorBrainstormProfileImageOnly npub={npub} />
+              </span>
+            )
+          })}
         </div>
       </div>
     </>
@@ -124,10 +313,11 @@ const DisplayCategory = ({ oEvent }) => {
 
 const WikiArticle = () => {
   const dispatch = useDispatch()
-  const oTopicSlugs = useSelector((state) => state.wikifreedia.articles.byDTag)
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oTopicSlugs = useSelector((state) => state.nostrapedia.articles.byDTag)
   const aTopicSlugs = Object.keys(oTopicSlugs)
-  const naddr = useSelector((state) => state.siteNavigation.wikifreedia.viewArticle)
-  const oEvents = useSelector((state) => state.wikifreedia.articles.byNaddr)
+  const naddr = useSelector((state) => state.siteNavigation.nostrapedia.viewArticle)
+  const oEvents = useSelector((state) => state.nostrapedia.articles.byNaddr)
   const oEvent = oEvents[naddr]
   const [showRawDataButton, setShowRawDataButton] = useState('hide')
   const toggleShowRawData = useCallback(
@@ -175,70 +365,78 @@ const WikiArticle = () => {
   const contentWithLinks = processWikiMarkdownLinks(content, aTopicSlugs)
   const topicHref = '#/nostrapedia/topic?topic=' + topicSlug
   const editThisArticleRef = '#/nostrapedia/publish?naddr=' + naddr
+
+  // add up likes and dislikes
+  const oNostrapedia = useSelector((state) => state.nostrapedia)
+  const articleEventId = oEvent.id
+  const { numLikes, numDislikes, weightLikes, weightDislikes, aLikesByPubkey, aDislikesByPubkey } =
+    returnKind7Results(oNostrapedia, articleEventId, oProfilesByNpub)
+  const oKind7Results = returnKind7Results(oNostrapedia, articleEventId, oProfilesByNpub)
   return (
     <>
-      <center>
-        <h1>
-          <div style={{ display: 'inline-block' }}>{titleShow}</div>{' '}
-          <div style={{ display: 'inline-block' }}>
-            <ThreeOptionsRating />
-          </div>
-        </h1>
-      </center>
-      <WikiLikesListener eventId={oEvent?.id} />
-      <CRow>
-        <CCol xs={12}>
-          <CCard className="mb-4">
-            <CCardHeader>
-              <DisplayCategory oEvent={oEvent} />
-              <CRow style={{ display: 'flex', alignItems: 'center' }}>
-                <CCol xs="auto" className="me-auto">
-                  <ShowAuthorBrainstormProfileImageOnly npub={npub} />
-                </CCol>
-                <CCol>
-                  <div style={{ textAlign: 'center' }}>
-                    <ThreeOptionsRating />
-                  </div>
-                </CCol>
-                <CCol xs="auto" className="align-self-center" style={{ color: 'grey' }}>
-                  {displayTime}
-                </CCol>
-              </CRow>
-            </CCardHeader>
-            <CCardBody>
-              <div style={{ overflow: 'scroll' }}>
-                <Markdown>{contentWithLinks}</Markdown>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ display: 'inline-block' }}>
-                  <CFormSwitch
-                    onChange={(e) => toggleShowRawData(e)}
-                    label="raw JSON"
-                    id="formSwitchCheckDefault"
-                  />
+      <CContainer fluid style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <CRow style={{ display: 'flex', alignItems: 'center' }}>
+          <CCol xs="auto" className="me-auto">
+            <h1>
+              <div style={{ display: 'inline-block' }}>{titleShow}</div>{' '}
+            </h1>
+          </CCol>
+          <CCol xs="auto" className="align-self-center" style={{ color: 'grey' }}>
+            <DisplayCategory oEvent={oEvent} />
+          </CCol>
+        </CRow>
+        <ReactionPanel oKind7Results={oKind7Results} />
+        <CRow>
+          <TwoOptionsRating />
+        </CRow>
+        <CRow>
+          <CCol xs={12}>
+            <CCard className="mb-4">
+              <CCardHeader>
+                <CRow style={{ display: 'flex', alignItems: 'center' }}>
+                  <CCol xs="auto" className="me-auto">
+                    <ShowAuthorBrainstormProfileImageOnly npub={npub} />
+                  </CCol>
+                  <CCol xs="auto" className="align-self-center" style={{ color: 'grey' }}>
+                    {displayTime}
+                  </CCol>
+                </CRow>
+              </CCardHeader>
+              <CCardBody>
+                <div style={{ overflow: 'scroll' }}>
+                  <Markdown>{contentWithLinks}</Markdown>
                 </div>
-              </div>
-            </CCardBody>
-          </CCard>
-          <RawData showRawDataButton={showRawDataButton} oEvent={oEvent} naddr={naddr} />
-        </CCol>
-      </CRow>
-      <div className="row justify-content-between">
-        <CCol style={{ color: 'grey' }}>{showVersions}</CCol>
-        <CCol className="col-auto">
-          <CButton color="primary">
-            <CNavLink href={topicHref} onClick={() => processViewTopicClick(topicSlug)}>
-              View all versions of {topicSlug}
-            </CNavLink>
-          </CButton>
-        </CCol>
-        <CCol className="col-auto">
-          <CButton color="primary">
-            <CNavLink href={editThisArticleRef}>Edit</CNavLink>
-          </CButton>
-        </CCol>
-      </div>
-      <br />
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ display: 'inline-block' }}>
+                    <CFormSwitch
+                      onChange={(e) => toggleShowRawData(e)}
+                      label="raw JSON"
+                      id="formSwitchCheckDefault"
+                    />
+                  </div>
+                </div>
+              </CCardBody>
+            </CCard>
+            <RawData showRawDataButton={showRawDataButton} oEvent={oEvent} naddr={naddr} />
+          </CCol>
+        </CRow>
+        <div className="row justify-content-between">
+          <CCol style={{ color: 'grey' }}>{showVersions}</CCol>
+          <CCol className="col-auto">
+            <CButton color="primary">
+              <CNavLink href={topicHref} onClick={() => processViewTopicClick(topicSlug)}>
+                View all versions of {topicSlug}
+              </CNavLink>
+            </CButton>
+          </CCol>
+          <CCol className="col-auto">
+            <CButton color="primary">
+              <CNavLink href={editThisArticleRef}>Edit</CNavLink>
+            </CButton>
+          </CCol>
+        </div>
+        <br />
+      </CContainer>
     </>
   )
 }

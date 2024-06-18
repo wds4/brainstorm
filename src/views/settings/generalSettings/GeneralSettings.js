@@ -262,7 +262,7 @@ const GeneralSettings = () => {
     promptNeedTwoHopsDataClassName = 'show'
   }
 
-  const oAuthors = useSelector((state) => state.wikifreedia.authors)
+  const oAuthors = useSelector((state) => state.nostrapedia.authors)
   const aAuthors = Object.keys(oAuthors)
 
   const labelFoF = 'Download follows of my ' + aOneHop.length + ' follows.'
