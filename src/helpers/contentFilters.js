@@ -1,5 +1,9 @@
-const processWikiMarkdownLink = (contentIn, aTopicSlugs) => {
+const processWikiMarkdownLink = (contentIn_, aTopicSlugs) => {
   // TO DO: may use aTopicSlugs to style link based on whether topic currently exists or not
+  let contentIn = contentIn_
+  if (!contentIn) {
+    contentIn = ''
+  }
   const baseUrl = window.location.origin
   let contentOut = ''
   const bracketsStart = contentIn.indexOf('[[')

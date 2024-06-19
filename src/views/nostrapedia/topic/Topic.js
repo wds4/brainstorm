@@ -486,9 +486,6 @@ const WikiTopic = () => {
     }
   })
 
-  // const articleNumberOfLikes = 0
-  const articleWeightOfLikes = 0
-
   return (
     <>
       <center>
