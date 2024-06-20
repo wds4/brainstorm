@@ -38,7 +38,13 @@ const oEventDefault = {
 }
 
 const Editor = ({ markdown, setMarkdown }) => {
-  return <MarkdownEditor value={markdown} onChange={(value, viewUpdate) => setMarkdown(value)} />
+  return (
+    <MarkdownEditor
+      value={markdown}
+      height="200px"
+      onChange={(value, viewUpdate) => setMarkdown(value)}
+    />
+  )
 }
 
 const DisplayCategory = ({ oEvent }) => {
@@ -156,6 +162,7 @@ const MakeNewWikiArticle2 = () => {
       }
     }
     aTags.push(['published_at', JSON.stringify(currentTime)])
+    aTags.push(['client', 'brainstorm'])
     const note = oEventDefault
     note.kind = 30818
     note.content = markdown
@@ -181,6 +188,7 @@ const MakeNewWikiArticle2 = () => {
           }
         }
         aTags.push(['published_at', currentTime])
+        aTags.push(['client', 'brainstorm'])
         const note = oEventDefault
         note.kind = 30818
         note.content = markdown
@@ -275,13 +283,6 @@ const MakeNewWikiArticle2 = () => {
     setPublishAnotherWikiClassName('hide')
     setMarkdown('')
   }, [])
-
-  const handlePreviewButton = useCallback(
-    (e) => {
-      console.log('handlePreviewButton')
-    },
-    [oEvent],
-  )
 
   return (
     <>

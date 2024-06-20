@@ -23,6 +23,7 @@ import WeightedReactionScorePanel from './WeightedReactionScorePanel'
 import { useSearchParams } from 'react-router-dom'
 import { updateViewNostrapediaArticle } from '../../../redux/features/siteNavigation/slice'
 import WikiListener from '../../../helpers/listeners/WikiListener'
+import WikiNaddrListener from '../../../helpers/listeners/WikiNaddrListener'
 
 const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   if (showRawDataButton == 'hide') {
@@ -67,14 +68,10 @@ const FetchArticleByNaddr = ({ naddr, oEvents }) => {
   // If the numnber of articles get too high, and dewnloading all of them gets too slow, may need to remove generic WikiListener and add single naddr listener for better performance;
   // In that case, maybe add generic WikiListener here only if single naddr is already downloaded)
   if (!oEvents[naddr]) {
-    return (
-      <>
-        <div>fetching {naddr} ...</div>
-      </>
-    )
+    return <WikiNaddrListener naddr={naddr} />
   }
   // otherwise, no need to fetch it
-  return <></>
+  return <WikiListener />
 }
 
 const WikiArticle = () => {
@@ -163,7 +160,6 @@ const WikiArticle = () => {
     <>
       <CContainer fluid style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <FetchArticleByNaddr naddr={naddr} oEvents={oEvents} />
-        <WikiListener />
         <CRow style={{ display: 'flex', alignItems: 'center' }}>
           <CCol xs="auto" className="me-auto">
             <h1>
