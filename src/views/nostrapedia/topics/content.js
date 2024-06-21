@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  CButton,
   CCard,
   CCardBody,
   CCardHeader,
@@ -28,8 +29,115 @@ import CIcon from '@coreui/icons-react'
 import { cilInfo } from '@coreui/icons'
 import { getProfileBrainstormFromPubkey } from '../../../helpers/brainstorm'
 
+const LoginPrompt = ({promptLoginElemClassName}) => {
+  return (
+    <>
+      <div className={promptLoginElemClassName}>
+        <div
+          style={{
+            border: '1px solid gold',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          You must{' '}
+          <CButton color="primary" href="#/login" style={{ marginLeft: '5px', marginRight: '5px' }}>
+            Login
+          </CButton>{' '}
+          first to sort by Popularity, Controversy, or Trending Scores.
+        </div>
+      </div>
+    </>
+  )
+}
+
+const FollowForWotUtilityPrompt = ({ promptFollowForWotUtilityClassName }) => {
+  return (
+    <>
+      <div
+        style={{
+          border: '1px solid red',
+          padding: '10px',
+          borderRadius: '5px',
+          marginBottom: '10px',
+          textAlign: 'center',
+        }}
+        className={promptFollowForWotUtilityClassName}
+      >
+        EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
+        THE POPULARITY, CONTROVERSY, and TRENDING SCORES SCORE WILL BE ZERO.
+        <br />
+        YOU MUST FIRST FOLLOW AT LEAST ONE PROFILE.
+      </div>
+    </>
+  )
+}
+
+const PromptMoreFollowsData = ({ promptNeedMoreFollowsDataClassName }) => {
+  return (
+    <>
+      <div className={promptNeedMoreFollowsDataClassName}>
+        <div
+          style={{
+            border: '1px solid purple',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          You need more follows data to extend your Grapevine to two (or more, ideally) hops away.
+          Download it under{' '}
+          <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px' }}>
+            settings
+          </CButton>
+          .
+        </div>
+      </div>
+    </>
+  )
+}
+
+const PromptCalcInfluenceScore = ({ promptCalcInfluenceScoreElemClassName }) => {
+  return (
+    <>
+      <div className={promptCalcInfluenceScoreElemClassName}>
+        <div
+          style={{
+            border: '1px solid gold',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Influence Scores are required to sort content by Trending, Popularity, and Controversy Scores but have not yet been calculated. To calculate Influence Scores, go to{' '}
+          <CButton
+            color="primary"
+            href="#/grapevine/calculateInfluenceScores"
+            style={{ marginLeft: '5px' }}
+          >
+            this page
+          </CButton>
+          .
+        </div>
+      </div>
+    </>
+  )
+}
+
 const WikiArticlesAlphabetical = () => {
   const dispatch = useDispatch()
+  const signedIn = useSelector((state) => state.profile.signedIn)
   const oNostrapedia = useSelector((state) => state.nostrapedia)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   const currentSortTopicsBy = useSelector((state) => state.siteNavigation.nostrapedia.sortTopicsBy)
@@ -41,6 +149,27 @@ const WikiArticlesAlphabetical = () => {
   if (Object.keys(oWikiArticles_byDTag)) {
     aTopicsRef = Object.keys(oWikiArticles_byDTag).sort()
   }
+
+  const myNpub = useSelector((state) => state.profile.npub)
+  let aMyFollows = []
+  if (myNpub && oProfilesByNpub && oProfilesByNpub[myNpub]) {
+    aMyFollows = oProfilesByNpub[myNpub].follows
+  }
+
+  const [promptLoginElemClassName, setPromptLoginElemClassName] = useState('hide') // show or hide
+  const [promptFollowForWotUtilityClassName, setPromptFollowForWotUtilityClassName] =
+    useState('hide') // show or hide
+  const [promptNeedMoreFollowsDataClassName, setPromptNeedMoreFollowsDataClassName] =
+    useState('hide') // show or hide
+  const [promptCalcInfluenceScoreElemClassName, setPromptCalcInfluenceScoreElemClassName] =
+    useState('hide') // show or hide
+
+  const oScoreUpdates = useSelector((state) => state.settings.grapevine.scoreUpdates)
+  let whenInfluenceScoresUpdated = 0
+  if (oScoreUpdates && oScoreUpdates.influenceScore) {
+    whenInfluenceScoresUpdated = oScoreUpdates.influenceScore.timestamp
+  }
+
   const [aTopicsFiltered, setATopicsFiltered] = useState(aTopicsRef)
 
   const [lastUpdateColumnClassName, setLastUpdateColumnClassName] = useState('show') // show or hide
@@ -253,6 +382,43 @@ const WikiArticlesAlphabetical = () => {
     sortFilteredTopics(currentSortTopicsBy, aTopicsFiltered, csLookup)
   }, [])
 
+  const oMyProfile = oProfilesByNpub[myNpub]
+  let aOneHop = []
+  let aTwoHops = []
+  let aMoreHops = []
+  let aDisconnected = []
+  if (oMyProfile) {
+    aOneHop = oMyProfile.follows
+  }
+  const aProfilesWithKnownFollows = []
+  Object.keys(oProfilesByNpub).forEach((np) => {
+    if (oProfilesByNpub[np].follows && oProfilesByNpub[np].follows.length > 0) {
+      aProfilesWithKnownFollows.push(np)
+    }
+    if (
+      oProfilesByNpub[np] &&
+      oProfilesByNpub[np].wotScores &&
+      oProfilesByNpub[np].wotScores.degreesOfSeparation
+    ) {
+      const dos = oProfilesByNpub[np].wotScores.degreesOfSeparation
+      if (dos == 2) {
+        if (!aTwoHops.includes(np)) {
+          aTwoHops.push(np)
+        }
+      }
+      if (dos > 2 && dos < 100) {
+        if (!aMoreHops.includes(np)) {
+          aMoreHops.push(np)
+        }
+      }
+      if (dos > 100) {
+        if (!aDisconnected.includes(np)) {
+          aDisconnected.push(np)
+        }
+      }
+    }
+  })
+
   // TO DO: merge sort and filter into a single function
 
   const handleSearchFieldChange = useCallback(
@@ -336,6 +502,21 @@ const WikiArticlesAlphabetical = () => {
       setTrendingColumnClassName('hide')
     }
     if (newSortByValue == 'popularity') {
+      if (!signedIn) {
+        setPromptLoginElemClassName('show')
+      }
+      if (signedIn && aMyFollows.length == 0) {
+        setPromptFollowForWotUtilityClassName('show')
+      }
+      if (signedIn && (aOneHop.length == 0 || aTwoHops.length == 0 || aMoreHops.length == 0)) {
+        setPromptNeedMoreFollowsDataClassName('show')
+      } else {
+        if (!whenInfluenceScoresUpdated) {
+          if (signedIn) {
+            setPromptCalcInfluenceScoreElemClassName('show')
+          }
+        }
+      }
       const aFoo = aTopicsFiltered.sort(
         (a, b) =>
           returnCompositeScore_local(b, 'popularity', csLookup) -
@@ -349,6 +530,21 @@ const WikiArticlesAlphabetical = () => {
       setTrendingColumnClassName('hide')
     }
     if (newSortByValue == 'controversy') {
+      if (!signedIn) {
+        setPromptLoginElemClassName('show')
+      }
+      if (signedIn && aMyFollows.length == 0) {
+        setPromptFollowForWotUtilityClassName('show')
+      }
+      if (signedIn && (aOneHop.length == 0 || aTwoHops.length == 0 || aMoreHops.length == 0)) {
+        setPromptNeedMoreFollowsDataClassName('show')
+      } else {
+        if (!whenInfluenceScoresUpdated) {
+          if (signedIn) {
+            setPromptCalcInfluenceScoreElemClassName('show')
+          }
+        }
+      }
       const aFoo = aTopicsFiltered.sort(
         (a, b) =>
           returnCompositeScore_local(b, 'controversy', csLookup) -
@@ -362,6 +558,21 @@ const WikiArticlesAlphabetical = () => {
       setTrendingColumnClassName('hide')
     }
     if (newSortByValue == 'trending') {
+      if (!signedIn) {
+        setPromptLoginElemClassName('show')
+      }
+      if (signedIn && aMyFollows.length == 0) {
+        setPromptFollowForWotUtilityClassName('show')
+      }
+      if (signedIn && (aOneHop.length == 0 || aTwoHops.length == 0 || aMoreHops.length == 0)) {
+        setPromptNeedMoreFollowsDataClassName('show')
+      } else {
+        if (!whenInfluenceScoresUpdated) {
+          if (signedIn) {
+            setPromptCalcInfluenceScoreElemClassName('show')
+          }
+        }
+      }
       const aFoo = aTopicsFiltered.sort(
         (a, b) =>
           returnCompositeScore_local(b, 'trending', csLookup) -
@@ -447,6 +658,16 @@ const WikiArticlesAlphabetical = () => {
                 onChange={handleSearchFieldChange}
               />
               <br />
+              <LoginPrompt promptLoginElemClassName={promptLoginElemClassName} />
+              <FollowForWotUtilityPrompt
+                promptFollowForWotUtilityClassName={promptFollowForWotUtilityClassName}
+              />
+              <PromptMoreFollowsData
+                promptNeedMoreFollowsDataClassName={promptNeedMoreFollowsDataClassName}
+              />
+              <PromptCalcInfluenceScore
+                promptCalcInfluenceScoreElemClassName={promptCalcInfluenceScoreElemClassName}
+              />
               <CTable striped small hover>
                 <CTableHead color="light">
                   <CTableRow>

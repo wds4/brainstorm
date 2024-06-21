@@ -31,6 +31,113 @@ import WikiListener from '../../../helpers/listeners/WikiListener'
 import { addNewPubkey } from '../../../redux/features/profiles/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
+const LoginPrompt = ({ promptLoginElemClassName }) => {
+  return (
+    <>
+      <div className={promptLoginElemClassName}>
+        <div
+          style={{
+            border: '1px solid gold',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          You must{' '}
+          <CButton color="primary" href="#/login" style={{ marginLeft: '5px', marginRight: '5px' }}>
+            Login
+          </CButton>{' '}
+          first to sort by Degrees of Separation, Web of Trust, Influence Score, or the Weighted
+          Reaction Score.
+        </div>
+      </div>
+    </>
+  )
+}
+
+const FollowForWotUtilityPrompt = ({ promptFollowForWotUtilityClassName }) => {
+  return (
+    <>
+      <div
+        style={{
+          border: '1px solid red',
+          padding: '10px',
+          borderRadius: '5px',
+          marginBottom: '10px',
+          textAlign: 'center',
+        }}
+        className={promptFollowForWotUtilityClassName}
+      >
+        EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
+        EVERYONE'S WoT SCORE WILL BE ZERO.
+        <br />
+        FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
+      </div>
+    </>
+  )
+}
+
+const PromptMoreFollowsData = ({ promptNeedMoreFollowsDataClassName }) => {
+  return (
+    <>
+      <div className={promptNeedMoreFollowsDataClassName}>
+        <div
+          style={{
+            border: '1px solid purple',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          You need more follows data to extend your Grapevine to two (or more, ideally) hops away.
+          Download it under{' '}
+          <CButton color="primary" href="#/settings/settings" style={{ marginLeft: '5px' }}>
+            settings
+          </CButton>
+          .
+        </div>
+      </div>
+    </>
+  )
+}
+
+const PromptCalcInfluenceScore = ({ promptCalcInfluenceScoreElemClassName }) => {
+  return (
+    <>
+      <div className={promptCalcInfluenceScoreElemClassName}>
+        <div
+          style={{
+            border: '1px solid gold',
+            padding: '10px',
+            borderRadius: '5px',
+            marginBottom: '10px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Influence Scores have not yet been calculated. To calculate Influence Scores, go to{' '}
+          <CButton
+            color="primary"
+            href="#/grapevine/calculateInfluenceScores"
+            style={{ marginLeft: '5px' }}
+          >
+            this page
+          </CButton>
+          .
+        </div>
+      </div>
+    </>
+  )
+}
+
 const WikiAuthors = () => {
   const myFollows = useSelector((state) => state.profile.kind3.follows)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
@@ -235,7 +342,6 @@ const WikiAuthors = () => {
               }
             }
           }
-          promptFollowForWotUtilityClassName
           const arraySorted = inputArray.sort((a, b) => coracleWotScore[b] - coracleWotScore[a])
           setLastUpdateColumnClassName('hide')
           setNumTopicsColumnClassName('hide')
@@ -436,31 +542,9 @@ const WikiAuthors = () => {
                   setSortBy={setSortBy}
                   sortAndFilterItems={sortAndFilterItems}
                 />
-                <div className={promptNeedMoreFollowsDataClassName}>
-                  <div
-                    style={{
-                      border: '1px solid purple',
-                      padding: '10px',
-                      borderRadius: '5px',
-                      marginBottom: '10px',
-                      textAlign: 'center',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    You need more follows data to extend your Grapevine to two (or more, ideally)
-                    hops away. Download it under{' '}
-                    <CButton
-                      color="primary"
-                      href="#/settings/settings"
-                      style={{ marginLeft: '5px' }}
-                    >
-                      settings
-                    </CButton>
-                    .
-                  </div>
-                </div>
+                <PromptMoreFollowsData
+                  promptNeedMoreFollowsDataClassName={promptNeedMoreFollowsDataClassName}
+                />
                 <div
                   style={{
                     border: '1px solid red',
@@ -476,83 +560,13 @@ const WikiAuthors = () => {
                   <br />
                   FOR INFLUENCE SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
                 </div>
-                <div
-                  style={{
-                    border: '1px solid red',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginBottom: '10px',
-                    textAlign: 'center',
-                  }}
-                  className={promptFollowForDosUtilityClassName}
-                >
-                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
-                  EVERYONE'S DoS SCORE WILL BE ZERO.
-                  <br />
-                  FOR DoS SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW SOMEONE.
-                </div>
-                <div
-                  style={{
-                    border: '1px solid red',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginBottom: '10px',
-                    textAlign: 'center',
-                  }}
-                  className={promptFollowForWotUtilityClassName}
-                >
-                  EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
-                  EVERYONE'S WoT SCORE WILL BE ZERO.
-                  <br />
-                  FOR WoT SCORES TO BE USEFUL, YOU MUST FIRST FOLLOW LOTS OF PROFILES.
-                </div>
-                <div className={promptLoginElemClassName}>
-                  <div
-                    style={{
-                      border: '1px solid gold',
-                      padding: '10px',
-                      borderRadius: '5px',
-                      marginBottom: '10px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    You must{' '}
-                    <CButton
-                      color="primary"
-                      href="#/login"
-                      style={{ marginLeft: '5px', marginRight: '5px' }}
-                    >
-                      Login
-                    </CButton>{' '}
-                    first to sort by Degrees of Separation, Web of Trust, Influence Score, or the Weighted Reaction Score.
-                  </div>
-                </div>
-                <div className={promptCalcInfluenceScoreElemClassName}>
-                  <div
-                    style={{
-                      border: '1px solid gold',
-                      padding: '10px',
-                      borderRadius: '5px',
-                      marginBottom: '10px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    Influence Scores have not yet been calculated. To calculate Influence Scores, go
-                    to{' '}
-                    <CButton
-                      color="primary"
-                      href="#/grapevine/calculateInfluenceScores"
-                      style={{ marginLeft: '5px' }}
-                    >
-                      this page
-                    </CButton>
-                    .
-                  </div>
-                </div>
+                <FollowForWotUtilityPrompt
+                  promptFollowForWotUtilityClassName={promptFollowForWotUtilityClassName}
+                />
+                <LoginPrompt promptLoginElemClassName={promptLoginElemClassName} />
+                <PromptCalcInfluenceScore
+                  promptCalcInfluenceScoreElemClassName={promptCalcInfluenceScoreElemClassName}
+                />
                 <div className={promptCalcDosScoreElemClassName}>
                   <div
                     style={{
