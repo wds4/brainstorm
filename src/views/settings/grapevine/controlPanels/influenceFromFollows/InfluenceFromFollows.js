@@ -147,15 +147,13 @@ const InfluenceFromFollowsControlPanel = () => {
   }
   return (
     <>
-      <center>
-        <h4>Calculation of Influence from Follows Control Panel</h4>
-      </center>
       <br />
       <br />
       <CRow>
         <div>
           Here you will find various parameters that are used in the calculation of the Influence
-          Score. If you make changes on this page, you will need to recalculate the Influence Score
+          Score via interpretation of Follows and Mutes. If you make changes on this page, you will
+          need to recalculate the Influence Score
           <CButton
             color="primary"
             href="#/grapevine/calculateInfluenceScores"
