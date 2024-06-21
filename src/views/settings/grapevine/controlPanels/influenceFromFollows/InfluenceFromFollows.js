@@ -15,6 +15,7 @@ import {
   CFormRange,
   CNavLink,
   CFormSelect,
+  CPopover,
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -29,7 +30,7 @@ import {
   updateRigor,
   wipeGrapevine,
 } from '../../../../../redux/features/grapevine/slice'
-import InfluenceCalculations from './influenceCalculations'
+// import InfluenceCalculations from './influenceCalculations'
 import {
   defAttFac,
   defDunbarNumber,
@@ -41,6 +42,8 @@ import {
   defMuteInterpCon,
   defRigor,
 } from '../../../../../const'
+import CIcon from '@coreui/icons-react'
+import { cilInfo } from '@coreui/icons'
 
 const InfluenceFromFollowsControlPanel = () => {
   const dispatch = useDispatch()
@@ -148,28 +151,36 @@ const InfluenceFromFollowsControlPanel = () => {
         <h4>Calculation of Influence from Follows Control Panel</h4>
       </center>
       <br />
-      <InfluenceCalculations />
       <br />
       <CRow>
         <div>
-          These values will be used to calculate an Influence Score using follow (and potentiall
-          mute) data, according to the methods of the tapestry protocol, and as already demonstrated
-          in the Pretty Good Apps desktop nostr client. Once complete, you will be able to use the
-          Influence Score in place of Degree of Separation to stratify Wiki articles and other
-          content.
+          Here you will find various parameters that are used in the calculation of the Influence
+          Score. If you make changes on this page, you will need to recalculate the Influence Score
+          <CButton
+            color="primary"
+            href="#/grapevine/calculateInfluenceScores"
+            style={{ marginLeft: '5px' }}
+          >
+            here
+          </CButton>{' '}
+          to see the changes take effect.
         </div>
       </CRow>
       <br />
       <CRow>
         <div>
-          Next, users will be enabled to issue contextual Trust Attestations, which will take the
-          place of follows and mutes as the data becomes available.
+          Disclaimer:{' '}
+          <span style={{ color: 'orange' }}>
+            IT IS NOT REQUIRED FOR YOU TO DO ANYTHING WITH THESE SETTINGS. THE DEFAULT VALUES ARE
+            CHOSEN TO WORK FOR THE VAST MAJORITY OF PEOPLE IN THE VAST MAJORITY OF SCENARIOS.
+          </span>{' '}
+          (Remember this the next time someone says the Grapevine protocol is "too complicated" !!)
         </div>
       </CRow>
       <br />
       <CRow>
         <CCol xs={12}>
-          <CCard className="mb-4">
+          <CCard className="mb-4" style={{ display: 'none' }}>
             <CCardHeader>
               <strong>Dunbar Number</strong>
             </CCardHeader>
@@ -189,7 +200,16 @@ const InfluenceFromFollowsControlPanel = () => {
 
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>Default Attenuation Factor</strong>
+              <strong>Attenuation Factor</strong>
+              <span style={{ color: 'grey', marginLeft: '5px' }}>
+                <CPopover
+                  content="The Attenuation Factor decreases a profile's influence by a certain amount with each successive hop farther away from you. If you don't want to trust profiles more than a few hops away, decrease the AF. If you want to increase the range of your Grapevine, increase the AF."
+                  placement="top"
+                  trigger={['hover', 'focus']}
+                >
+                  <CIcon icon={cilInfo} size="lg" />
+                </CPopover>
+              </span>
             </CCardHeader>
             <CCardBody>
               <CFormLabel htmlFor="scoreScrollbar">
@@ -211,11 +231,19 @@ const InfluenceFromFollowsControlPanel = () => {
           <CCard className="mb-4">
             <CCardHeader>
               <strong>Rigor</strong>
+              <span style={{ color: 'grey', marginLeft: '5px' }}>
+                <CPopover
+                  content="Do ratings from 2 highly trusted users (the input) translate into a 95% confidence in the result, or only 80%? The Rigor is a parameter in the equation that makes this determination, by converting input to confidence."
+                  placement="top"
+                  trigger={['hover', 'focus']}
+                >
+                  <CIcon icon={cilInfo} size="lg" />
+                </CPopover>
+              </span>
             </CCardHeader>
             <CCardBody>
               <CFormLabel htmlFor="scoreScrollbar">
-                <strong>Rigor</strong>{' '}
-                <small>range: from 0 (most lax) to 100 (most strict)</small>
+                <strong>Rigor</strong> <small>range: from 0 (most lax) to 100 (most strict)</small>
               </CFormLabel>
               <CCardTitle>{rigor}</CCardTitle>
               <CFormRange
@@ -231,6 +259,15 @@ const InfluenceFromFollowsControlPanel = () => {
           <CCard className="mb-4">
             <CCardHeader>
               <strong>Default User Scores</strong>
+              <span style={{ color: 'grey', marginLeft: '5px' }}>
+                <CPopover
+                  content="How much influence to give to rando profiles about whom you have no information relevant to the trust score. Zero is recommended, but can be changed if you're not worried about sybil attacks."
+                  placement="top"
+                  trigger={['hover', 'focus']}
+                >
+                  <CIcon icon={cilInfo} size="lg" />
+                </CPopover>
+              </span>
             </CCardHeader>
             <CCardBody>
               <CFormLabel htmlFor="scoreScrollbar">
@@ -262,9 +299,19 @@ const InfluenceFromFollowsControlPanel = () => {
               />
             </CCardBody>
           </CCard>
+
           <CCard className="mb-4">
             <CCardHeader>
               <strong>Interpretation of a Follow</strong>
+              <span style={{ color: 'grey', marginLeft: '5px' }}>
+                <CPopover
+                  content="Interpretation is the process of transforming a piece of data into a standardized trust format."
+                  placement="top"
+                  trigger={['hover', 'focus']}
+                >
+                  <CIcon icon={cilInfo} size="lg" />
+                </CPopover>
+              </span>
             </CCardHeader>
             <CCardBody>
               <CFormLabel htmlFor="scoreScrollbar">
@@ -300,6 +347,15 @@ const InfluenceFromFollowsControlPanel = () => {
           <CCard className="mb-4">
             <CCardHeader>
               <strong>Interpretation of a Mute</strong>
+              <span style={{ color: 'grey', marginLeft: '5px' }}>
+                <CPopover
+                  content="Interpretation is the process of transforming a piece of data into a standardized trust format."
+                  placement="top"
+                  trigger={['hover', 'focus']}
+                >
+                  <CIcon icon={cilInfo} size="lg" />
+                </CPopover>
+              </span>
             </CCardHeader>
             <CCardBody>
               <CFormLabel htmlFor="scoreScrollbar">

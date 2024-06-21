@@ -12,6 +12,16 @@ const _nav = [
   },
   {
     component: CNavTitle,
+    name: 'Tapestry',
+  },
+  {
+    component: CNavItem,
+    name: 'Grapevine Settings',
+    to: '/settings/grapevine',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
     name: 'Technical',
   },
   {
