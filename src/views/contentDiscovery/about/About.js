@@ -4,6 +4,7 @@ import { CContainer, CNavLink } from '@coreui/react'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { updateNpub } from 'src/redux/features/siteNavigation/slice'
+import ContentDiscoveryListener from '../../../helpers/listeners/ContentDiscoveryListener'
 
 const ContentDiscoveryAbout = () => {
   const dispatch = useDispatch()
@@ -16,6 +17,7 @@ const ContentDiscoveryAbout = () => {
         <center>
           <h3>About Content Discovery</h3>
         </center>
+        <ContentDiscoveryListener />
         <br />
         <br />
         <div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ContextSelector from './contextSelector'
 import RecommendedProfiles from './tableOfProfiles'
+import ContentDiscoveryListener from '../../../helpers/listeners/ContentDiscoveryListener'
 
 const Recommendations = () => {
   const [context, setContext] = useState('')
@@ -16,6 +17,7 @@ const Recommendations = () => {
       <center>
         <h3>Contextual Recommendation Lists</h3>
       </center>
+      <ContentDiscoveryListener />
       <br />
       <div>
         Select a context and see a list of recommended profiles. (Make sure to calculate Influence

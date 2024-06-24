@@ -124,6 +124,30 @@ export const grapevineSlice = createSlice({
     },
   },
   reducers: {
+    createContentDiscoveryControlPanel: (state, action) => { // patch bug for users who logged in prior to addition of controlPanels.contentDiscovery
+      console.log('createContentDiscoveryControlPanel')
+      state.controlPanels.contentDiscovery = {
+        rigor: defContDiscRigor,
+        contextualEndorsements: {
+          score: {
+            fire: defFireInterpScore,
+            thumbUp: defThumbUpInterpScore,
+            thumbDown: defThumbDownInterpScore,
+          },
+          confidence: defContextualEndorsementInterpCon,
+        },
+        wikiReactions: {
+          likes: {
+            score: defContextualWikiLikeInterpScore,
+            confidence: defContextualWikiLikeInterpCon,
+          },
+          dislikes: {
+            score: defContextualWikiDislikeInterpScore,
+            confidence: defContextualWikiDislikeInterpCon,
+          },
+        },
+      }
+    },
     // Content Discovery
     updateContentDiscoveryRigor: (state, action) => {
       state.controlPanels.contentDiscovery.rigor = action.payload
@@ -252,6 +276,7 @@ export const grapevineSlice = createSlice({
 })
 
 export const {
+  createContentDiscoveryControlPanel,
   updateContentDiscoveryRigor,
   updateAttenuationFactor,
   updateDunbarNumber,
