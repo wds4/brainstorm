@@ -25,6 +25,7 @@ import navigationTwittr from 'src/nav/_navTwittr'
 import navigationHelloWorld from 'src/nav/_navHelloWorld'
 import navigationNostrAppsDirectory from 'src/nav/_navNostrAppsDirectory'
 import navigationRelaysDirectory from 'src/nav/_navRelaysDirectory'
+import navigationContentDiscovery from 'src/nav/_navContentDiscovery'
 
 import navigationSettingsSignedIn from 'src/nav/_navSettingsSignedIn'
 import navigationSettingsSignedInDevMode from 'src/nav/_navSettingsSignedInDevMode'
@@ -48,6 +49,8 @@ function getNavigation(activeApp, signedIn, developmentMode) {
       return navigationHomeSignedIn
     case 'conceptGraph':
       return navigationConceptGraph
+    case 'contentDiscovery':
+      return navigationContentDiscovery
     case 'grapevine':
       if (developmentMode == 'show') {
         return navigationGrapevineDevMode

@@ -90,8 +90,8 @@ const oEventDefault = {
   tags: [
     ['P', 'tapestry'],
     ['word', '{}'],
-    ['wordType', 'trustAttestation'],
-    ['w', 'trustAttestation'],
+    ['wordType', 'contextualEndorsement'],
+    ['w', 'contextualEndorsement'],
     ['d', ''],
     ['p', ''],
     ['c', ''],
@@ -134,7 +134,7 @@ async function makeWord(
     transitive = 'false'
   }
   const oWord = {
-    trustAttestationData: {
+    contextualEndorsementData: {
       rater: {
         pubkey: oProfile.pubkey,
         npub: oProfile.npub,
@@ -155,7 +155,7 @@ async function makeWord(
     },
   }
   if (contextEvent && contextEvent.kind >= 30000 && contextEvent.kind < 40000) {
-    oWord.trustAttestationData.context.naddr = selectedContext
+    oWord.contextualEndorsementData.context.naddr = selectedContext
   }
   const sWord = JSON.stringify(oWord)
   let oEvent = oEventDefault
@@ -164,8 +164,8 @@ async function makeWord(
   const tags = [
     ['P', 'tapestry'],
     ['word', sWord],
-    ['wordType', 'trustAttestation'],
-    ['w', 'trustAttestation'],
+    ['wordType', 'contextualEndorsement'],
+    ['w', 'contextualEndorsement'],
     ['d', pubkey + '/' + selectedContext],
     ['p', pubkey],
     ['c', selectedContext],

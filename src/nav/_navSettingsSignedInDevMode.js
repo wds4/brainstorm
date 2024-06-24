@@ -38,6 +38,12 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Content Discovery Settings',
+    to: '/settings/contentDiscovery',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Concept Graph Settings',
     to: '/settings/conceptGraph',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,

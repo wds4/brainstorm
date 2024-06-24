@@ -9,6 +9,7 @@ import { cutoffTime } from 'src/const'
 import { updateConceptGraphSettingsEvent } from 'src/redux/features/settings/slice'
 import { addWordToConceptGraph } from '../../redux/features/conceptGraph/slice'
 import { makeEventSerializable } from '..'
+import { addContextualEndorsement } from '../../redux/features/grapevine/slice'
 
 const GrapevineListenerMain = () => {
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -59,6 +60,9 @@ const GrapevineListenerMain = () => {
               if (wordType == 'trustAttestation') {
                 dispatch(addTrustAttestation({ event, cid }))
               }
+              if (wordType == 'contextualEndorsement') {
+                dispatch(addContextualEndorsement({ event, cid }))
+              }
               // add to settings store
               if (wordType == 'conceptGraphSettings') {
                 const pk = event.pubkey
@@ -91,7 +95,7 @@ const GrapevineListenerMain = () => {
     updateGrapevineDatabase()
   }, [fetchEvents(filter)])
 
-  return <></>
+  return <><div>Grapevine Listener ON</div></>
 }
 
 const GrapevineListener = () => {

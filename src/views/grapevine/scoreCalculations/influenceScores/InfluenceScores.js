@@ -149,7 +149,7 @@ const InfluenceScores = () => {
   return (
     <>
       <center>
-        <h4>Influence Scores</h4>
+        <h4>Calculation of Influence Scores</h4>
         <br />
         <div className={promptNeedMoreFollowsDataClassName}>
           <div

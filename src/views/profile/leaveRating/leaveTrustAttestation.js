@@ -74,7 +74,10 @@ const RawData = ({ showRawDataButton, oEvent }) => {
       </CCard>
       <CCard className="mb-4">
         <CCardHeader>
-          <strong>raw nostr event</strong>
+          <strong>
+            raw nostr event; NIP-77 protocol (experimental) minus the confidence field, which is left to the consumer
+            for interpretation
+          </strong>
         </CCardHeader>
         <CCardBody>
           <pre>{JSON.stringify(oEvent, null, 4)}</pre>
@@ -90,14 +93,15 @@ const oEventDefault = {
   tags: [
     ['P', 'tapestry'],
     ['word', '{}'],
-    ['wordType', 'trustAttestation'],
-    ['w', 'trustAttestation'],
+    ['wordType', 'contextualEndorsement'],
+    ['w', 'contextualEndorsement'],
     ['d', ''],
     ['p', ''],
     ['c', ''],
     ['transitive', 'true'],
     ['score', ''],
     ['confidence', ''],
+    ['client', 'brainstorm'],
   ],
   created_at: null,
 }
@@ -135,7 +139,7 @@ async function makeWord(
     transitive = 'false'
   }
   const oWord = {
-    trustAttestationData: {
+    contextualEndorsementData: {
       rater: {
         pubkey: oProfile.pubkey,
         npub: oProfile.npub,
@@ -149,7 +153,7 @@ async function makeWord(
     },
   }
   if (contextEvent && contextEvent.kind >= 30000 && contextEvent.kind < 40000) {
-    oWord.trustAttestationData.context.naddr = selectedContext
+    oWord.contextualEndorsementData.context.naddr = selectedContext
   }
   const sWord = JSON.stringify(oWord)
   let oEvent = oEventDefault
@@ -158,12 +162,13 @@ async function makeWord(
   const tags = [
     ['P', 'tapestry'],
     ['word', sWord],
-    ['wordType', 'trustAttestation'],
-    ['w', 'trustAttestation'],
+    ['wordType', 'contextualEndorsement'],
+    ['w', 'contextualEndorsement'],
     ['d', pubkey + '/' + selectedContext],
     ['p', pubkey],
     ['c', selectedContext],
     ['score', score],
+    ['client', 'brainstorm'],
   ]
   oEvent.tags = tags
   oEvent.created_at = Math.floor(Date.now() / 1000)
@@ -333,15 +338,20 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>Category-specific</strong>
+            <strong>Contextual Follow / Endorse</strong>
+            <div>Similar to the Follow and Mute buttons that we are all familiar with, but context-specific</div>
           </CCardHeader>
           <CCardBody>
             <CForm>
               <div className="d-grid gap-2 col-12  mx-auto">
+                <div>1. Choose a Context: <span style={{fontSize: '26px', color: 'blue', marginLeft: '20px'}}>{selectedContext}</span></div>
                 <ContextSelector updateSelectedContext={updateSelectedContext} />
 
+                <br />
+
+                <div>2. Mute/Block, Endorse/Follow, or SuperEndorse/SuperFollow</div>
                 <CPopover
-                  content="better than follow"
+                  content="superfollow (superendorse)"
                   placement="right"
                   trigger={['hover', 'focus']}
                 >
@@ -354,18 +364,25 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
                   </CButton>
                 </CPopover>
 
-                <CButton
-                  type="button"
-                  color={endorseButtonColor}
-                  onClick={processEndorseButtonClick}
-                >
-                  👍
-                </CButton>
+                <CPopover content="follow (endorse)" placement="right" trigger={['hover', 'focus']}>
+                  <CButton
+                    type="button"
+                    color={endorseButtonColor}
+                    onClick={processEndorseButtonClick}
+                  >
+                    👍
+                  </CButton>
+                </CPopover>
 
-                <CButton type="button" color={blockButtonColor} onClick={processBlockButtonClick}>
-                  👎
-                </CButton>
+                <CPopover content="mute (block)" placement="right" trigger={['hover', 'focus']}>
+                  <CButton type="button" color={blockButtonColor} onClick={processBlockButtonClick}>
+                    👎
+                  </CButton>
+                </CPopover>
 
+                <br />
+
+                <div>3. Submit</div>
                 <CButton
                   color="primary"
                   className={submitEventButtonClassName}
@@ -373,17 +390,17 @@ const LeaveTrustAttestation = ({ rateeNpub }) => {
                   onClick={publishNewEvent}
                   disabled={isSubmitAttestationButtonDisabled}
                 >
-                  Submit Trust Attestation
+                  Submit Attestation
                 </CButton>
                 <div className={createAnotherElementClassName}>
                   <br />
-                  <CCardTitle>Your trust attestation has been published!</CCardTitle>
+                  <CCardTitle>Your contextual endorsement has been published!</CCardTitle>
                   <CButton
                     color="primary"
                     id="createAnotherEventButton"
                     onClick={createAnotherContextButton}
                   >
-                    Create another trust attestation
+                    Create another contextual endorsement
                   </CButton>
                 </div>
                 <ShowExistingAttestation

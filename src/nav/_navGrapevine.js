@@ -6,6 +6,7 @@ import {
   cilBoltCircle,
   cilCalculator,
   cilCircle,
+  cilFire,
   cilGraph,
   cilHome,
   cilInfo,
@@ -42,6 +43,12 @@ const _nav = [
     name: 'Calculate Degrees of Separation Scores',
     to: '/grapevine/calculateDosScores',
     icon: <CIcon icon={cilGraph} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Calculate Contextual Influence Scores',
+    to: '/grapevine/calculateContextualInfluenceScores',
+    icon: <CIcon icon={cilFire} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,

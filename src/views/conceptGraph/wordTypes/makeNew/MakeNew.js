@@ -29,6 +29,7 @@ const oEventDefault = {
     ['namePlural', ''],
     ['description', ''],
     ['d', 'wordType_'],
+    ['client', 'brainstorm'],
   ],
   created_at: null,
 }
@@ -91,6 +92,7 @@ async function makeWord(oProfile, nameSingular, namePlural, description) {
     ['namePlural', namePlural],
     ['description', description],
     ['d', d_tag_value],
+    ['client', 'brainstorm'],
   ]
   oEvent.tags = tags
   const oEvent_signed = await signEventPGA(oProfile, oEvent)

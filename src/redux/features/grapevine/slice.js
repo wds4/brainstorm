@@ -9,7 +9,17 @@ import {
   defAttFac,
   defDunbarNumber,
   defRigor,
+  defContDiscRigor,
+  defFireInterpScore,
+  defThumbUpInterpScore,
+  defThumbDownInterpScore,
+  defContextualEndorsementInterpCon,
+  defContextualWikiLikeInterpScore,
+  defContextualWikiLikeInterpCon,
+  defContextualWikiDislikeInterpScore,
+  defContextualWikiDislikeInterpCon,
 } from '../../../const'
+import { fetchFirstByTag } from '../../../helpers'
 
 const defaultInitialState = {
   controlPanels: {
@@ -30,11 +40,36 @@ const defaultInitialState = {
         confidence: defMuteInterpCon,
       },
     },
+    contentDiscovery: {
+      rigor: defContDiscRigor,
+      contextualEndorsements: {
+        score: {
+          fire: defFireInterpScore,
+          thumbUp: defThumbUpInterpScore,
+          thumbDown: defThumbDownInterpScore,
+        },
+        confidence: defContextualEndorsementInterpCon,
+      },
+      wikiReactions: {
+        likes: {
+          score: defContextualWikiLikeInterpScore,
+          confidence: defContextualWikiLikeInterpCon,
+        },
+        dislikes: {
+          score: defContextualWikiDislikeInterpScore,
+          confidence: defContextualWikiDislikeInterpCon,
+        },
+      },
+    },
   },
   actions: {},
   categories: {},
   contexts: {},
   trustAttestations: {},
+  contextualEndorsements: { // issued on profile page
+    byCid: {},
+    byContext: {}, // context as a string
+  },
 }
 
 export const grapevineSlice = createSlice({
@@ -57,13 +92,43 @@ export const grapevineSlice = createSlice({
           confidence: defMuteInterpCon,
         },
       },
+      contentDiscovery: {
+        rigor: defContDiscRigor,
+        contextualEndorsements: {
+          score: {
+            fire: defFireInterpScore,
+            thumbUp: defThumbUpInterpScore,
+            thumbDown: defThumbDownInterpScore,
+          },
+          confidence: defContextualEndorsementInterpCon,
+        },
+        wikiReactions: {
+          likes: {
+            score: defContextualWikiLikeInterpScore,
+            confidence: defContextualWikiLikeInterpCon,
+          },
+          dislikes: {
+            score: defContextualWikiDislikeInterpScore,
+            confidence: defContextualWikiDislikeInterpCon,
+          },
+        },
+      },
     },
     actions: {},
     categories: {},
     contexts: {},
     trustAttestations: {},
+    contextualEndorsements: { // issued on profile page
+      byCid: {},
+      byContext: {}, // context as a string
+    },
   },
   reducers: {
+    // Content Discovery
+    updateContentDiscoveryRigor: (state, action) => {
+      state.controlPanels.contentDiscovery.rigor = action.payload
+    },
+    // base layer of the grapevine
     updateAttenuationFactor: (state, action) => {
       state.controlPanels.baseLayer.attenuationFactor = action.payload
     },
@@ -111,6 +176,28 @@ export const grapevineSlice = createSlice({
       const cid = action.payload.cid
       state.trustAttestations[cid] = event
     },
+    addContextualEndorsement: (state, action) => {
+      console.log('addContextualEndorsement')
+      const event = action.payload.event
+      const cid = action.payload.cid
+      if (!state.contextualEndorsements) {
+        state.contextualEndorsements = {}
+      }
+      if (!state.contextualEndorsements.byCid) {
+        state.contextualEndorsements.byCid = {}
+        state.contextualEndorsements.byContext = {}
+      }
+      const context = fetchFirstByTag('c',event)
+      state.contextualEndorsements.byCid[cid] = event
+      if (context) {
+        if (!state.contextualEndorsements.byContext[context]) {
+          state.contextualEndorsements.byContext[context] = []
+        }
+        if (!state.contextualEndorsements.byContext[context].includes(cid)) {
+          state.contextualEndorsements.byContext[context].push(cid)
+        }
+      }
+    },
     wipeGrapevine: (state, action) => {
       console.log('wipeGrapevine')
       state.controlPanels = {
@@ -131,16 +218,41 @@ export const grapevineSlice = createSlice({
             confidence: defMuteInterpCon,
           },
         },
+        contentDiscovery: {
+          rigor: defContDiscRigor,
+          contextualEndorsements: {
+            score: {
+              fire: defFireInterpScore,
+              thumbUp: defThumbUpInterpScore,
+              thumbDown: defThumbDownInterpScore,
+            },
+            confidence: defContextualEndorsementInterpCon,
+          },
+          wikiReactions: {
+            likes: {
+              score: defContextualWikiLikeInterpScore,
+              confidence: defContextualWikiLikeInterpCon,
+            },
+            dislikes: {
+              score: defContextualWikiDislikeInterpScore,
+              confidence: defContextualWikiDislikeInterpCon,
+            },
+          },
+        },
       }
       state.actions = {}
       state.categories = {}
       state.contexts = {}
       state.trustAttestations = {}
+      state.contextualEndorsements = {}
+      state.contextualEndorsements.byCid = {}
+      state.contextualEndorsements.byContext = {}
     },
   },
 })
 
 export const {
+  updateContentDiscoveryRigor,
   updateAttenuationFactor,
   updateDunbarNumber,
   updateRigor,
@@ -154,6 +266,7 @@ export const {
   addCategory,
   addContext,
   addTrustAttestation,
+  addContextualEndorsement,
   wipeGrapevine,
 } = grapevineSlice.actions
 

@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { nip19 } from 'nostr-tools'
 import { fetchFirstByTag } from 'src/helpers'
-
+import { aGoodReactions, aBadReactions } from 'src/const'
 export const nostrapediaSlice = createSlice({
   name: 'nostrapedia',
   initialState: {
     kind7Ratings: {
       byKind7EventId: {},
       byArticleEventId: {},
+      byDTag: {}, // not yet using; need to modify addKind7Rating and removeKind7EventId
     }, // likes and dislikes
     articles: {
       byEventId: {}, // used as a lookup to avoid repeat processing of the same event multiple times
@@ -126,40 +127,44 @@ export const nostrapediaSlice = createSlice({
       state.categories[oEvent.id] = oEvent
     },
     addKind7Rating: (state, action) => {
-      const oEvent = action.payload
+      const oKind7Event = action.payload
       if (!state.kind7Ratings) {
         state.kind7Ratings = {}
         state.kind7Ratings.byKind7EventId = {}
         state.kind7Ratings.byArticleEventId = {}
+        state.kind7Ratings.byDTag = {}
       }
-      if (!state.kind7Ratings.byKind7EventId[oEvent.id]) {
-        state.kind7Ratings.byKind7EventId[oEvent.id] = oEvent
-        const content = oEvent.content
-        const tag_a = fetchFirstByTag('a', oEvent)
-        const tag_e = fetchFirstByTag('e', oEvent)
-        const tag_p = fetchFirstByTag('p', oEvent)
-        const tag_client = fetchFirstByTag('client', oEvent)
+      if (!state.kind7Ratings.byKind7EventId[oKind7Event.id]) {
+        state.kind7Ratings.byKind7EventId[oKind7Event.id] = oKind7Event
+        const content = oKind7Event.content
+        const tag_a = fetchFirstByTag('a', oKind7Event)
+        const tag_e = fetchFirstByTag('e', oKind7Event)
+        const tag_p = fetchFirstByTag('p', oKind7Event)
+        const tag_client = fetchFirstByTag('client', oKind7Event)
         if (!state.kind7Ratings.byArticleEventId[tag_e]) {
           state.kind7Ratings.byArticleEventId[tag_e] = {}
           state.kind7Ratings.byArticleEventId[tag_e].likes = []
           state.kind7Ratings.byArticleEventId[tag_e].dislikes = []
         }
         // TO DO: accomodate emojis, e.g. if content == 💯 💜 🧡 👀 😂 🤙 ❤️ 🚀  🫂 🔥 🙏🏼 ♥️ ❤️‍🔥
-        if (content == '+' || content == '👍') {
-          if (!state.kind7Ratings.byArticleEventId[tag_e].likes.includes(oEvent.id)) {
-            state.kind7Ratings.byArticleEventId[tag_e].likes.push(oEvent.id)
+        // const aGoodReactions = ['+', '👍', '💯', '💜', '🧡', '👀', '🤙', '🚀', '🫂', '🔥', '🙏🏼', '♥️', '❤️‍🔥']
+        if (aGoodReactions.includes(content)) {
+        // if (content == '+' || content == '👍') {
+          if (!state.kind7Ratings.byArticleEventId[tag_e].likes.includes(oKind7Event.id)) {
+            state.kind7Ratings.byArticleEventId[tag_e].likes.push(oKind7Event.id)
           }
         }
-        if (content == '-' || content == '👎') {
-          if (!state.kind7Ratings.byArticleEventId[tag_e].dislikes.includes(oEvent.id)) {
-            state.kind7Ratings.byArticleEventId[tag_e].dislikes.push(oEvent.id)
+        if (aBadReactions.includes(content)) {
+        // if (content == '-' || content == '👎') {
+          if (!state.kind7Ratings.byArticleEventId[tag_e].dislikes.includes(oKind7Event.id)) {
+            state.kind7Ratings.byArticleEventId[tag_e].dislikes.push(oKind7Event.id)
           }
         }
       }
       /*
       kind7Ratings: {
         byKind7EventId: {
-          <kind7EventId>: oEvent
+          <kind7EventId>: oKind7Event
         },
         byArticleEventId: {
           <articleEventId>: {
@@ -174,6 +179,7 @@ export const nostrapediaSlice = createSlice({
       state.kind7Ratings = {}
       state.kind7Ratings.byKind7EventId = {}
       state.kind7Ratings.byArticleEventId = {}
+      state.kind7Ratings.byDTag = {}
       state.articles = {}
       state.articles.byEventId = {}
       state.articles.byNaddr = {}

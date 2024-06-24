@@ -6,6 +6,7 @@ const Settings = React.lazy(() => import('src/views/settings/settings/Settings')
 const Database = React.lazy(() => import('src/views/settings/database/Database.js'))
 const Developer = React.lazy(() => import('src/views/settings/developer/Settings.js'))
 const Grapevine = React.lazy(() => import('src/views/settings/grapevine/Settings.js'))
+const ContentDiscovery = React.lazy(() => import('src/views/settings/contentDiscovery/Settings.js'))
 const ConceptGraph = React.lazy(() => import('src/views/settings/conceptGraph/Settings.js'))
 const NestedLists = React.lazy(() => import('src/views/settings/nestedLists/Settings.js'))
 const CuratedLists = React.lazy(() => import('src/views/settings/curatedLists/Settings.js'))
@@ -24,6 +25,7 @@ const routes = [
   { path: '/settings/database', name: 'Database', element: Database },
   { path: '/settings/developer', name: 'Developer', element: Developer },
   { path: '/settings/grapevine', name: 'Grapevine', element: Grapevine },
+  { path: '/settings/contentDiscovery', name: 'Content Discovery', element: ContentDiscovery },
   { path: '/settings/conceptGraph', name: 'Concept Graph', element: ConceptGraph },
   { path: '/settings/nestedLists', name: 'Nested Lists', element: NestedLists },
   { path: '/settings/curatedLists', name: 'Curated Lists', element: CuratedLists },

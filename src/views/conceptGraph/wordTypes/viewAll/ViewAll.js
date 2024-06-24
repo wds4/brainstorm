@@ -15,6 +15,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { updateViewWordType } from 'src/redux/features/siteNavigation/slice'
+import { fetchFirstByTag } from '../../../../helpers'
 
 const ViewAllWordTypes = () => {
   const viewWordType = useSelector((state) => state.siteNavigation.conceptGraph.viewWordType)
@@ -46,19 +47,31 @@ const ViewAllWordTypes = () => {
                   <CTableRow>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Word Type</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">cid</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">pubkey</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Name</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
                   {aWordTypes.map((cid, item) => {
                     const event = oWords[cid]
                     const pk = event.pubkey
+
+                    const sWord = fetchFirstByTag('word', event)
+                    const oWord = JSON.parse(sWord)
+
                     const aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
                     let wT = ''
                     if (aTags_w.length > 0) {
                       wT = aTags_w[0][1]
                     }
+
+                    const propertyPath = wT + 'Data'
+                    let name = oWord[propertyPath]?.name
+                    if (!name) {
+                      if (wT == 'wordType') {
+                        name = oWord.wordTypeData.oName.singular
+                      }
+                    }
+
                     if (wT == 'wordType') {
                       return (
                         <CTableRow key={cid}>
@@ -71,8 +84,7 @@ const ViewAllWordTypes = () => {
                             </CNavLink>
                           </CTableHeaderCell>
                           <CTableDataCell>{wT}</CTableDataCell>
-                          <CTableDataCell>{cid}</CTableDataCell>
-                          <CTableDataCell>{pk}</CTableDataCell>
+                          <CTableDataCell>{name}</CTableDataCell>
                         </CTableRow>
                       )
                     }

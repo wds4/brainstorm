@@ -54,3 +54,21 @@ export const defListener7 = 'show' // concept graph content (kinds 9902, 39902)
 export const defListener8 = 'hide' //
 export const defListener9 = 'hide' //
 export const defListener10 = 'hide' //
+
+export const aGoodReactions = ['+', '👍', '💯', '💜', '🧡', '👀', '🤙', '🚀', '🫂', '🔥', '🙏🏼', '♥️', '❤️‍🔥']
+export const aBadReactions = ['-', '👎']
+
+// Content Discovery defaults
+export const defContDiscRigor = 60 // able to be more rigorous than baseline grapevine given higher interpreted confidence of contextual endorsements
+
+// Interpretation of Contextual Endorsements
+export const defFireInterpScore = 500 // for score == '🔥', pseudo NIP-77
+export const defThumbUpInterpScore = 200 // for score == '👍', pseudo NIP-77
+export const defThumbDownInterpScore = 0 // for score == '👎', pseudo NIP-77
+export const defContextualEndorsementInterpCon = 35
+
+// Interpretation of likes / dislikes of wiki articles
+export const defContextualWikiDislikeInterpScore = 0
+export const defContextualWikiDislikeInterpCon = 20
+export const defContextualWikiLikeInterpScore = 200
+export const defContextualWikiLikeInterpCon = 20

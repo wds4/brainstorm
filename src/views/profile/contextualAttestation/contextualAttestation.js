@@ -1,6 +1,6 @@
 import { cilThumbDown, cilThumbUp } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import { CButton, CForm } from '@coreui/react'
+import { CButton, CForm, CPopover } from '@coreui/react'
 import { useNostr } from 'nostr-react'
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -85,15 +85,29 @@ const ContextualFollowMuteButtons = ({ rateeNpub }) => {
     <>
       <CForm>
         <div className="d-flex gap-2">
-          <CButton type="button" color={muteButtonColor} onClick={processMuteButtonClick}>
-            👎
-          </CButton>
-          <CButton type="button" color={followButtonColor} onClick={processFollowButtonClick}>
-            👍
-          </CButton>
-          <CButton type="button" color={superfollowButtonColor} onClick={processSuperfollowButtonClick}>
-            🔥
-          </CButton>
+          <CPopover content="mute (block)" placement="top" trigger={['hover', 'focus']}>
+            <CButton type="button" color={muteButtonColor} onClick={processMuteButtonClick}>
+              👎
+            </CButton>
+          </CPopover>
+          <CPopover content="follow (endorse)" placement="top" trigger={['hover', 'focus']}>
+            <CButton type="button" color={followButtonColor} onClick={processFollowButtonClick}>
+              👍
+            </CButton>
+          </CPopover>
+          <CPopover
+            content="superfollow (superendorse)"
+            placement="top"
+            trigger={['hover', 'focus']}
+          >
+            <CButton
+              type="button"
+              color={superfollowButtonColor}
+              onClick={processSuperfollowButtonClick}
+            >
+              🔥
+            </CButton>
+          </CPopover>
           <CategorySelector updateSelectedContext={updateSelectedContext} />
         </div>
       </CForm>

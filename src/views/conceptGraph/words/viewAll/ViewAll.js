@@ -15,6 +15,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { updateViewWord } from 'src/redux/features/siteNavigation/slice'
+import { fetchFirstByTag } from '../../../../helpers'
 
 const ViewAllWords = () => {
   const viewWord = useSelector((state) => state.siteNavigation.conceptGraph.viewWord)
@@ -41,19 +42,31 @@ const ViewAllWords = () => {
                   <CTableRow>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Word Type</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">cid</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">pubkey</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">name of the word *</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
                   {Object.keys(oWords).map((cid, item) => {
                     const event = oWords[cid]
                     const pk = event.pubkey
+
+                    const sWord = fetchFirstByTag('word', event)
+                    const oWord = JSON.parse(sWord)
+
                     const aTags_w = event.tags.filter(([k, v]) => k === 'w' && v && v !== '')
                     let wT = ''
                     if (aTags_w.length > 0) {
                       wT = aTags_w[0][1]
                     }
+
+                    const propertyPath = wT + 'Data'
+                    let name = oWord[propertyPath]?.name
+                    if (!name) {
+                      if (wT == 'wordType') {
+                        name = oWord.wordTypeData.oName.singular
+                      }
+                    }
+
                     return (
                       <CTableRow key={cid}>
                         <CTableHeaderCell scope="row">
@@ -65,8 +78,7 @@ const ViewAllWords = () => {
                           </CNavLink>
                         </CTableHeaderCell>
                         <CTableDataCell>{wT}</CTableDataCell>
-                        <CTableDataCell>{cid}</CTableDataCell>
-                        <CTableDataCell>{pk}</CTableDataCell>
+                        <CTableDataCell>{name}</CTableDataCell>
                       </CTableRow>
                     )
                   })}
@@ -74,6 +86,9 @@ const ViewAllWords = () => {
               </CTable>
             </CCardBody>
           </CCard>
+        </CCol>
+        <CCol>
+          * Not applicable for every word type
         </CCol>
       </CRow>
     </>

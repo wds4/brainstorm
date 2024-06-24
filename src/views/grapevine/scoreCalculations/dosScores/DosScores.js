@@ -105,7 +105,7 @@ const DosScores = () => {
   return (
     <>
       <center>
-        <h4>Degrees of Separation (DoS) Scores</h4>
+        <h4>Calculation of Degrees of Separation (DoS) Scores</h4>
         <br />
         <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />

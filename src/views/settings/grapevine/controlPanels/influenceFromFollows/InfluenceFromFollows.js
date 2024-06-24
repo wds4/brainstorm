@@ -231,7 +231,7 @@ const InfluenceFromFollowsControlPanel = () => {
               <strong>Rigor</strong>
               <span style={{ color: 'grey', marginLeft: '5px' }}>
                 <CPopover
-                  content="Do ratings from 2 highly trusted users (the input) translate into a 95% confidence in the result, or only 80%? The Rigor is a parameter in the equation that makes this determination, by converting input to confidence."
+                  content="The Rigor is a parameter in the equation that calculates the confidence in an average score from the amount of input that went into determining that score."
                   placement="top"
                   trigger={['hover', 'focus']}
                 >

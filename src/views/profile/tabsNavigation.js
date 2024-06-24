@@ -101,30 +101,8 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
         <CNavLink active={isWotScores} onClick={setActiveTabWotScores}>
           Influence Scores
         </CNavLink>
-        <CNavLink
-          active={isLeaveRating}
-          onClick={setActiveTabLeaveRating}
-          disabled={developmentMode == 'hide'}
-        >
-          Leave Rating
-        </CNavLink>
-        <CNavLink
-          active={isRatingsOf}
-          onClick={setActiveTabRatingsOf}
-          disabled={developmentMode == 'hide'}
-        >
-          Ratings of
-        </CNavLink>
-        <CNavLink
-          active={isRatingsBy}
-          onClick={setActiveTabRatingsBy}
-          disabled={developmentMode == 'hide'}
-        >
-          Ratings by
-        </CNavLink>
-
-        <CNavLink active={isNotes} onClick={setActiveTabNotes} disabled={true}>
-          Notes
+        <CNavLink active={isLeaveRating} onClick={setActiveTabLeaveRating}>
+          Contextual Endorsements
         </CNavLink>
       </CNav>
     </>
@@ -132,3 +110,23 @@ const TabsNavigation = ({ whichTab, updateWhichTab }) => {
 }
 
 export default TabsNavigation
+
+/*
+<CNavLink
+active={isRatingsOf}
+onClick={setActiveTabRatingsOf}
+disabled={developmentMode == 'hide'}
+>
+Ratings of
+</CNavLink>
+<CNavLink
+active={isRatingsBy}
+onClick={setActiveTabRatingsBy}
+disabled={developmentMode == 'hide'}
+>
+Ratings by
+</CNavLink>
+<CNavLink active={isNotes} onClick={setActiveTabNotes} disabled={true}>
+Notes
+</CNavLink>
+*/

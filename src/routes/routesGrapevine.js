@@ -15,6 +15,9 @@ const AboutWotScore = React.lazy(() => import('src/views/grapevine/about/wotScor
 const AboutDosScore = React.lazy(() => import('src/views/grapevine/about/dosScore'))
 const AboutInfluenceScore = React.lazy(() => import('src/views/grapevine/about/influenceScore'))
 
+const CalculateContextualInfluenceScores = React.lazy(
+  () => import('src/views/grapevine/scoreCalculations/contextualInfluenceScores/ContextualInfluenceScores'),
+)
 const CalculateInfluenceScores = React.lazy(
   () => import('src/views/grapevine/scoreCalculations/influenceScores/InfluenceScores'),
 )
@@ -78,6 +81,11 @@ const routes = [
   { path: '/grapevine/settings', name: 'Settings', element: Settings },
   { path: '/grapevine/dashboard', name: 'Dashboard', element: GrapevineDashboard },
 
+  {
+    path: '/grapevine/calculateContextualInfluenceScores',
+    name: 'Contextual Influence Scores',
+    element: CalculateContextualInfluenceScores,
+  },
   {
     path: '/grapevine/calculateInfluenceScores',
     name: 'Influence Scores',

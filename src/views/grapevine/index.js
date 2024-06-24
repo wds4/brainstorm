@@ -34,6 +34,9 @@ const GrapevineCalculations = () => {
   const wotScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numWotScoreProfiles
   const dosScoreProfilesToAdd = Object.keys(oProfilesByNpub).length - numDosScoreProfiles
 
+  let contextualInfluenceScores_value = 'Calculate Contextual Influence Scores'
+  let contextualInfluenceScores_title = 'not yet calculated '
+
   let influenceScores_value = ''
   let influenceScores_title = ''
   if (numInfluenceScoreProfiles > 0) {
@@ -194,6 +197,17 @@ const GrapevineCalculations = () => {
                 icon={<CIcon width={24} icon={cilGraph} size="xl" />}
                 title={dosScores_title}
                 value={dosScores_value}
+                color="info"
+              />
+            </CNavLink>
+          </CCol>
+
+          <CCol xs={12} sm={6} xl={4} xxl={3}>
+            <CNavLink href="#/grapevine/calculateContextualInfluenceScores">
+              <CWidgetStatsF
+                icon={<CIcon width={24} icon={cilGraph} size="xl" />}
+                title={contextualInfluenceScores_title}
+                value={contextualInfluenceScores_value}
                 color="info"
               />
             </CNavLink>

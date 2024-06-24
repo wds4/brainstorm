@@ -104,7 +104,7 @@ const WotScores = () => {
   return (
     <>
       <center>
-        <h4>Web of Trust (WoT) Scores</h4>
+        <h4>Calculation of Web of Trust (WoT) Scores</h4>
         <br />
         <RecalculationIndicator numProfiles={numProfiles} profilesAdded={profilesAdded} />
         <br />

@@ -1,27 +1,41 @@
 import React, { useState } from 'react'
-import { CFormSelect } from '@coreui/react'
+import { CFormInput, CFormSelect } from '@coreui/react'
 import { useSelector } from 'react-redux'
 
 // eslint-disable-next-line react/prop-types
 const ContextSelector = ({ updateSelectedContext }) => {
-  const [selectedDescription, setSelectedDescription] = useState('')
+  // const [selectedDescription, setSelectedDescription] = useState('')
   const oContexts = useSelector((state) => state.grapevine.contexts)
   const oWikiCategories = useSelector((state) => state.nostrapedia.categories)
-  const updateCategory = (e) => {
-    setSelectedDescription(e.target.selectedOptions[0].dataset.description)
+
+  const [categorySelectorValue, setCategorySelectorValue] = useState('unselected')
+  const updateCategoryViaSelector = (e) => {
+    // setSelectedDescription(e.target.selectedOptions[0].dataset.description)
     updateSelectedContext(e.target.value)
+    setCustomInputValue('')
+    setCategorySelectorValue(e.target.value)
+  }
+
+  const [customInputValue, setCustomInputValue] = useState('')
+  const updateCategoryViaInput = (e) => {
+    // setSelectedDescription(e.target.selectedOptions[0].dataset.description)
+    updateSelectedContext(e.target.value)
+    setCustomInputValue(e.target.value)
+    setCategorySelectorValue('unselected')
   }
   return (
     <>
       <CFormSelect
         onChange={(e) => {
-          updateCategory(e)
+          updateCategoryViaSelector(e)
         }}
+        id="categorySelector"
+        value={categorySelectorValue}
       >
         <option value="unselected" selected disabled data-description="">
-          select a category
+          select a category from existing Wiki categories ...
         </option>
-        {Object.keys(oWikiCategories).map((categoryName, item) => {
+        {Object.keys(oWikiCategories).sort().map((categoryName, item) => {
           return (
             <option key={item} value={categoryName} description={categoryName}>
               {categoryName}
@@ -29,6 +43,14 @@ const ContextSelector = ({ updateSelectedContext }) => {
           )
         })}
       </CFormSelect>
+      <CFormInput
+        onChange={(e) => {
+          updateCategoryViaInput(e)
+        }}
+        id="customInputField"
+        value={customInputValue}
+        placeholder="... or create your own category"
+      />
     </>
   )
 }

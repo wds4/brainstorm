@@ -21,6 +21,12 @@ const _nav = [
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
   {
+    component: CNavItem,
+    name: 'Content Discovery Settings',
+    to: '/settings/contentDiscovery',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+  },
+  {
     component: CNavTitle,
     name: 'Technical',
   },
