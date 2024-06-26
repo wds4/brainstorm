@@ -19,7 +19,7 @@ const AppFooter = () => {
       <div className="ms-auto">
         <span className="ms-1">
           &copy; 2024{' '}
-          <a target="_blank" href="pgf.tech">
+          <a target="_blank" href="https://pgf.tech">
             Pretty Good Freedom Tech
           </a>
         </span>{' '}
