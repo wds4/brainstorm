@@ -62,9 +62,9 @@ export const aBadReactions = ['-', '👎']
 export const defContDiscRigor = 60 // able to be more rigorous than baseline grapevine given higher interpreted confidence of contextual endorsements
 
 // Interpretation of Contextual Endorsements
-export const defFireInterpScore = 500 // for score == '🔥', pseudo NIP-77
-export const defThumbUpInterpScore = 200 // for score == '👍', pseudo NIP-77
-export const defThumbDownInterpScore = 0 // for score == '👎', pseudo NIP-77
+export const defFireInterpScore = 500 // for score == '🔥', pseudo NIP-77 format
+export const defThumbUpInterpScore = 200 // for score == '👍', pseudo NIP-77 format
+export const defThumbDownInterpScore = 0 // for score == '👎', pseudo NIP-77 format
 export const defContextualEndorsementInterpCon = 35
 
 // Interpretation of likes / dislikes of wiki articles
