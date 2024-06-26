@@ -129,6 +129,37 @@ const AboutInfluenceScore = () => {
             If you are a developer and you are considering writing your own implementation of the
             Influence Score, here is an attempt to tell you everything you will need to know.
           </p>
+          <h3>Condensed version:</h3>
+          <p>
+            Each Influence Score is actually 4 numbers: averageScore, input, confidence, and
+            influence. Calculate each in turn:
+          </p>
+          <li>
+            1. Calculate averageScore: this is a <i>weighted average</i>, with each piece of raw
+            data (follow, mute, etc) being interpreted as a vote with a score (follow = 1, mute =
+            0), and the weight being proportional the influence of the issuer{' '}
+          </li>
+          <li>2. Calculate input: this is a sum of the weights from step 1.</li>
+          <li>
+            3. Calculate confidence: this is a function of input and is a number between 0 and 100
+            percent. 0 input equals 0 percent confidence; infinite input equals 100 percent
+            confidence.
+          </li>
+          <li>4. Calculate influence = averageScore * confidence</li>
+          <p>
+            Do the above 4 calculations for each npub in the database, then cycle through all npubs
+            until all values converge. The only exception is the logged-in npub, whose influence is
+            fixed at 1 by definition. All other influnece scores are initialized to be zero.{' '}
+          </p>
+          <p>
+            Step 1 is probably is the most computationally expensive step. Basically, a bunch of dot
+            products. (Nvidia chips that are optiized for dot products and good for LLM would
+            probably be well suited for Influence Score calculations too. This may be important one
+            day, when everyone on the planet is calculating and continuously updating the Influence
+            Scores for everyone else on the planet, for as many contexts as we have resources to
+            calculate! )
+          </p>
+          <h3>Longer version:</h3>
           <p>Most of the code can be found here:</p>
           <pre>
             https://github.com/wds4/brainstorm/blob/main/src/views/grapevine/scoreCalculations/contextualInfluenceScores/contextualInfluenceCalculations.js
