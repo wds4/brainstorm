@@ -159,6 +159,23 @@ const AboutInfluenceScore = () => {
             Scores for everyone else on the planet, for as many contexts as we have resources to
             calculate! )
           </p>
+          <p>The four steps described above can be distilled into a single equation:</p>
+          <img
+            width="100%"
+            src="https://image.nostr.build/d38dd7b7494d1b0b8147267de2d43e48a0c086c72897867a5e220a42cefb8a57.png"
+          />
+          <p>
+            In the above figure, r(w) represents an individual trust rating, i.e. a single "vote" as
+            described above. Thank you to{' '}
+            <a
+              href="https://primal.net/p/npub176p7sup477k5738qhxx0hk2n0cty2k5je5uvalzvkvwmw4tltmeqw7vgup"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              pippellia
+            </a>{' '}
+            for putting this figure together!
+          </p>
           <h3>Longer version:</h3>
           <p>Most of the code can be found here:</p>
           <pre>
