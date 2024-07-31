@@ -1,8 +1,17 @@
-<center>the Grapevine Relay</center>
+# <p align="center">The Grapevine Relay</p>
+
+## Alternate names
+
+the Grapevine Relay, the Tapestry Relay
 
 ## Product Description
 
-The Grapevine Relay is an open source personal nostr relay that harnesses web of trust to improve every aspect of your nostr experience. Your Grapevine Relay is a personal archive of nostr content, follows, zaps, likes, and any other data of interest to you; calculates web of trust scores according to the principles of the Tapestry protocol; and makes those scores readily available to nostr clients.
+nostr relay + DVM + web of trust (+ integrated lightning wallet?)
+
+The Grapevine Relay is an open source personal nostr relay that harnesses web of trust to improve every aspect of your nostr experience. Your Grapevine Relay is a personal archive of any and every piece of nostr content that you deem to be worth keeping. That includes follows, zaps, likes, and any other data used to calculate web of trust scores. The relay calculates web of trust scores according to the principles of the Tapestry protocol for several reasons:
+- It makes those scores readily available to nostr clients so that they can stratify content
+- Those scores help you decide which content is worth archiving and which is not
+- Those scores can be used to help you decide which npubs should and should not have access to your content
 
 ## Monetization
 
