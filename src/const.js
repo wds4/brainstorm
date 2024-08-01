@@ -1,15 +1,19 @@
 export const noProfilePicUrl = 'https://nostr.build/i/2282.png'
 export const noBannerPicUrl = 'https://nostr.build/i/2282.png'
+
 export const aDefaultRelays = [
-  'wss://relay.wikifreedia.xyz',
   'wss://purplepag.es',
   'wss://relay.damus.io',
   'wss://relay.primal.net',
   'wss://relay.nostr.band',
-  'wss://relay.nostr.band',
   'wss://nostr.wine',
   'wss://nos.lol',
 ]
+/*
+export const aDefaultRelays = [
+  'wss://relay.tapestry.ninja',
+]
+  */
 export const cutoffTime = 1714936803 // cutoff time when filtering for tapestry protocol words
 
 /*
@@ -17,7 +21,6 @@ export const cutoffTime = 1714936803 // cutoff time when filtering for tapestry 
   'wss://purplepag.es',
   'wss://relay.damus.io',
   'wss://relay.primal.net',
-  'wss://relay.nostr.band',
   'wss://relay.nostr.band',
   'wss://nostr.wine',
   'wss://nos.lol',

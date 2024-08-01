@@ -20,7 +20,7 @@ import NDK, { NDKEvent, NDKNip07Signer } from '@nostr-dev-kit/ndk'
 import { aDefaultRelays } from 'src/const'
 
 const PublishNoteNdk = () => {
-
+  /*
   const nip07signer = new NDKNip07Signer()
   const ndk = new NDK({ signer: nip07signer, explicitRelayUrls: aDefaultRelays })
   nip07signer.user().then(async (user) => {
@@ -35,9 +35,10 @@ const PublishNoteNdk = () => {
 
   const ndkEvent = new NDKEvent(ndk)
   ndkEvent.kind = 1
-  ndkEvent.content = 'Web of Trust fixes this. ™️'
+  ndkEvent.content = 'Web of Trust fixes this A. ™️'
   // This seems to work:
-  // ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
+  ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
+  */
 
   const signedIn = useSelector((state) => state.profile.signedIn)
   const oProfile = useSelector((state) => state.profile)
@@ -71,6 +72,28 @@ const PublishNoteNdk = () => {
   )
 
   const publishTwittrNote = useCallback(async () => {
+    console.log('publishTwittrNote')
+    const nip07signer = new NDKNip07Signer()
+    const ndk = new NDK({ signer: nip07signer, explicitRelayUrls: aDefaultRelays })
+    nip07signer.user().then(async (user) => {
+      if (!!user.npub) {
+        console.log('Permission granted to read their public key:', user.npub)
+      }
+    })
+    const asyncConnect = async () => {
+      await ndk.connect()
+    }
+    asyncConnect()
+
+    const ndkEvent = new NDKEvent(ndk)
+    ndkEvent.kind = 1
+    ndkEvent.content = content
+    // This seems to work:
+    ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
+  }, [content])
+
+  /*
+  const publishTwittrNote_backup = useCallback(async () => {
     const note = {}
     note.kind = 1
     note.content = content
@@ -82,6 +105,7 @@ const PublishNoteNdk = () => {
     setSubmitEventButtonClassName('hide')
     setCreateAnotherElementClassName('show')
   }, [content])
+  */
 
   const createAnotherNoteButton = useCallback(() => {
     setSubmitEventButtonClassName('mt-3')
