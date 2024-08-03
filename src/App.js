@@ -70,11 +70,7 @@ const App = () => {
           >
             <Routes>
               <Route exact path="/login" name="Login Page" element={<Login />} />
-              <Route
-                path="*"
-                name="Home"
-                element={<DefaultLayout/>}
-              />
+              <Route path="*" name="Home" element={<DefaultLayout />} />
             </Routes>
           </Suspense>
         </HashRouter>
@@ -84,3 +80,11 @@ const App = () => {
 }
 
 export default App
+
+/*
+    <NDKProvider relayUrls={ndkProviderRelays}>
+      <NostrProvider relayUrls={ndkProviderRelays} debug={false}>
+      </NostrProvider>
+    </NDKProvider>
+
+*/

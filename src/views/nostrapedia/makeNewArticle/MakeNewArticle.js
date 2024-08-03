@@ -21,10 +21,11 @@ import RawData from './RawData'
 import { ShowAuthor } from '../components/ShowAuthor'
 import { signEventPGA } from 'src/helpers/signers'
 import { useNostr } from 'nostr-react'
-import { ndk } from '../../../helpers/ndk'
-import { NDKEvent, NDKKind, NDKNip07Signer } from '@nostr-dev-kit/ndk'
 import { fetchFirstByTag } from 'src/helpers'
 import { useSearchParams } from 'react-router-dom'
+import { Container } from 'postcss'
+
+const mdStr = `# Test Entry  \n## Subtitle \n\nLorem Ipsum \n\nCreated using [brainstorm.ninja](https://brainstorm.ninja)`
 
 const oEventDefault = {
   id: null,
@@ -94,7 +95,7 @@ const PreviewWiki = ({ oEvent, showWikiPreviewButton, markdown, topicTitle, topi
   )
 }
 
-const MakeNewWikiArticleBody = () => {
+const MakeNewWikiArticle2 = () => {
   const [markdown, setMarkdown] = useState('\n\n\n\n\n')
   const [oEvent, setOEvent] = useState({})
   const [naddr, setNaddr] = useState('')
@@ -193,9 +194,8 @@ const MakeNewWikiArticleBody = () => {
         note.content = markdown
         note.tags = aTags
         note.created_at = currentTime
-        setOEvent(note)
-        // const note_signed = await signEventPGA(oProfile, note)
-        // setOEvent(note_signed)
+        const note_signed = await signEventPGA(oProfile, note)
+        setOEvent(note_signed)
       } catch (e) {
         console.log(e)
       }
@@ -271,32 +271,12 @@ const MakeNewWikiArticleBody = () => {
     [category, newCategory],
   )
 
-  const publishKind30818Note = async () => {
-    const nip07signer = new NDKNip07Signer()
-    const ndkEvent = new NDKEvent(ndk)
-    // const oNote = await makeWord(oProfile, markdown, topicSlug, topicTitle, category, newCategory)
-    const currentTime = Math.floor(Date.now() / 1000)
-    const aTags = []
-    aTags.push(['d', topicSlug])
-    aTags.push(['title', topicTitle])
-    if (category) {
-      aTags.push(['c', category])
-    } else {
-      if (newCategory) {
-        aTags.push(['c', newCategory])
-      }
-    }
-    aTags.push(['published_at', JSON.stringify(currentTime)])
-    aTags.push(['client', 'brainstorm'])
-    ndkEvent.kind = 30818
-    ndkEvent.content = markdown
-    ndkEvent.tags = aTags
-    await ndkEvent.sign(nip07signer)
-    await ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
-
+  const publishKind30818Note = useCallback(async () => {
+    const oNote = await makeWord(oProfile, markdown, topicSlug, topicTitle, category, newCategory)
+    publish(oNote)
     setPublishWikiButtonClassName('hide')
     setPublishAnotherWikiClassName('show')
-  }
+  }, [oProfile, markdown, topicSlug, topicTitle, category, newCategory])
 
   const publishAnotherWiki = useCallback(() => {
     setPublishWikiButtonClassName('mt-3')
@@ -468,7 +448,7 @@ const MakeNewWikiArticle = () => {
         You must be logged in to post or edit a wiki article.
       </div>
       <div className={loggedInClassName}>
-        <MakeNewWikiArticleBody />
+        <MakeNewWikiArticle2 />
       </div>
     </>
   )

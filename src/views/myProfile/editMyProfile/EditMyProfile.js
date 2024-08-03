@@ -8,6 +8,22 @@ import { CCol, CContainer, CRow } from '@coreui/react'
 import { getProfileBrainstormFromNpub } from '../../../helpers/brainstorm'
 
 const EditMyProfile = () => {
+  const signInMethod = useSelector((state) => state.profile.signInMethod)
+  if (signInMethod == 'secret') {
+    return (
+      <CContainer
+        className="px-4"
+        style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+      >
+        <CRow>
+          <center>
+            <h3>Edit My Profile</h3>
+            <p>(currently only functions if signed in via extension)</p>
+          </center>
+        </CRow>
+      </CContainer>
+    )
+  }
   // const oMyProfile = useSelector((state) => state.profile)
   const npub = useSelector((state) => state.siteNavigation.npub)
   const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
@@ -64,8 +80,6 @@ const EditMyProfile = () => {
           <h3>Edit My Profile</h3>
         </center>
         <div>
-          <h2>Update Profile</h2>
-          <p>Create a new/updated kind0</p>
           <input
             type="text"
             style={{ width: '90%' }}
@@ -132,7 +146,6 @@ const EditMyProfile = () => {
           <br />
           <button onClick={update}>Update</button>
           <br />
-          <pre>{JSON.stringify(oProfileBrainstorm, null, 4)}</pre>
         </div>
       </CRow>
     </CContainer>
