@@ -17,7 +17,7 @@ import {
 import { getProfileBrainstormFromNpub, returnDegreesOfSeparation } from '../../helpers/brainstorm'
 import { updateDegreesOfSeparation } from '../../redux/features/profiles/slice'
 import TabsContent from './tabsContent'
-import SingleProfileListener from '../../helpers/profilesListeners/singleProfileListener'
+import SingleProfileListener from '../../helpers/profilesListeners-ndk-react/singleProfileListener'
 
 const EditMyProfileButton = () => {
   const npubBeingObserved = useSelector((state) => state.siteNavigation.npub)
