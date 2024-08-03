@@ -1,4 +1,4 @@
-import { ndk } from '../ndk'
+import { useNDK } from '@nostr-dev-kit/ndk-react'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -22,34 +22,44 @@ const ListenerOn = () => {
     kinds: [0, 3, 10000],
   }
 
-  const sub3 = ndk.subscribe(filter)
-  sub3.on('event', async (eventNS) => {
-    // const author = eventNS.author
-    // const profile = await author.fetchProfile()
-    // console.log(`${profile.name}: ${eventNS.content}`)
-    const event = makeEventSerializable(eventNS)
-    if (event.kind == 0) {
-      dispatch(updateKind0Event(event))
-      if (event.pubkey == myPubkey) {
-        const oMyProfile = JSON.parse(event.content)
-        dispatch(updateMyProfile(oMyProfile))
-        const npub_toUpdate = myNpub
-        const degreesOfSeparation_new = 0
-        dispatch(
-          updateDegreesOfSeparation({ npub_toUpdate, degreesOfSeparation_new }),
-        )
-      }
+  // use ndk-react
+  const { fetchEvents } = useNDK()
+  useEffect(() => {
+    async function updateMyProfileDatabase() {
+      const events = await fetchEvents(filter)
+      events.forEach((eventNS, item) => {
+        try {
+          if (validateEvent(eventNS)) {
+            const event = makeEventSerializable(eventNS)
+            if (event.kind == 0) {
+              dispatch(updateKind0Event(event))
+              if (event.pubkey == myPubkey) {
+                const oMyProfile = JSON.parse(event.content)
+                dispatch(updateMyProfile(oMyProfile))
+                const npub_toUpdate = myNpub
+                const degreesOfSeparation_new = 0
+                dispatch(
+                  updateDegreesOfSeparation({ npub_toUpdate, degreesOfSeparation_new }),
+                )
+              }
+            }
+            if (event.kind == 3) {
+              dispatch(processKind3Event(event))
+              if (event.pubkey == myPubkey) {
+                dispatch(processMyKind3Event(event))
+              }
+            }
+            if (event.kind == 10000) {
+              dispatch(processKind10000Event(event))
+            }
+          }
+        } catch (e) {
+          console.log('MyProfileListener error: ' + e)
+        }
+      })
     }
-    if (event.kind == 3) {
-      dispatch(processKind3Event(event))
-      if (event.pubkey == myPubkey) {
-        dispatch(processMyKind3Event(event))
-      }
-    }
-    if (event.kind == 10000) {
-      dispatch(processKind10000Event(event))
-    }
-  })
+    updateMyProfileDatabase()
+  }, [fetchEvents(filter)])
 
   return <></>
   return (

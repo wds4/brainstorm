@@ -35,7 +35,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@noble/hashes": "^1.4.0",
-    "@nostr-dev-kit/ndk": "^2.7.1",
+    "@nostr-dev-kit/ndk": "^2.10.0",
     "@nostr-dev-kit/ndk-react": "^0.1.1",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.2.3",

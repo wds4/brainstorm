@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { ndk } from '../ndk'
+import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent } from 'nostr-tools'
 import { processKind1Event } from '../../redux/features/twittr/slice'
 import { makeEventSerializable } from '..'
@@ -15,16 +15,6 @@ const TwittrListenerMain = ({ aPubkeys }) => {
     authors: aPubkeys,
   }
 
-  const sub9 = ndk.subscribe(filter)
-  sub9.on('event', async (eventNS) => {
-    // const author = eventNS.author
-    // const profile = await author.fetchProfile()
-    // console.log(`${profile.name}: ${eventNS.content}`)
-    const event = makeEventSerializable(eventNS)
-    dispatch(processKind1Event(event))
-  })
-
-  /*
   // use ndk-react
   const { fetchEvents } = useNDK()
   useEffect(() => {
@@ -44,7 +34,6 @@ const TwittrListenerMain = ({ aPubkeys }) => {
     }
     updateTwittrDatabase()
   }, [fetchEvents(filter)])
-  */
 
   return <><div>TwittrListener</div></>
 }

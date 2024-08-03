@@ -792,7 +792,7 @@ const WikiTopic = () => {
                       Reaction Score
                       <span style={{ color: 'grey', marginLeft: '5px' }}>
                         <CPopover
-                          content="number of likes minus number of dislikes"
+                          content="number of likes minus number of dislikes (current version only)"
                           placement="left"
                           trigger={['hover', 'focus']}
                         >

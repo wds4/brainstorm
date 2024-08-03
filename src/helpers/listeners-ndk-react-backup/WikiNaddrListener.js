@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ndk } from '../ndk'
+import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { validateEvent, verifyEvent } from 'nostr-tools'
 import { addArticle } from '../../redux/features/nostrapedia/slice'
 import { makeEventSerializable } from '..'
@@ -25,16 +25,27 @@ const WikiNaddrListener = ({ naddr }) => {
     }
   }
 
-  const sub12 = ndk.subscribe(filter)
-  sub12.on('event', async (eventNS) => {
-    // const author = eventNS.author
-    // const profile = await author.fetchProfile()
-    // console.log(`${profile.name}: ${eventNS.content}`)
-    const event = makeEventSerializable(eventNS)
-    const pubkey = event.pubkey
-    dispatch(addNewPubkey(pubkey))
-    dispatch(addArticle(event))
-  })
+  // use ndk-react
+  const { fetchEvents } = useNDK()
+  useEffect(() => {
+    async function updateWikiDatabase() {
+      const events = await fetchEvents(filter)
+
+      events.forEach((eventNS, item) => {
+        try {
+          if (validateEvent(eventNS)) {
+            const event = makeEventSerializable(eventNS)
+            const pubkey = event.pubkey
+            dispatch(addNewPubkey(pubkey))
+            dispatch(addArticle(event))
+          }
+        } catch (e) {
+          console.log('updateWikiDatabase error: ' + e)
+        }
+      })
+    }
+    updateWikiDatabase()
+  }, [fetchEvents(filter)])
 
   return (
     <>

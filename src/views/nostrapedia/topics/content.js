@@ -23,13 +23,12 @@ import {
   updateViewNostrapediaTopic,
 } from '../../../redux/features/siteNavigation/slice'
 import { whenTopicWasLastUpdated } from '../topic/Topic'
-import { fetchFirstByTag, secsToTime, timeout } from '../../../helpers'
-import { returnKind7Results } from '../../../helpers/nostrapedia'
+import { fetchFirstByTag, secsToTime } from '../../../helpers'
 import CIcon from '@coreui/icons-react'
 import { cilInfo } from '@coreui/icons'
 import { getProfileBrainstormFromPubkey } from '../../../helpers/brainstorm'
 
-const LoginPrompt = ({promptLoginElemClassName}) => {
+const LoginPrompt = ({ promptLoginElemClassName }) => {
   return (
     <>
       <div className={promptLoginElemClassName}>
@@ -68,8 +67,8 @@ const FollowForWotUtilityPrompt = ({ promptFollowForWotUtilityClassName }) => {
         }}
         className={promptFollowForWotUtilityClassName}
       >
-        EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED.
-        THE POPULARITY, CONTROVERSY, and TRENDING SCORES SCORE WILL BE ZERO.
+        EITHER YOU'RE NOT FOLLOWING ANYBODY, OR YOUR FOLLOWS HAVE NOT YET BEEN DOWNLOADED. THE
+        POPULARITY, CONTROVERSY, and TRENDING SCORES SCORE WILL BE ZERO.
         <br />
         YOU MUST FIRST FOLLOW AT LEAST ONE PROFILE.
       </div>
@@ -120,7 +119,8 @@ const PromptCalcInfluenceScore = ({ promptCalcInfluenceScoreElemClassName }) => 
             alignItems: 'center',
           }}
         >
-          Influence Scores are required to sort content by Trending, Popularity, and Controversy Scores but have not yet been calculated. To calculate Influence Scores, go to{' '}
+          Influence Scores are required to sort content by Trending, Popularity, and Controversy
+          Scores but have not yet been calculated. To calculate Influence Scores, go to{' '}
           <CButton
             color="primary"
             href="#/grapevine/calculateInfluenceScores"
@@ -604,13 +604,16 @@ const WikiArticlesAlphabetical = () => {
     dispatch(updateSortWikiTopicsBy(newSortByValue))
   }
 
-  let popularityDescription = "the Popularity Score: sum over likes, each of which is weighted by the Influence Score of the reactor. This includes likes of prior versions of a given article."
+  let popularityDescription =
+    'the Popularity Score: sum over likes, each of which is weighted by the Influence Score of the reactor. This includes likes of prior versions of a given article.'
   // popularityDescription += " (Parentheses: global score; does not weight by Influence Score.)"
 
-  let trendingDescription = "the Trending Score: calculated from age of likes, age of dislikes, and age of the article, and weighted by the Influence Score of the author or reactor. This includes reactions to prior versions of a given article."
+  let trendingDescription =
+    'the Trending Score: calculated from age of likes, age of dislikes, and age of the article, and weighted by the Influence Score of the author or reactor. This includes reactions to prior versions of a given article.'
   // popularityDescription += " (Parentheses: global score; does not weight by Influence Score.)"
 
-  let controversyDescription = "the Controversy Score: sum over dislikes, each of which is weighted by the Influence Score of the reactor. This includes dislikes of prior versions of a given article."
+  let controversyDescription =
+    'the Controversy Score: sum over dislikes, each of which is weighted by the Influence Score of the reactor. This includes dislikes of prior versions of a given article.'
   // popularityDescription += " (Parentheses: global score; does not weight by Influence Score.)"
   return (
     <>

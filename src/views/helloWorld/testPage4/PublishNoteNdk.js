@@ -13,33 +13,12 @@ import {
 } from '@coreui/react'
 import { signEventPGA } from 'src/helpers/signers'
 import { useSelector } from 'react-redux'
-import { useNostr } from 'nostr-react'
+import { ndk } from '../../../helpers/ndk'
 import RawData from './RawData'
 ///////////////
-import NDK, { NDKEvent, NDKNip07Signer } from '@nostr-dev-kit/ndk'
-import { aDefaultRelays } from 'src/const'
+import { NDKEvent, NDKKind, NDKNip07Signer } from '@nostr-dev-kit/ndk'
 
 const PublishNoteNdk = () => {
-  /*
-  const nip07signer = new NDKNip07Signer()
-  const ndk = new NDK({ signer: nip07signer, explicitRelayUrls: aDefaultRelays })
-  nip07signer.user().then(async (user) => {
-    if (!!user.npub) {
-      console.log('Permission granted to read their public key:', user.npub)
-    }
-  })
-  const asyncConnect = async () => {
-    await ndk.connect()
-  }
-  asyncConnect()
-
-  const ndkEvent = new NDKEvent(ndk)
-  ndkEvent.kind = 1
-  ndkEvent.content = 'Web of Trust fixes this A. ™️'
-  // This seems to work:
-  ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
-  */
-
   const signedIn = useSelector((state) => state.profile.signedIn)
   const oProfile = useSelector((state) => state.profile)
   const [content, setContent] = useState('')
@@ -56,7 +35,7 @@ const PublishNoteNdk = () => {
     },
     [content],
   )
-  const { publish } = useNostr()
+  // const { publish } = useNostr()
 
   const previewTwittrNote = useCallback(
     async (newContent) => {
@@ -71,41 +50,17 @@ const PublishNoteNdk = () => {
     [content],
   )
 
-  const publishTwittrNote = useCallback(async () => {
-    console.log('publishTwittrNote')
+  const publishNote = async () => {
     const nip07signer = new NDKNip07Signer()
-    const ndk = new NDK({ signer: nip07signer, explicitRelayUrls: aDefaultRelays })
-    nip07signer.user().then(async (user) => {
-      if (!!user.npub) {
-        console.log('Permission granted to read their public key:', user.npub)
-      }
-    })
-    const asyncConnect = async () => {
-      await ndk.connect()
-    }
-    asyncConnect()
-
+    // const ndkEvent = new NDKEvent(ndk, { kind: NDKKind.Metadata })
     const ndkEvent = new NDKEvent(ndk)
+
     ndkEvent.kind = 1
     ndkEvent.content = content
-    // This seems to work:
-    ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
-  }, [content])
-
-  /*
-  const publishTwittrNote_backup = useCallback(async () => {
-    const note = {}
-    note.kind = 1
-    note.content = content
-    note.tags = []
-    note.created_at = Math.floor(Date.now() / 1000)
-    const note_signed = await signEventPGA(oProfile, note)
-    // publish(note_signed)
-    setOEvent(note_signed)
-    setSubmitEventButtonClassName('hide')
-    setCreateAnotherElementClassName('show')
-  }, [content])
-  */
+    console.log('publishNote; content: ' + content)
+    await ndkEvent.sign(nip07signer)
+    await ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
+  }
 
   const createAnotherNoteButton = useCallback(() => {
     setSubmitEventButtonClassName('mt-3')
@@ -133,7 +88,7 @@ const PublishNoteNdk = () => {
   return (
     <>
       <center>
-        <h3>Publish kind 1 Note: NDK (not yet working)</h3>
+        <h3>Publish kind 1 Note: NDK</h3>
       </center>
       <CRow>
         <CCol xs={12}>
@@ -153,7 +108,7 @@ const PublishNoteNdk = () => {
               <CButton
                 color="primary"
                 className={submitEventButtonClassName}
-                onClick={publishTwittrNote}
+                onClick={publishNote}
               >
                 Submit
               </CButton>

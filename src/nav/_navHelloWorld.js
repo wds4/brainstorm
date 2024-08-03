@@ -44,6 +44,36 @@ const _nav = [
     to: '/helloWorld/testPage5',
     icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
   },
+  {
+    component: CNavItem,
+    name: 'Test Page 6',
+    to: '/helloWorld/testPage6',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 7',
+    to: '/helloWorld/testPage7',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 8',
+    to: '/helloWorld/testPage8',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 9',
+    to: '/helloWorld/testPage9',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 10',
+    to: '/helloWorld/testPage10',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
 ]
 
 export default _nav

@@ -1,55 +1,59 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNDK } from '@nostr-dev-kit/ndk-react'
 import { ndk } from '../ndk'
-import { validateEvent } from 'nostr-tools'
-import { processKind1Event } from '../../redux/features/twittr/slice'
+import { validateEvent, verifyEvent } from 'nostr-tools'
+import { addArticle } from '../../redux/features/nostrapedia/slice'
 import { makeEventSerializable } from '..'
+import { addNewPubkey } from '../../redux/features/profiles/slice'
 
-// TO DO: test
-// eslint-disable-next-line react/prop-types
-const TwittrListenerMain = ({ aPubkeys }) => {
+const WikiListenerMain = () => {
+  const myPubkey = useSelector((state) => state.profile.pubkey)
   const dispatch = useDispatch()
 
   const filter = {
-    kinds: [1],
-    authors: aPubkeys,
+    kinds: [30818],
   }
 
-  const sub9 = ndk.subscribe(filter)
-  sub9.on('event', async (eventNS) => {
+  const sub13 = ndk.subscribe(filter)
+  sub13.on('event', async (eventNS) => {
     // const author = eventNS.author
     // const profile = await author.fetchProfile()
     // console.log(`${profile.name}: ${eventNS.content}`)
     const event = makeEventSerializable(eventNS)
-    dispatch(processKind1Event(event))
+    const pubkey = event.pubkey
+    dispatch(addNewPubkey(pubkey))
+    dispatch(addArticle(event))
   })
 
   /*
   // use ndk-react
   const { fetchEvents } = useNDK()
   useEffect(() => {
-    async function updateTwittrDatabase() {
+    async function updateWikiDatabase() {
       const events = await fetchEvents(filter)
 
       events.forEach((eventNS, item) => {
         try {
           if (validateEvent(eventNS)) {
             const event = makeEventSerializable(eventNS)
-            dispatch(processKind1Event(event))
+            const pubkey = event.pubkey
+            dispatch(addNewPubkey(pubkey))
+            dispatch(addArticle(event))
           }
         } catch (e) {
-          console.log('updateTwittrDatabase error: ' + e)
+          console.log('updateWikiDatabase error: ' + e)
         }
       })
     }
-    updateTwittrDatabase()
+    updateWikiDatabase()
   }, [fetchEvents(filter)])
   */
 
-  return <><div>TwittrListener</div></>
+  return <></>
 }
 
-const TwittrListener = () => {
+const WikiListener = () => {
   const listenerMethod = useSelector((state) => state.settings.general.listenerMethod)
   if (listenerMethod == 'off') {
     return <></>
@@ -58,9 +62,9 @@ const TwittrListener = () => {
     return <></>
   }
   if (listenerMethod == 'individualListeners') {
-    return <TwittrListenerMain />
+    return <WikiListenerMain />
   }
   return <></>
 }
 
-export default TwittrListener
+export default WikiListener
