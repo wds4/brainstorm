@@ -65,9 +65,7 @@ export const settingsSlice = createSlice({
   },
   reducers: {
     toggleIndividualListener: (state, action) => {
-      console.log('toggleIndividualListener')
       const { newState, num } = action.payload
-      console.log('toggleIndividualListener; num: ' + num)
       const whichListener = 'listener' + num
       if (!state.general.listeners) {
         state.general.listeners = {}

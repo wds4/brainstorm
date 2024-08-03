@@ -118,7 +118,6 @@ const RunningListener = ({ oListenerManager }) => {
               if (aTags_w.length > 0) {
                 let cid = event.id
                 const wordType = aTags_w[0][1]
-                // console.log('fetchEvents; wordType: ' + wordType)
                 if (event.kind >= 30000 && event.kind < 40000) {
                   const tag_d = fetchFirstByTag('d', event)
                   const naddr = nip19.naddrEncode({
@@ -172,7 +171,7 @@ const RunningListener = ({ oListenerManager }) => {
             }
           }
         } catch (e) {
-          console.log('updateWikiDatabase error: ' + e)
+          console.log(e)
         }
       })
     }
@@ -180,7 +179,6 @@ const RunningListener = ({ oListenerManager }) => {
   }, [fetchEvents(filter)])
 
   const turnListenerOffButton = () => {
-    console.log('turnListenerOffButton')
     dispatch(turnListenerOff())
   }
 

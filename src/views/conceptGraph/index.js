@@ -7,7 +7,7 @@ import {
   updateListenerApplication,
 } from '../../redux/features/listenerManager/slice'
 import { cutoffTime } from 'src/const'
-import ConceptGraphListener from '../../helpers/listeners/ConceptGraphListener'
+import ConceptGraphListener from '../../helpers/listeners-ndk-react/ConceptGraphListener'
 
 const ConceptGraphDashboard = () => {
   const dispatch = useDispatch()

@@ -18,8 +18,6 @@ import { nip19 } from 'nostr-tools'
 import { updateApp } from '../../../redux/features/siteNavigation/slice'
 
 const GeneralSettings = () => {
-  console.log('GeneralSettings')
-
   const dispatch = useDispatch()
 
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -114,7 +112,6 @@ const GeneralSettings = () => {
 
   const toggleListener = useCallback(
     (num) => {
-      // console.log('toggleListener: ' + num)
       let listenerMode = 'hide'
       if (num == 1) {
         listenerMode = listenerMode1

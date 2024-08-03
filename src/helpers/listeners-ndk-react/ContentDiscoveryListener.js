@@ -42,7 +42,7 @@ const ContentDiscoveryListener = () => {
               }
             }
           } catch (e) {
-            console.log('updateLocalDatabase error: ' + e)
+            console.log(e)
           }
         }
       })

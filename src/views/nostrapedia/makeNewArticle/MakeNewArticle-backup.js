@@ -139,7 +139,7 @@ const MakeNewWikiArticle2 = () => {
           setTopicSlug(existingTopicSlug)
         }
       } catch (e) {
-        console.log('updateFromPreviousArticle error: ' + e)
+        console.log(e)
       }
     }
     updateFromPreviousArticle()
@@ -197,7 +197,7 @@ const MakeNewWikiArticle2 = () => {
         const note_signed = await signEventPGA(oProfile, note)
         setOEvent(note_signed)
       } catch (e) {
-        console.log('createKind30818Note error: ' + e)
+        console.log(e)
       }
     }
     createKind30818Note()
@@ -214,7 +214,7 @@ const MakeNewWikiArticle2 = () => {
         })
         setNaddr(naddr)
       } catch (e) {
-        console.log('updateNaddr error: ' + e)
+        console.log(e)
       }
     }
     updateNaddr()

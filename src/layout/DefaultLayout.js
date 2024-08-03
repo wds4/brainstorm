@@ -10,11 +10,11 @@ import {
   updateNip05,
   updatePicture,
 } from '../redux/features/profile/slice'
-import MyProfileListener from '../helpers/profilesListeners/myProfileListener'
-import MeAndMyFollowsListener from '../helpers/profilesListeners/meAndMyFollowsListener'
-import AllProfilesListener from '../helpers/profilesListeners/allProfilesListener'
-import WikiAuthorsListener from '../helpers/profilesListeners/wikiAuthorsListener'
-import WikiLikesListener from '../helpers/listeners/WikiLikesListener'
+import MyProfileListener from '../helpers/profilesListeners-ndk-react/myProfileListener'
+import MeAndMyFollowsListener from '../helpers/profilesListeners-ndk-react/meAndMyFollowsListener'
+import AllProfilesListener from '../helpers/profilesListeners-ndk-react/allProfilesListener'
+import WikiAuthorsListener from '../helpers/profilesListeners-ndk-react/wikiAuthorsListener'
+import WikiLikesListener from '../helpers/listeners-ndk/WikiLikesListener'
 
 const DefaultLayout = () => {
   const dispatch = useDispatch()
@@ -43,8 +43,6 @@ const DefaultLayout = () => {
     }
     updateMyProfile()
   }, [myNpub])
-
-  console.log('DefaultLayout')
 
   return (
     <>

@@ -27,7 +27,7 @@ import {
 import { whenTopicWasLastUpdated } from '../topic/Topic'
 import { secsToTime } from '../../../helpers'
 import { ShowAuthorBrainstormProfileImageOnly } from '../components/ShowAuthorBrainstormProfileImageOnly'
-import WikiListener from '../../../helpers/listeners/WikiListener'
+import WikiListener from '../../../helpers/listeners-ndk-react/WikiListener'
 import { addNewPubkey } from '../../../redux/features/profiles/slice'
 import { updateApp } from 'src/redux/features/siteNavigation/slice'
 
@@ -265,7 +265,6 @@ const WikiAuthors = () => {
   const sortItems = useCallback(
     (inputArray, sortByMethod) => {
       if (inputArray.length == 0) {
-        console.log('empty array!')
         return inputArray
       } else {
         if (sortByMethod == 'alphabetical') {

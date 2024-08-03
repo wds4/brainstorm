@@ -23,11 +23,9 @@ const TestPage3 = () => {
   const [oEvents, setOEvents] = useState({})
 
   const handleFilterChange = (e) => {
-    console.log('handleFilterChange clicked ' + e.target.value)
     setFilter(e.target.value)
   }
   const processDownloadEventsCommand = () => {
-    console.log('downloadEvents clicked; filter: ' + filter)
     downloadEvents(filter)
   }
 
@@ -42,7 +40,6 @@ const TestPage3 = () => {
   const { fetchEvents } = useNDK()
 
   const downloadEvents = async (filter) => {
-    console.log('downloadEvents A ')
     const events = await fetchEvents(JSON.parse(filter))
     events.forEach((eventNS, item) => {
       if (validateEvent(eventNS)) {

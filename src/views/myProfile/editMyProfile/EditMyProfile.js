@@ -50,12 +50,8 @@ const EditMyProfile = () => {
 
     // CHALLENGE: What are the missing fields? How does NDK fill them in?
 
-    console.log('Unsigned KIND0', kind0.rawEvent())
-
     // use NIP07 to sign the event
     await kind0.sign(signer)
-
-    console.log('Signed KIND0', kind0.rawEvent())
 
     // publish the event to the relays we connected to in index.js
     await kind0.publish()

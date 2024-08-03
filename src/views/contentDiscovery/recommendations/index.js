@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ContextSelector from './contextSelector'
 import RecommendedProfiles from './tableOfProfiles'
-import ContentDiscoveryListener from '../../../helpers/listeners/ContentDiscoveryListener'
+import ContentDiscoveryListener from '../../../helpers/listeners-ndk-react/ContentDiscoveryListener'
 
 const Recommendations = () => {
   const [context, setContext] = useState('')

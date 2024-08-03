@@ -27,7 +27,6 @@ export const ShowContext = ({ contextId, event }) => {
   const contextDescription = fetchFirstByTag('description', oContextEvent)
   const updateViewContext = (newContextId) => {
     dispatch(updateViewContextId(newContextId))
-    console.log('updateViewContext; newContextId: ' + newContextId)
   }
   return (
     <CCardBody>

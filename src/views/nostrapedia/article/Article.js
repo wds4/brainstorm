@@ -22,8 +22,8 @@ import LikeOrDislikeButtons from './LikeOrDislikeButtons'
 import WeightedReactionScorePanel from './WeightedReactionScorePanel'
 import { useSearchParams } from 'react-router-dom'
 import { updateViewNostrapediaArticle } from '../../../redux/features/siteNavigation/slice'
-import WikiListener from '../../../helpers/listeners/WikiListener'
-import WikiNaddrListener from '../../../helpers/listeners/WikiNaddrListener'
+import WikiListener from '../../../helpers/listeners-ndk-react/WikiListener'
+import WikiNaddrListener from '../../../helpers/listeners-ndk-react/WikiNaddrListener'
 
 const RawData = ({ showRawDataButton, oEvent, naddr }) => {
   if (showRawDataButton == 'hide') {

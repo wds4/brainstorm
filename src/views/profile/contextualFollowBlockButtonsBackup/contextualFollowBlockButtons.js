@@ -41,8 +41,6 @@ const ContextualFollowMuteButtons = ({ rateeNpub }) => {
   const [followButtonColor, setFollowButtonColor] = useState('secondary')
   const [muteButtonColor, setMuteButtonColor] = useState('secondary')
 
-  const { publish } = useNostr()
-
   const updateScore = useCallback(
     async (newScore) => {
       setScore(newScore)
@@ -60,11 +58,9 @@ const ContextualFollowMuteButtons = ({ rateeNpub }) => {
     [score, selectedContext],
   )
   const processFollowButtonClick = useCallback(async () => {
-    console.log('processFollowButtonClick A')
     updateScore('100')
     setFollowButtonColor('success')
     setMuteButtonColor('secondary')
-    console.log('processFollowButtonClick B')
   }, [score, selectedContext])
 
   const processMuteButtonClick = useCallback(async () => {

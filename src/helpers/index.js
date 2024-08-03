@@ -173,6 +173,5 @@ export const convertNameToTitle = (name) => {
 }
 
 export const timeout = async (ms) => {
-  console.log('timeout')
   return new Promise((resolve) => setTimeout(resolve, ms))
 }

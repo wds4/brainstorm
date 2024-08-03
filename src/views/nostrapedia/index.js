@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
 import { cibWikipedia, cilPencil, cilPeople } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import WikiListener from '../../helpers/listeners/WikiListener'
+import WikiListener from '../../helpers/listeners-ndk-react/WikiListener'
 
 const NostrapediaHome = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)

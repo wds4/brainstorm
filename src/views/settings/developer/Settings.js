@@ -9,7 +9,6 @@ const DeveloperSettings = () => {
   const dispatch = useDispatch()
 
   const changeListenerMethod = useCallback((newListenerMethod) => {
-    console.log('new listener method: ' + newListenerMethod)
     setListenerMethodState(newListenerMethod)
     dispatch(updateListenerMethod(newListenerMethod))
   }, [])

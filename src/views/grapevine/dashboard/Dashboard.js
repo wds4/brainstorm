@@ -11,7 +11,7 @@ import {
   updateFilter,
   updateListenerApplication,
 } from 'src/redux/features/listenerManager/slice'
-import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
+import GrapevineListener from 'src/helpers/listeners-ndk-react/GrapevineListener'
 
 const GrapevineDashboard = () => {
   const dispatch = useDispatch()

@@ -4,7 +4,7 @@ import { DocsExample } from 'src/components'
 import { CCard, CCardBody, CCardHeader, CCardText, CCardTitle, CCol } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateApp } from '../../redux/features/siteNavigation/slice'
-import WikiListener from '../../helpers/listeners/WikiListener'
+import WikiListener from '../../helpers/listeners-ndk-react/WikiListener'
 
 const Dashboard = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)

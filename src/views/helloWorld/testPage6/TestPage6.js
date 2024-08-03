@@ -9,10 +9,8 @@ const TestPage = () => {
   const oNumberEachClient = {}
   aNaddr.forEach((naddr, item) => {
     const oEvent = oWikiArticles_byNaddr[naddr]
-    // console.log('oEvent: ' + JSON.stringify(oEvent, null, 4))
     const client = fetchFirstByTag('client', oEvent)
     if (client) {
-      console.log('client: ' + client)
       if (!aClients.includes(client)) {
         aClients.push(client)
         oNumberEachClient[client] = 0

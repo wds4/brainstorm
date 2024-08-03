@@ -37,9 +37,7 @@ const ListenerOn = () => {
                 dispatch(updateMyProfile(oMyProfile))
                 const npub_toUpdate = myNpub
                 const degreesOfSeparation_new = 0
-                dispatch(
-                  updateDegreesOfSeparation({ npub_toUpdate, degreesOfSeparation_new }),
-                )
+                dispatch(updateDegreesOfSeparation({ npub_toUpdate, degreesOfSeparation_new }))
               }
             }
             if (event.kind == 3) {
@@ -53,7 +51,7 @@ const ListenerOn = () => {
             }
           }
         } catch (e) {
-          console.log('AllProfilesListener error: ' + e)
+          console.log(e)
         }
       })
     }
@@ -92,13 +90,6 @@ const AllProfilesListener = () => {
   }
 
   return <></>
-  return (
-    <>
-      <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>
-        My Profile Listener: Off
-      </div>
-    </>
-  )
 }
 
 export default AllProfilesListener

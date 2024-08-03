@@ -57,7 +57,7 @@ const ListenerOn = () => {
             }
           }
         } catch (e) {
-          console.log('WikiAuthorsListener error: ' + e)
+          console.log(e)
         }
       })
     }

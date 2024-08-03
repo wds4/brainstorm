@@ -157,7 +157,6 @@ const Login = () => {
     const relayUrl = e.target.value
     setPrivateRelay(relayUrl)
     dispatch(updateLoginRelayUrl(relayUrl))
-    console.log('handlePrivateRelay; relayUrl: ' + relayUrl)
     if (relayUrl) {
       setLoginPath('/dashboard?relays=private')
     } else {

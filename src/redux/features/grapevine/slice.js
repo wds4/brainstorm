@@ -125,7 +125,6 @@ export const grapevineSlice = createSlice({
   },
   reducers: {
     createContentDiscoveryControlPanel: (state, action) => { // patch bug for users who logged in prior to addition of controlPanels.contentDiscovery
-      console.log('createContentDiscoveryControlPanel')
       state.controlPanels.contentDiscovery = {
         rigor: defContDiscRigor,
         contextualEndorsements: {
@@ -201,7 +200,6 @@ export const grapevineSlice = createSlice({
       state.trustAttestations[cid] = event
     },
     addContextualEndorsement: (state, action) => {
-      console.log('addContextualEndorsement')
       const event = action.payload.event
       const cid = action.payload.cid
       if (!state.contextualEndorsements) {

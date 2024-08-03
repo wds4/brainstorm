@@ -12,7 +12,6 @@ const returnCurrentDegreeOfSeparation = (oProfilesByNpub, npub) => {
 }
 
 const returnFollowNpubs = (oProfilesByNpub, npub) => {
-  console.log('returnFollowNpubs; npub: ' + npub + '; oProfilesByNpub: ' + Object.keys(oProfilesByNpub).length)
   let aFollowNpubs = []
   if (
     oProfilesByNpub[npub] &&
@@ -34,10 +33,8 @@ const returnFollowNpubs = (oProfilesByNpub, npub) => {
 
 const processSingleBatchOfProfiles = (oProfilesByNpubRef, aProfiles, dos) => {
   const newMinimumDos = Number(dos) + 1
-  console.log('processSingleBatchOfProfiles; dos: ' + dos + '; newMinimumDos: ' + typeof newMinimumDos)
   aProfiles.forEach((np) => {
     const aFollows = returnFollowNpubs(oProfilesByNpubRef.current, np)
-    console.log('np: ' + np + '; number of follows: ' + aFollows.length)
     aFollows.forEach((npf) => {
       const currentDoS = returnCurrentDegreeOfSeparation(oProfilesByNpubRef.current, npf)
       if (currentDoS > newMinimumDos) {
@@ -51,7 +48,6 @@ const processSingleBatchOfProfiles = (oProfilesByNpubRef, aProfiles, dos) => {
 
 const DosCalculator = ({ oProfilesByNpub, oProfilesByDoS, calculatingState }) => {
   const oProfilesByNpubRef = useRef(oProfilesByNpub)
-  console.log('DosCalculator')
   const aProfilesByDoS = Object.keys(oProfilesByDoS)
 
   const dispatch = useDispatch()
@@ -59,18 +55,14 @@ const DosCalculator = ({ oProfilesByNpub, oProfilesByDoS, calculatingState }) =>
   useEffect(() => {
     function calculateDegreesOfSeparation() {
       if (calculatingState == 'on') {
-        console.log('calculateDegreesOfSeparation start')
         aProfilesByDoS.forEach((dos) => {
           const aProfiles = oProfilesByDoS[dos]
-          console.log('aProfilesByNpub; ' + dos + '; dos: aProfiles.length: ' + aProfiles.length)
           if (Number(dos) < 10) {
             // processSingleBatchOfProfiles(oProfilesByNpubRef, aProfiles, dos)
             ///// start
             const newMinimumDos = Number(dos) + 1
-            console.log('processSingleBatchOfProfiles; dos: ' + dos + '; newMinimumDos: ' + typeof newMinimumDos)
             aProfiles.forEach((np) => {
               const aFollows = returnFollowNpubs(oProfilesByNpubRef.current, np)
-              console.log('np: ' + np + '; number of follows: ' + aFollows.length)
               aFollows.forEach((npf) => {
                 const currentDoS = returnCurrentDegreeOfSeparation(oProfilesByNpubRef.current, npf)
                 if (currentDoS > newMinimumDos) {

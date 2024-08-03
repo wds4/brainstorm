@@ -18,7 +18,7 @@ import CIcon from '@coreui/icons-react'
 import { cilThumbDown, cilThumbUp } from '@coreui/icons'
 import { Ratee } from '../../components/Ratee'
 import { ShowContext } from './ShowContext'
-import GrapevineListener from 'src/helpers/listeners/GrapevineListener'
+import GrapevineListener from 'src/helpers/listeners-ndk-react/GrapevineListener'
 
 const DisplayScore = ({ score }) => {
   if (score == '0') {
@@ -33,15 +33,17 @@ const DisplayScore = ({ score }) => {
 // eslint-disable-next-line react/prop-types
 const ShowSingleItem = ({ trustAttestationId, event }) => {
   const [showDetailsElementClassName, setShowDetailsElementClassName] = useState('hide')
-  const toggleShowDetails = useCallback(async (e) => {
-    console.log('toggleShowDetails: ' + e.target.value)
-    if (showDetailsElementClassName == 'hide') {
-      setShowDetailsElementClassName('show')
-    }
-    if (showDetailsElementClassName == 'show') {
-      setShowDetailsElementClassName('hide')
-    }
-  }, [showDetailsElementClassName])
+  const toggleShowDetails = useCallback(
+    async (e) => {
+      if (showDetailsElementClassName == 'hide') {
+        setShowDetailsElementClassName('show')
+      }
+      if (showDetailsElementClassName == 'show') {
+        setShowDetailsElementClassName('hide')
+      }
+    },
+    [showDetailsElementClassName],
+  )
   const [showRawElementClassName, setShowRawElementClassName] = useState('hide')
   const toggleShowRaw = (e) => {
     const currentState = e.target.dataset.state

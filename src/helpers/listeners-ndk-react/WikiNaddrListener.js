@@ -8,11 +8,8 @@ import { addNewPubkey } from '../../redux/features/profiles/slice'
 import { safeDecode } from '../nip19'
 
 const WikiNaddrListener = ({ naddr }) => {
-  const myPubkey = useSelector((state) => state.profile.pubkey)
   const dispatch = useDispatch()
-
   const decodedNaddr = safeDecode(naddr)
-  console.log('decodedNaddr: ' + JSON.stringify(decodedNaddr, null, 4))
 
   let filter = {
     kinds: [30818],
@@ -40,7 +37,7 @@ const WikiNaddrListener = ({ naddr }) => {
             dispatch(addArticle(event))
           }
         } catch (e) {
-          console.log('updateWikiDatabase error: ' + e)
+          console.log(e)
         }
       })
     }

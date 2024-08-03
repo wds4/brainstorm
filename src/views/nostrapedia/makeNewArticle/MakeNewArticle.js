@@ -138,7 +138,7 @@ const MakeNewWikiArticleBody = () => {
           setTopicSlug(existingTopicSlug)
         }
       } catch (e) {
-        console.log('updateFromPreviousArticle error: ' + e)
+        console.log(e)
       }
     }
     updateFromPreviousArticle()
@@ -197,7 +197,7 @@ const MakeNewWikiArticleBody = () => {
         // const note_signed = await signEventPGA(oProfile, note)
         // setOEvent(note_signed)
       } catch (e) {
-        console.log('createKind30818Note error: ' + e)
+        console.log(e)
       }
     }
     createKind30818Note()
@@ -214,7 +214,7 @@ const MakeNewWikiArticleBody = () => {
         })
         setNaddr(naddr)
       } catch (e) {
-        console.log('updateNaddr error: ' + e)
+        console.log(e)
       }
     }
     updateNaddr()
@@ -292,7 +292,6 @@ const MakeNewWikiArticleBody = () => {
     ndkEvent.content = markdown
     ndkEvent.tags = aTags
     await ndkEvent.sign(nip07signer)
-    console.log('ndkEvent: ' + JSON.stringify(ndkEvent, null, 4))
     await ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
 
     setPublishWikiButtonClassName('hide')

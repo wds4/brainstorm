@@ -59,8 +59,6 @@ const ContextSelector = ({setContext, setContextualEndorsementsSelectedContextBy
         // console.log('dTag: ' + dTag)
       })
     })
-    console.log('oWikiReactionsByCategory: ' + JSON.stringify(oWikiReactionsByCategory, null, 4))
-    console.log('aSelectableContexts_temp: ' + JSON.stringify(aSelectableContexts_temp, null, 4))
     setASelectableContexts(aSelectableContexts_temp)
     setOWikiReactionsByCategory(oWikiReactionsByCategory)
   }
@@ -71,14 +69,12 @@ const ContextSelector = ({setContext, setContextualEndorsementsSelectedContextBy
 
   const updateContext = (e) => {
     const newContext = e.target.value
-    console.log('updateContext; ' + e.target.value)
     if (newContext) {
       setContext(newContext)
       const oPubkeysContextualEndorsementRatees = {}
       // PROCESS WIKI LIKES AND DISLIKES
       if (oWikiReactionsByCategory[newContext]) {
         const aWikiReactionsThisCategory = oWikiReactionsByCategory[newContext]
-        console.log('oWikiReactionsByCategory for this context: ' + JSON.stringify(aWikiReactionsThisCategory, null, 4))
         aWikiReactionsThisCategory.forEach(({reaction, pk_author, pk_ratee}) => {
           const rater_influence = getProfileBrainstormFromPubkey(pk_author, oProfilesByNpub).wotScores.baselineInfluence.influence
           if (rater_influence) { // ignore if rater influence is zero
@@ -119,7 +115,6 @@ const ContextSelector = ({setContext, setContextualEndorsementsSelectedContextBy
           const pk_ratee = fetchFirstByTag('p', oEvent)
           const score = fetchFirstByTag('score', oEvent)
           const context = fetchFirstByTag('c', oEvent)
-          // console.log('cid: ' + cid + '; oEvent: ' + JSON.stringify(oEvent, null, 4))
           if (!oPubkeysContextualEndorsementRatees[pk_ratee]) {
             oPubkeysContextualEndorsementRatees[pk_ratee] = {}
             oPubkeysContextualEndorsementRatees[pk_ratee].sumOfInputs = 0

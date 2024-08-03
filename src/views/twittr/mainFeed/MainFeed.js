@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import TwittrNote from 'src/views/twittr/components/twittrNote'
 import { CContainer } from '@coreui/react'
-import TwittrListener from '../../../helpers/listeners/TwittrListener'
+import TwittrListener from '../../../helpers/listeners-ndk-react/TwittrListener'
 
 const MainFeed = () => {
   const aFollows = useSelector((state) => state.profile.kind3.follows)

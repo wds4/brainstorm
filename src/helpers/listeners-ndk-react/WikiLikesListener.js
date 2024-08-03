@@ -34,7 +34,7 @@ const WikiLikesListenerMain = () => {
             dispatch(addKind7Rating(event))
           }
         } catch (e) {
-          console.log('updateWikiLikesDatabase error: ' + e)
+          console.log(e)
         }
       })
     }

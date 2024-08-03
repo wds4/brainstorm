@@ -64,7 +64,6 @@ const ContextualFollowMuteButtons = ({ rateeNpub }) => {
     setFollowButtonColor('success')
     setMuteButtonColor('secondary')
     setSuperfollowButtonColor('secondary')
-    console.log('processFollowButtonClick B')
   }, [score, selectedContext])
 
   const processMuteButtonClick = useCallback(async () => {

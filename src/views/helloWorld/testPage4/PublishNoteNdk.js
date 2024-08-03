@@ -57,7 +57,6 @@ const PublishNoteNdk = () => {
 
     ndkEvent.kind = 1
     ndkEvent.content = content
-    console.log('publishNote; content: ' + content)
     await ndkEvent.sign(nip07signer)
     await ndkEvent.publish() // This will trigger the extension to ask the user to confirm signing.
   }

@@ -58,7 +58,7 @@ const ListenerOn = () => {
             }
           }
         } catch (e) {
-          console.log('SingleProfileListener error: ' + e)
+          console.log(e)
         }
       })
     }
@@ -66,13 +66,6 @@ const ListenerOn = () => {
   }, [fetchEvents(filter)])
 
   return <></>
-  return (
-    <>
-      <div style={{ display: 'inline-block', border: '1px solid grey', padding: '2px' }}>
-        SingleProfileListener: On
-      </div>
-    </>
-  )
 }
 
 const SingleProfileListener = () => {

@@ -24,28 +24,6 @@ const TwittrListenerMain = ({ aPubkeys }) => {
     dispatch(processKind1Event(event))
   })
 
-  /*
-  // use ndk-react
-  const { fetchEvents } = useNDK()
-  useEffect(() => {
-    async function updateTwittrDatabase() {
-      const events = await fetchEvents(filter)
-
-      events.forEach((eventNS, item) => {
-        try {
-          if (validateEvent(eventNS)) {
-            const event = makeEventSerializable(eventNS)
-            dispatch(processKind1Event(event))
-          }
-        } catch (e) {
-          console.log('updateTwittrDatabase error: ' + e)
-        }
-      })
-    }
-    updateTwittrDatabase()
-  }, [fetchEvents(filter)])
-  */
-
   return <><div>TwittrListener</div></>
 }
 

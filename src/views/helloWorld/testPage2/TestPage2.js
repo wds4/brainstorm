@@ -42,7 +42,6 @@ const TestPage2 = () => {
     const oFoo = {}
     aProfilesByNpub.forEach((npub) => {
       const cDoS = returnCurrentDegreeOfSeparation(oProfilesByNpub, npub)
-      // console.log('aProfilesByNpub; ' + npub + '; cDoS: ' + cDoS)
       if (!oFoo[cDoS]) {
         oFoo[cDoS] = []
       }
@@ -60,7 +59,6 @@ const TestPage2 = () => {
   }, [])
 
   const startCalculating = () => {
-    console.log('Start Calculating button clicked')
     setCalculatingState('on')
   }
   return (

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import WikiArticlesContent from './content'
 import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
-import WikiListener from '../../../helpers/listeners/WikiListener'
+import WikiListener from '../../../helpers/listeners-ndk-react/WikiListener'
 
 const WikiTopics = () => {
   const signedIn = useSelector((state) => state.profile.signedIn)

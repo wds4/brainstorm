@@ -17,7 +17,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { updateViewNostrapediaCategory } from '../../../redux/features/siteNavigation/slice'
-import WikiListener from '../../../helpers/listeners/WikiListener'
+import WikiListener from '../../../helpers/listeners-ndk-react/WikiListener'
 import CIcon from '@coreui/icons-react'
 import { cilPencil } from '@coreui/icons'
 
@@ -29,7 +29,6 @@ const NostrapediaCategories = () => {
   const dispatch = useDispatch()
 
   const processCategoryClick = (category) => {
-    // console.log('processCategoryClick category: ' + category)
     dispatch(updateViewNostrapediaCategory(category))
   }
 

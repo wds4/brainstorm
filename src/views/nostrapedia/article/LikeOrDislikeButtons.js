@@ -62,14 +62,6 @@ const LikeOrDislikeButtons = ({ oNostrapedia, oArticleEvent }) => {
 
   const processKind5Event = useCallback(
     async (whichReaction, mLk7eId, mNLk7eId) => {
-      console.log(
-        'processKind5Event; whichReaction: ' +
-          whichReaction +
-          '; mLk7eId: ' +
-          mLk7eId +
-          '; mNLk7eId: ' +
-          mNLk7eId,
-      )
       const currentTime = Math.floor(Date.now() / 1000)
       const topicSlug = fetchFirstByTag('d', oArticleEvent)
       let oEventNew = JSON.parse(JSON.stringify(kind5EventDefault))
@@ -110,7 +102,6 @@ const LikeOrDislikeButtons = ({ oNostrapedia, oArticleEvent }) => {
         const oEventNew_signed = await signEventPGA(oProfile, oEventNew)
         setKind5Event(oEventNew_signed)
         // TO DO: publish event
-        console.log('PUBLISH KIND 5 EVENT')
         publish(oEventNew_signed)
         // TO DO: remove old eId from redux, eIdToRemove
         dispatch(removeKind7EventId(eIdToRemove))
@@ -146,14 +137,12 @@ const LikeOrDislikeButtons = ({ oNostrapedia, oArticleEvent }) => {
         const oEventNew_signed = await signEventPGA(oProfile, oEventNew)
         setKind7Event(oEventNew_signed)
         setMeLikeyKind7eventId(oEventNew_signed.id)
-        console.log('PUBLISH KIND 7 EVENT')
         publish(oEventNew_signed)
       }
       if (newContent == '-') {
         const oEventNew_signed = await signEventPGA(oProfile, oEventNew)
         setKind7Event(oEventNew_signed)
         setMeNoLikeyKind7eventId(oEventNew_signed.id)
-        console.log('PUBLISH KIND 7 EVENT')
         publish(oEventNew_signed)
       }
       if (newContent == '') {

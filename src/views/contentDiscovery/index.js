@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { CCol, CNavLink, CRow, CWidgetStatsF } from '@coreui/react'
-import ContentDiscoveryListener from '../../helpers/listeners/ContentDiscoveryListener'
+import ContentDiscoveryListener from '../../helpers/listeners-ndk-react/ContentDiscoveryListener'
 import CIcon from '@coreui/icons-react'
 import { cilFire } from '@coreui/icons'
 import { useDispatch, useSelector } from 'react-redux'

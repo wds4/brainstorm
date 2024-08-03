@@ -61,7 +61,7 @@ const ListenerOn = () => {
             }
           }
         } catch (e) {
-          console.log('MeAndMyFollowsListener error: ' + e)
+          console.log(e)
         }
       })
     }

@@ -26,19 +26,11 @@ const WikiLikesListenerMain = () => {
     // console.log(`${profile.name}: ${eventNS.content}`)
     const event = makeEventSerializable(eventNS)
     const pubkey = event.pubkey
-    // console.log('WikiLikesListenerMain; event: ' + JSON.stringify(event, null, 4))
     dispatch(addNewPubkey(pubkey))
     dispatch(addKind7Rating(event))
   })
 
   return <></>
-
-  return (
-    <>
-      <div>Wiki Likes Listener</div>
-      <div>aArticleIds.length: {aArticleIds.length}</div>
-    </>
-  )
 }
 
 const WikiLikesListener = () => {

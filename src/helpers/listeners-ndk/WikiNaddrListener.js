@@ -1,18 +1,15 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import { ndk } from '../ndk'
-import { validateEvent, verifyEvent } from 'nostr-tools'
 import { addArticle } from '../../redux/features/nostrapedia/slice'
 import { makeEventSerializable } from '..'
 import { addNewPubkey } from '../../redux/features/profiles/slice'
 import { safeDecode } from '../nip19'
 
 const WikiNaddrListener = ({ naddr }) => {
-  const myPubkey = useSelector((state) => state.profile.pubkey)
   const dispatch = useDispatch()
 
   const decodedNaddr = safeDecode(naddr)
-  console.log('decodedNaddr: ' + JSON.stringify(decodedNaddr, null, 4))
 
   let filter = {
     kinds: [30818],

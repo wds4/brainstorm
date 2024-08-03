@@ -17,8 +17,6 @@ import {
 import { nip19 } from 'nostr-tools'
 
 const GeneralSettings = () => {
-  console.log('GeneralSettings')
-
   const dispatch = useDispatch()
 
   const myPubkey = useSelector((state) => state.profile.pubkey)
@@ -118,7 +116,6 @@ const GeneralSettings = () => {
 
   const toggleListener = useCallback(
     (num) => {
-      // console.log('toggleListener: ' + num)
       let listenerMode = 'hide'
       if (num == 1) {
         listenerMode = listenerMode1
@@ -174,7 +171,6 @@ const GeneralSettings = () => {
           setIsListenerMode7(true)
           setListenerMode7('show')
         }
-        // console.log('dispatch toggleIndividualListener show')
         dispatch(toggleIndividualListener({ newState: 'show', num }))
       }
       if (listenerMode == 'show') {
@@ -206,7 +202,6 @@ const GeneralSettings = () => {
           setIsListenerMode7(false)
           setListenerMode7('hide')
         }
-        // console.log('dispatch toggleIndividualListener hide')
         dispatch(toggleIndividualListener({ newState: 'hide', num }))
       }
     },

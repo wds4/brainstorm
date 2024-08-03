@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux'
 import { fetchFirstByTag } from '../../../../helpers'
 import { SubmittedBy } from '../../components/submittedBy'
 import { Link } from 'react-router-dom'
-import GrapevineListener from '../../../../helpers/listeners/GrapevineListener'
+import GrapevineListener from '../../../../helpers/listeners-ndk-react/GrapevineListener'
 
 // eslint-disable-next-line react/prop-types
 const ShowSingleItem = ({ event }) => {
