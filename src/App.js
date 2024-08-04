@@ -8,8 +8,8 @@ import './scss/style.scss'
 import { aDefaultRelays } from './const'
 import { NostrProvider } from 'nostr-react'
 
-import { Buffer } from 'buffer'
-window.Buffer = Buffer
+// import { Buffer } from 'buffer'
+// window.Buffer = Buffer
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))

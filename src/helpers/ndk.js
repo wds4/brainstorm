@@ -1,20 +1,14 @@
 import NDK from '@nostr-dev-kit/ndk'
 import { aDefaultRelays } from '../const'
 
-import { Buffer } from 'buffer'
-window.Buffer = Buffer
+// import { Buffer } from 'buffer'
+// window.Buffer = Buffer
 
 // import NDKCacheAdapterDexie from '@nostr-dev-kit/ndk-cache-dexie'
 
 // define the relays to publish and read from
 // const defaultRelays = ['wss://relay.damus.io', 'wss://relay.primal.net']
 // const defaultRelays = ['wss://relay.damus.io']
-
-const sigWorker = import.meta.env.DEV
-  ? new Worker(new URL('@nostr-dev-kit/ndk/workers/sig-verification?worker', import.meta.url), {
-      type: 'module',
-    })
-  : new NDKSigVerificationWorker()
 
 const defaultRelays = [
   'wss://purplepag.es',
@@ -30,7 +24,15 @@ const defaultRelays = [
 // create a new NDK instance
 // const ndk = new NDK({ cacheAdapter: dexieAdapter, explicitRelayUrls: defaultRelays })
 const ndk = new NDK({ explicitRelayUrls: defaultRelays })
+
+/*
+const sigWorker = import.meta.env.DEV
+  ? new Worker(new URL('@nostr-dev-kit/ndk/workers/sig-verification?worker', import.meta.url), {
+      type: 'module',
+    })
+  : new NDKSigVerificationWorker()
 ndk.signatureVerificationWorker = sigWorker
+*/
 
 // connect to the relays
 ndk
