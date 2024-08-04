@@ -1,4 +1,4 @@
-import { getProfileBrainstormFromPubkey } from "../brainstorm"
+import { getProfileBrainstormFromPubkey } from '../brainstorm'
 
 export const returnKind7Results = (oNostrapedia, articleEventId, oProfilesByNpub) => {
   let oKind7Ratings = {}
@@ -25,7 +25,8 @@ export const returnKind7Results = (oNostrapedia, articleEventId, oProfilesByNpub
   aLikes.forEach((kind7EventId, item) => {
     const oKind7Event = oKind7Ratings_byKind7EventId[kind7EventId]
     const pk = oKind7Event.pubkey
-    const influenceScorePk = getProfileBrainstormFromPubkey(pk, oProfilesByNpub).wotScores.baselineInfluence.influence
+    const influenceScorePk = getProfileBrainstormFromPubkey(pk, oProfilesByNpub).wotScores
+      .baselineInfluence.influence
     if (!aLikesByPubkey.includes(pk)) {
       weightLikes += Number(influenceScorePk)
       aLikesByPubkey.push(pk)
@@ -34,7 +35,8 @@ export const returnKind7Results = (oNostrapedia, articleEventId, oProfilesByNpub
   aDislikes.forEach((kind7EventId, item) => {
     const oKind7Event = oKind7Ratings_byKind7EventId[kind7EventId]
     const pk = oKind7Event.pubkey
-    const influenceScorePk = getProfileBrainstormFromPubkey(pk, oProfilesByNpub).wotScores.baselineInfluence.influence
+    const influenceScorePk = getProfileBrainstormFromPubkey(pk, oProfilesByNpub).wotScores
+      .baselineInfluence.influence
     if (!aDislikesByPubkey.includes(pk)) {
       weightDislikes += Number(influenceScorePk)
       aDislikesByPubkey.push(pk)

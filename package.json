@@ -42,6 +42,7 @@
     "@tanstack/react-table": "^8.16.0",
     "@tanstack/table-core": "^8.16.0",
     "@uiw/react-markdown-editor": "^6.1.1",
+    "buffer": "^6.0.3",
     "chart.js": "^4.4.2",
     "classnames": "^2.5.1",
     "core-js": "^3.36.1",
