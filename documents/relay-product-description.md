@@ -2,7 +2,9 @@
 
 ## Alternate names
 
-the Grapevine Relay, the Tapestry Relay
+* the Grapevine Relay, the Tapestry Relay, the Brainstorm Relay,
+
+* may rebrand the Influence Score: the Brainstorm WoT Score, the Grapevine WoT Score, the Tapestry WoT Score
 
 ## Product Description
 
@@ -23,11 +25,24 @@ Most users lack the technical skill and / or the motivation to manage their own 
 
 ### Free tier
 
-The free tier will keep track of the generic Influence Score plus a handful of contextual Influence Scores. To sign up to the free tier service will require a request in the form of a specialized note.
+The free tier will keep track of the generic Influence Score plus perhaps a handful of contextual Influence Scores. To sign up to the free tier service will require a request in the form of a specialized note and may require proof of work to minimize spam. 
+
+Features included in the free tier service may include:
+- Grapevine Channels, viewable on Coracle and other clients
+- Grapevine Curated Lists
 
 ### Subscription tiers
 
-Subscriptions will allow users to keep track of contextual Influence Scores. A control panel will allow subscribers to choose contexts, to select which data sources to use in the calculation of those scores, and to manage the interpretation of those data sources.
+Subscriptions will allow users to augment free tier services in the following ways:
+- ability to track more contextual influence scores
+- control panels to fine tune how each influence score is calculated
+- more storage
+- additional API options
+- more frequent score updates
+
+### Customer onboarding
+
+Clients such as Coracle will prompt users following more than one but fewer than some low cutoff (perhaps 10 npubs) to sign up to the Free Service and use the Grapevine Feed. This prompt will employ proof of work at signup to reduce the risk of spam. New users who go to product website will also see the most populat Grapevine Channels appear.
 
 ## Customers
 
