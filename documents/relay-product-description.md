@@ -30,6 +30,7 @@ The free tier will keep track of the generic Influence Score plus perhaps a hand
 Features included in the free tier service may include:
 - Grapevine Channels, viewable on Coracle and other clients
 - Grapevine Curated Lists
+- Badges: ability to view; creating new badges may (eventually) require a subscription service.
 
 ### Subscription tiers
 
@@ -57,4 +58,12 @@ Nostr clients across the ecosystem will have free access to Grapevine Scores to 
 ## Grapevine Relay as a DVM
 
 ## Control Panel
+
+## Badges
+
+Badges are descriptors applied to npubs. Users can self-attest or can attest to others. Examples of badges may include personal identifying information such as age or place of residence. 
+
+Npubs can be endorsed as oracles for badges.
+
+The Concept Graph system will be used to create and manage the system of badges. 
 
