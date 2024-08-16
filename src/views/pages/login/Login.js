@@ -28,6 +28,7 @@ import {
 } from '../../../redux/features/profile/slice'
 import { updateLoginRelayUrl } from '../../../redux/features/settings/slice'
 import { addNewPubkey } from '../../../redux/features/profiles/slice'
+import { wipeGrapevine } from '../../../redux/features/grapevine/slice'
 
 const LoginWithExtension = ({ loginPath }) => {
   const [nip07ExtensionAvailable, setNip07ExtensionAvailable] = useState(false)
@@ -62,6 +63,7 @@ const LoginWithExtension = ({ loginPath }) => {
       dispatch(updateNpub(myNpub))
       dispatch(updateSignInMethod('extension'))
       dispatch(updateSignedIn(true))
+      dispatch(wipeGrapevine())
     }
     setLoading(false)
   }
@@ -175,6 +177,7 @@ const LoginOriginal = () => {
     dispatch(updateNpub(npub))
     dispatch(updateSignInMethod('secret'))
     dispatch(updateSignedIn(true))
+    dispatch(wipeGrapevine())
     dispatch(addNewPubkey(pubkey))
   }, [hexKey, nsec, pubkey, npub])
 
