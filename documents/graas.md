@@ -6,9 +6,9 @@ A fast, cheap, easy to use service that calculates the three main Grapevine WoT 
 
 # Description: 
 
-Centrally hosted relay with one page landing page. Calculations of the various scores are handled server-side, as opposed to at [brainstorm.ninja](brainstorm.ninja) where calculations are client-side, resulting in greater friction and a bad user experience.
+Centrally hosted relay with one page landing page. Calculations of the various scores are handled server-side for better user experience. This is to be contrasted with [brainstorm.ninja](brainstorm.ninja) where calculations are client-side and require a large amount of data to be downloaded to the browser, resulting in a time-consuming and suboptimal user experience.
 
-Relay will keep track of kind 0, 3, and 10000 notes, along the lines of purplepag.es
+The Service relay will stay as updated as possible with kind 0, 3, and 10000 notes, along the lines of [purplepag.es](purplepag.es).
 
 ## Free Tier
 
@@ -76,6 +76,7 @@ Expected time to complete: ?
 
 A few of the potential future directions:
 - Allow the user to adjust Grapevine parameters as can be done [here](https://brainstorm.ninja/#/settings/grapevine)
-- contextual lists, based on contextual Grapevine Scores, as per [Content Discovery](https://brainstorm.ninja/#/contentDiscovery)
-- Allow users to spin up personal Grapevine relays, similar to relay.tools
+- Incorporate zaps into calculation of the standard Grapevine WoT Scores
+- Support contextual lists, based on contextual Grapevine WoT Scores, as per [Content Discovery](https://brainstorm.ninja/#/contentDiscovery)
+- Allow users to spin up personal Grapevine relays, similar to relay.tools. The long term motivations for these will include: continuous updates of Grapevine WoT Scores; and that your personal server can keep track of content that you want to keep track of, e.g. select Nostrapedia articles, and it will make use of up-to-date Grapevine WoT Scores to select which content to look for and store and which content to discard.
 
