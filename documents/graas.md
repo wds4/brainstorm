@@ -72,7 +72,11 @@ Bounty is triggered once 10 normal users (npubs with Grapevine WoT Score above s
 Amount ?
 Expected time to complete: ?
 
+Simlar to Milestone 1, this one will be triggered by usage.
+
 ## Future Projects (for future bounties)
+
+My expectation is that completion of the above two milestones followed by successful validation (number of users, user feedback, buzz in the community, etc) will attract seed money for future work, with contextual Grapevine WoT Scores being a particularly exciting avenue to pursue.
 
 A few of the potential future directions:
 - Allow the user to adjust Grapevine parameters as can be done [here](https://brainstorm.ninja/#/settings/grapevine)
