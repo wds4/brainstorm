@@ -13,6 +13,12 @@ const _nav = [
     name: 'About Brainstorm',
     to: '/about',
     icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
+  },  
+  {
+    component: CNavItem,
+    name: 'Export Grapevine WoT List',
+    to: '/grapevine/actions/export',
+    icon: <CIcon icon={cilInfo} customClassName="share-icon" />,
   },
 ]
 

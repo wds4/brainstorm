@@ -35,6 +35,9 @@ const MakeNewAction = React.lazy(() => import('src/views/grapevine/actions/makeN
 const ViewAllActionRelationships = React.lazy(
   () => import('src/views/grapevine/actions/viewAllRelationships/ViewAllRelationships'),
 )
+const ExportGrapevineList = React.lazy(
+  () => import('src/views/grapevine/actions/exportGrapevineList/ExportGrapevineList'),
+)
 const MakeNewActionRelationship = React.lazy(
   () => import('src/views/grapevine/actions/makeNewRelationship/MakeNewRelationship'),
 )
@@ -117,6 +120,11 @@ const routes = [
     path: '/grapevine/actions/viewAllRelationships',
     name: 'View All Action Relationships',
     element: ViewAllActionRelationships,
+  },
+  {
+    path: '/grapevine/actions/export',
+    name: 'Export',
+    element: ExportGrapevineList,
   },
 
   // Categories

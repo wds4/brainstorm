@@ -10,13 +10,8 @@ import {
   updateNip05,
   updatePicture,
 } from '../redux/features/profile/slice'
-import MyProfileListener from '../helpers/profilesListeners-nostr-hooks/myProfileListener'
-import MeAndMyFollowsListener from '../helpers/profilesListeners-nostr-hooks/meAndMyFollowsListener'
-import AllProfilesListener from '../helpers/profilesListeners-nostr-hooks/allProfilesListener'
-import WikiAuthorsListener from '../helpers/profilesListeners-nostr-hooks/wikiAuthorsListener'
-import WikiLikesListener from '../helpers/listeners-ndk/WikiLikesListener'
 
-const DefaultLayout = () => {
+const NoListenersLayout = () => {
   const dispatch = useDispatch()
 
   const isSignedIn = useSelector((state) => state.profile.signedIn)
@@ -50,11 +45,6 @@ const DefaultLayout = () => {
         <AppSidebar />
         <div className="wrapper d-flex flex-column min-vh-100">
           <AppHeader />
-          {/* <MyProfileListener />
-          <MeAndMyFollowsListener />
-          <AllProfilesListener />
-          <WikiAuthorsListener />
-          <WikiLikesListener /> */}
           <div className="body flex-grow-1">
             <AppContent />
           </div>
@@ -65,4 +55,4 @@ const DefaultLayout = () => {
   )
 }
 
-export default DefaultLayout
+export default NoListenersLayout
