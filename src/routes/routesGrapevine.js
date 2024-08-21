@@ -7,6 +7,11 @@ const GrapevineDashboard = React.lazy(() => import('src/views/grapevine/dashboar
 // Settings
 const Settings = React.lazy(() => import('src/views/settings/grapevine/Settings'))
 
+// Export
+const ExportGrapevineScores = React.lazy(
+  () => import('src/views/grapevine/export'),
+)
+
 // About
 const GrapevineScoreComparisons = React.lazy(
   () => import('src/views/grapevine/about/scoreComparisons'),
@@ -93,6 +98,13 @@ const routes = [
   },
   { path: '/grapevine/calculateWotScores', name: 'WoT Scores', element: CalculateWotScores },
   { path: '/grapevine/calculateDosScores', name: 'DoS Scores', element: CalculateDosScores },
+
+  // Export
+  {
+    path: '/grapevine/exportGrapevineScores',
+    name: 'Export Grapevine Scores',
+    element: ExportGrapevineScores,
+  },
 
   // About
   {

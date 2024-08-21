@@ -6,6 +6,8 @@ import {
   cilBoltCircle,
   cilCalculator,
   cilCircle,
+  cilCloudDownload,
+  cilCloudUpload,
   cilFire,
   cilGraph,
   cilHome,
@@ -49,6 +51,16 @@ const _nav = [
     name: 'Calculate Contextual Influence Scores',
     to: '/grapevine/calculateContextualInfluenceScores',
     icon: <CIcon icon={cilFire} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Export Scores',
+  },
+  {
+    component: CNavItem,
+    name: 'Export Grapevine Scores',
+    to: '/grapevine/exportGrapevineScores',
+    icon: <CIcon icon={cilCloudUpload} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
