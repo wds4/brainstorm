@@ -1,6 +1,19 @@
 export const noProfilePicUrl = 'https://nostr.build/i/2282.png'
 export const noBannerPicUrl = 'https://nostr.build/i/2282.png'
 
+//
+export const defaultRelaysNostrHooks = [
+  'wss://purplepag.es',
+  'wss://relay.damus.io',
+  'wss://relay.primal.net',
+  'wss://relay.nostr.band',
+  'wss://nostr.wine',
+  'wss://nos.lol',
+  'wss://relay.tapestry.ninja',
+  'wss://relay.wikifreedia.xyz',
+  'wss://david.nostr1.com',
+]
+
 export const aDefaultRelays = [
   'wss://purplepag.es',
   'wss://relay.damus.io',
@@ -8,6 +21,7 @@ export const aDefaultRelays = [
   'wss://relay.nostr.band',
   'wss://nostr.wine',
   'wss://nos.lol',
+  'wss://david.nostr1.com',
 ]
 /*
 export const aDefaultRelays = [
