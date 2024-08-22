@@ -48,7 +48,7 @@ const LoadEventsProgress = ({listener = 2, color="primary", maxValue=20, msg="",
   // if we already have loaded myfollows, just return
   let doNotProcess = false
   if(listener == 2 && aMyFollows?.length ) {
-    doNotProcess = true
+   doNotProcess = true 
   }
 
   // TODO support more listeners
@@ -80,7 +80,7 @@ const LoadEventsProgress = ({listener = 2, color="primary", maxValue=20, msg="",
       dispatch(processKind3Event(event))
       if (event.pubkey == myPubkey) {
         dispatch(processMyKind3Event(event))
-        setNumFollows(event.tags.length)
+        setNumFollows(numFollows + event.tags.length)
       }
     }
     if (event.kind == 10000) {
@@ -115,19 +115,23 @@ const LoadEventsProgress = ({listener = 2, color="primary", maxValue=20, msg="",
     if (eose && !doNotProcess) {
       // dispatch(toggleIndividualListener({ newState: 'hide', num: listener }))
       // setSubState('EOSE reached, now storing in redux ...')
-      // processAllEvents(events)
+      processAllEvents(events)
       setProgreessValue(maxValue)
-      if(setNextProgress) setNextProgress(true)
+      // setTimeout(() => {
+        if(setNextProgress) setNextProgress(true)
+      // }, 10000);
     }
   }, [eose])
 
   if(doNotProcess){
-    if(setNextProgress) setNextProgress(true)
-      return (
-        <CProgress color={color} value={maxValue}>
-          <CProgressBar>+{aMyFollows.length} {msg}</CProgressBar>
-        </CProgress>
-      )   
+    // setTimeout(() => {
+      if(setNextProgress) setNextProgress(true)
+    // }, 10000);
+    return (
+      <CProgress color={color} value={maxValue}>
+        <CProgressBar>+{aMyFollows.length} {msg}</CProgressBar>
+      </CProgress>
+    )   
   }
   return (
     <CProgress color={color} value={progressValue} variant={!eose ? "striped" : ""} animated>
@@ -146,9 +150,11 @@ const ExportGrapevineList = () => {
   const [progressFirstHop, setProgressFirstHop] = useState("")
   const [startSecondHop, setStartSecondHop] = useState(false)
   const [progressSecondHop, setProgressSecondHop] = useState("")
+  const [startPublishing, setStartPublishing] = useState(false)
   const [progressPublishing, setProgressPublishing] = useState("")
   const [loading, setLoading] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const [grapevineListOutput, setGrapevineListOutput] = useState("")
   let myPubkey = useSelector((state) => state.profile.pubkey)
   let isSignedIn = useSelector((state) => state.profile.signedIn)
 
@@ -185,8 +191,26 @@ const ExportGrapevineList = () => {
   /**
    * adapted from views/helloWorld/testPage7
    */
+  const oEventDefault = {
+    content: '',
+    kind: 30000,
+    tags: [
+      ['P', 'tapestry'],
+      ['wordType', 'influenceScoresList'],
+      ['w', 'influenceScoresList'],
+      ['d', 'influenceScoresList'],
+      ['title', 'Grapevine WoT Scores List'],
+      [
+        'description',
+        'a list of nostr users and their associated Grapevine WoT Scores as calculated by the Tapestry Protocol',
+      ],
+      ['c', ''],
+    ],
+    created_at: null,
+  }
+  const signer = new NDKNip07Signer()
   const oProfilesByPubkey = useSelector((state) => state.profiles.oProfiles.byPubkey)
-  // const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
+  const oProfilesByNpub = useSelector((state) => state.profiles.oProfiles.byNpub)
   // const [oNdkEvent, setONdkEvent] = useState({})
   // const [numProfiles, setNumProfiles] = useState(0)
   // const [numTags, setNumTags] = useState(0)  
@@ -218,15 +242,16 @@ const ExportGrapevineList = () => {
     // setNumTags(ndkEvent.tags.length)
     await ndkEvent.sign(signer)
     console.log('ndkEvent: ' + JSON.stringify(ndkEvent, null, 4))
-    if (whetherToPublish) {
-      console.log('List published! event id: ' + ndkEvent.id)
-      await ndkEvent.publish()
-      alert('List published! event id: ' + ndkEvent.id)
-    }
-    if (!whetherToPublish) {
-      console.log('publish: NO')
-      // setONdkEvent(ndkEvent)
-    }
+    // if (whetherToPublish) {
+    //   console.log('List published! event id: ' + ndkEvent.id)
+    //   await ndkEvent.publish()
+    //   alert('List published! event id: ' + ndkEvent.id)
+    // }
+    // if (!whetherToPublish) {
+    //   console.log('publish: NO')
+    //   // setONdkEvent(ndkEvent)
+    // }
+    return ndkEvent
   }
 
   
@@ -242,9 +267,40 @@ const ExportGrapevineList = () => {
     if (startSecondHop) {
       setProgressMessage('Downloading my follows follows...')
       setProgressColor('success')
-      setProgressSecondHop((<LoadEventsProgress listener={4} color="success" msg="my follows follows" maxValue={50} /> ))
+      setProgressSecondHop((<LoadEventsProgress listener={4} color="success" msg="my follows follows" maxValue={50} setNextProgress={setStartPublishing}/> ))
     }
   }, [startSecondHop])
+  
+  useEffect(()=>{
+    if(startPublishing){
+      setProgressMessage('Building Lists')
+      setProgressColor('warning')
+      createEventKind30000().then((ndkEvent)=>{
+        setGrapevineListOutput(
+          <div>
+            <center>
+            <CButton color="primary"  className="my-3" active onClick={() => ndkEvent.publish()}>
+                Publish To Nostr
+            </CButton>
+            </center>
+            <pre class="text-left">{JSON.stringify(ndkEvent, null, 4)}</pre>
+          </div>
+        )
+        setLoaded(true)
+      })
+      setProgressPublishing(
+        <CProgress color="warning" value={10} variant={"striped"} animated>
+          <CProgressBar>list</CProgressBar>
+        </CProgress>
+      )
+    }
+  } ,[startPublishing])
+  useEffect(()=>{
+    if(loaded){
+      setProgressMessage('Publish Event')
+      setProgressColor('base-100')
+    }
+  } ,[loaded])
 
 
   async function doExport(){
@@ -275,7 +331,7 @@ const ExportGrapevineList = () => {
         <h3>Export "Grapevine WoT" List</h3>
         <CButton color={progressColor}  className="my-3" active tabIndex={-1} 
           onClick={() => doExport()} disabled={loading}>
-            {!loading ? 'Export to Nostr' : loaded ? 'Success!' : progressMessage }
+            {!loading ? 'Build my List' : loaded ? 'Complete!' : progressMessage }
         </CButton>
         <CProgressStacked>
           {progressLogin}
@@ -284,6 +340,7 @@ const ExportGrapevineList = () => {
           {progressPublishing}
         </CProgressStacked>
       </center>
+      {grapevineListOutput}
 
     </>
   )
