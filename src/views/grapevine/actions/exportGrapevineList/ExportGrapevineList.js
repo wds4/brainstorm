@@ -165,6 +165,8 @@ const CreateEventKind30000 = () => {
   const aMyFollows = oProfilesByNpub[myNpub] ? oProfilesByNpub[myNpub].follows : []
   const myPictureUrl = useSelector((state) => state.profile.picture)
   const [eventVisible, setEventVisible] = useState(false)
+  const [eventPublished, setEventPublished] = useState(false)
+  const [secondaryButton, setSecondaryButton] = useState("")
   console.log('page_7 loc B; num profils:' + Object.keys(oProfilesByPubkey).length)
   const ndkEvent = new NDKEvent(ndk)
   ndkEvent.kind = 30000
@@ -172,7 +174,7 @@ const CreateEventKind30000 = () => {
   Object.keys(oProfilesByPubkey).forEach((pubkey, item) => {
     const npub = nip19.npubEncode(pubkey)
     let influence = '' + oProfilesByNpub[npub].wotScores.baselineInfluence.influence // '' + is to make sure it is stringified
-    if (influence > 0 && !aMyFollows[npub]) {
+    if (influence > 0 && !aMyFollows[pubkey]) {
       aTags.push(['p', pubkey, '', influence]) // third string is typically a relay url; currently it is empty string
     }
   })
@@ -200,6 +202,7 @@ const CreateEventKind30000 = () => {
   //   console.log('publish: NO')
   //   // setONdkEvent(ndkEvent)
   // }
+
   return (
     <div>
       <center class="px-5">
@@ -208,15 +211,20 @@ const CreateEventKind30000 = () => {
         <div class="card mx-5 p-2">
           <h3>{eventTitle}</h3>
           <p>{eventDescription}</p>
-          <CButton color="primary"  className="my-3" active onClick={() => ndkEvent.publish()}>
-            Publish To Nostr
+          <CButton color={eventPublished ? "secondary" : "primary"} className="my-3" active disabled={eventPublished} onClick={() => ndkEvent.publish().then(setEventPublished(true))}>
+            {eventPublished ? "Published!" : "Publish To Nostr"}
           </CButton>
-          <CButton color="secondary" onClick={() => setEventVisible(!eventVisible)}>
-            {eventVisible ? "Hide" : "View"} Raw Event
+          <CButton color={eventPublished ? "primary" : "secondary"} href={eventPublished ? "https://listr.lol/"+myNpub : "#"}
+          onClick={(event) => {
+            if(!eventPublished) {
+              event.preventDefault()
+              setEventVisible(!eventVisible)
+            }}}>
+            {eventPublished ? "View on Listr": eventVisible ? "Hide Raw Event" : "View Raw Event"} 
           </CButton>
         </div>
       </center>
-      <CCollapse visible={eventVisible}>
+      <CCollapse visible={eventVisible && !eventPublished}>
         {/* <CCard className="mt-3">
           <CCardBody> */}
           <pre class="text-left mx-3">{eventString}</pre> 
