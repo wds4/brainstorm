@@ -10,11 +10,12 @@ import { aDefaultRelays } from './const'
 import { NostrProvider } from 'nostr-react'
 
 // import { Buffer } from 'buffer'
-// window.Buffer = Buffer
+// window.Buffer = Buffers
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 const NoListenersLayout = React.lazy(() => import('./layout/NoListenersLayout'))
+const ExportGrapevineList = React.lazy(()=> import('src/views/grapevine/actions/exportGrapevineList/ExportGrapevineList'))
 
 // Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'))
@@ -81,8 +82,8 @@ const App = () => {
                 // does not recognize the path in the route bellow
                 // which results in 'dashboard' being added to the URL and no component loaded for the page
                 // uncomment bellow when fixed, to use NoListenersLayout which does not display default listener output.
-                /* <Route path="/grapevine/actions/export" name="Export Grapevine" element={<NoListenersLayout />} /> */
               }
+              <Route path="/grapevine/actions/export" name="Export Grapevine" element={<ExportGrapevineList />} /> 
               <Route path="*" name="Home" element={<DefaultLayout />} />
             </Routes>
           </Suspense>

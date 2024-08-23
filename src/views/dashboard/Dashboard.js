@@ -76,7 +76,7 @@ const Dashboard = () => {
           </CCol>
         </CRow>
       </DocsExample>
-      {/* <WikiListener /> */}
+      <WikiListener />
     </>
   )
 }

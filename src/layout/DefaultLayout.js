@@ -50,11 +50,11 @@ const DefaultLayout = () => {
         <AppSidebar />
         <div className="wrapper d-flex flex-column min-vh-100">
           <AppHeader />
-          {/* <MyProfileListener />
+          <MyProfileListener />
           <MeAndMyFollowsListener />
           <AllProfilesListener />
           <WikiAuthorsListener />
-          <WikiLikesListener /> */}
+          <WikiLikesListener />
           <div className="body flex-grow-1">
             <AppContent />
           </div>
