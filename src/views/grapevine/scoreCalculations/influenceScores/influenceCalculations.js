@@ -20,7 +20,7 @@ const oDefaultData = {
   },
 }
 
-const InfluenceCalculations = () => {
+const InfluenceCalculations = ({setCalculatingComplete}) => {
   const myNpub = useSelector((state) => state.profile.npub)
   const myPubkey = useSelector((state) => state.profile.pubkey)
   const aMyFollows = useSelector((state) => state.profiles.oProfiles.byNpub[myNpub].follows)
@@ -224,6 +224,7 @@ const InfluenceCalculations = () => {
     oFoo.numProfiles = Object.keys(oProfilesByNpub).length
     dispatch(updateGrapevineScores(oFoo))
     setProgressIndicator('complete')
+    setCalculatingComplete(true)
   }, [])
 
   if (progressIndicator == 'calculating') {

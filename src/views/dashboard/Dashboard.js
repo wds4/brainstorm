@@ -16,7 +16,7 @@ const Dashboard = () => {
   return (
     <>
       <center>
-        <h3>Pretty Good Apps: BrainSToRm</h3>
+        <h3>Pretty Good Apps: BrainSToRm (dev)</h3>
         <br />
         <br />
         <div
