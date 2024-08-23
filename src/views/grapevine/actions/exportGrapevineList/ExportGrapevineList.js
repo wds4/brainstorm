@@ -142,7 +142,7 @@ const LoadEventsProgress = ({listener = 2, color="primary", maxValue=20, msg="",
  * adapted from views/helloWorld/testPage7
  */
 const CreateEventKind30000 = () => {
-  const eventTitle = "My Grapevine Recomended Follows" 
+  const eventTitle = "My Grapevine Recomended" 
   const eventDescription = "a list of nostr npubs and their associated Grapevine WoT Scores as calculated by the Tapestry Protocol"
   const oEventDefault = {
     content: '',
@@ -206,7 +206,7 @@ const CreateEventKind30000 = () => {
   return (
     <div>
       <center class="px-5">
-        <p><small style={{color:"#666"}}>Grapevine found {aTagsSorted.length} quality npubs in your network which you do not currently follow. 
+        <p><small style={{color:"#666"}}>Your Grapevine found {aTagsSorted.length} quality npubs in your network. 
           Here are the top {aTagsSortedTop1000.length} reccomendations for you.</small></p>
         <div class="card mx-5 p-2">
           <h3>{eventTitle}</h3>
@@ -417,13 +417,12 @@ const ExportGrapevineList = () => {
         <p><strong>Discover interesting Nostriches<br/>from your follows follows.</strong></p>
         <p>Our basic Grapevine WoT feed is MORE interesting than your typical trending feed, 
           because the <a href="https://brainstorm.ninja/#/grapevine/influenceScore" target="_blank">Grapevine protocol</a> is
-          able to discovesetLoadedr REAL people (weeding out bots and bad actors) 
+          able to discover REAL people (weeding out bots and bad actors) 
           WITHOUT resorting to a popularity contest of "most followed npubs".</p>
 
           <h4><strong>Try it now.</strong></h4>
           <ol>
-            <li>Use the button bellow to create and publish a Nostr list of "Grapevine Reccomended" 
-          npubs.</li>
+            <li>Use the button bellow to create and publish a "My Grapevine Reccomended" Nostr list of npubs.</li>
             <li>Go to your favorite 
             (<a href="https://github.com/nostr-protocol/nips/blob/master/51.md" target="_blank">NIP-51</a> supported *) Nostr client
              and use this list as a custom feed to discover new and interesting follows.</li>
@@ -435,9 +434,10 @@ const ExportGrapevineList = () => {
             , <a href="https://github.com/dluvian/voyage/releases" target="_blank">Voyage</a> (android).)</small></p>
 
         <CButton color={progressColor}  className="my-3" active tabIndex={-1} 
-          onClick={() => doExport()} disabled={loading}>
-            {!loading ? 'Get my Grapevine Reccomended' : loaded ? 'Complete!' : progressMessage }
+          onClick={() => doExport()} disabled={loading || !window.nostr}>
+            {!window.nostr ? "missing browser extension..." : !loading ? 'Get My Grapevine Reccomended' : loaded ? 'Complete!' : progressMessage }
         </CButton>
+        {!window.nostr ? (<p><small class="text-warning">Please download and install a <br/><a href="https://nostr.org/#extensions" target="_blank">Nostr browser extension</a> to use this site.</small></p>) : ""}
         {userProfileDisplay}
         <CProgressStacked>
           {progressLogin}
