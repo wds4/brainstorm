@@ -12,8 +12,8 @@ import {
   updateHexKey,
   updateNpub,
   updatePubkey,
-  processMyKind3Event, 
-  updateMyProfile 
+  processMyKind3Event,
+  updateMyProfile
 } from '../../../../redux/features/profile/slice'
 import MyProfile from "src/views/myProfile/myProfile/MyProfile"
 import InfluenceCalculations from "src/views/grapevine/scoreCalculations/influenceScores/influenceCalculations"
@@ -49,11 +49,11 @@ const LoadEventsProgress = ({listener = 2, color="primary", maxValue=20, msg="",
   // if we already have loaded myfollows, just return
   let doNotProcess = false
   if(listener == 2 && aMyFollows?.length ) {
-   doNotProcess = true 
+   doNotProcess = true
   }
 
   // TODO support more listeners
-  const authorList = listener == 2 ? [myPubkey]  : aMyFollows 
+  const authorList = listener == 2 ? [myPubkey]  : aMyFollows
   console.log('LoadEventsProgress listener '+listener, authorList)
 
   const filters = React.useMemo(() => [{
@@ -106,7 +106,7 @@ const LoadEventsProgress = ({listener = 2, color="primary", maxValue=20, msg="",
       const num = events.length - 1
       const eventNS = events[num]
       processEventNS(eventNS)
-      const incrementedLength = Math.floor(events.length * progressIncrement) 
+      const incrementedLength = Math.floor(events.length * progressIncrement)
       setProgreessValue(incrementedLength < maxValue ? incrementedLength : progressValue)
     }else{
       setProgreessValue(maxValue)
@@ -129,7 +129,7 @@ const LoadEventsProgress = ({listener = 2, color="primary", maxValue=20, msg="",
       <CProgress color={color} value={maxValue}>
         <CProgressBar>+{aMyFollows.length} {msg}</CProgressBar>
       </CProgress>
-    )   
+    )
   }
   return (
     <CProgress color={color} value={progressValue} variant={!eose ? "striped" : ""} animated>
@@ -142,7 +142,7 @@ const LoadEventsProgress = ({listener = 2, color="primary", maxValue=20, msg="",
  * adapted from views/helloWorld/testPage7
  */
 const CreateEventKind30000 = () => {
-  const eventTitle = "My Grapevine Recomended" 
+  const eventTitle = "My Grapevine Recomended"
   const eventDescription = "a list of nostr npubs and their associated Grapevine WoT Scores as calculated by the Tapestry Protocol"
   const oEventDefault = {
     content: '',
@@ -174,7 +174,7 @@ const CreateEventKind30000 = () => {
   Object.keys(oProfilesByPubkey).forEach((pubkey, item) => {
     const npub = nip19.npubEncode(pubkey)
     let influence = '' + oProfilesByNpub[npub].wotScores.baselineInfluence.influence // '' + is to make sure it is stringified
-    if (influence > 0 && !aMyFollows[pubkey]) {
+    if (influence > 0 && !aMyFollows.includes(pubkey)) {
       aTags.push(['p', pubkey, '', influence]) // third string is typically a relay url; currently it is empty string
     }
   })
@@ -206,7 +206,7 @@ const CreateEventKind30000 = () => {
   return (
     <div>
       <center class="px-5">
-        <p><small style={{color:"#666"}}>Your Grapevine found {aTagsSorted.length} quality npubs in your network. 
+        <p><small style={{color:"#666"}}>Your Grapevine found {aTagsSorted.length} quality npubs in your network.
           Here are the top {aTagsSortedTop1000.length} reccomendations for you.</small></p>
         <div class="card mx-5 p-2">
           <h3>{eventTitle}</h3>
@@ -220,14 +220,14 @@ const CreateEventKind30000 = () => {
               event.preventDefault()
               setEventVisible(!eventVisible)
             }}}>
-            {eventPublished ? "View on Listr": eventVisible ? "Hide Raw Event" : "View Raw Event"} 
+            {eventPublished ? "View on Listr": eventVisible ? "Hide Raw Event" : "View Raw Event"}
           </CButton>
         </div>
       </center>
       <CCollapse visible={eventVisible && !eventPublished}>
         {/* <CCard className="mt-3">
           <CCardBody> */}
-          <pre class="text-left mx-3">{eventString}</pre> 
+          <pre class="text-left mx-3">{eventString}</pre>
           {/* </CCardBody>
         </CCard> */}
       </CCollapse>
@@ -272,7 +272,7 @@ const ExportGrapevineList = () => {
     let pubkey = ''
     if (user) {
       const myNpub = user.user.npub
-      // FIXIME is all this really needed just to get the pubkey? 
+      // FIXIME is all this really needed just to get the pubkey?
       // pubkey = user.signer.pubkey
       if(!pubkey){
         const decoded = nip19.decode(myNpub)
@@ -280,7 +280,7 @@ const ExportGrapevineList = () => {
           pubkey = decoded.data
           dispatch(updatePubkey(pubkey))
           myPubkey = pubkey
-        }  
+        }
       }
       dispatch(updateNpub(myNpub))
       dispatch(updateSignInMethod('extension'))
@@ -290,7 +290,7 @@ const ExportGrapevineList = () => {
     return pubkey
   }
 
-  
+
   useEffect(() => {
     if (startFirstHop ) {
       setProgressMessage('Downloading my follows list...')
@@ -304,7 +304,7 @@ const ExportGrapevineList = () => {
       setProgressMessage('Downloading my follows follows...')
       setProgressColor('success')
       setProgressSecondHop((
-      <LoadEventsProgress listener={4} color="success" msg="my follows follows" maxValue={45} setNextProgress={setStartCalculating}/> 
+      <LoadEventsProgress listener={4} color="success" msg="my follows follows" maxValue={45} setNextProgress={setStartCalculating}/>
       ))
       setRefreshNotice(
         <p class="mt-2"><small style={{color:"#666"}}>
@@ -312,7 +312,7 @@ const ExportGrapevineList = () => {
       )
     }
   }, [startSecondHop])
-  
+
   useEffect(()=>{
     if(startCalculating){
       setRefreshNotice("")
@@ -379,7 +379,7 @@ const ExportGrapevineList = () => {
       </div>
       <br />
       <br />
-    </div>      
+    </div>
     )
     }
   } ,[oMyProfile])
@@ -396,7 +396,7 @@ const ExportGrapevineList = () => {
       </CProgress>))
       await loginByExtension();
     }
-    if(!loading && isSignedIn){ 
+    if(!loading && isSignedIn){
       setProgressLogin((
       <CProgress color="warning" value={10}>
         <CProgressBar>me</CProgressBar>
@@ -415,15 +415,15 @@ const ExportGrapevineList = () => {
       <center class="p-5 gap-5">
         <h2>My Grapevine Web Of Trust</h2>
         <p><strong>Discover interesting Nostriches<br/>from your follows follows.</strong></p>
-        <p>Our basic Grapevine WoT feed is MORE interesting than your typical trending feed, 
+        <p>Our basic Grapevine WoT feed is MORE interesting than your typical trending feed,
           because the <a href="https://brainstorm.ninja/#/grapevine/influenceScore" target="_blank">Grapevine protocol</a> is
-          able to discover REAL people (weeding out bots and bad actors) 
+          able to discover REAL people (weeding out bots and bad actors)
           WITHOUT resorting to a popularity contest of "most followed npubs".</p>
 
           <h4><strong>Try it now.</strong></h4>
           <ol>
             <li>Use the button bellow to create and publish a "My Grapevine Reccomended" Nostr list of npubs.</li>
-            <li>Go to your favorite 
+            <li>Go to your favorite
             (<a href="https://github.com/nostr-protocol/nips/blob/master/51.md" target="_blank">NIP-51</a> supported *) Nostr client
              and use this list as a custom feed to discover new and interesting follows.</li>
           </ol>
@@ -433,7 +433,7 @@ const ExportGrapevineList = () => {
             , <a href="https://play.google.com/store/apps/details?id=com.vitorpamplona.amethyst" target="_blank">Amethyst</a> (android)
             , <a href="https://github.com/dluvian/voyage/releases" target="_blank">Voyage</a> (android).)</small></p>
 
-        <CButton color={progressColor}  className="my-3" active tabIndex={-1} 
+        <CButton color={progressColor}  className="my-3" active tabIndex={-1}
           onClick={() => doExport()} disabled={loading || !window.nostr}>
             {!window.nostr ? "missing browser extension..." : !loading ? 'Get My Grapevine Reccomended' : loaded ? 'Complete!' : progressMessage }
         </CButton>
