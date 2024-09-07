@@ -74,6 +74,66 @@ const _nav = [
     to: '/helloWorld/testPage10',
     icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
   },
+  {
+    component: CNavItem,
+    name: 'Test Page 11',
+    to: '/helloWorld/testPage11',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 12',
+    to: '/helloWorld/testPage12',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 13',
+    to: '/helloWorld/testPage13',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 14',
+    to: '/helloWorld/testPage14',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 15',
+    to: '/helloWorld/testPage15',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 16',
+    to: '/helloWorld/testPage16',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 17',
+    to: '/helloWorld/testPage17',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 18',
+    to: '/helloWorld/testPage18',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 19',
+    to: '/helloWorld/testPage19',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Test Page 20',
+    to: '/helloWorld/testPage20',
+    icon: <CIcon icon={cilClipboard} customClassName="nav-icon" />,
+  },
 ]
 
 export default _nav
